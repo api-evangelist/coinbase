@@ -1,0 +1,99 @@
+{
+    "name": "Coinbase",
+    "description": "Coinbase is a secure online platform for buying, selling, transferring, and storing digital currency.",
+    "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/28301-www-coinbase-com.jpg",
+    "tags": [
+        "api provider",
+        "blockchain",
+        "have api",
+        "marketplaces",
+        "webhook implementations"
+    ],
+    "created": "2019-12-19",
+    "modified": "2019-12-19",
+    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/coinbase\/master\/apis.json",
+    "specificationVersion": "0.14",
+    "apis": [
+        {
+            "name": "Coinbase",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/28301-www-coinbase-com.jpg",
+            "humanURL": "https:\/\/www.coinbase.com",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-openapi",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/coinbase-openapi.json"
+                }
+            ]
+        }
+    ],
+    "include": [],
+    "x-common": [
+        {
+            "type": "Webhooks",
+            "url": "https:\/\/commerce.coinbase.com\/docs\/api\/#webhooks"
+        },
+        {
+            "type": "Blog",
+            "url": "http:\/\/blog.coinbase.com"
+        },
+        {
+            "type": "Curated Source",
+            "url": "https:\/\/blog.coinbase.com\/2013\/04\/01\/python-library-released-for-the-coinbase-api\/"
+        },
+        {
+            "type": "Crunchbase",
+            "url": "https:\/\/crunchbase.com\/organization\/coinbase"
+        },
+        {
+            "type": "Developers",
+            "url": "https:\/\/docs.exchange.coinbase.com\/"
+        },
+        {
+            "type": "Email",
+            "url": "support@coinbase.com"
+        },
+        {
+            "type": "Email",
+            "url": "press@coinbase.com"
+        },
+        {
+            "type": "Email",
+            "url": "trust@coinbase.com"
+        },
+        {
+            "type": "Email",
+            "url": "marketdata@coinbase.com"
+        },
+        {
+            "type": "Email",
+            "url": "privacy@coinbase.com"
+        },
+        {
+            "type": "Email",
+            "url": "support@coinbase.com"
+        },
+        {
+            "type": "Email",
+            "url": "press@coinbase.com"
+        },
+        {
+            "type": "Email",
+            "url": "business@coinbase.com"
+        },
+        {
+            "type": "Email",
+            "url": "trust@coinbase.com"
+        },
+        {
+            "type": "Twitter",
+            "url": "https:\/\/twitter.com\/coinbase"
+        },
+        {
+            "type": "Website",
+            "url": "https:\/\/www.coinbase.com"
+        }
+    ]
+}
