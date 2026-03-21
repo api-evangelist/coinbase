@@ -1,0 +1,1282 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade API
+  description: >-
+    The Coinbase Advanced Trade API provides programmatic access to advanced
+    trading features on the Coinbase platform. Developers can automate market,
+    limit, and stop-limit orders, manage portfolios, retrieve real-time and
+    historical market data, and monitor fees. The REST API is available at
+    api.coinbase.com/api/v3/brokerage and supports authenticated access using
+    API keys with HMAC SHA-256 signatures. Public market data endpoints do not
+    require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+servers:
+  - url: https://api.coinbase.com/api/v3/brokerage
+    description: Production Server
+tags:
+  - name: Accounts
+    description: >-
+      Manage user accounts and retrieve account information including balances
+      and holds.
+  - name: Orders
+    description: >-
+      Create, cancel, and manage trading orders including market, limit, and
+      stop-limit order types.
+  - name: Products
+    description: >-
+      Retrieve product information, market trades, product books, and candle
+      data for trading pairs.
+  - name: Portfolios
+    description: >-
+      Create and manage portfolios for organizing trading activity and asset
+      allocation.
+  - name: Fees
+    description: >-
+      Retrieve transaction summary and fee information for the authenticated
+      user.
+  - name: Market Data
+    description: >-
+      Access public market data including products, order books, trades, and
+      candles without authentication.
+security:
+  - apiKeyAuth: []
+paths:
+  /accounts:
+    get:
+      operationId: listAccounts
+      summary: List accounts
+      description: >-
+        Retrieves a list of authenticated accounts for the current user. Returns
+        account details including available balance, hold amount, and currency
+        information.
+      tags:
+        - Accounts
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/CursorParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of accounts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Account'
+                  has_next:
+                    type: boolean
+                    description: Whether there are more results
+                  cursor:
+                    type: string
+                    description: Cursor for pagination
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /accounts/{account_id}:
+    get:
+      operationId: getAccount
+      summary: Get account
+      description: >-
+        Retrieves a single account by account ID including the available
+        balance, hold amount, and currency information.
+      tags:
+        - Accounts
+      parameters:
+        - $ref: '#/components/parameters/AccountIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved account details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account:
+                    $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Account not found
+  /orders:
+    get:
+      operationId: listOrders
+      summary: List orders
+      description: >-
+        Retrieves a list of orders for the authenticated user. Supports
+        filtering by product ID, order status, and time range. Returns orders
+        sorted by creation time.
+      tags:
+        - Orders
+      parameters:
+        - name: product_id
+          in: query
+          description: Filter orders by product ID
+          schema:
+            type: string
+        - name: order_status
+          in: query
+          description: Filter by order status
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - OPEN
+                - PENDING
+                - CANCELLED
+                - FILLED
+                - EXPIRED
+                - FAILED
+        - name: start_date
+          in: query
+          description: Start date for filtering orders
+          schema:
+            type: string
+            format: date-time
+        - name: end_date
+          in: query
+          description: End date for filtering orders
+          schema:
+            type: string
+            format: date-time
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/CursorParam'
+        - name: order_type
+          in: query
+          description: Filter by order type
+          schema:
+            type: string
+            enum:
+              - MARKET
+              - LIMIT
+              - STOP
+              - STOP_LIMIT
+        - name: order_side
+          in: query
+          description: Filter by order side
+          schema:
+            type: string
+            enum:
+              - BUY
+              - SELL
+      responses:
+        '200':
+          description: Successfully retrieved list of orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order'
+                  has_next:
+                    type: boolean
+                    description: Whether there are more results
+                  cursor:
+                    type: string
+                    description: Cursor for pagination
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+    post:
+      operationId: createOrder
+      summary: Create order
+      description: >-
+        Creates a new order for the authenticated user. Supports market, limit,
+        stop, and stop-limit order types. The order configuration varies based
+        on the order type selected.
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Order successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the order was successfully created
+                  order_id:
+                    type: string
+                    description: Unique identifier for the created order
+                  failure_reason:
+                    type: string
+                    description: Reason for failure if success is false
+        '400':
+          description: Bad request - Invalid order parameters
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /orders/{order_id}:
+    get:
+      operationId: getOrder
+      summary: Get order
+      description: >-
+        Retrieves a single order by order ID. Returns the full order details
+        including status, fills, and configuration.
+      tags:
+        - Orders
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          description: Unique identifier of the order
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved order details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order:
+                    $ref: '#/components/schemas/Order'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Order not found
+  /orders/batch_cancel:
+    post:
+      operationId: cancelOrders
+      summary: Cancel orders
+      description: >-
+        Cancels one or more open orders by order ID. Accepts an array of order
+        IDs to cancel in a single request.
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - order_ids
+              properties:
+                order_ids:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of order IDs to cancel
+      responses:
+        '200':
+          description: Cancel results for each order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        success:
+                          type: boolean
+                          description: Whether the cancellation succeeded
+                        order_id:
+                          type: string
+                          description: Order ID
+                        failure_reason:
+                          type: string
+                          description: Reason for failure
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /orders/{order_id}/edit:
+    post:
+      operationId: editOrder
+      summary: Edit order
+      description: >-
+        Edits an existing open order. Only the price and size of the order can
+        be modified.
+      tags:
+        - Orders
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          description: Unique identifier of the order to edit
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - price
+                - size
+              properties:
+                price:
+                  type: string
+                  description: New price for the order
+                size:
+                  type: string
+                  description: New size for the order
+      responses:
+        '200':
+          description: Order successfully edited
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the edit was successful
+        '400':
+          description: Bad request - Invalid edit parameters
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Order not found
+  /orders/historical/fills:
+    get:
+      operationId: listFills
+      summary: List fills
+      description: >-
+        Retrieves a list of fills (completed trades) for the authenticated user.
+        Supports filtering by order ID, product ID, and time range.
+      tags:
+        - Orders
+      parameters:
+        - name: order_id
+          in: query
+          description: Filter fills by order ID
+          schema:
+            type: string
+        - name: product_id
+          in: query
+          description: Filter fills by product ID
+          schema:
+            type: string
+        - name: start_sequence_timestamp
+          in: query
+          description: Start time for filtering fills
+          schema:
+            type: string
+            format: date-time
+        - name: end_sequence_timestamp
+          in: query
+          description: End time for filtering fills
+          schema:
+            type: string
+            format: date-time
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/CursorParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of fills
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fills:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Fill'
+                  cursor:
+                    type: string
+                    description: Cursor for pagination
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /products:
+    get:
+      operationId: listProducts
+      summary: List products
+      description: >-
+        Retrieves a list of available trading products. Returns product details
+        including trading pair, status, and price information. This endpoint is
+        publicly accessible without authentication.
+      tags:
+        - Products
+      security: []
+      parameters:
+        - name: product_type
+          in: query
+          description: Filter by product type
+          schema:
+            type: string
+            enum:
+              - SPOT
+              - FUTURE
+        - $ref: '#/components/parameters/LimitParam'
+        - name: offset
+          in: query
+          description: Number of products to offset before returning
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully retrieved list of products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  num_products:
+                    type: integer
+                    description: Total number of products
+  /products/{product_id}:
+    get:
+      operationId: getProduct
+      summary: Get product
+      description: >-
+        Retrieves information about a single trading product by its product ID.
+        Returns detailed product information including current price, volume,
+        and trading parameters. This endpoint is publicly accessible.
+      tags:
+        - Products
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/ProductIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved product details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found
+  /products/{product_id}/candles:
+    get:
+      operationId: getProductCandles
+      summary: Get product candles
+      description: >-
+        Retrieves historical candle data for a specific product. Returns OHLCV
+        data at the specified granularity. This endpoint is publicly accessible.
+      tags:
+        - Products
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/ProductIdParam'
+        - name: start
+          in: query
+          required: true
+          description: Start time in UNIX timestamp format
+          schema:
+            type: string
+        - name: end
+          in: query
+          required: true
+          description: End time in UNIX timestamp format
+          schema:
+            type: string
+        - name: granularity
+          in: query
+          required: true
+          description: Time granularity for each candle
+          schema:
+            type: string
+            enum:
+              - ONE_MINUTE
+              - FIVE_MINUTE
+              - FIFTEEN_MINUTE
+              - THIRTY_MINUTE
+              - ONE_HOUR
+              - TWO_HOUR
+              - SIX_HOUR
+              - ONE_DAY
+      responses:
+        '200':
+          description: Successfully retrieved candle data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  candles:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Candle'
+  /products/{product_id}/ticker:
+    get:
+      operationId: getMarketTrades
+      summary: Get market trades
+      description: >-
+        Retrieves the latest trades for a specific product. Returns trade
+        details including price, size, and time. This endpoint is publicly
+        accessible.
+      tags:
+        - Products
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/ProductIdParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved market trades
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trades:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Trade'
+                  best_bid:
+                    type: string
+                    description: Best current bid price
+                  best_ask:
+                    type: string
+                    description: Best current ask price
+  /best_bid_ask:
+    get:
+      operationId: getBestBidAsk
+      summary: Get best bid and ask
+      description: >-
+        Retrieves the best bid and ask prices for the specified products. This
+        endpoint is publicly accessible.
+      tags:
+        - Market Data
+      security: []
+      parameters:
+        - name: product_ids
+          in: query
+          description: List of product IDs to get bid/ask for
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Successfully retrieved best bid and ask
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pricebooks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PriceBook'
+  /product_book:
+    get:
+      operationId: getProductBook
+      summary: Get product book
+      description: >-
+        Retrieves the order book for a specific product. Returns bids and asks
+        at various price levels. This endpoint is publicly accessible.
+      tags:
+        - Market Data
+      security: []
+      parameters:
+        - name: product_id
+          in: query
+          required: true
+          description: Product ID to get the order book for
+          schema:
+            type: string
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved product book
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pricebook:
+                    $ref: '#/components/schemas/PriceBook'
+  /portfolios:
+    get:
+      operationId: listPortfolios
+      summary: List portfolios
+      description: >-
+        Retrieves a list of all portfolios associated with the authenticated
+        user. Returns portfolio details including name, UUID, and type.
+      tags:
+        - Portfolios
+      parameters:
+        - name: portfolio_type
+          in: query
+          description: Filter by portfolio type
+          schema:
+            type: string
+            enum:
+              - DEFAULT
+              - CONSUMER
+              - INTX
+      responses:
+        '200':
+          description: Successfully retrieved list of portfolios
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portfolios:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Portfolio'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+    post:
+      operationId: createPortfolio
+      summary: Create portfolio
+      description: >-
+        Creates a new portfolio for the authenticated user. Each portfolio
+        provides an isolated trading environment with its own balances.
+      tags:
+        - Portfolios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  description: Name for the new portfolio
+      responses:
+        '200':
+          description: Portfolio successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portfolio:
+                    $ref: '#/components/schemas/Portfolio'
+        '400':
+          description: Bad request - Invalid portfolio parameters
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /portfolios/{portfolio_id}:
+    get:
+      operationId: getPortfolio
+      summary: Get portfolio breakdown
+      description: >-
+        Retrieves a breakdown of a single portfolio by its ID. Returns detailed
+        information about the portfolio including its balances and positions.
+      tags:
+        - Portfolios
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved portfolio breakdown
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  breakdown:
+                    $ref: '#/components/schemas/PortfolioBreakdown'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Portfolio not found
+    put:
+      operationId: editPortfolio
+      summary: Edit portfolio
+      description: >-
+        Updates the name of an existing portfolio. Only the portfolio name can
+        be modified.
+      tags:
+        - Portfolios
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  description: Updated name for the portfolio
+      responses:
+        '200':
+          description: Portfolio successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portfolio:
+                    $ref: '#/components/schemas/Portfolio'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Portfolio not found
+    delete:
+      operationId: deletePortfolio
+      summary: Delete portfolio
+      description: >-
+        Deletes a portfolio by its ID. The portfolio must have zero balances
+        before it can be deleted.
+      tags:
+        - Portfolios
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+      responses:
+        '200':
+          description: Portfolio successfully deleted
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Portfolio not found
+  /portfolios/move_funds:
+    post:
+      operationId: moveFunds
+      summary: Move portfolio funds
+      description: >-
+        Moves funds between portfolios owned by the authenticated user. Both the
+        source and target portfolio must belong to the same user.
+      tags:
+        - Portfolios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - funds
+                - source_portfolio_uuid
+                - target_portfolio_uuid
+              properties:
+                funds:
+                  type: object
+                  description: Funds to move
+                  properties:
+                    value:
+                      type: string
+                      description: Amount to transfer
+                    currency:
+                      type: string
+                      description: Currency of the transfer
+                source_portfolio_uuid:
+                  type: string
+                  description: UUID of the source portfolio
+                target_portfolio_uuid:
+                  type: string
+                  description: UUID of the target portfolio
+      responses:
+        '200':
+          description: Funds successfully moved
+        '400':
+          description: Bad request - Invalid transfer parameters
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /transaction_summary:
+    get:
+      operationId: getTransactionSummary
+      summary: Get transaction summary
+      description: >-
+        Retrieves the transaction summary for the authenticated user, including
+        fee tier information, total volume, and maker/taker fee rates.
+      tags:
+        - Fees
+      parameters:
+        - name: product_type
+          in: query
+          description: Filter by product type
+          schema:
+            type: string
+            enum:
+              - SPOT
+              - FUTURE
+      responses:
+        '200':
+          description: Successfully retrieved transaction summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionSummary'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: >-
+        Coinbase API key authentication using HMAC SHA-256 signatures. Requires
+        CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    AccountIdParam:
+      name: account_id
+      in: path
+      required: true
+      description: Unique identifier for the account
+      schema:
+        type: string
+        format: uuid
+    ProductIdParam:
+      name: product_id
+      in: path
+      required: true
+      description: Trading pair identifier such as BTC-USD
+      schema:
+        type: string
+    PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Unique identifier for the portfolio
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    Account:
+      type: object
+      description: A user account holding a specific currency
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for the account
+        name:
+          type: string
+          description: Name of the account
+        currency:
+          type: string
+          description: Currency code for the account
+        available_balance:
+          $ref: '#/components/schemas/Balance'
+        default:
+          type: boolean
+          description: Whether this is the default account
+        active:
+          type: boolean
+          description: Whether the account is active
+        created_at:
+          type: string
+          format: date-time
+          description: When the account was created
+        updated_at:
+          type: string
+          format: date-time
+          description: When the account was last updated
+        type:
+          type: string
+          description: Account type
+          enum:
+            - ACCOUNT_TYPE_CRYPTO
+            - ACCOUNT_TYPE_FIAT
+        ready:
+          type: boolean
+          description: Whether the account is ready for trading
+        hold:
+          $ref: '#/components/schemas/Balance'
+    Balance:
+      type: object
+      description: A monetary value with currency
+      properties:
+        value:
+          type: string
+          description: Amount as a string to preserve precision
+        currency:
+          type: string
+          description: Currency code
+    Order:
+      type: object
+      description: A trading order
+      properties:
+        order_id:
+          type: string
+          description: Unique identifier for the order
+        product_id:
+          type: string
+          description: Trading pair for the order
+        side:
+          type: string
+          description: Order side
+          enum:
+            - BUY
+            - SELL
+        client_order_id:
+          type: string
+          description: Client-specified order ID
+        status:
+          type: string
+          description: Current status of the order
+          enum:
+            - OPEN
+            - PENDING
+            - CANCELLED
+            - FILLED
+            - EXPIRED
+            - FAILED
+        time_in_force:
+          type: string
+          description: Time in force policy
+          enum:
+            - GOOD_UNTIL_DATE
+            - GOOD_UNTIL_CANCELLED
+            - IMMEDIATE_OR_CANCEL
+            - FILL_OR_KILL
+        created_time:
+          type: string
+          format: date-time
+          description: When the order was created
+        completion_percentage:
+          type: string
+          description: Percentage of the order that has been filled
+        filled_size:
+          type: string
+          description: Size of the order that has been filled
+        average_filled_price:
+          type: string
+          description: Average price at which the order was filled
+        fee:
+          type: string
+          description: Total fee for the order
+        number_of_fills:
+          type: string
+          description: Number of fills for the order
+        filled_value:
+          type: string
+          description: Total value of the filled portion
+        order_type:
+          type: string
+          description: Type of order
+          enum:
+            - MARKET
+            - LIMIT
+            - STOP
+            - STOP_LIMIT
+        order_configuration:
+          type: object
+          description: Order configuration details
+    CreateOrderRequest:
+      type: object
+      description: Request body for creating a new order
+      required:
+        - client_order_id
+        - product_id
+        - side
+        - order_configuration
+      properties:
+        client_order_id:
+          type: string
+          description: Client-specified unique order ID
+        product_id:
+          type: string
+          description: Trading pair for the order
+        side:
+          type: string
+          description: Order side
+          enum:
+            - BUY
+            - SELL
+        order_configuration:
+          type: object
+          description: >-
+            Configuration for the order type. Use one of market_market_ioc,
+            limit_limit_gtc, limit_limit_gtd, stop_limit_stop_limit_gtc, or
+            stop_limit_stop_limit_gtd.
+    Fill:
+      type: object
+      description: A completed trade fill
+      properties:
+        entry_id:
+          type: string
+          description: Unique identifier for the fill entry
+        trade_id:
+          type: string
+          description: Trade identifier
+        order_id:
+          type: string
+          description: Order that generated this fill
+        trade_time:
+          type: string
+          format: date-time
+          description: Time the trade occurred
+        trade_type:
+          type: string
+          description: Type of trade
+        price:
+          type: string
+          description: Price at which the trade executed
+        size:
+          type: string
+          description: Size of the trade
+        commission:
+          type: string
+          description: Commission charged for the trade
+        product_id:
+          type: string
+          description: Product traded
+        side:
+          type: string
+          description: Trade side
+          enum:
+            - BUY
+            - SELL
+    Product:
+      type: object
+      description: A trading product representing a currency pair
+      properties:
+        product_id:
+          type: string
+          description: Unique identifier for the product
+        price:
+          type: string
+          description: Current price of the product
+        price_percentage_change_24h:
+          type: string
+          description: 24-hour price change percentage
+        volume_24h:
+          type: string
+          description: 24-hour trading volume
+        volume_percentage_change_24h:
+          type: string
+          description: 24-hour volume change percentage
+        base_increment:
+          type: string
+          description: Minimum order size increment
+        quote_increment:
+          type: string
+          description: Minimum price increment
+        quote_min_size:
+          type: string
+          description: Minimum order value in quote currency
+        quote_max_size:
+          type: string
+          description: Maximum order value in quote currency
+        base_min_size:
+          type: string
+          description: Minimum order size in base currency
+        base_max_size:
+          type: string
+          description: Maximum order size in base currency
+        base_name:
+          type: string
+          description: Name of the base currency
+        quote_name:
+          type: string
+          description: Name of the quote currency
+        status:
+          type: string
+          description: Trading status of the product
+        product_type:
+          type: string
+          description: Type of product
+          enum:
+            - SPOT
+            - FUTURE
+    Candle:
+      type: object
+      description: OHLCV candle data point
+      properties:
+        start:
+          type: string
+          description: UNIX timestamp for the start of the candle
+        low:
+          type: string
+          description: Lowest price during the interval
+        high:
+          type: string
+          description: Highest price during the interval
+        open:
+          type: string
+          description: Opening price of the interval
+        close:
+          type: string
+          description: Closing price of the interval
+        volume:
+          type: string
+          description: Volume traded during the interval
+    Trade:
+      type: object
+      description: A market trade
+      properties:
+        trade_id:
+          type: string
+          description: Unique identifier for the trade
+        product_id:
+          type: string
+          description: Product traded
+        price:
+          type: string
+          description: Price of the trade
+        size:
+          type: string
+          description: Size of the trade
+        time:
+          type: string
+          format: date-time
+          description: Time the trade occurred
+        side:
+          type: string
+          description: Taker side of the trade
+          enum:
+            - BUY
+            - SELL
+    PriceBook:
+      type: object
+      description: Order book price levels
+      properties:
+        product_id:
+          type: string
+          description: Product identifier
+        bids:
+          type: array
+          description: Bid price levels
+          items:
+            type: object
+            properties:
+              price:
+                type: string
+                description: Bid price
+              size:
+                type: string
+                description: Size at this price level
+        asks:
+          type: array
+          description: Ask price levels
+          items:
+            type: object
+            properties:
+              price:
+                type: string
+                description: Ask price
+              size:
+                type: string
+                description: Size at this price level
+        time:
+          type: string
+          format: date-time
+          description: Timestamp of the price book
+    Portfolio:
+      type: object
+      description: A user portfolio for organizing trading activity
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for the portfolio
+        name:
+          type: string
+          description: Name of the portfolio
+        type:
+          type: string
+          description: Portfolio type
+          enum:
+            - DEFAULT
+            - CONSUMER
+            - INTX
+        deleted:
+          type: boolean
+          description: Whether the portfolio has been deleted
+    PortfolioBreakdown:
+      type: object
+      description: Detailed breakdown of a portfolio
+      properties:
+        portfolio:
+          $ref: '#/components/schemas/Portfolio'
+        portfolio_balances:
+          type: object
+          description: Aggregated balance information
+          properties:
+            total_balance:
+              $ref: '#/components/schemas/Balance'
+            total_futures_balance:
+              $ref: '#/components/schemas/Balance'
+            total_cash_equivalent_balance:
+              $ref: '#/components/schemas/Balance'
+        spot_positions:
+          type: array
+          description: Spot positions in the portfolio
+          items:
+            type: object
+            properties:
+              asset:
+                type: string
+                description: Asset symbol
+              account_uuid:
+                type: string
+                description: Account UUID
+              total_balance_fiat:
+                type: number
+                description: Total balance in fiat
+              total_balance_crypto:
+                type: number
+                description: Total balance in crypto
+    TransactionSummary:
+      type: object
+      description: Summary of user transaction fees and volume
+      properties:
+        total_volume:
+          type: number
+          description: Total trading volume
+        total_fees:
+          type: number
+          description: Total fees paid
+        fee_tier:
+          type: object
+          description: Current fee tier information
+          properties:
+            pricing_tier:
+              type: string
+              description: Current pricing tier name
+            usd_from:
+              type: string
+              description: Lower bound of the tier volume range
+            usd_to:
+              type: string
+              description: Upper bound of the tier volume range
+            taker_fee_rate:
+              type: string
+              description: Taker fee rate for the current tier
+            maker_fee_rate:
+              type: string
+              description: Maker fee rate for the current tier
+        advanced_trade_only_volume:
+          type: number
+          description: Volume from Advanced Trade only
+        advanced_trade_only_fees:
+          type: number
+          description: Fees from Advanced Trade only

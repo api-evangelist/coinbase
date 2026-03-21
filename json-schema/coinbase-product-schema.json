@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coinbase.com/schemas/coinbase/product.json",
+  "title": "Coinbase Trading Product",
+  "description": "A trading product representing a cryptocurrency trading pair on Coinbase. Products define the parameters for trading between two currencies including minimum sizes, increments, and trading status.",
+  "type": "object",
+  "required": ["product_id", "base_currency", "quote_currency"],
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "Unique identifier for the product, typically formatted as BASE-QUOTE",
+      "pattern": "^[A-Z0-9]+-[A-Z0-9]+$"
+    },
+    "base_currency": {
+      "type": "string",
+      "description": "Base currency code (e.g., BTC)",
+      "minLength": 1,
+      "maxLength": 10
+    },
+    "quote_currency": {
+      "type": "string",
+      "description": "Quote currency code (e.g., USD)",
+      "minLength": 1,
+      "maxLength": 10
+    },
+    "base_min_size": {
+      "type": "string",
+      "description": "Minimum order size in base currency",
+      "pattern": "^[0-9]+(\\.[0-9]+)?$"
+    },
+    "base_max_size": {
+      "type": "string",
+      "description": "Maximum order size in base currency",
+      "pattern": "^[0-9]+(\\.[0-9]+)?$"
+    },
+    "base_increment": {
+      "type": "string",
+      "description": "Minimum size increment for orders in base currency",
+      "pattern": "^[0-9]+(\\.[0-9]+)?$"
+    },
+    "quote_min_size": {
+      "type": "string",
+      "description": "Minimum order value in quote currency",
+      "pattern": "^[0-9]+(\\.[0-9]+)?$"
+    },
+    "quote_max_size": {
+      "type": "string",
+      "description": "Maximum order value in quote currency",
+      "pattern": "^[0-9]+(\\.[0-9]+)?$"
+    },
+    "quote_increment": {
+      "type": "string",
+      "description": "Minimum price increment in quote currency",
+      "pattern": "^[0-9]+(\\.[0-9]+)?$"
+    },
+    "display_name": {
+      "type": "string",
+      "description": "Human-readable display name for the trading pair"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current trading status of the product",
+      "enum": ["online", "offline", "delisted"]
+    },
+    "product_type": {
+      "type": "string",
+      "description": "Type of product",
+      "enum": ["SPOT", "FUTURE"]
+    },
+    "price": {
+      "type": "string",
+      "description": "Current price of the product",
+      "pattern": "^[0-9]+(\\.[0-9]+)?$"
+    },
+    "volume_24h": {
+      "type": "string",
+      "description": "24-hour trading volume in base currency",
+      "pattern": "^[0-9]+(\\.[0-9]+)?$"
+    },
+    "price_percentage_change_24h": {
+      "type": "string",
+      "description": "24-hour price change as a percentage"
+    },
+    "margin_enabled": {
+      "type": "boolean",
+      "description": "Whether margin trading is enabled for this product"
+    },
+    "post_only": {
+      "type": "boolean",
+      "description": "Whether the product is in post-only mode"
+    },
+    "limit_only": {
+      "type": "boolean",
+      "description": "Whether only limit orders are accepted"
+    },
+    "cancel_only": {
+      "type": "boolean",
+      "description": "Whether only order cancellations are allowed"
+    },
+    "trading_disabled": {
+      "type": "boolean",
+      "description": "Whether trading is completely disabled"
+    }
+  }
+}

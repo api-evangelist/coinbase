@@ -1,0 +1,518 @@
+asyncapi: 2.6.0
+info:
+  title: Coinbase Advanced Trade WebSocket
+  description: >-
+    The Coinbase Advanced Trade WebSocket API provides real-time market data
+    streaming including heartbeats, ticker updates, candle data, market trades,
+    level2 order book updates, and user order status changes. All channels
+    except the User channel can be used without authentication, though
+    authenticated connections provide a more reliable experience.
+  version: '1.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+externalDocs:
+  description: Advanced Trade WebSocket Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/websocket/websocket-channels
+servers:
+  production:
+    url: wss://advanced-trade-ws.coinbase.com
+    protocol: wss
+    description: Production WebSocket server for Advanced Trade market data
+    security:
+      - apiKey: []
+channels:
+  /heartbeats:
+    description: >-
+      Heartbeat channel that sends a message every second to verify the
+      connection is alive. Includes a heartbeat counter to detect missed
+      messages.
+    subscribe:
+      operationId: receiveHeartbeat
+      summary: Receive heartbeat messages
+      message:
+        $ref: '#/components/messages/HeartbeatMessage'
+  /candles:
+    description: >-
+      Candle channel that streams OHLCV candle data updates for subscribed
+      products. Each message includes the start time, open, high, low, close
+      prices, and volume for the current candle interval.
+    subscribe:
+      operationId: receiveCandleUpdate
+      summary: Receive candle data updates
+      message:
+        $ref: '#/components/messages/CandleMessage'
+  /market_trades:
+    description: >-
+      Market trades channel that streams real-time trade executions as they
+      happen. Each message includes the trade ID, product, price, size, and
+      side of the trade.
+    subscribe:
+      operationId: receiveMarketTrade
+      summary: Receive market trade events
+      message:
+        $ref: '#/components/messages/MarketTradeMessage'
+  /ticker:
+    description: >-
+      Ticker channel that provides real-time price updates every time a match
+      happens. Updates are batched in case of cascading matches, reducing
+      bandwidth requirements while maintaining price accuracy.
+    subscribe:
+      operationId: receiveTickerUpdate
+      summary: Receive ticker price updates
+      message:
+        $ref: '#/components/messages/TickerMessage'
+  /ticker_batch:
+    description: >-
+      Ticker batch channel that provides batched price updates at a reduced
+      frequency compared to the ticker channel, suitable for applications
+      that do not need real-time updates.
+    subscribe:
+      operationId: receiveTickerBatchUpdate
+      summary: Receive batched ticker updates
+      message:
+        $ref: '#/components/messages/TickerMessage'
+  /level2:
+    description: >-
+      Level 2 order book channel that guarantees delivery of all order book
+      updates. Sends an initial snapshot followed by incremental updates.
+      The most reliable way to maintain a local copy of the order book.
+    subscribe:
+      operationId: receiveLevel2Update
+      summary: Receive level 2 order book updates
+      message:
+        oneOf:
+          - $ref: '#/components/messages/Level2SnapshotMessage'
+          - $ref: '#/components/messages/Level2UpdateMessage'
+  /user:
+    description: >-
+      User channel that sends updates on all open orders and current positions
+      for the authenticated user. Accepts multiple product IDs in the
+      subscription; if none are provided, updates for all products are sent.
+      Requires authentication.
+    subscribe:
+      operationId: receiveUserUpdate
+      summary: Receive user order and position updates
+      message:
+        $ref: '#/components/messages/UserMessage'
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: user
+      description: >-
+        CDP API key authentication for WebSocket connections. Include the
+        API key, signature, and timestamp in the subscription message.
+  messages:
+    HeartbeatMessage:
+      name: heartbeat
+      title: Heartbeat
+      summary: Periodic heartbeat to verify connection liveness
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/HeartbeatPayload'
+    CandleMessage:
+      name: candle
+      title: Candle Update
+      summary: OHLCV candle data update for a product
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CandlePayload'
+    MarketTradeMessage:
+      name: market_trade
+      title: Market Trade
+      summary: Real-time trade execution event
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/MarketTradePayload'
+    TickerMessage:
+      name: ticker
+      title: Ticker Update
+      summary: Real-time price update on match
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/TickerPayload'
+    Level2SnapshotMessage:
+      name: l2_snapshot
+      title: Level 2 Snapshot
+      summary: Full order book snapshot
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Level2SnapshotPayload'
+    Level2UpdateMessage:
+      name: l2_update
+      title: Level 2 Update
+      summary: Incremental order book update
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Level2UpdatePayload'
+    UserMessage:
+      name: user
+      title: User Update
+      summary: User order and position update
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/UserPayload'
+  schemas:
+    HeartbeatPayload:
+      type: object
+      description: Heartbeat message payload
+      properties:
+        channel:
+          type: string
+          description: Channel name
+          enum:
+            - heartbeats
+        client_id:
+          type: string
+          description: Client connection identifier
+        timestamp:
+          type: string
+          format: date-time
+          description: Server timestamp
+        heartbeat_counter:
+          type: integer
+          description: >-
+            Incrementing counter to verify no messages were missed
+        sequence_num:
+          type: integer
+          description: Sequence number
+    CandlePayload:
+      type: object
+      description: Candle update payload
+      properties:
+        channel:
+          type: string
+          description: Channel name
+          enum:
+            - candles
+        client_id:
+          type: string
+          description: Client connection identifier
+        timestamp:
+          type: string
+          format: date-time
+          description: Event timestamp
+        sequence_num:
+          type: integer
+          description: Sequence number
+        events:
+          type: array
+          description: Candle events
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Event type
+              candles:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    start:
+                      type: string
+                      description: UNIX timestamp for candle start
+                    high:
+                      type: string
+                      description: Highest price
+                    low:
+                      type: string
+                      description: Lowest price
+                    open:
+                      type: string
+                      description: Opening price
+                    close:
+                      type: string
+                      description: Closing price
+                    volume:
+                      type: string
+                      description: Volume traded
+                    product_id:
+                      type: string
+                      description: Product identifier
+    MarketTradePayload:
+      type: object
+      description: Market trade event payload
+      properties:
+        channel:
+          type: string
+          description: Channel name
+          enum:
+            - market_trades
+        client_id:
+          type: string
+          description: Client connection identifier
+        timestamp:
+          type: string
+          format: date-time
+          description: Event timestamp
+        sequence_num:
+          type: integer
+          description: Sequence number
+        events:
+          type: array
+          description: Trade events
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Event type
+              trades:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    trade_id:
+                      type: string
+                      description: Trade identifier
+                    product_id:
+                      type: string
+                      description: Product identifier
+                    price:
+                      type: string
+                      description: Trade price
+                    size:
+                      type: string
+                      description: Trade size
+                    side:
+                      type: string
+                      description: Taker side
+                      enum:
+                        - BUY
+                        - SELL
+                    time:
+                      type: string
+                      format: date-time
+                      description: Trade time
+    TickerPayload:
+      type: object
+      description: Ticker update payload
+      properties:
+        channel:
+          type: string
+          description: Channel name
+          enum:
+            - ticker
+            - ticker_batch
+        client_id:
+          type: string
+          description: Client connection identifier
+        timestamp:
+          type: string
+          format: date-time
+          description: Event timestamp
+        sequence_num:
+          type: integer
+          description: Sequence number
+        events:
+          type: array
+          description: Ticker events
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Event type
+              tickers:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    product_id:
+                      type: string
+                      description: Product identifier
+                    price:
+                      type: string
+                      description: Current price
+                    volume_24_h:
+                      type: string
+                      description: 24-hour volume
+                    low_24_h:
+                      type: string
+                      description: 24-hour low
+                    high_24_h:
+                      type: string
+                      description: 24-hour high
+                    low_52_w:
+                      type: string
+                      description: 52-week low
+                    high_52_w:
+                      type: string
+                      description: 52-week high
+                    price_percent_chg_24_h:
+                      type: string
+                      description: 24-hour price change percentage
+                    best_bid:
+                      type: string
+                      description: Best bid price
+                    best_bid_quantity:
+                      type: string
+                      description: Best bid quantity
+                    best_ask:
+                      type: string
+                      description: Best ask price
+                    best_ask_quantity:
+                      type: string
+                      description: Best ask quantity
+    Level2SnapshotPayload:
+      type: object
+      description: Level 2 order book snapshot
+      properties:
+        channel:
+          type: string
+          description: Channel name
+          enum:
+            - l2_data
+        client_id:
+          type: string
+          description: Client connection identifier
+        timestamp:
+          type: string
+          format: date-time
+          description: Snapshot timestamp
+        sequence_num:
+          type: integer
+          description: Sequence number
+        events:
+          type: array
+          description: Snapshot events
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Event type
+                enum:
+                  - snapshot
+              product_id:
+                type: string
+                description: Product identifier
+              updates:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    side:
+                      type: string
+                      description: Order side
+                      enum:
+                        - bid
+                        - offer
+                    price_level:
+                      type: string
+                      description: Price level
+                    new_quantity:
+                      type: string
+                      description: Quantity at this level
+    Level2UpdatePayload:
+      type: object
+      description: Level 2 incremental order book update
+      properties:
+        channel:
+          type: string
+          description: Channel name
+          enum:
+            - l2_data
+        client_id:
+          type: string
+          description: Client connection identifier
+        timestamp:
+          type: string
+          format: date-time
+          description: Update timestamp
+        sequence_num:
+          type: integer
+          description: Sequence number
+        events:
+          type: array
+          description: Update events
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Event type
+                enum:
+                  - update
+              product_id:
+                type: string
+                description: Product identifier
+              updates:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    side:
+                      type: string
+                      description: Order side
+                      enum:
+                        - bid
+                        - offer
+                    price_level:
+                      type: string
+                      description: Price level
+                    new_quantity:
+                      type: string
+                      description: New quantity at this level
+    UserPayload:
+      type: object
+      description: User order update payload
+      properties:
+        channel:
+          type: string
+          description: Channel name
+          enum:
+            - user
+        client_id:
+          type: string
+          description: Client connection identifier
+        timestamp:
+          type: string
+          format: date-time
+          description: Event timestamp
+        sequence_num:
+          type: integer
+          description: Sequence number
+        events:
+          type: array
+          description: User events
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Event type
+              orders:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    order_id:
+                      type: string
+                      description: Order identifier
+                    client_order_id:
+                      type: string
+                      description: Client-specified order ID
+                    product_id:
+                      type: string
+                      description: Product identifier
+                    side:
+                      type: string
+                      description: Order side
+                    status:
+                      type: string
+                      description: Order status
+                    order_type:
+                      type: string
+                      description: Order type
+                    cumulative_quantity:
+                      type: string
+                      description: Cumulative filled quantity
+                    avg_price:
+                      type: string
+                      description: Average fill price
+                    total_fees:
+                      type: string
+                      description: Total fees

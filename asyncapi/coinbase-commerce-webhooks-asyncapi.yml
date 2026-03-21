@@ -1,0 +1,252 @@
+asyncapi: 2.6.0
+info:
+  title: Coinbase Commerce Webhooks
+  description: >-
+    Coinbase Commerce sends webhook events to notify your application when
+    charges are created, confirmed, delayed, pending, failed, or resolved.
+    Each webhook event is signed with a SHA-256 HMAC signature using your
+    webhook shared secret, included in the X-CC-Webhook-Signature header.
+    Webhooks are delivered via HTTPS POST to your configured endpoint URL.
+  version: '1.0'
+  contact:
+    name: Coinbase Commerce Support
+    url: https://help.coinbase.com/en/commerce
+externalDocs:
+  description: Commerce Webhooks Documentation
+  url: https://docs.cdp.coinbase.com/commerce-onchain/docs/webhooks
+servers:
+  webhookReceiver:
+    url: '{webhookUrl}'
+    protocol: https
+    description: >-
+      Your HTTPS endpoint that receives webhook notifications from Coinbase
+      Commerce. Configure this URL in the Commerce Settings page.
+    variables:
+      webhookUrl:
+        description: Your webhook endpoint URL
+channels:
+  /webhook:
+    description: >-
+      Webhook endpoint that receives Commerce event notifications. All
+      events are delivered as HTTPS POST requests with a JSON payload and
+      X-CC-Webhook-Signature header for verification.
+    publish:
+      operationId: receiveCommerceWebhook
+      summary: Receive Commerce webhook events
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ChargeCreatedEvent'
+          - $ref: '#/components/messages/ChargeConfirmedEvent'
+          - $ref: '#/components/messages/ChargeFailedEvent'
+          - $ref: '#/components/messages/ChargeDelayedEvent'
+          - $ref: '#/components/messages/ChargePendingEvent'
+          - $ref: '#/components/messages/ChargeResolvedEvent'
+components:
+  messages:
+    ChargeCreatedEvent:
+      name: charge:created
+      title: Charge Created
+      summary: Fired when a new charge is created
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookEvent'
+      headers:
+        type: object
+        properties:
+          X-CC-Webhook-Signature:
+            type: string
+            description: SHA-256 HMAC signature of the raw request payload
+    ChargeConfirmedEvent:
+      name: charge:confirmed
+      title: Charge Confirmed
+      summary: Fired when a charge receives sufficient blockchain confirmations
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookEvent'
+      headers:
+        type: object
+        properties:
+          X-CC-Webhook-Signature:
+            type: string
+            description: SHA-256 HMAC signature of the raw request payload
+    ChargeFailedEvent:
+      name: charge:failed
+      title: Charge Failed
+      summary: Fired when a charge expires without receiving payment
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookEvent'
+      headers:
+        type: object
+        properties:
+          X-CC-Webhook-Signature:
+            type: string
+            description: SHA-256 HMAC signature of the raw request payload
+    ChargeDelayedEvent:
+      name: charge:delayed
+      title: Charge Delayed
+      summary: Fired when a charge payment is detected but awaiting confirmations
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookEvent'
+      headers:
+        type: object
+        properties:
+          X-CC-Webhook-Signature:
+            type: string
+            description: SHA-256 HMAC signature of the raw request payload
+    ChargePendingEvent:
+      name: charge:pending
+      title: Charge Pending
+      summary: Fired when a charge payment is pending
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookEvent'
+      headers:
+        type: object
+        properties:
+          X-CC-Webhook-Signature:
+            type: string
+            description: SHA-256 HMAC signature of the raw request payload
+    ChargeResolvedEvent:
+      name: charge:resolved
+      title: Charge Resolved
+      summary: Fired when an unresolved charge is manually resolved
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookEvent'
+      headers:
+        type: object
+        properties:
+          X-CC-Webhook-Signature:
+            type: string
+            description: SHA-256 HMAC signature of the raw request payload
+  schemas:
+    WebhookEvent:
+      type: object
+      description: Webhook event payload delivered to your endpoint
+      properties:
+        id:
+          type: string
+          description: Unique event identifier
+        resource:
+          type: string
+          description: Resource type
+          enum:
+            - event
+        type:
+          type: string
+          description: Event type
+          enum:
+            - charge:created
+            - charge:confirmed
+            - charge:failed
+            - charge:delayed
+            - charge:pending
+            - charge:resolved
+        api_version:
+          type: string
+          description: API version that generated the event
+        created_at:
+          type: string
+          format: date-time
+          description: When the event was created
+        data:
+          $ref: '#/components/schemas/ChargeData'
+    ChargeData:
+      type: object
+      description: Charge data included in webhook events
+      properties:
+        id:
+          type: string
+          description: Charge identifier
+        code:
+          type: string
+          description: Charge code
+        name:
+          type: string
+          description: Charge name
+        description:
+          type: string
+          description: Charge description
+        hosted_url:
+          type: string
+          format: uri
+          description: Hosted payment page URL
+        created_at:
+          type: string
+          format: date-time
+          description: Creation time
+        expires_at:
+          type: string
+          format: date-time
+          description: Expiration time
+        confirmed_at:
+          type: string
+          format: date-time
+          description: Confirmation time
+        pricing:
+          type: object
+          description: Pricing in various currencies
+          additionalProperties:
+            type: object
+            properties:
+              amount:
+                type: string
+                description: Amount
+              currency:
+                type: string
+                description: Currency code
+        pricing_type:
+          type: string
+          description: Pricing model
+          enum:
+            - no_price
+            - fixed_price
+        addresses:
+          type: object
+          description: Payment blockchain addresses
+          additionalProperties:
+            type: string
+        payments:
+          type: array
+          description: Payments received
+          items:
+            type: object
+            properties:
+              network:
+                type: string
+                description: Blockchain network
+              transaction_id:
+                type: string
+                description: Transaction hash
+              status:
+                type: string
+                description: Payment status
+              value:
+                type: object
+                properties:
+                  amount:
+                    type: string
+                    description: Amount
+                  currency:
+                    type: string
+                    description: Currency
+        timeline:
+          type: array
+          description: Status change timeline
+          items:
+            type: object
+            properties:
+              time:
+                type: string
+                format: date-time
+                description: Time of status change
+              status:
+                type: string
+                description: Status at this point
+        metadata:
+          type: object
+          description: Custom metadata
+          additionalProperties:
+            type: string

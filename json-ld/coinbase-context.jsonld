@@ -1,0 +1,174 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "coinbase": "https://api.coinbase.com/vocab/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "fibo-fnd": "https://spec.edmcouncil.org/fibo/ontology/FND/",
+
+    "Account": {
+      "@id": "coinbase:Account",
+      "@context": {
+        "uuid": "coinbase:uuid",
+        "name": "schema:name",
+        "currency": "coinbase:currency",
+        "available_balance": "coinbase:availableBalance",
+        "hold": "coinbase:hold",
+        "active": "coinbase:active",
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updated_at": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Order": {
+      "@id": "coinbase:Order",
+      "@context": {
+        "order_id": "coinbase:orderId",
+        "client_order_id": "coinbase:clientOrderId",
+        "product_id": "coinbase:productId",
+        "side": "coinbase:side",
+        "order_type": "coinbase:orderType",
+        "status": "coinbase:status",
+        "price": "schema:price",
+        "size": "coinbase:size",
+        "filled_size": "coinbase:filledSize",
+        "average_filled_price": "coinbase:averageFilledPrice",
+        "total_fees": "coinbase:totalFees",
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "completed_at": {
+          "@id": "coinbase:completedAt",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Product": {
+      "@id": "coinbase:Product",
+      "@context": {
+        "product_id": "coinbase:productId",
+        "base_currency": "coinbase:baseCurrency",
+        "quote_currency": "coinbase:quoteCurrency",
+        "display_name": "schema:name",
+        "status": "coinbase:status",
+        "price": "schema:price",
+        "volume_24h": "coinbase:volume24h",
+        "base_min_size": "coinbase:baseMinSize",
+        "base_max_size": "coinbase:baseMaxSize",
+        "quote_increment": "coinbase:quoteIncrement"
+      }
+    },
+
+    "Trade": {
+      "@id": "coinbase:Trade",
+      "@context": {
+        "trade_id": "coinbase:tradeId",
+        "product_id": "coinbase:productId",
+        "price": "schema:price",
+        "size": "coinbase:size",
+        "side": "coinbase:side",
+        "time": {
+          "@id": "dcterms:date",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Portfolio": {
+      "@id": "coinbase:Portfolio",
+      "@context": {
+        "uuid": "coinbase:uuid",
+        "name": "schema:name",
+        "type": "coinbase:portfolioType",
+        "entity_id": "coinbase:entityId",
+        "organization_id": "coinbase:organizationId"
+      }
+    },
+
+    "Charge": {
+      "@id": "coinbase:Charge",
+      "@context": {
+        "code": "coinbase:chargeCode",
+        "name": "schema:name",
+        "description": "schema:description",
+        "pricing_type": "coinbase:pricingType",
+        "hosted_url": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "redirect_url": {
+          "@id": "coinbase:redirectUrl",
+          "@type": "@id"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "confirmed_at": {
+          "@id": "coinbase:confirmedAt",
+          "@type": "xsd:dateTime"
+        },
+        "expires_at": {
+          "@id": "schema:expires",
+          "@type": "xsd:dateTime"
+        },
+        "payments": {
+          "@id": "coinbase:payments",
+          "@container": "@set"
+        },
+        "metadata": "coinbase:metadata"
+      }
+    },
+
+    "Wallet": {
+      "@id": "coinbase:Wallet",
+      "@context": {
+        "name": "schema:name",
+        "symbol": "coinbase:symbol",
+        "type": "coinbase:walletType",
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Transaction": {
+      "@id": "coinbase:Transaction",
+      "@context": {
+        "type": "coinbase:transactionType",
+        "status": "coinbase:status",
+        "symbol": "coinbase:symbol",
+        "amount": "schema:amount",
+        "fee": "coinbase:fee",
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "completed_at": {
+          "@id": "coinbase:completedAt",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Currency": {
+      "@id": "coinbase:Currency",
+      "@context": {
+        "name": "schema:name",
+        "symbol": "coinbase:symbol",
+        "min_size": "coinbase:minSize",
+        "status": "coinbase:status"
+      }
+    }
+  }
+}

@@ -1,0 +1,1451 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Exchange API
+  description: >-
+    The Coinbase Exchange API provides high-throughput access to real-time
+    market data and order management for institutional and professional
+    traders. It supports REST APIs for direct order placement, account
+    management, currency information, deposits, withdrawals, and live market
+    data. The API is designed for high-volume trading operations on the
+    Coinbase exchange with low-latency execution.
+  version: '1.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+externalDocs:
+  description: Coinbase Exchange API Documentation
+  url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+servers:
+  - url: https://api.exchange.coinbase.com
+    description: Production Server
+tags:
+  - name: Accounts
+    description: >-
+      Manage exchange accounts, retrieve balances, holds, ledger entries, and
+      transfer history.
+  - name: Orders
+    description: >-
+      Create, cancel, and manage trading orders including market, limit, and
+      stop orders.
+  - name: Products
+    description: >-
+      Retrieve product information, order books, trades, candles, and ticker
+      data for trading pairs.
+  - name: Currencies
+    description: >-
+      Retrieve information about supported currencies on the exchange.
+  - name: Deposits
+    description: >-
+      View deposit information and payment methods for funding exchange accounts.
+  - name: Withdrawals
+    description: >-
+      Manage crypto withdrawals from exchange accounts to external addresses
+      or Coinbase accounts.
+  - name: Conversions
+    description: >-
+      Convert between stablecoin currencies on the exchange.
+  - name: Fees
+    description: >-
+      Retrieve current maker and taker fee rates for the authenticated user.
+  - name: Profiles
+    description: >-
+      Manage exchange profiles and transfer funds between them.
+security:
+  - apiKeyAuth: []
+paths:
+  /accounts:
+    get:
+      operationId: listAccounts
+      summary: List accounts
+      description: >-
+        Retrieves a list of trading accounts associated with the authenticated
+        user. Each account holds a specific currency and shows available and
+        hold balances.
+      tags:
+        - Accounts
+      responses:
+        '200':
+          description: Successfully retrieved list of accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /accounts/{account_id}:
+    get:
+      operationId: getAccount
+      summary: Get account
+      description: >-
+        Retrieves information for a single exchange account by its account ID.
+        Returns the current balance, available funds, and hold amounts.
+      tags:
+        - Accounts
+      parameters:
+        - $ref: '#/components/parameters/AccountIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '404':
+          description: Account not found
+  /accounts/{account_id}/ledger:
+    get:
+      operationId: getAccountLedger
+      summary: Get account ledger
+      description: >-
+        Retrieves the ledger (transaction history) for a specific account.
+        Returns a paginated list of account activity entries.
+      tags:
+        - Accounts
+      parameters:
+        - $ref: '#/components/parameters/AccountIdParam'
+        - $ref: '#/components/parameters/BeforeParam'
+        - $ref: '#/components/parameters/AfterParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved account ledger
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LedgerEntry'
+  /accounts/{account_id}/holds:
+    get:
+      operationId: getAccountHolds
+      summary: Get account holds
+      description: >-
+        Retrieves holds on an account that are associated with active orders
+        or pending withdraw requests. Holds make funds unavailable for trading.
+      tags:
+        - Accounts
+      parameters:
+        - $ref: '#/components/parameters/AccountIdParam'
+        - $ref: '#/components/parameters/BeforeParam'
+        - $ref: '#/components/parameters/AfterParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved account holds
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hold'
+  /accounts/{account_id}/transfers:
+    get:
+      operationId: getAccountTransfers
+      summary: Get account transfers
+      description: >-
+        Retrieves a list of in-progress and completed transfers of funds to or
+        from the account.
+      tags:
+        - Accounts
+      parameters:
+        - $ref: '#/components/parameters/AccountIdParam'
+        - $ref: '#/components/parameters/BeforeParam'
+        - $ref: '#/components/parameters/AfterParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved account transfers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transfer'
+  /orders:
+    get:
+      operationId: listOrders
+      summary: List orders
+      description: >-
+        Retrieves a list of recent orders for the authenticated user. Supports
+        filtering by product, status, and date range. Returns a paginated
+        list sorted by creation time.
+      tags:
+        - Orders
+      parameters:
+        - name: product_id
+          in: query
+          description: Filter orders by product ID
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Filter by order status
+          schema:
+            type: string
+            enum:
+              - open
+              - pending
+              - active
+              - done
+        - $ref: '#/components/parameters/BeforeParam'
+        - $ref: '#/components/parameters/AfterParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+    post:
+      operationId: createOrder
+      summary: Create order
+      description: >-
+        Places a new order on the exchange. Supports market, limit, and stop
+        order types. The request body must include the product ID, side, and
+        order-specific parameters.
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Order successfully placed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Bad request - Invalid order parameters
+        '401':
+          description: Unauthorized
+    delete:
+      operationId: cancelAllOrders
+      summary: Cancel all orders
+      description: >-
+        Cancels all open orders on the exchange. Optionally filter by product
+        ID to cancel orders for a specific trading pair only.
+      tags:
+        - Orders
+      parameters:
+        - name: product_id
+          in: query
+          description: Only cancel orders for this product
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Orders successfully cancelled
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  description: Cancelled order IDs
+  /orders/{order_id}:
+    get:
+      operationId: getOrder
+      summary: Get order
+      description: >-
+        Retrieves a single order by its order ID. Returns the full order
+        details including status, filled size, and execution price.
+      tags:
+        - Orders
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          description: Order ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+    delete:
+      operationId: cancelOrder
+      summary: Cancel order
+      description: >-
+        Cancels a previously placed order by its ID. The order must still be
+        in an open or pending state.
+      tags:
+        - Orders
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          description: Order ID to cancel
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order successfully cancelled
+  /fills:
+    get:
+      operationId: listFills
+      summary: List fills
+      description: >-
+        Retrieves a list of recent fills for the authenticated user. Fills
+        represent the settlement of an order at a specific price and quantity.
+      tags:
+        - Orders
+      parameters:
+        - name: order_id
+          in: query
+          description: Filter fills by order ID
+          schema:
+            type: string
+        - name: product_id
+          in: query
+          description: Filter fills by product ID
+          schema:
+            type: string
+        - $ref: '#/components/parameters/BeforeParam'
+        - $ref: '#/components/parameters/AfterParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved fills
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fill'
+  /products:
+    get:
+      operationId: listProducts
+      summary: List products
+      description: >-
+        Retrieves a list of available trading products on the exchange. Returns
+        details about each trading pair including base and quote currencies,
+        trading limits, and status.
+      tags:
+        - Products
+      security: []
+      responses:
+        '200':
+          description: Successfully retrieved products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  /products/{product_id}:
+    get:
+      operationId: getProduct
+      summary: Get product
+      description: >-
+        Retrieves detailed information about a single product by its product
+        ID. Returns trading pair details, limits, and current status.
+      tags:
+        - Products
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/ProductIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found
+  /products/{product_id}/book:
+    get:
+      operationId: getProductOrderBook
+      summary: Get product order book
+      description: >-
+        Retrieves the order book for a product. The default level is 1 which
+        returns the best bid and ask. Level 2 returns the top 50 bids and asks.
+        Level 3 is not recommended for polling.
+      tags:
+        - Products
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/ProductIdParam'
+        - name: level
+          in: query
+          description: Order book detail level (1, 2, or 3)
+          schema:
+            type: integer
+            enum:
+              - 1
+              - 2
+              - 3
+            default: 1
+      responses:
+        '200':
+          description: Successfully retrieved order book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderBook'
+  /products/{product_id}/ticker:
+    get:
+      operationId: getProductTicker
+      summary: Get product ticker
+      description: >-
+        Retrieves snapshot information about the last trade, best bid/ask, and
+        24-hour volume for a product.
+      tags:
+        - Products
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/ProductIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved ticker
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticker'
+  /products/{product_id}/trades:
+    get:
+      operationId: getProductTrades
+      summary: Get product trades
+      description: >-
+        Retrieves a list of the latest trades for a product. Returns the trade
+        ID, price, size, and time for each trade.
+      tags:
+        - Products
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/ProductIdParam'
+        - $ref: '#/components/parameters/BeforeParam'
+        - $ref: '#/components/parameters/AfterParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved trades
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trade'
+  /products/{product_id}/candles:
+    get:
+      operationId: getProductCandles
+      summary: Get product candles
+      description: >-
+        Retrieves historical OHLCV candle data for a product. Each candle
+        represents market activity during a specific time period.
+      tags:
+        - Products
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/ProductIdParam'
+        - name: start
+          in: query
+          description: Start time in ISO 8601 format
+          schema:
+            type: string
+        - name: end
+          in: query
+          description: End time in ISO 8601 format
+          schema:
+            type: string
+        - name: granularity
+          in: query
+          description: Candle granularity in seconds
+          schema:
+            type: integer
+            enum:
+              - 60
+              - 300
+              - 900
+              - 3600
+              - 21600
+              - 86400
+      responses:
+        '200':
+          description: Successfully retrieved candles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  description: >-
+                    Array of [time, low, high, open, close, volume] values
+                  items:
+                    type: number
+  /products/{product_id}/stats:
+    get:
+      operationId: getProductStats
+      summary: Get product 24hr stats
+      description: >-
+        Retrieves 24-hour statistics for a product including open, high, low,
+        and volume.
+      tags:
+        - Products
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/ProductIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved 24hr stats
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  open:
+                    type: string
+                    description: Opening price 24 hours ago
+                  high:
+                    type: string
+                    description: Highest price in the last 24 hours
+                  low:
+                    type: string
+                    description: Lowest price in the last 24 hours
+                  volume:
+                    type: string
+                    description: Total volume in the last 24 hours
+                  last:
+                    type: string
+                    description: Last traded price
+                  volume_30day:
+                    type: string
+                    description: Total volume in the last 30 days
+  /currencies:
+    get:
+      operationId: listCurrencies
+      summary: List currencies
+      description: >-
+        Retrieves a list of all known currencies on the exchange, including
+        their names, minimum sizes, and status.
+      tags:
+        - Currencies
+      security: []
+      responses:
+        '200':
+          description: Successfully retrieved currencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Currency'
+  /currencies/{currency_id}:
+    get:
+      operationId: getCurrency
+      summary: Get currency
+      description: >-
+        Retrieves information about a single currency by its currency ID.
+      tags:
+        - Currencies
+      security: []
+      parameters:
+        - name: currency_id
+          in: path
+          required: true
+          description: Currency identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved currency
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Currency'
+        '404':
+          description: Currency not found
+  /deposits/payment-method:
+    post:
+      operationId: depositFromPaymentMethod
+      summary: Deposit from payment method
+      description: >-
+        Deposits funds from a payment method into the exchange account.
+      tags:
+        - Deposits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - currency
+                - payment_method_id
+              properties:
+                amount:
+                  type: string
+                  description: Amount to deposit
+                currency:
+                  type: string
+                  description: Currency to deposit
+                payment_method_id:
+                  type: string
+                  description: ID of the payment method
+      responses:
+        '200':
+          description: Deposit initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+  /deposits/coinbase-account:
+    post:
+      operationId: depositFromCoinbaseAccount
+      summary: Deposit from Coinbase account
+      description: >-
+        Deposits funds from a Coinbase account into the exchange account.
+      tags:
+        - Deposits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - currency
+                - coinbase_account_id
+              properties:
+                amount:
+                  type: string
+                  description: Amount to deposit
+                currency:
+                  type: string
+                  description: Currency to deposit
+                coinbase_account_id:
+                  type: string
+                  description: ID of the Coinbase account
+      responses:
+        '200':
+          description: Deposit initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+  /withdrawals/payment-method:
+    post:
+      operationId: withdrawToPaymentMethod
+      summary: Withdraw to payment method
+      description: >-
+        Withdraws funds from the exchange account to a linked payment method.
+      tags:
+        - Withdrawals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - currency
+                - payment_method_id
+              properties:
+                amount:
+                  type: string
+                  description: Amount to withdraw
+                currency:
+                  type: string
+                  description: Currency to withdraw
+                payment_method_id:
+                  type: string
+                  description: ID of the payment method
+      responses:
+        '200':
+          description: Withdrawal initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+  /withdrawals/coinbase-account:
+    post:
+      operationId: withdrawToCoinbaseAccount
+      summary: Withdraw to Coinbase account
+      description: >-
+        Withdraws funds from the exchange account to a Coinbase account.
+      tags:
+        - Withdrawals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - currency
+                - coinbase_account_id
+              properties:
+                amount:
+                  type: string
+                  description: Amount to withdraw
+                currency:
+                  type: string
+                  description: Currency to withdraw
+                coinbase_account_id:
+                  type: string
+                  description: ID of the Coinbase account
+      responses:
+        '200':
+          description: Withdrawal initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+  /withdrawals/crypto:
+    post:
+      operationId: withdrawToCryptoAddress
+      summary: Withdraw to crypto address
+      description: >-
+        Withdraws funds from the exchange account to an external crypto address.
+      tags:
+        - Withdrawals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - currency
+                - crypto_address
+              properties:
+                amount:
+                  type: string
+                  description: Amount to withdraw
+                currency:
+                  type: string
+                  description: Currency to withdraw
+                crypto_address:
+                  type: string
+                  description: Destination crypto address
+      responses:
+        '200':
+          description: Withdrawal initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+  /conversions:
+    post:
+      operationId: createConversion
+      summary: Create conversion
+      description: >-
+        Converts funds from one stablecoin currency to another within the
+        exchange account.
+      tags:
+        - Conversions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - from
+                - to
+                - amount
+              properties:
+                from:
+                  type: string
+                  description: Currency to convert from
+                to:
+                  type: string
+                  description: Currency to convert to
+                amount:
+                  type: string
+                  description: Amount to convert
+      responses:
+        '200':
+          description: Conversion created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversion'
+  /conversions/{conversion_id}:
+    get:
+      operationId: getConversion
+      summary: Get conversion
+      description: >-
+        Retrieves the details of a specific conversion by its conversion ID.
+      tags:
+        - Conversions
+      parameters:
+        - name: conversion_id
+          in: path
+          required: true
+          description: Conversion ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved conversion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversion'
+  /fees:
+    get:
+      operationId: getFees
+      summary: Get fees
+      description: >-
+        Retrieves the current maker and taker fee rates for the authenticated
+        user based on their trading volume.
+      tags:
+        - Fees
+      responses:
+        '200':
+          description: Successfully retrieved fees
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  maker_fee_rate:
+                    type: string
+                    description: Current maker fee rate
+                  taker_fee_rate:
+                    type: string
+                    description: Current taker fee rate
+                  usd_volume:
+                    type: string
+                    description: USD trading volume
+  /profiles:
+    get:
+      operationId: listProfiles
+      summary: List profiles
+      description: >-
+        Retrieves a list of trading profiles for the authenticated user.
+        Profiles are used to separate trading activity.
+      tags:
+        - Profiles
+      parameters:
+        - name: active
+          in: query
+          description: Filter for active profiles only
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Successfully retrieved profiles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+  /profiles/{profile_id}:
+    get:
+      operationId: getProfile
+      summary: Get profile
+      description: >-
+        Retrieves a single profile by its profile ID.
+      tags:
+        - Profiles
+      parameters:
+        - name: profile_id
+          in: path
+          required: true
+          description: Profile ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+  /profiles/transfer:
+    post:
+      operationId: transferBetweenProfiles
+      summary: Transfer between profiles
+      description: >-
+        Transfers an amount of currency from one profile to another.
+      tags:
+        - Profiles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - from
+                - to
+                - currency
+                - amount
+              properties:
+                from:
+                  type: string
+                  description: Source profile ID
+                to:
+                  type: string
+                  description: Destination profile ID
+                currency:
+                  type: string
+                  description: Currency to transfer
+                amount:
+                  type: string
+                  description: Amount to transfer
+      responses:
+        '200':
+          description: Transfer completed
+  /payment-methods:
+    get:
+      operationId: listPaymentMethods
+      summary: List payment methods
+      description: >-
+        Retrieves a list of payment methods linked to the authenticated user.
+      tags:
+        - Deposits
+      responses:
+        '200':
+          description: Successfully retrieved payment methods
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentMethod'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: >-
+        Exchange API key authentication using HMAC SHA-256 signatures. Requires
+        CB-ACCESS-KEY, CB-ACCESS-SIGN, CB-ACCESS-TIMESTAMP, and
+        CB-ACCESS-PASSPHRASE headers.
+  parameters:
+    AccountIdParam:
+      name: account_id
+      in: path
+      required: true
+      description: Account identifier
+      schema:
+        type: string
+    ProductIdParam:
+      name: product_id
+      in: path
+      required: true
+      description: Trading pair identifier such as BTC-USD
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
+  schemas:
+    Account:
+      type: object
+      description: An exchange trading account for a specific currency
+      properties:
+        id:
+          type: string
+          description: Unique account identifier
+        currency:
+          type: string
+          description: Currency code
+        balance:
+          type: string
+          description: Total balance
+        available:
+          type: string
+          description: Available balance for trading
+        hold:
+          type: string
+          description: Funds on hold
+        profile_id:
+          type: string
+          description: Profile the account belongs to
+        trading_enabled:
+          type: boolean
+          description: Whether trading is enabled
+    LedgerEntry:
+      type: object
+      description: A ledger entry recording account activity
+      properties:
+        id:
+          type: string
+          description: Entry identifier
+        created_at:
+          type: string
+          format: date-time
+          description: When the entry was created
+        amount:
+          type: string
+          description: Amount of the entry
+        balance:
+          type: string
+          description: Account balance after the entry
+        type:
+          type: string
+          description: Type of ledger entry
+          enum:
+            - transfer
+            - match
+            - fee
+            - rebate
+            - conversion
+        details:
+          type: object
+          description: Additional details about the entry
+    Hold:
+      type: object
+      description: A hold on account funds
+      properties:
+        id:
+          type: string
+          description: Hold identifier
+        created_at:
+          type: string
+          format: date-time
+          description: When the hold was created
+        amount:
+          type: string
+          description: Amount on hold
+        type:
+          type: string
+          description: Type of hold
+          enum:
+            - order
+            - transfer
+        ref:
+          type: string
+          description: Reference ID for the hold source
+    Transfer:
+      type: object
+      description: A deposit or withdrawal transfer
+      properties:
+        id:
+          type: string
+          description: Transfer identifier
+        type:
+          type: string
+          description: Transfer type
+          enum:
+            - deposit
+            - withdraw
+        created_at:
+          type: string
+          format: date-time
+          description: When the transfer was created
+        completed_at:
+          type: string
+          format: date-time
+          description: When the transfer completed
+        amount:
+          type: string
+          description: Transfer amount
+        details:
+          type: object
+          description: Additional transfer details
+    Order:
+      type: object
+      description: A trading order on the exchange
+      properties:
+        id:
+          type: string
+          description: Order identifier
+        product_id:
+          type: string
+          description: Trading pair
+        side:
+          type: string
+          description: Order side
+          enum:
+            - buy
+            - sell
+        type:
+          type: string
+          description: Order type
+          enum:
+            - market
+            - limit
+            - stop
+        size:
+          type: string
+          description: Order size in base currency
+        price:
+          type: string
+          description: Order price (for limit orders)
+        status:
+          type: string
+          description: Order status
+          enum:
+            - open
+            - pending
+            - active
+            - done
+            - rejected
+        filled_size:
+          type: string
+          description: Filled size
+        fill_fees:
+          type: string
+          description: Total fill fees
+        executed_value:
+          type: string
+          description: Total executed value
+        created_at:
+          type: string
+          format: date-time
+          description: When the order was created
+        done_at:
+          type: string
+          format: date-time
+          description: When the order completed
+        done_reason:
+          type: string
+          description: Reason the order completed
+        time_in_force:
+          type: string
+          description: Time in force policy
+          enum:
+            - GTC
+            - GTT
+            - IOC
+            - FOK
+        post_only:
+          type: boolean
+          description: Whether the order is post-only
+    CreateOrderRequest:
+      type: object
+      description: Request body for placing a new order
+      required:
+        - product_id
+        - side
+        - type
+      properties:
+        product_id:
+          type: string
+          description: Trading pair
+        side:
+          type: string
+          description: Order side
+          enum:
+            - buy
+            - sell
+        type:
+          type: string
+          description: Order type
+          enum:
+            - market
+            - limit
+            - stop
+        size:
+          type: string
+          description: Amount of base currency to buy or sell
+        price:
+          type: string
+          description: Price per unit (required for limit orders)
+        funds:
+          type: string
+          description: Amount of quote currency to use (market orders)
+        stop:
+          type: string
+          description: Stop price trigger type
+          enum:
+            - loss
+            - entry
+        stop_price:
+          type: string
+          description: Stop trigger price
+        time_in_force:
+          type: string
+          description: Time in force policy
+          enum:
+            - GTC
+            - GTT
+            - IOC
+            - FOK
+        post_only:
+          type: boolean
+          description: Post-only flag for limit orders
+    Fill:
+      type: object
+      description: A fill representing a completed trade
+      properties:
+        trade_id:
+          type: integer
+          description: Trade identifier
+        product_id:
+          type: string
+          description: Product traded
+        price:
+          type: string
+          description: Execution price
+        size:
+          type: string
+          description: Trade size
+        order_id:
+          type: string
+          description: Order that generated this fill
+        created_at:
+          type: string
+          format: date-time
+          description: When the fill occurred
+        liquidity:
+          type: string
+          description: Whether the fill was maker or taker
+          enum:
+            - M
+            - T
+        fee:
+          type: string
+          description: Fee for this fill
+        settled:
+          type: boolean
+          description: Whether the fill has settled
+        side:
+          type: string
+          description: Trade side
+          enum:
+            - buy
+            - sell
+    Product:
+      type: object
+      description: A trading product on the exchange
+      properties:
+        id:
+          type: string
+          description: Product identifier
+        base_currency:
+          type: string
+          description: Base currency code
+        quote_currency:
+          type: string
+          description: Quote currency code
+        base_min_size:
+          type: string
+          description: Minimum order size
+        base_max_size:
+          type: string
+          description: Maximum order size
+        quote_increment:
+          type: string
+          description: Minimum price increment
+        base_increment:
+          type: string
+          description: Minimum size increment
+        display_name:
+          type: string
+          description: Display name for the product
+        status:
+          type: string
+          description: Product trading status
+        margin_enabled:
+          type: boolean
+          description: Whether margin trading is enabled
+        post_only:
+          type: boolean
+          description: Whether product is in post-only mode
+        limit_only:
+          type: boolean
+          description: Whether only limit orders are allowed
+        cancel_only:
+          type: boolean
+          description: Whether only cancellations are allowed
+        trading_disabled:
+          type: boolean
+          description: Whether trading is disabled
+    OrderBook:
+      type: object
+      description: Product order book at a specific level of detail
+      properties:
+        sequence:
+          type: integer
+          description: Sequence number of the order book
+        bids:
+          type: array
+          description: Bid price levels
+          items:
+            type: array
+            items:
+              type: string
+        asks:
+          type: array
+          description: Ask price levels
+          items:
+            type: array
+            items:
+              type: string
+    Ticker:
+      type: object
+      description: Product ticker with latest trade and 24h stats
+      properties:
+        trade_id:
+          type: integer
+          description: Latest trade ID
+        price:
+          type: string
+          description: Latest trade price
+        size:
+          type: string
+          description: Latest trade size
+        bid:
+          type: string
+          description: Best bid price
+        ask:
+          type: string
+          description: Best ask price
+        volume:
+          type: string
+          description: 24-hour volume
+        time:
+          type: string
+          format: date-time
+          description: Timestamp of the ticker
+    Trade:
+      type: object
+      description: A market trade
+      properties:
+        time:
+          type: string
+          format: date-time
+          description: Trade time
+        trade_id:
+          type: integer
+          description: Trade identifier
+        price:
+          type: string
+          description: Trade price
+        size:
+          type: string
+          description: Trade size
+        side:
+          type: string
+          description: Maker side
+          enum:
+            - buy
+            - sell
+    Currency:
+      type: object
+      description: A currency supported on the exchange
+      properties:
+        id:
+          type: string
+          description: Currency identifier
+        name:
+          type: string
+          description: Full name of the currency
+        min_size:
+          type: string
+          description: Minimum size for this currency
+        status:
+          type: string
+          description: Currency status
+        details:
+          type: object
+          description: Additional currency details
+    Conversion:
+      type: object
+      description: A currency conversion between stablecoins
+      properties:
+        id:
+          type: string
+          description: Conversion identifier
+        amount:
+          type: string
+          description: Conversion amount
+        from_account_id:
+          type: string
+          description: Source account ID
+        to_account_id:
+          type: string
+          description: Destination account ID
+        from:
+          type: string
+          description: Source currency
+        to:
+          type: string
+          description: Target currency
+    Profile:
+      type: object
+      description: A trading profile
+      properties:
+        id:
+          type: string
+          description: Profile identifier
+        user_id:
+          type: string
+          description: User identifier
+        name:
+          type: string
+          description: Profile name
+        active:
+          type: boolean
+          description: Whether the profile is active
+        is_default:
+          type: boolean
+          description: Whether this is the default profile
+        created_at:
+          type: string
+          format: date-time
+          description: When the profile was created
+    PaymentMethod:
+      type: object
+      description: A linked payment method
+      properties:
+        id:
+          type: string
+          description: Payment method identifier
+        type:
+          type: string
+          description: Payment method type
+        name:
+          type: string
+          description: Display name
+        currency:
+          type: string
+          description: Currency for this payment method
+        allow_buy:
+          type: boolean
+          description: Whether buying is allowed
+        allow_sell:
+          type: boolean
+          description: Whether selling is allowed
+        allow_deposit:
+          type: boolean
+          description: Whether deposits are allowed
+        allow_withdraw:
+          type: boolean
+          description: Whether withdrawals are allowed

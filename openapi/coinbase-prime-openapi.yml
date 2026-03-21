@@ -1,0 +1,1190 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Prime API
+  description: >-
+    The Coinbase Prime API enables institutions to manage cryptocurrency
+    trading and custody on behalf of their clients. It supports programmatic
+    trading strategies, automated platform processes, portfolio management,
+    and custodial operations. The REST API provides endpoints for order
+    execution, account management, transaction history, and reporting,
+    designed for institutional-grade workflows and compliance requirements.
+    API keys are scoped to individual portfolios and require HMAC SHA-256
+    authentication.
+  version: '1.0'
+  contact:
+    name: Coinbase Prime Support
+    url: https://help.coinbase.com/en/prime
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+externalDocs:
+  description: Coinbase Prime API Documentation
+  url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+servers:
+  - url: https://api.prime.coinbase.com/v1
+    description: Production Server
+tags:
+  - name: Portfolios
+    description: >-
+      Manage portfolios including listing, viewing details, and accessing
+      portfolio-level configurations.
+  - name: Orders
+    description: >-
+      Create, view, and cancel trading orders within a portfolio.
+  - name: Allocations
+    description: >-
+      View and manage order allocations across sub-portfolios.
+  - name: Balances
+    description: >-
+      Retrieve portfolio balance information across all assets.
+  - name: Wallets
+    description: >-
+      Manage wallets within a portfolio for different asset types.
+  - name: Activities
+    description: >-
+      View activity history for portfolios including trades, transfers, and
+      other events.
+  - name: Transactions
+    description: >-
+      View and create transactions including withdrawals and transfers.
+  - name: Assets
+    description: >-
+      Retrieve information about supported assets and products.
+  - name: Users
+    description: >-
+      Manage users associated with a portfolio.
+  - name: Address Book
+    description: >-
+      Manage approved withdrawal addresses in the address book.
+security:
+  - apiKeyAuth: []
+paths:
+  /portfolios:
+    get:
+      operationId: listPortfolios
+      summary: List portfolios
+      description: >-
+        Retrieves a list of all portfolios for which the current API key has
+        read access. Returns portfolio details including name, ID, and entity.
+      tags:
+        - Portfolios
+      responses:
+        '200':
+          description: Successfully retrieved portfolios
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portfolios:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Portfolio'
+        '401':
+          description: Unauthorized
+  /portfolios/{portfolio_id}:
+    get:
+      operationId: getPortfolio
+      summary: Get portfolio
+      description: >-
+        Retrieves detailed information about a specific portfolio including
+        its name, entity ID, and organization.
+      tags:
+        - Portfolios
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved portfolio
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portfolio:
+                    $ref: '#/components/schemas/Portfolio'
+        '404':
+          description: Portfolio not found
+  /portfolios/{portfolio_id}/balances:
+    get:
+      operationId: listPortfolioBalances
+      summary: List portfolio balances
+      description: >-
+        Retrieves all asset balances for a specific portfolio, including
+        available, held, and total amounts for each currency.
+      tags:
+        - Balances
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - name: symbols
+          in: query
+          description: Filter by currency symbols
+          schema:
+            type: string
+        - $ref: '#/components/parameters/CursorParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortDirectionParam'
+      responses:
+        '200':
+          description: Successfully retrieved balances
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balances:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Balance'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /portfolios/{portfolio_id}/orders:
+    get:
+      operationId: listPortfolioOrders
+      summary: List portfolio orders
+      description: >-
+        Retrieves historical orders for a given portfolio. Returns a default
+        limit of 100 results with a maximum allowed limit of 3000. Supports
+        filtering by product, status, and date range.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - name: product_ids
+          in: query
+          description: Filter by product IDs
+          schema:
+            type: string
+        - name: order_statuses
+          in: query
+          description: Filter by order statuses
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - OPEN
+                - FILLED
+                - CANCELLED
+                - EXPIRED
+                - FAILED
+        - name: order_type
+          in: query
+          description: Filter by order type
+          schema:
+            type: string
+            enum:
+              - MARKET
+              - LIMIT
+              - TWAP
+              - BLOCK
+        - name: start_date
+          in: query
+          description: Start date for filtering
+          schema:
+            type: string
+            format: date-time
+        - name: end_date
+          in: query
+          description: End date for filtering
+          schema:
+            type: string
+            format: date-time
+        - $ref: '#/components/parameters/CursorParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortDirectionParam'
+      responses:
+        '200':
+          description: Successfully retrieved orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+    post:
+      operationId: createOrder
+      summary: Create order
+      description: >-
+        Creates a new order within the specified portfolio. Supports market,
+        limit, TWAP, and block order types for institutional trading.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Order successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order_id:
+                    type: string
+                    description: ID of the created order
+        '400':
+          description: Bad request
+  /portfolios/{portfolio_id}/orders/{order_id}:
+    get:
+      operationId: getOrder
+      summary: Get order
+      description: >-
+        Retrieves details of a specific order by its order ID within a
+        portfolio.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - $ref: '#/components/parameters/OrderIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order:
+                    $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+  /portfolios/{portfolio_id}/orders/{order_id}/cancel:
+    post:
+      operationId: cancelOrder
+      summary: Cancel order
+      description: >-
+        Cancels an open order by its order ID within a portfolio.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - $ref: '#/components/parameters/OrderIdParam'
+      responses:
+        '200':
+          description: Order cancelled
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order_id:
+                    type: string
+                    description: ID of the cancelled order
+  /portfolios/{portfolio_id}/orders/{order_id}/fills:
+    get:
+      operationId: listOrderFills
+      summary: List order fills
+      description: >-
+        Retrieves all fills associated with a specific order in a portfolio.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - $ref: '#/components/parameters/OrderIdParam'
+        - $ref: '#/components/parameters/CursorParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved fills
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fills:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Fill'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /portfolios/{portfolio_id}/allocations:
+    get:
+      operationId: listPortfolioAllocations
+      summary: List portfolio allocations
+      description: >-
+        Retrieves a list of order allocations for the given portfolio.
+        Allocations represent the distribution of fills across sub-portfolios.
+      tags:
+        - Allocations
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - name: product_ids
+          in: query
+          description: Filter by product IDs
+          schema:
+            type: string
+        - $ref: '#/components/parameters/CursorParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortDirectionParam'
+      responses:
+        '200':
+          description: Successfully retrieved allocations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  allocations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Allocation'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /portfolios/{portfolio_id}/wallets:
+    get:
+      operationId: listPortfolioWallets
+      summary: List portfolio wallets
+      description: >-
+        Retrieves a list of wallets associated with a portfolio. Each wallet
+        holds a specific type of cryptocurrency asset.
+      tags:
+        - Wallets
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - name: type
+          in: query
+          description: Filter by wallet type
+          schema:
+            type: string
+            enum:
+              - VAULT
+              - TRADING
+              - OTHER
+        - name: symbols
+          in: query
+          description: Filter by currency symbols
+          schema:
+            type: string
+        - $ref: '#/components/parameters/CursorParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved wallets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wallets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Wallet'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /portfolios/{portfolio_id}/wallets/{wallet_id}:
+    get:
+      operationId: getWallet
+      summary: Get wallet
+      description: >-
+        Retrieves details of a specific wallet by its wallet ID.
+      tags:
+        - Wallets
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - name: wallet_id
+          in: path
+          required: true
+          description: Wallet identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved wallet
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wallet:
+                    $ref: '#/components/schemas/Wallet'
+  /portfolios/{portfolio_id}/activities:
+    get:
+      operationId: listActivities
+      summary: List activities
+      description: >-
+        Retrieves all activities associated with a given portfolio. Activities
+        include trades, transfers, deposits, withdrawals, and other events.
+      tags:
+        - Activities
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - name: symbols
+          in: query
+          description: Filter by currency symbols
+          schema:
+            type: string
+        - name: categories
+          in: query
+          description: Filter by activity categories
+          schema:
+            type: array
+            items:
+              type: string
+        - name: statuses
+          in: query
+          description: Filter by activity statuses
+          schema:
+            type: array
+            items:
+              type: string
+        - name: start_time
+          in: query
+          description: Start time filter
+          schema:
+            type: string
+            format: date-time
+        - name: end_time
+          in: query
+          description: End time filter
+          schema:
+            type: string
+            format: date-time
+        - $ref: '#/components/parameters/CursorParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortDirectionParam'
+      responses:
+        '200':
+          description: Successfully retrieved activities
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Activity'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /portfolios/{portfolio_id}/transactions:
+    get:
+      operationId: listTransactions
+      summary: List transactions
+      description: >-
+        Retrieves a list of transactions for a portfolio including deposits,
+        withdrawals, and internal transfers.
+      tags:
+        - Transactions
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - name: symbols
+          in: query
+          description: Filter by currency symbols
+          schema:
+            type: string
+        - name: types
+          in: query
+          description: Filter by transaction types
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - DEPOSIT
+                - WITHDRAWAL
+                - INTERNAL_DEPOSIT
+                - INTERNAL_WITHDRAWAL
+        - name: start_time
+          in: query
+          description: Start time filter
+          schema:
+            type: string
+            format: date-time
+        - name: end_time
+          in: query
+          description: End time filter
+          schema:
+            type: string
+            format: date-time
+        - $ref: '#/components/parameters/CursorParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/SortDirectionParam'
+      responses:
+        '200':
+          description: Successfully retrieved transactions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /portfolios/{portfolio_id}/transactions/{transaction_id}:
+    get:
+      operationId: getTransaction
+      summary: Get transaction
+      description: >-
+        Retrieves details of a specific transaction by its transaction ID.
+      tags:
+        - Transactions
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - name: transaction_id
+          in: path
+          required: true
+          description: Transaction identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved transaction
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction:
+                    $ref: '#/components/schemas/Transaction'
+  /portfolios/{portfolio_id}/wallets/{wallet_id}/transactions:
+    post:
+      operationId: createWithdrawal
+      summary: Create withdrawal
+      description: >-
+        Creates a withdrawal from a specific wallet to an approved address
+        in the address book.
+      tags:
+        - Transactions
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - name: wallet_id
+          in: path
+          required: true
+          description: Wallet identifier
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - destination_type
+                - idempotency_key
+              properties:
+                amount:
+                  type: string
+                  description: Amount to withdraw
+                destination_type:
+                  type: string
+                  description: Destination type
+                  enum:
+                    - ADDRESS_BOOK
+                    - DESTINATION
+                idempotency_key:
+                  type: string
+                  description: Unique key for idempotent withdrawal
+                currency_symbol:
+                  type: string
+                  description: Currency symbol
+      responses:
+        '200':
+          description: Withdrawal created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activity_id:
+                    type: string
+                    description: Activity ID for tracking
+  /portfolios/{portfolio_id}/products:
+    get:
+      operationId: listProducts
+      summary: List products
+      description: >-
+        Retrieves the list of tradeable products available in the portfolio.
+      tags:
+        - Assets
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - $ref: '#/components/parameters/CursorParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /portfolios/{portfolio_id}/users:
+    get:
+      operationId: listPortfolioUsers
+      summary: List portfolio users
+      description: >-
+        Retrieves a list of users who have access to the specified portfolio.
+      tags:
+        - Users
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - $ref: '#/components/parameters/CursorParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /portfolios/{portfolio_id}/address_book:
+    get:
+      operationId: listAddressBook
+      summary: List address book entries
+      description: >-
+        Retrieves the list of approved withdrawal addresses in the portfolio
+        address book.
+      tags:
+        - Address Book
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+        - name: currency_symbol
+          in: query
+          description: Filter by currency symbol
+          schema:
+            type: string
+        - $ref: '#/components/parameters/CursorParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved address book
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  addresses:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AddressBookEntry'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /portfolios/{portfolio_id}/commission:
+    get:
+      operationId: getPortfolioCommission
+      summary: Get portfolio commission
+      description: >-
+        Retrieves the commission and fee rate structure for a portfolio.
+      tags:
+        - Portfolios
+      parameters:
+        - $ref: '#/components/parameters/PortfolioIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved commission details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trading_volume:
+                    type: string
+                    description: Total trading volume
+                  fee_tier:
+                    type: object
+                    properties:
+                      maker_fee_rate:
+                        type: string
+                        description: Maker fee rate
+                      taker_fee_rate:
+                        type: string
+                        description: Taker fee rate
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-CB-ACCESS-KEY
+      description: >-
+        Coinbase Prime API key authentication. Requires X-CB-ACCESS-KEY,
+        X-CB-ACCESS-SIGNATURE, X-CB-ACCESS-TIMESTAMP, and
+        X-CB-ACCESS-PASSPHRASE headers with HMAC SHA-256 signatures.
+  parameters:
+    PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Portfolio identifier
+      schema:
+        type: string
+    OrderIdParam:
+      name: order_id
+      in: path
+      required: true
+      description: Order identifier
+      schema:
+        type: string
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 3000
+        default: 100
+    SortDirectionParam:
+      name: sort_direction
+      in: query
+      description: Sort direction for results
+      schema:
+        type: string
+        enum:
+          - ASC
+          - DESC
+        default: DESC
+  schemas:
+    Portfolio:
+      type: object
+      description: An institutional trading portfolio
+      properties:
+        id:
+          type: string
+          description: Portfolio identifier
+        name:
+          type: string
+          description: Portfolio name
+        entity_id:
+          type: string
+          description: Entity ID associated with the portfolio
+        organization_id:
+          type: string
+          description: Organization identifier
+    Balance:
+      type: object
+      description: An asset balance within a portfolio
+      properties:
+        symbol:
+          type: string
+          description: Currency symbol
+        amount:
+          type: string
+          description: Total amount
+        holds:
+          type: string
+          description: Amount on hold
+        bonded_amount:
+          type: string
+          description: Amount bonded in staking
+        reserved_amount:
+          type: string
+          description: Reserved amount
+        unbonding_amount:
+          type: string
+          description: Amount currently unbonding
+        unvested_amount:
+          type: string
+          description: Unvested amount
+        pending_rewards_amount:
+          type: string
+          description: Pending staking rewards
+        past_rewards_amount:
+          type: string
+          description: Previously claimed staking rewards
+        bondable_amount:
+          type: string
+          description: Amount available for staking
+        withdrawable_amount:
+          type: string
+          description: Amount available for withdrawal
+        fiat_amount:
+          type: string
+          description: Fiat equivalent value
+    Order:
+      type: object
+      description: A trading order within a portfolio
+      properties:
+        id:
+          type: string
+          description: Order identifier
+        portfolio_id:
+          type: string
+          description: Portfolio that owns the order
+        product_id:
+          type: string
+          description: Trading pair
+        side:
+          type: string
+          description: Order side
+          enum:
+            - BUY
+            - SELL
+        type:
+          type: string
+          description: Order type
+          enum:
+            - MARKET
+            - LIMIT
+            - TWAP
+            - BLOCK
+        base_quantity:
+          type: string
+          description: Base currency quantity
+        quote_value:
+          type: string
+          description: Quote currency value
+        limit_price:
+          type: string
+          description: Limit price (for limit orders)
+        start_time:
+          type: string
+          format: date-time
+          description: TWAP start time
+        expiry_time:
+          type: string
+          format: date-time
+          description: Order expiration time
+        status:
+          type: string
+          description: Order status
+          enum:
+            - OPEN
+            - FILLED
+            - CANCELLED
+            - EXPIRED
+            - FAILED
+        created_at:
+          type: string
+          format: date-time
+          description: When the order was created
+        filled_quantity:
+          type: string
+          description: Amount filled
+        filled_value:
+          type: string
+          description: Value of filled portion
+        average_filled_price:
+          type: string
+          description: Average execution price
+    CreateOrderRequest:
+      type: object
+      description: Request body for creating a new order
+      required:
+        - portfolio_id
+        - product_id
+        - side
+        - type
+      properties:
+        portfolio_id:
+          type: string
+          description: Portfolio ID
+        product_id:
+          type: string
+          description: Trading pair
+        side:
+          type: string
+          description: Order side
+          enum:
+            - BUY
+            - SELL
+        type:
+          type: string
+          description: Order type
+          enum:
+            - MARKET
+            - LIMIT
+            - TWAP
+            - BLOCK
+        base_quantity:
+          type: string
+          description: Base currency quantity
+        quote_value:
+          type: string
+          description: Quote currency value
+        limit_price:
+          type: string
+          description: Limit price
+        start_time:
+          type: string
+          format: date-time
+          description: TWAP start time
+        expiry_time:
+          type: string
+          format: date-time
+          description: Order expiration time
+        time_in_force:
+          type: string
+          description: Time in force
+          enum:
+            - GOOD_UNTIL_TIME
+            - GOOD_UNTIL_CANCELLED
+            - IMMEDIATE_OR_CANCEL
+            - FILL_OR_KILL
+    Fill:
+      type: object
+      description: An order fill
+      properties:
+        id:
+          type: string
+          description: Fill identifier
+        order_id:
+          type: string
+          description: Order that generated this fill
+        product_id:
+          type: string
+          description: Product traded
+        side:
+          type: string
+          description: Trade side
+        filled_quantity:
+          type: string
+          description: Quantity filled
+        filled_value:
+          type: string
+          description: Value filled
+        price:
+          type: string
+          description: Execution price
+        time:
+          type: string
+          format: date-time
+          description: Fill time
+        commission:
+          type: string
+          description: Commission charged
+        venue:
+          type: string
+          description: Execution venue
+    Allocation:
+      type: object
+      description: An order allocation across sub-portfolios
+      properties:
+        allocation_id:
+          type: string
+          description: Allocation identifier
+        order_id:
+          type: string
+          description: Source order ID
+        product_id:
+          type: string
+          description: Product traded
+        side:
+          type: string
+          description: Trade side
+        avg_price:
+          type: string
+          description: Average allocation price
+        base_quantity:
+          type: string
+          description: Base quantity allocated
+        quote_value:
+          type: string
+          description: Quote value allocated
+        fees_allocated:
+          type: string
+          description: Fees allocated
+        status:
+          type: string
+          description: Allocation status
+        created_at:
+          type: string
+          format: date-time
+          description: When the allocation was created
+    Wallet:
+      type: object
+      description: A cryptocurrency wallet in a portfolio
+      properties:
+        id:
+          type: string
+          description: Wallet identifier
+        name:
+          type: string
+          description: Wallet name
+        symbol:
+          type: string
+          description: Currency symbol
+        type:
+          type: string
+          description: Wallet type
+          enum:
+            - VAULT
+            - TRADING
+            - OTHER
+        created_at:
+          type: string
+          format: date-time
+          description: When the wallet was created
+    Activity:
+      type: object
+      description: A portfolio activity event
+      properties:
+        id:
+          type: string
+          description: Activity identifier
+        type:
+          type: string
+          description: Activity type
+        status:
+          type: string
+          description: Activity status
+        symbol:
+          type: string
+          description: Currency symbol
+        amount:
+          type: string
+          description: Activity amount
+        created_at:
+          type: string
+          format: date-time
+          description: When the activity occurred
+        updated_at:
+          type: string
+          format: date-time
+          description: When the activity was last updated
+        category:
+          type: string
+          description: Activity category
+    Transaction:
+      type: object
+      description: A deposit, withdrawal, or transfer transaction
+      properties:
+        id:
+          type: string
+          description: Transaction identifier
+        wallet_id:
+          type: string
+          description: Associated wallet ID
+        portfolio_id:
+          type: string
+          description: Portfolio ID
+        type:
+          type: string
+          description: Transaction type
+          enum:
+            - DEPOSIT
+            - WITHDRAWAL
+            - INTERNAL_DEPOSIT
+            - INTERNAL_WITHDRAWAL
+        status:
+          type: string
+          description: Transaction status
+        symbol:
+          type: string
+          description: Currency symbol
+        amount:
+          type: string
+          description: Transaction amount
+        fee:
+          type: string
+          description: Transaction fee
+        created_at:
+          type: string
+          format: date-time
+          description: When the transaction was created
+        completed_at:
+          type: string
+          format: date-time
+          description: When the transaction completed
+        blockchain_ids:
+          type: array
+          description: Associated blockchain transaction IDs
+          items:
+            type: string
+    Product:
+      type: object
+      description: A tradeable product
+      properties:
+        id:
+          type: string
+          description: Product identifier
+        base_currency:
+          type: string
+          description: Base currency
+        quote_currency:
+          type: string
+          description: Quote currency
+        base_min_quantity:
+          type: string
+          description: Minimum base quantity
+        base_max_quantity:
+          type: string
+          description: Maximum base quantity
+        base_quantity_increment:
+          type: string
+          description: Base quantity increment
+        quote_increment:
+          type: string
+          description: Quote price increment
+    User:
+      type: object
+      description: A user with portfolio access
+      properties:
+        id:
+          type: string
+          description: User identifier
+        name:
+          type: string
+          description: User name
+        email:
+          type: string
+          description: User email address
+        role:
+          type: string
+          description: User role in the portfolio
+    AddressBookEntry:
+      type: object
+      description: An approved withdrawal address
+      properties:
+        id:
+          type: string
+          description: Address entry identifier
+        currency_symbol:
+          type: string
+          description: Currency for this address
+        name:
+          type: string
+          description: Label for the address
+        address:
+          type: string
+          description: Blockchain address
+        added_at:
+          type: string
+          format: date-time
+          description: When the address was added
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results

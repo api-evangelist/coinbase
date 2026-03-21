@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coinbase.com/schemas/coinbase/charge.json",
+  "title": "Coinbase Commerce Charge",
+  "description": "A Commerce charge representing a cryptocurrency payment request. Charges generate blockchain addresses where customers can send payments, and track the payment lifecycle from creation through confirmation or failure.",
+  "type": "object",
+  "required": ["name", "description", "pricing_type"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique charge identifier assigned by Coinbase Commerce"
+    },
+    "code": {
+      "type": "string",
+      "description": "Short unique code for the charge, used in hosted URLs",
+      "pattern": "^[A-Z0-9]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name describing what the charge is for",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the charge",
+      "maxLength": 1000
+    },
+    "pricing_type": {
+      "type": "string",
+      "description": "Pricing model for the charge",
+      "enum": ["no_price", "fixed_price"]
+    },
+    "local_price": {
+      "$ref": "#/$defs/Money",
+      "description": "Price in a local fiat currency (required for fixed_price)"
+    },
+    "pricing": {
+      "type": "object",
+      "description": "Pricing expressed in multiple currencies",
+      "additionalProperties": {
+        "$ref": "#/$defs/Money"
+      }
+    },
+    "addresses": {
+      "type": "object",
+      "description": "Blockchain addresses generated for receiving payment, keyed by network name",
+      "additionalProperties": {
+        "type": "string",
+        "description": "Blockchain address"
+      }
+    },
+    "hosted_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL for the hosted payment page"
+    },
+    "redirect_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to redirect to after successful payment"
+    },
+    "cancel_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to redirect to if payment is cancelled"
+    },
+    "payments": {
+      "type": "array",
+      "description": "Payments received for this charge",
+      "items": {
+        "$ref": "#/$defs/Payment"
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "description": "Chronological list of status changes",
+      "items": {
+        "$ref": "#/$defs/TimelineEntry"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Custom key-value metadata for integrations",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the charge was created"
+    },
+    "confirmed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the charge was confirmed"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the charge expires"
+    }
+  },
+  "$defs": {
+    "Money": {
+      "type": "object",
+      "description": "A monetary value with currency",
+      "required": ["amount", "currency"],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Monetary amount as a decimal string",
+          "pattern": "^[0-9]+(\\.[0-9]+)?$"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency code (e.g., USD, BTC, ETH)",
+          "minLength": 1,
+          "maxLength": 10
+        }
+      }
+    },
+    "Payment": {
+      "type": "object",
+      "description": "A blockchain payment received for a charge",
+      "properties": {
+        "network": {
+          "type": "string",
+          "description": "Blockchain network the payment was made on"
+        },
+        "transaction_id": {
+          "type": "string",
+          "description": "Blockchain transaction hash"
+        },
+        "status": {
+          "type": "string",
+          "description": "Payment confirmation status",
+          "enum": ["PENDING", "CONFIRMED", "FAILED"]
+        },
+        "value": {
+          "$ref": "#/$defs/Money",
+          "description": "Payment value"
+        },
+        "block": {
+          "type": "object",
+          "description": "Blockchain block information",
+          "properties": {
+            "height": {
+              "type": "integer",
+              "description": "Block height",
+              "minimum": 0
+            },
+            "hash": {
+              "type": "string",
+              "description": "Block hash"
+            },
+            "confirmations_required": {
+              "type": "integer",
+              "description": "Number of confirmations required",
+              "minimum": 1
+            },
+            "confirmations": {
+              "type": "integer",
+              "description": "Number of confirmations received",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "TimelineEntry": {
+      "type": "object",
+      "description": "A status change entry in the charge timeline",
+      "properties": {
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the status change occurred"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status at this point in the timeline",
+          "enum": ["NEW", "PENDING", "COMPLETED", "EXPIRED", "UNRESOLVED", "RESOLVED", "CANCELED"]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,516 @@
+asyncapi: 2.6.0
+info:
+  title: Coinbase Exchange WebSocket Feed
+  description: >-
+    The Coinbase Exchange WebSocket Feed provides real-time market data for
+    the Exchange platform. It supports multiple channels including heartbeat,
+    ticker, level2 order book, full order feed, and user order updates. The
+    WebSocket feed delivers low-latency streaming data for professional and
+    institutional traders.
+  version: '1.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+externalDocs:
+  description: Exchange WebSocket Documentation
+  url: https://docs.cdp.coinbase.com/exchange/websocket-feed/channels
+servers:
+  production:
+    url: wss://ws-feed.exchange.coinbase.com
+    protocol: wss
+    description: Production WebSocket feed for Exchange market data
+    security:
+      - apiKey: []
+channels:
+  /heartbeat:
+    description: >-
+      Heartbeat channel that sends messages once per second for subscribed
+      products. Used to track the last trade ID and detect any missed
+      messages from the REST API.
+    subscribe:
+      operationId: receiveHeartbeat
+      summary: Receive heartbeat messages
+      message:
+        $ref: '#/components/messages/HeartbeatMessage'
+  /ticker:
+    description: >-
+      Ticker channel that provides real-time price updates when bids and
+      offers are matched. Provides snapshot-level market data.
+    subscribe:
+      operationId: receiveTickerUpdate
+      summary: Receive ticker updates
+      message:
+        $ref: '#/components/messages/TickerMessage'
+  /level2:
+    description: >-
+      Level 2 channel that guarantees delivery of all order book updates.
+      Sends an initial snapshot followed by l2update messages with price
+      level changes. The easiest way to maintain an accurate order book.
+    subscribe:
+      operationId: receiveLevel2Update
+      summary: Receive level 2 order book updates
+      message:
+        oneOf:
+          - $ref: '#/components/messages/Level2SnapshotMessage'
+          - $ref: '#/components/messages/Level2UpdateMessage'
+  /level2_batch:
+    description: >-
+      Level 2 batch channel that delivers order book updates in batches
+      every 50 milliseconds. Does not require authentication and provides
+      a good balance between accuracy and bandwidth usage.
+    subscribe:
+      operationId: receiveLevel2BatchUpdate
+      summary: Receive batched level 2 updates
+      message:
+        $ref: '#/components/messages/Level2UpdateMessage'
+  /matches:
+    description: >-
+      Matches channel that provides real-time trade execution data. Each
+      message represents a trade that has been executed on the exchange.
+    subscribe:
+      operationId: receiveMatch
+      summary: Receive trade match events
+      message:
+        $ref: '#/components/messages/MatchMessage'
+  /full:
+    description: >-
+      Full channel that provides the complete order lifecycle feed including
+      received, open, done, match, and change messages. Provides the most
+      detailed view of order book activity but generates significant traffic.
+    subscribe:
+      operationId: receiveFullFeed
+      summary: Receive full order lifecycle events
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ReceivedMessage'
+          - $ref: '#/components/messages/OpenMessage'
+          - $ref: '#/components/messages/DoneMessage'
+          - $ref: '#/components/messages/MatchMessage'
+          - $ref: '#/components/messages/ChangeMessage'
+  /status:
+    description: >-
+      Status channel that provides product status updates including trading
+      status and currency details.
+    subscribe:
+      operationId: receiveStatus
+      summary: Receive product status updates
+      message:
+        $ref: '#/components/messages/StatusMessage'
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: user
+      description: >-
+        Exchange API key authentication for WebSocket connections using HMAC
+        SHA-256 signature in the subscription message.
+  messages:
+    HeartbeatMessage:
+      name: heartbeat
+      title: Heartbeat
+      summary: Periodic heartbeat message with last trade ID
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/HeartbeatPayload'
+    TickerMessage:
+      name: ticker
+      title: Ticker
+      summary: Real-time ticker update on match
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/TickerPayload'
+    Level2SnapshotMessage:
+      name: snapshot
+      title: Level 2 Snapshot
+      summary: Full order book snapshot
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Level2SnapshotPayload'
+    Level2UpdateMessage:
+      name: l2update
+      title: Level 2 Update
+      summary: Incremental order book update
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/Level2UpdatePayload'
+    MatchMessage:
+      name: match
+      title: Match
+      summary: Trade execution match event
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/MatchPayload'
+    ReceivedMessage:
+      name: received
+      title: Order Received
+      summary: New order received by the exchange
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ReceivedPayload'
+    OpenMessage:
+      name: open
+      title: Order Opened
+      summary: Order placed on the order book
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/OpenPayload'
+    DoneMessage:
+      name: done
+      title: Order Done
+      summary: Order removed from the order book
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DonePayload'
+    ChangeMessage:
+      name: change
+      title: Order Changed
+      summary: Order size or funds changed
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ChangePayload'
+    StatusMessage:
+      name: status
+      title: Product Status
+      summary: Product trading status update
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/StatusPayload'
+  schemas:
+    HeartbeatPayload:
+      type: object
+      description: Heartbeat message with connection and trade info
+      properties:
+        type:
+          type: string
+          enum:
+            - heartbeat
+        sequence:
+          type: integer
+          description: Sequence number
+        last_trade_id:
+          type: integer
+          description: Last trade ID to detect missed trades
+        product_id:
+          type: string
+          description: Product identifier
+        time:
+          type: string
+          format: date-time
+          description: Server timestamp
+    TickerPayload:
+      type: object
+      description: Ticker update with latest trade and market stats
+      properties:
+        type:
+          type: string
+          enum:
+            - ticker
+        trade_id:
+          type: integer
+          description: Latest trade ID
+        sequence:
+          type: integer
+          description: Sequence number
+        product_id:
+          type: string
+          description: Product identifier
+        price:
+          type: string
+          description: Latest trade price
+        side:
+          type: string
+          description: Taker side
+          enum:
+            - buy
+            - sell
+        last_size:
+          type: string
+          description: Size of the last trade
+        best_bid:
+          type: string
+          description: Best bid price
+        best_ask:
+          type: string
+          description: Best ask price
+        open_24h:
+          type: string
+          description: 24-hour opening price
+        volume_24h:
+          type: string
+          description: 24-hour volume
+        low_24h:
+          type: string
+          description: 24-hour low price
+        high_24h:
+          type: string
+          description: 24-hour high price
+        volume_30d:
+          type: string
+          description: 30-day volume
+        time:
+          type: string
+          format: date-time
+          description: Timestamp
+    Level2SnapshotPayload:
+      type: object
+      description: Full order book snapshot with all price levels
+      properties:
+        type:
+          type: string
+          enum:
+            - snapshot
+        product_id:
+          type: string
+          description: Product identifier
+        bids:
+          type: array
+          description: Bid levels as [price, size] tuples
+          items:
+            type: array
+            items:
+              type: string
+        asks:
+          type: array
+          description: Ask levels as [price, size] tuples
+          items:
+            type: array
+            items:
+              type: string
+    Level2UpdatePayload:
+      type: object
+      description: Incremental order book update
+      properties:
+        type:
+          type: string
+          enum:
+            - l2update
+        product_id:
+          type: string
+          description: Product identifier
+        time:
+          type: string
+          format: date-time
+          description: Update timestamp
+        changes:
+          type: array
+          description: Price level changes as [side, price, size] tuples
+          items:
+            type: array
+            items:
+              type: string
+    MatchPayload:
+      type: object
+      description: Trade execution match event
+      properties:
+        type:
+          type: string
+          enum:
+            - match
+            - last_match
+        trade_id:
+          type: integer
+          description: Trade identifier
+        sequence:
+          type: integer
+          description: Sequence number
+        maker_order_id:
+          type: string
+          description: Maker order ID
+        taker_order_id:
+          type: string
+          description: Taker order ID
+        product_id:
+          type: string
+          description: Product identifier
+        size:
+          type: string
+          description: Trade size
+        price:
+          type: string
+          description: Trade price
+        side:
+          type: string
+          description: Taker side
+          enum:
+            - buy
+            - sell
+        time:
+          type: string
+          format: date-time
+          description: Trade time
+    ReceivedPayload:
+      type: object
+      description: Order received by the matching engine
+      properties:
+        type:
+          type: string
+          enum:
+            - received
+        order_id:
+          type: string
+          description: Order identifier
+        order_type:
+          type: string
+          description: Order type
+          enum:
+            - limit
+            - market
+        size:
+          type: string
+          description: Order size
+        price:
+          type: string
+          description: Order price
+        side:
+          type: string
+          description: Order side
+          enum:
+            - buy
+            - sell
+        product_id:
+          type: string
+          description: Product identifier
+        sequence:
+          type: integer
+          description: Sequence number
+        time:
+          type: string
+          format: date-time
+          description: Received time
+    OpenPayload:
+      type: object
+      description: Order opened on the order book
+      properties:
+        type:
+          type: string
+          enum:
+            - open
+        order_id:
+          type: string
+          description: Order identifier
+        price:
+          type: string
+          description: Order price
+        remaining_size:
+          type: string
+          description: Remaining size on the book
+        side:
+          type: string
+          description: Order side
+          enum:
+            - buy
+            - sell
+        product_id:
+          type: string
+          description: Product identifier
+        sequence:
+          type: integer
+          description: Sequence number
+        time:
+          type: string
+          format: date-time
+          description: Open time
+    DonePayload:
+      type: object
+      description: Order removed from the order book
+      properties:
+        type:
+          type: string
+          enum:
+            - done
+        order_id:
+          type: string
+          description: Order identifier
+        reason:
+          type: string
+          description: Reason the order was removed
+          enum:
+            - filled
+            - canceled
+        price:
+          type: string
+          description: Order price
+        remaining_size:
+          type: string
+          description: Remaining size when removed
+        side:
+          type: string
+          description: Order side
+          enum:
+            - buy
+            - sell
+        product_id:
+          type: string
+          description: Product identifier
+        sequence:
+          type: integer
+          description: Sequence number
+        time:
+          type: string
+          format: date-time
+          description: Done time
+    ChangePayload:
+      type: object
+      description: Order size or funds changed
+      properties:
+        type:
+          type: string
+          enum:
+            - change
+        order_id:
+          type: string
+          description: Order identifier
+        new_size:
+          type: string
+          description: New order size
+        old_size:
+          type: string
+          description: Previous order size
+        price:
+          type: string
+          description: Order price
+        side:
+          type: string
+          description: Order side
+          enum:
+            - buy
+            - sell
+        product_id:
+          type: string
+          description: Product identifier
+        sequence:
+          type: integer
+          description: Sequence number
+        time:
+          type: string
+          format: date-time
+          description: Change time
+    StatusPayload:
+      type: object
+      description: Product status update
+      properties:
+        type:
+          type: string
+          enum:
+            - status
+        products:
+          type: array
+          description: Product status entries
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Product identifier
+              base_currency:
+                type: string
+                description: Base currency
+              quote_currency:
+                type: string
+                description: Quote currency
+              status:
+                type: string
+                description: Trading status
+              status_message:
+                type: string
+                description: Status message

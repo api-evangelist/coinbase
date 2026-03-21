@@ -1,0 +1,911 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Commerce API
+  description: >-
+    The Coinbase Commerce API enables merchants and developers to accept
+    cryptocurrency payments globally. It supports creating charges, managing
+    checkouts, handling invoices, and receiving webhook notifications for
+    payment events. The API provides endpoints for creating payment requests,
+    tracking payment status, and automating financial workflows for
+    businesses accepting crypto as a payment method.
+  version: '2.0'
+  contact:
+    name: Coinbase Commerce Support
+    url: https://help.coinbase.com/en/commerce
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+externalDocs:
+  description: Coinbase Commerce API Documentation
+  url: https://commerce.coinbase.com/docs/api
+servers:
+  - url: https://api.commerce.coinbase.com
+    description: Production Server
+tags:
+  - name: Charges
+    description: >-
+      Create and manage payment charges. A charge represents a request for
+      cryptocurrency payment from a customer.
+  - name: Checkouts
+    description: >-
+      Create and manage reusable checkout pages for accepting recurring or
+      standardized payments.
+  - name: Invoices
+    description: >-
+      Create and manage invoices for billing customers with cryptocurrency
+      payment options.
+  - name: Events
+    description: >-
+      Retrieve webhook events that track the lifecycle of charges, checkouts,
+      and invoices.
+security:
+  - apiKeyAuth: []
+paths:
+  /charges:
+    get:
+      operationId: listCharges
+      summary: List charges
+      description: >-
+        Retrieves a paginated list of all charges. Charges represent
+        individual payment requests that have been created for customers.
+      tags:
+        - Charges
+      parameters:
+        - $ref: '#/components/parameters/PaginationParam'
+        - $ref: '#/components/parameters/OrderParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of charges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Charge'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+    post:
+      operationId: createCharge
+      summary: Create charge
+      description: >-
+        Creates a new charge for accepting cryptocurrency payment. A charge
+        generates blockchain addresses where customers can send payment. The
+        charge tracks payment status through its lifecycle.
+      tags:
+        - Charges
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChargeRequest'
+      responses:
+        '201':
+          description: Charge successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Charge'
+        '400':
+          description: Bad request - Invalid parameters
+        '401':
+          description: Unauthorized
+  /charges/{charge_id}:
+    get:
+      operationId: getCharge
+      summary: Get charge
+      description: >-
+        Retrieves a specific charge by its ID or code. Returns the full
+        charge details including payment addresses, amounts, and current
+        status.
+      tags:
+        - Charges
+      parameters:
+        - name: charge_id
+          in: path
+          required: true
+          description: Charge ID or code
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved charge
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Charge'
+        '404':
+          description: Charge not found
+  /charges/{charge_id}/cancel:
+    post:
+      operationId: cancelCharge
+      summary: Cancel charge
+      description: >-
+        Cancels a charge that has not yet received a payment. Once cancelled,
+        the charge can no longer receive payments.
+      tags:
+        - Charges
+      parameters:
+        - name: charge_id
+          in: path
+          required: true
+          description: Charge ID or code
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Charge cancelled
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Charge'
+        '400':
+          description: Charge cannot be cancelled
+  /charges/{charge_id}/resolve:
+    post:
+      operationId: resolveCharge
+      summary: Resolve charge
+      description: >-
+        Resolves a charge that has been marked as unresolved. This is used
+        to handle cases where payment was received but requires manual review.
+      tags:
+        - Charges
+      parameters:
+        - name: charge_id
+          in: path
+          required: true
+          description: Charge ID or code
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Charge resolved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Charge'
+  /checkouts:
+    get:
+      operationId: listCheckouts
+      summary: List checkouts
+      description: >-
+        Retrieves a paginated list of all checkouts. Checkouts are reusable
+        payment pages that can be shared with customers.
+      tags:
+        - Checkouts
+      parameters:
+        - $ref: '#/components/parameters/PaginationParam'
+        - $ref: '#/components/parameters/OrderParam'
+      responses:
+        '200':
+          description: Successfully retrieved checkouts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Checkout'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+    post:
+      operationId: createCheckout
+      summary: Create checkout
+      description: >-
+        Creates a new checkout page for accepting payments. Checkouts are
+        reusable and generate a unique URL that can be shared with customers.
+      tags:
+        - Checkouts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCheckoutRequest'
+      responses:
+        '201':
+          description: Checkout created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Checkout'
+        '400':
+          description: Bad request
+  /checkouts/{checkout_id}:
+    get:
+      operationId: getCheckout
+      summary: Get checkout
+      description: >-
+        Retrieves a specific checkout by its ID.
+      tags:
+        - Checkouts
+      parameters:
+        - name: checkout_id
+          in: path
+          required: true
+          description: Checkout identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved checkout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Checkout'
+        '404':
+          description: Checkout not found
+    put:
+      operationId: updateCheckout
+      summary: Update checkout
+      description: >-
+        Updates an existing checkout page with new details.
+      tags:
+        - Checkouts
+      parameters:
+        - name: checkout_id
+          in: path
+          required: true
+          description: Checkout identifier
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCheckoutRequest'
+      responses:
+        '200':
+          description: Checkout updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Checkout'
+    delete:
+      operationId: deleteCheckout
+      summary: Delete checkout
+      description: >-
+        Deletes a checkout page by its ID.
+      tags:
+        - Checkouts
+      parameters:
+        - name: checkout_id
+          in: path
+          required: true
+          description: Checkout identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Checkout deleted
+  /invoices:
+    get:
+      operationId: listInvoices
+      summary: List invoices
+      description: >-
+        Retrieves a paginated list of all invoices. Invoices are used to
+        bill customers with specific payment terms and due dates.
+      tags:
+        - Invoices
+      parameters:
+        - $ref: '#/components/parameters/PaginationParam'
+        - $ref: '#/components/parameters/OrderParam'
+      responses:
+        '200':
+          description: Successfully retrieved invoices
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Invoice'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+    post:
+      operationId: createInvoice
+      summary: Create invoice
+      description: >-
+        Creates a new invoice for billing a customer. The invoice specifies
+        payment terms, due date, and line items.
+      tags:
+        - Invoices
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInvoiceRequest'
+      responses:
+        '201':
+          description: Invoice created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Invoice'
+        '400':
+          description: Bad request
+  /invoices/{invoice_id}:
+    get:
+      operationId: getInvoice
+      summary: Get invoice
+      description: >-
+        Retrieves a specific invoice by its ID.
+      tags:
+        - Invoices
+      parameters:
+        - name: invoice_id
+          in: path
+          required: true
+          description: Invoice identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved invoice
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Invoice'
+        '404':
+          description: Invoice not found
+  /invoices/{invoice_id}/void:
+    put:
+      operationId: voidInvoice
+      summary: Void invoice
+      description: >-
+        Voids an unpaid invoice. Once voided, the invoice can no longer
+        accept payments.
+      tags:
+        - Invoices
+      parameters:
+        - name: invoice_id
+          in: path
+          required: true
+          description: Invoice identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Invoice voided
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Invoice'
+  /invoices/{invoice_id}/resolve:
+    put:
+      operationId: resolveInvoice
+      summary: Resolve invoice
+      description: >-
+        Resolves an unresolved invoice that requires manual review.
+      tags:
+        - Invoices
+      parameters:
+        - name: invoice_id
+          in: path
+          required: true
+          description: Invoice identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Invoice resolved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Invoice'
+  /events:
+    get:
+      operationId: listEvents
+      summary: List events
+      description: >-
+        Retrieves a paginated list of webhook events. Events track the
+        lifecycle of charges, checkouts, and invoices including creation,
+        confirmation, and failure.
+      tags:
+        - Events
+      parameters:
+        - $ref: '#/components/parameters/PaginationParam'
+        - $ref: '#/components/parameters/OrderParam'
+      responses:
+        '200':
+          description: Successfully retrieved events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /events/{event_id}:
+    get:
+      operationId: getEvent
+      summary: Get event
+      description: >-
+        Retrieves a specific event by its ID.
+      tags:
+        - Events
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          description: Event identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved event
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Event'
+        '404':
+          description: Event not found
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-CC-Api-Key
+      description: >-
+        Coinbase Commerce API key for authentication. Include the key in the
+        X-CC-Api-Key header.
+  parameters:
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
+    OrderParam:
+      name: order
+      in: query
+      description: Sort order for results
+      schema:
+        type: string
+        enum:
+          - asc
+          - desc
+        default: desc
+  schemas:
+    Charge:
+      type: object
+      description: A payment charge representing a request for cryptocurrency payment
+      properties:
+        id:
+          type: string
+          description: Unique charge identifier
+        resource:
+          type: string
+          description: Resource type
+          enum:
+            - charge
+        code:
+          type: string
+          description: Unique charge code
+        name:
+          type: string
+          description: Name of the charge
+        description:
+          type: string
+          description: Description of the charge
+        hosted_url:
+          type: string
+          format: uri
+          description: URL for the hosted payment page
+        created_at:
+          type: string
+          format: date-time
+          description: When the charge was created
+        confirmed_at:
+          type: string
+          format: date-time
+          description: When payment was confirmed
+        expires_at:
+          type: string
+          format: date-time
+          description: When the charge expires
+        pricing:
+          type: object
+          description: Pricing in different currencies
+          additionalProperties:
+            type: object
+            properties:
+              amount:
+                type: string
+                description: Amount in this currency
+              currency:
+                type: string
+                description: Currency code
+        pricing_type:
+          type: string
+          description: Pricing model type
+          enum:
+            - no_price
+            - fixed_price
+        addresses:
+          type: object
+          description: Blockchain addresses for payment
+          additionalProperties:
+            type: string
+        payments:
+          type: array
+          description: Payments received for this charge
+          items:
+            $ref: '#/components/schemas/Payment'
+        timeline:
+          type: array
+          description: Status change timeline
+          items:
+            type: object
+            properties:
+              time:
+                type: string
+                format: date-time
+                description: Time of the status change
+              status:
+                type: string
+                description: Status at this point
+        metadata:
+          type: object
+          description: Custom metadata attached to the charge
+          additionalProperties:
+            type: string
+    CreateChargeRequest:
+      type: object
+      description: Request body for creating a new charge
+      required:
+        - name
+        - description
+        - pricing_type
+      properties:
+        name:
+          type: string
+          description: Name for the charge
+        description:
+          type: string
+          description: Description of what is being charged for
+        pricing_type:
+          type: string
+          description: Pricing model
+          enum:
+            - no_price
+            - fixed_price
+        local_price:
+          type: object
+          description: Price in local currency (required for fixed_price)
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
+        metadata:
+          type: object
+          description: Custom metadata
+          additionalProperties:
+            type: string
+        redirect_url:
+          type: string
+          format: uri
+          description: URL to redirect after payment
+        cancel_url:
+          type: string
+          format: uri
+          description: URL to redirect if payment is cancelled
+    Payment:
+      type: object
+      description: A payment received for a charge
+      properties:
+        network:
+          type: string
+          description: Blockchain network
+        transaction_id:
+          type: string
+          description: Blockchain transaction ID
+        status:
+          type: string
+          description: Payment status
+          enum:
+            - PENDING
+            - CONFIRMED
+            - FAILED
+        value:
+          type: object
+          description: Payment value
+          properties:
+            amount:
+              type: string
+              description: Payment amount
+            currency:
+              type: string
+              description: Currency
+        block:
+          type: object
+          description: Block information
+          properties:
+            height:
+              type: integer
+              description: Block height
+            hash:
+              type: string
+              description: Block hash
+            confirmations_required:
+              type: integer
+              description: Required confirmations
+            confirmations:
+              type: integer
+              description: Current confirmations
+    Checkout:
+      type: object
+      description: A reusable checkout page for accepting payments
+      properties:
+        id:
+          type: string
+          description: Checkout identifier
+        resource:
+          type: string
+          description: Resource type
+          enum:
+            - checkout
+        name:
+          type: string
+          description: Checkout name
+        description:
+          type: string
+          description: Checkout description
+        requested_info:
+          type: array
+          description: Information requested from the customer
+          items:
+            type: string
+            enum:
+              - name
+              - email
+        pricing_type:
+          type: string
+          description: Pricing model
+          enum:
+            - no_price
+            - fixed_price
+        local_price:
+          type: object
+          description: Price in local currency
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
+    CreateCheckoutRequest:
+      type: object
+      description: Request body for creating a new checkout
+      required:
+        - name
+        - pricing_type
+      properties:
+        name:
+          type: string
+          description: Name for the checkout
+        description:
+          type: string
+          description: Description
+        pricing_type:
+          type: string
+          description: Pricing model
+          enum:
+            - no_price
+            - fixed_price
+        local_price:
+          type: object
+          description: Price in local currency
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
+        requested_info:
+          type: array
+          description: Information to request from customers
+          items:
+            type: string
+            enum:
+              - name
+              - email
+    Invoice:
+      type: object
+      description: An invoice for billing customers
+      properties:
+        id:
+          type: string
+          description: Invoice identifier
+        resource:
+          type: string
+          description: Resource type
+          enum:
+            - invoice
+        code:
+          type: string
+          description: Invoice code
+        status:
+          type: string
+          description: Invoice status
+          enum:
+            - OPEN
+            - VIEWED
+            - PAID
+            - VOID
+            - UNRESOLVED
+        business_name:
+          type: string
+          description: Business name on the invoice
+        customer_name:
+          type: string
+          description: Customer name
+        customer_email:
+          type: string
+          format: email
+          description: Customer email
+        memo:
+          type: string
+          description: Invoice memo
+        local_price:
+          type: object
+          description: Invoice amount
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
+        hosted_url:
+          type: string
+          format: uri
+          description: URL for the hosted invoice page
+        created_at:
+          type: string
+          format: date-time
+          description: When the invoice was created
+    CreateInvoiceRequest:
+      type: object
+      description: Request body for creating a new invoice
+      required:
+        - business_name
+        - customer_email
+        - local_price
+      properties:
+        business_name:
+          type: string
+          description: Business name
+        customer_name:
+          type: string
+          description: Customer name
+        customer_email:
+          type: string
+          format: email
+          description: Customer email address
+        memo:
+          type: string
+          description: Invoice memo or notes
+        local_price:
+          type: object
+          description: Invoice amount
+          required:
+            - amount
+            - currency
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
+    Event:
+      type: object
+      description: A webhook event tracking resource lifecycle changes
+      properties:
+        id:
+          type: string
+          description: Event identifier
+        resource:
+          type: string
+          description: Resource type
+          enum:
+            - event
+        type:
+          type: string
+          description: Event type
+          enum:
+            - charge:created
+            - charge:confirmed
+            - charge:failed
+            - charge:delayed
+            - charge:pending
+            - charge:resolved
+        api_version:
+          type: string
+          description: API version that generated the event
+        created_at:
+          type: string
+          format: date-time
+          description: When the event occurred
+        data:
+          type: object
+          description: Event data payload containing the affected resource
+    Pagination:
+      type: object
+      description: Pagination cursor information
+      properties:
+        order:
+          type: string
+          description: Sort order
+        starting_after:
+          type: string
+          description: Cursor for next page
+        ending_before:
+          type: string
+          description: Cursor for previous page
+        total:
+          type: integer
+          description: Total number of results
+        yielded:
+          type: integer
+          description: Number of results in this page
+        cursor_range:
+          type: array
+          description: Range of cursors in this page
+          items:
+            type: string
