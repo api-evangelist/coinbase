@@ -1,5 +1,6 @@
 aid: coinbase
-url: https://raw.githubusercontent.com/api-evangelist/coinbase/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/coinbase/refs/heads/main/apis.yml
 modified: '2026-03-20'
 apis:
   - aid: coinbase:advanced-trade-api
@@ -10,11 +11,14 @@ apis:
       - Orders
       - Market Data
       - Automation
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.coinbase.com
-    humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+    humanURL: 
+      https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
     properties:
-      - url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+      - url: 
+          https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
         type: Documentation
       - url: openapi/coinbase-advanced-trade-openapi.yml
         type: OpenAPI
@@ -36,7 +40,8 @@ apis:
       - Market Data
       - WebSocket
       - FIX
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.exchange.coinbase.com
     humanURL: https://www.coinbase.com/developer-platform/products/exchange-api
     properties:
@@ -61,7 +66,8 @@ apis:
       - Custody
       - Trading
       - Prime Brokerage
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.prime.coinbase.com
     humanURL: https://www.coinbase.com/developer-platform/products/prime-apis
     properties:
@@ -84,7 +90,8 @@ apis:
       - Fiat
       - Onramp
       - Offramp
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.developer.coinbase.com
     humanURL: https://www.coinbase.com/developer-platform/products/onramp
     properties:
@@ -107,7 +114,8 @@ apis:
       - Commerce
       - Invoices
       - Checkout
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.commerce.coinbase.com
     humanURL: https://commerce.coinbase.com/docs
     properties:
@@ -132,7 +140,8 @@ apis:
       - SDK
       - DApps
       - Web3
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
     properties:
@@ -153,7 +162,8 @@ apis:
       - Market Data
       - Analytics
       - Blockchain
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://www.coinbase.com/developer-platform/products/data-api
     properties:
@@ -174,21 +184,18 @@ apis:
       - Blockchain
       - Wallet
       - SDK
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.cdp.coinbase.com/agent-kit/welcome
     properties:
       - url: https://docs.cdp.coinbase.com/agent-kit/welcome
         type: Documentation
     description: >-
-      Coinbase AgentKit is a toolkit that enables AI agents to interact with
-      blockchain networks through secure wallet management and comprehensive
-      onchain capabilities. Built on the Coinbase Developer Platform SDK, it is
-      framework-agnostic and wallet-agnostic, supporting EVM and Solana networks.
-      AgentKit provides gasless transactions via CDP Smart Wallets, smart contract
-      deployment, and integrations with AI frameworks like LangChain, enabling
-      developers to build autonomous agents that can send payments, trade tokens,
-      and interact with decentralized protocols.
+      Coinbase AgentKit is a toolkit that enables AI agents to interact with blockchain
+      networks through secure wallet management and comprehensive onchain capabilities.
+      Built on the Coinbase Developer Platform SDK, it is framework-agnostic and wallet-agnostic,
+      supporting EVM and Solana networks.
 common:
   - type: JSON-LD
     url: json-ld/coinbase-context.jsonld
@@ -198,3 +205,6 @@ common:
     url: json-schema/coinbase-charge-schema.json
   - type: JSONSchema
     url: json-schema/coinbase-product-schema.json
+description: >-
+  Coinbase is a cryptocurrency exchange platform that enables users to buy, sell,
+  transfer, and store digital assets such as Bitcoin and Ethereum.
