@@ -22,38 +22,38 @@ servers:
   - url: https://api.prime.coinbase.com/v1
     description: Production Server
 tags:
-  - name: Portfolios
-    description: >-
-      Manage portfolios including listing, viewing details, and accessing
-      portfolio-level configurations.
-  - name: Orders
-    description: >-
-      Create, view, and cancel trading orders within a portfolio.
-  - name: Allocations
-    description: >-
-      View and manage order allocations across sub-portfolios.
-  - name: Balances
-    description: >-
-      Retrieve portfolio balance information across all assets.
-  - name: Wallets
-    description: >-
-      Manage wallets within a portfolio for different asset types.
   - name: Activities
     description: >-
       View activity history for portfolios including trades, transfers, and
       other events.
-  - name: Transactions
-    description: >-
-      View and create transactions including withdrawals and transfers.
-  - name: Assets
-    description: >-
-      Retrieve information about supported assets and products.
-  - name: Users
-    description: >-
-      Manage users associated with a portfolio.
   - name: Address Book
     description: >-
       Manage approved withdrawal addresses in the address book.
+  - name: Allocations
+    description: >-
+      View and manage order allocations across sub-portfolios.
+  - name: Assets
+    description: >-
+      Retrieve information about supported assets and products.
+  - name: Balances
+    description: >-
+      Retrieve portfolio balance information across all assets.
+  - name: Orders
+    description: >-
+      Create, view, and cancel trading orders within a portfolio.
+  - name: Portfolios
+    description: >-
+      Manage portfolios including listing, viewing details, and accessing
+      portfolio-level configurations.
+  - name: Transactions
+    description: >-
+      View and create transactions including withdrawals and transfers.
+  - name: Users
+    description: >-
+      Manage users associated with a portfolio.
+  - name: Wallets
+    description: >-
+      Manage wallets within a portfolio for different asset types.
 security:
   - apiKeyAuth: []
 paths:

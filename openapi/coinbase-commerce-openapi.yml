@@ -28,14 +28,14 @@ tags:
     description: >-
       Create and manage reusable checkout pages for accepting recurring or
       standardized payments.
-  - name: Invoices
-    description: >-
-      Create and manage invoices for billing customers with cryptocurrency
-      payment options.
   - name: Events
     description: >-
       Retrieve webhook events that track the lifecycle of charges, checkouts,
       and invoices.
+  - name: Invoices
+    description: >-
+      Create and manage invoices for billing customers with cryptocurrency
+      payment options.
 security:
   - apiKeyAuth: []
 paths:

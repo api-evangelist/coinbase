@@ -1,24 +1,20 @@
 aid: coinbase
-url: 
-  https://raw.githubusercontent.com/api-evangelist/coinbase/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/coinbase/refs/heads/main/apis.yml
 modified: '2026-03-20'
 apis:
   - aid: coinbase:advanced-trade-api
     name: Coinbase Advanced Trade API
     tags:
-      - Cryptocurrency
-      - Trading
-      - Orders
-      - Market Data
       - Automation
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Cryptocurrency
+      - Market Data
+      - Orders
+      - Trading
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.coinbase.com
-    humanURL: 
-      https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+    humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
     properties:
-      - url: 
-          https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+      - url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
         type: Documentation
       - url: openapi/coinbase-advanced-trade-openapi.yml
         type: OpenAPI
@@ -36,12 +32,11 @@ apis:
     tags:
       - Cryptocurrency
       - Exchange
-      - Trading
-      - Market Data
-      - WebSocket
       - FIX
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Market Data
+      - Trading
+      - WebSocket
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.exchange.coinbase.com
     humanURL: https://www.coinbase.com/developer-platform/products/exchange-api
     properties:
@@ -62,12 +57,11 @@ apis:
     name: Coinbase Prime API
     tags:
       - Cryptocurrency
-      - Institutional
       - Custody
-      - Trading
+      - Institutional
       - Prime Brokerage
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Trading
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.prime.coinbase.com
     humanURL: https://www.coinbase.com/developer-platform/products/prime-apis
     properties:
@@ -86,12 +80,11 @@ apis:
     name: Coinbase Onramp API
     tags:
       - Cryptocurrency
-      - Payments
       - Fiat
-      - Onramp
       - Offramp
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Onramp
+      - Payments
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.developer.coinbase.com
     humanURL: https://www.coinbase.com/developer-platform/products/onramp
     properties:
@@ -109,13 +102,12 @@ apis:
   - aid: coinbase:commerce-api
     name: Coinbase Commerce API
     tags:
-      - Cryptocurrency
-      - Payments
-      - Commerce
-      - Invoices
       - Checkout
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Commerce
+      - Cryptocurrency
+      - Invoices
+      - Payments
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.commerce.coinbase.com
     humanURL: https://commerce.coinbase.com/docs
     properties:
@@ -136,12 +128,11 @@ apis:
     name: Coinbase Wallet SDK
     tags:
       - Cryptocurrency
-      - Wallet
-      - SDK
       - DApps
+      - SDK
+      - Wallet
       - Web3
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
     properties:
@@ -158,12 +149,11 @@ apis:
   - aid: coinbase:data-api
     name: Coinbase Data API
     tags:
-      - Cryptocurrency
-      - Market Data
       - Analytics
       - Blockchain
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Cryptocurrency
+      - Market Data
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://www.coinbase.com/developer-platform/products/data-api
     properties:
@@ -179,13 +169,12 @@ apis:
   - aid: coinbase:agentkit
     name: Coinbase AgentKit
     tags:
-      - AI
       - Agents
+      - AI
       - Blockchain
-      - Wallet
       - SDK
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Wallet
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.cdp.coinbase.com/agent-kit/welcome
     properties:

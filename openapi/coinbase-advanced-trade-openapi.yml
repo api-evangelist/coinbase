@@ -25,18 +25,6 @@ tags:
     description: >-
       Manage user accounts and retrieve account information including balances
       and holds.
-  - name: Orders
-    description: >-
-      Create, cancel, and manage trading orders including market, limit, and
-      stop-limit order types.
-  - name: Products
-    description: >-
-      Retrieve product information, market trades, product books, and candle
-      data for trading pairs.
-  - name: Portfolios
-    description: >-
-      Create and manage portfolios for organizing trading activity and asset
-      allocation.
   - name: Fees
     description: >-
       Retrieve transaction summary and fee information for the authenticated
@@ -45,6 +33,18 @@ tags:
     description: >-
       Access public market data including products, order books, trades, and
       candles without authentication.
+  - name: Orders
+    description: >-
+      Create, cancel, and manage trading orders including market, limit, and
+      stop-limit order types.
+  - name: Portfolios
+    description: >-
+      Create and manage portfolios for organizing trading activity and asset
+      allocation.
+  - name: Products
+    description: >-
+      Retrieve product information, market trades, product books, and candle
+      data for trading pairs.
 security:
   - apiKeyAuth: []
 paths:

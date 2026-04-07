@@ -24,6 +24,18 @@ tags:
     description: >-
       Manage exchange accounts, retrieve balances, holds, ledger entries, and
       transfer history.
+  - name: Conversions
+    description: >-
+      Convert between stablecoin currencies on the exchange.
+  - name: Currencies
+    description: >-
+      Retrieve information about supported currencies on the exchange.
+  - name: Deposits
+    description: >-
+      View deposit information and payment methods for funding exchange accounts.
+  - name: Fees
+    description: >-
+      Retrieve current maker and taker fee rates for the authenticated user.
   - name: Orders
     description: >-
       Create, cancel, and manage trading orders including market, limit, and
@@ -32,25 +44,13 @@ tags:
     description: >-
       Retrieve product information, order books, trades, candles, and ticker
       data for trading pairs.
-  - name: Currencies
+  - name: Profiles
     description: >-
-      Retrieve information about supported currencies on the exchange.
-  - name: Deposits
-    description: >-
-      View deposit information and payment methods for funding exchange accounts.
+      Manage exchange profiles and transfer funds between them.
   - name: Withdrawals
     description: >-
       Manage crypto withdrawals from exchange accounts to external addresses
       or Coinbase accounts.
-  - name: Conversions
-    description: >-
-      Convert between stablecoin currencies on the exchange.
-  - name: Fees
-    description: >-
-      Retrieve current maker and taker fee rates for the authenticated user.
-  - name: Profiles
-    description: >-
-      Manage exchange profiles and transfer funds between them.
 security:
   - apiKeyAuth: []
 paths:
