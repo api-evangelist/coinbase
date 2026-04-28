@@ -1,0 +1,224 @@
+# Naftiko capabilities profile for Coinbase Developer Platform.
+# Capabilities cover the highest-leverage operations across Advanced
+# Trade (retail trading), Exchange (institutional trading), Prime
+# (institutional brokerage and custody), Onramp (fiat-to-crypto), and
+# Commerce (merchant payments).
+provider: coinbase
+name: Coinbase
+description: >-
+  Cryptocurrency platform spanning retail and institutional trading,
+  custody, fiat onramps, and merchant payments. Capabilities cover
+  order placement, market data, portfolio management, charges, and
+  fiat-to-crypto purchase flows.
+capabilities:
+  # Advanced Trade
+  - id: coinbase.advanced-trade.list-accounts
+    name: List accounts
+    description: List the authenticated user's brokerage accounts and balances.
+    api: coinbase:advanced-trade-api
+    inputs:
+      - limit
+      - cursor
+    outputs:
+      - accounts
+      - has_next
+      - cursor
+
+  - id: coinbase.advanced-trade.create-order
+    name: Place advanced-trade order
+    description: Submit a market, limit, or stop-limit order on Advanced Trade.
+    api: coinbase:advanced-trade-api
+    inputs:
+      - client_order_id
+      - product_id
+      - side
+      - order_configuration
+    outputs:
+      - success
+      - order_id
+      - failure_reason
+
+  - id: coinbase.advanced-trade.cancel-orders
+    name: Cancel orders
+    description: Cancel one or more open orders by order ID.
+    api: coinbase:advanced-trade-api
+    inputs:
+      - order_ids
+    outputs:
+      - results
+
+  - id: coinbase.advanced-trade.list-fills
+    name: List fills
+    description: List executed fills for the authenticated account.
+    api: coinbase:advanced-trade-api
+    inputs:
+      - product_id
+      - start_sequence_timestamp
+      - end_sequence_timestamp
+    outputs:
+      - fills
+
+  - id: coinbase.advanced-trade.list-products
+    name: List products
+    description: List tradable products (markets) on Advanced Trade.
+    api: coinbase:advanced-trade-api
+    inputs:
+      - product_type
+      - product_ids
+    outputs:
+      - products
+
+  # Exchange
+  - id: coinbase.exchange.get-product-book
+    name: Get product order book
+    description: Retrieve the order book for a given product on Coinbase Exchange.
+    api: coinbase:exchange-api
+    inputs:
+      - product_id
+      - level
+    outputs:
+      - bids
+      - asks
+      - sequence
+
+  - id: coinbase.exchange.place-order
+    name: Place exchange order
+    description: Submit an order to Coinbase Exchange (REST).
+    api: coinbase:exchange-api
+    inputs:
+      - product_id
+      - side
+      - type
+      - size
+      - price
+    outputs:
+      - id
+      - status
+
+  - id: coinbase.exchange.list-fills
+    name: List exchange fills
+    description: List historical fills on Coinbase Exchange.
+    api: coinbase:exchange-api
+    inputs:
+      - order_id
+      - product_id
+    outputs:
+      - fills
+
+  # Prime
+  - id: coinbase.prime.list-portfolios
+    name: List Prime portfolios
+    description: List portfolios available to the authenticated Prime entity.
+    api: coinbase:prime-api
+    inputs: []
+    outputs:
+      - portfolios
+
+  - id: coinbase.prime.create-order
+    name: Place Prime order
+    description: Submit an order through Coinbase Prime (institutional).
+    api: coinbase:prime-api
+    inputs:
+      - portfolio_id
+      - product_id
+      - side
+      - type
+      - quantity
+      - limit_price
+    outputs:
+      - order_id
+
+  - id: coinbase.prime.list-balances
+    name: List Prime balances
+    description: List balances for a Prime portfolio.
+    api: coinbase:prime-api
+    inputs:
+      - portfolio_id
+    outputs:
+      - balances
+
+  - id: coinbase.prime.list-transactions
+    name: List Prime transactions
+    description: Retrieve transaction history for a Prime portfolio.
+    api: coinbase:prime-api
+    inputs:
+      - portfolio_id
+      - start_time
+      - end_time
+    outputs:
+      - transactions
+
+  # Onramp
+  - id: coinbase.onramp.create-onramp-url
+    name: Create onramp URL
+    description: Generate a one-click-buy URL for fiat-to-crypto purchase.
+    api: coinbase:onramp-api
+    inputs:
+      - destination_wallets
+      - preset_fiat_amount
+      - default_network
+    outputs:
+      - url
+
+  - id: coinbase.onramp.list-options
+    name: List onramp options
+    description: List supported fiat currencies, payment methods, and assets.
+    api: coinbase:onramp-api
+    inputs:
+      - country
+      - subdivision
+    outputs:
+      - payment_currencies
+      - purchase_currencies
+
+  # Commerce
+  - id: coinbase.commerce.create-charge
+    name: Create charge
+    description: Create a payment charge for a product or invoice.
+    api: coinbase:commerce-api
+    inputs:
+      - name
+      - description
+      - pricing_type
+      - local_price
+      - metadata
+    outputs:
+      - id
+      - hosted_url
+      - code
+
+  - id: coinbase.commerce.list-charges
+    name: List charges
+    description: List all charges created by the merchant.
+    api: coinbase:commerce-api
+    inputs:
+      - limit
+      - starting_after
+      - ending_before
+    outputs:
+      - data
+      - pagination
+
+  - id: coinbase.commerce.cancel-charge
+    name: Cancel charge
+    description: Cancel a pending charge that has not yet been paid.
+    api: coinbase:commerce-api
+    inputs:
+      - charge_id
+    outputs:
+      - id
+      - status
+
+  - id: coinbase.commerce.create-checkout
+    name: Create checkout
+    description: Create a reusable checkout for a product or service.
+    api: coinbase:commerce-api
+    inputs:
+      - name
+      - description
+      - pricing_type
+      - local_price
+      - requested_info
+    outputs:
+      - id
+      - hosted_url
