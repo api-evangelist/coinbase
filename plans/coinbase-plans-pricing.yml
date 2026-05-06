@@ -4,198 +4,314 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Coinbase
 providerId: coinbase
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Blockchain
   - Cryptocurrency
-  - Custody
-  - Exchange
-  - Onramp
-  - Payments
   - Trading
-  - Wallet
-  - Web3
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+  - Exchange
+  - Payments
+description: Coinbase Advanced Trade uses a maker-taker fee model based on rolling 30-day USD trading
+  volume. Fees range from Intro 1 (0.60% maker / 1.20% taker) at sub-$1K volume down to Advanced 8 (0.00%
+  maker / 0.05% taker) at $250M+ monthly volume. Stable pairs charge 0.00% maker for 22 designated pairs.
+  The public Advanced Trade and Exchange APIs are free to access; trading fees are charged per execution
+  rather than per API call.
+sources:
+  - https://help.coinbase.com/en/coinbase/trading-and-funding/advanced-trade/advanced-trade-fees
+  - https://docs.cdp.coinbase.com/advanced-trade/docs/welcome
 plans:
-  - id: coinbase-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the Coinbase API surface. Intended for evaluation, prototyping, and
-      low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+  - id: coinbase-advanced-intro-1
+    name: Advanced Trade — Intro 1
+    type: usage-based
+    description: Default tier for traders with under $1K rolling 30-day USD volume.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://api.coinbase.com
-          - https://api.exchange.coinbase.com
-          - https://api.prime.coinbase.com
-          - https://api.developer.coinbase.com
-          - https://api.commerce.coinbase.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://api.coinbase.com
-          - https://api.exchange.coinbase.com
-          - https://api.prime.coinbase.com
-          - https://api.developer.coinbase.com
-          - https://api.commerce.coinbase.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Coinbase Advanced Trade API
-      - name: Coinbase Exchange API
-      - name: Coinbase Prime API
-      - name: Coinbase Onramp API
-      - name: Coinbase Commerce API
-      - name: Coinbase Wallet SDK
-      - name: Coinbase Data API
-      - name: Coinbase AgentKit
-  - id: coinbase-pro
-    name: Professional
-    type: paid
-    description: Production tier for Coinbase. Provides higher quotas, priority support, and access to
-      the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://api.coinbase.com
-          - https://api.exchange.coinbase.com
-          - https://api.prime.coinbase.com
-          - https://api.developer.coinbase.com
-          - https://api.commerce.coinbase.com
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://api.coinbase.com
-          - https://api.exchange.coinbase.com
-          - https://api.prime.coinbase.com
-          - https://api.developer.coinbase.com
-          - https://api.commerce.coinbase.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
+      - label: Maker fee
+        name: maker_intro_1
         type: metered
-        metric: requests
+        metric: trade
         limit: -1
-        timeFrame: month
+        timeFrame: usage
         geo: global
-        domains:
-          - https://api.coinbase.com
-          - https://api.exchange.coinbase.com
-          - https://api.prime.coinbase.com
-          - https://api.developer.coinbase.com
-          - https://api.commerce.coinbase.com
-        unit: 1000
-        price: TBD
+        unit: 1
+        price: 0.60%
         userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Coinbase Advanced Trade API
-      - name: Coinbase Exchange API
-      - name: Coinbase Prime API
-      - name: Coinbase Onramp API
-      - name: Coinbase Commerce API
-      - name: Coinbase Wallet SDK
-      - name: Coinbase Data API
-      - name: Coinbase AgentKit
-  - id: coinbase-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Coinbase. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
+      - label: Taker fee
+        name: taker_intro_1
+        type: metered
+        metric: trade
         limit: -1
-        timeFrame: month
-        geo: configurable
-        domains:
-          - https://api.coinbase.com
-          - https://api.exchange.coinbase.com
-          - https://api.prime.coinbase.com
-          - https://api.developer.coinbase.com
-          - https://api.commerce.coinbase.com
+        timeFrame: usage
+        geo: global
         unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://api.coinbase.com
-          - https://api.exchange.coinbase.com
-          - https://api.prime.coinbase.com
-          - https://api.developer.coinbase.com
-          - https://api.commerce.coinbase.com
-        unit: 1
-        price: custom
+        price: 1.20%
         userMultiplied: false
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Coinbase Advanced Trade API
-      - name: Coinbase Exchange API
-      - name: Coinbase Prime API
-      - name: Coinbase Onramp API
-      - name: Coinbase Commerce API
-      - name: Coinbase Wallet SDK
-      - name: Coinbase Data API
-      - name: Coinbase AgentKit
+      - name: REST and WebSocket API access
+      - name: Market and limit orders
+  - id: coinbase-advanced-intro-2
+    name: Advanced Trade — Intro 2
+    type: usage-based
+    description: Tier reached at $1K+ rolling 30-day USD volume.
+    entries:
+      - label: Maker fee
+        name: maker_intro_2
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.35%
+        userMultiplied: false
+      - label: Taker fee
+        name: taker_intro_2
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.75%
+        userMultiplied: false
+    elements:
+      - name: REST and WebSocket API access
+  - id: coinbase-advanced-1
+    name: Advanced Trade — Advanced 1
+    type: usage-based
+    description: Tier reached at $10K+ rolling 30-day USD volume.
+    entries:
+      - label: Maker fee
+        name: maker_adv_1
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.25%
+        userMultiplied: false
+      - label: Taker fee
+        name: taker_adv_1
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.40%
+        userMultiplied: false
+    elements:
+      - name: REST and WebSocket API access
+  - id: coinbase-advanced-2
+    name: Advanced Trade — Advanced 2
+    type: usage-based
+    description: Tier reached at $50K+ rolling 30-day USD volume.
+    entries:
+      - label: Maker fee
+        name: maker_adv_2
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.15%
+        userMultiplied: false
+      - label: Taker fee
+        name: taker_adv_2
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.25%
+        userMultiplied: false
+    elements:
+      - name: REST and WebSocket API access
+  - id: coinbase-advanced-3
+    name: Advanced Trade — Advanced 3
+    type: usage-based
+    description: Tier reached at $500K+ rolling 30-day USD volume.
+    entries:
+      - label: Maker fee
+        name: maker_adv_3
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.10%
+        userMultiplied: false
+      - label: Taker fee
+        name: taker_adv_3
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.20%
+        userMultiplied: false
+    elements:
+      - name: REST and WebSocket API access
+  - id: coinbase-advanced-4
+    name: Advanced Trade — Advanced 4
+    type: usage-based
+    description: Tier reached at $1M+ rolling 30-day USD volume.
+    entries:
+      - label: Maker fee
+        name: maker_adv_4
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.07%
+        userMultiplied: false
+      - label: Taker fee
+        name: taker_adv_4
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.16%
+        userMultiplied: false
+    elements:
+      - name: REST and WebSocket API access
+  - id: coinbase-advanced-5
+    name: Advanced Trade — Advanced 5
+    type: usage-based
+    description: Tier reached at $15M+ rolling 30-day USD volume.
+    entries:
+      - label: Maker fee
+        name: maker_adv_5
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.05%
+        userMultiplied: false
+      - label: Taker fee
+        name: taker_adv_5
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.14%
+        userMultiplied: false
+    elements:
+      - name: REST and WebSocket API access
+  - id: coinbase-advanced-6
+    name: Advanced Trade — Advanced 6
+    type: usage-based
+    description: Tier reached at $50M+ rolling 30-day USD volume.
+    entries:
+      - label: Maker fee
+        name: maker_adv_6
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.02%
+        userMultiplied: false
+      - label: Taker fee
+        name: taker_adv_6
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.10%
+        userMultiplied: false
+    elements:
+      - name: REST and WebSocket API access
+  - id: coinbase-advanced-7
+    name: Advanced Trade — Advanced 7
+    type: usage-based
+    description: Tier reached at $100M+ rolling 30-day USD volume.
+    entries:
+      - label: Maker fee
+        name: maker_adv_7
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.00%
+        userMultiplied: false
+      - label: Taker fee
+        name: taker_adv_7
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.08%
+        userMultiplied: false
+    elements:
+      - name: REST and WebSocket API access
+      - name: Fee upgrade program for high-volume traders
+  - id: coinbase-advanced-8
+    name: Advanced Trade — Advanced 8
+    type: usage-based
+    description: Top tier reached at $250M+ rolling 30-day USD volume.
+    entries:
+      - label: Maker fee
+        name: maker_adv_8
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.00%
+        userMultiplied: false
+      - label: Taker fee
+        name: taker_adv_8
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.05%
+        userMultiplied: false
+    elements:
+      - name: REST and WebSocket API access
+      - name: Fee upgrade program for high-volume traders
+  - id: coinbase-stable-pairs
+    name: Stable Pairs
+    type: usage-based
+    description: 22 designated stable trading pairs use 0.00% maker / variable taker pricing regardless
+      of tier.
+    entries:
+      - label: Maker fee (stable pairs)
+        name: maker_stable
+        type: metered
+        metric: trade
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.00%
+        userMultiplied: false
+    elements:
+      - name: 22 designated stable pairs
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
