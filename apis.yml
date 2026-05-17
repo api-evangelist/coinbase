@@ -12,7 +12,7 @@ tags:
   - Wallet
   - Web3
 type: Index
-x-type: company
+kind: company
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 created: '2026-03-20'
@@ -304,11 +304,11 @@ common:
     url: https://login.coinbase.com/
   - type: Support
     url: https://help.coinbase.com/
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://www.coinbase.com/legal/privacy
-  - type: Terms of Service
+  - type: TermsOfService
     url: https://www.coinbase.com/legal/user-agreement
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/coinbase-context.jsonld
   - type: JSONSchema
     url: json-schema/coinbase-order-schema.json
