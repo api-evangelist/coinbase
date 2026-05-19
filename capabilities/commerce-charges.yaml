@@ -1,0 +1,233 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Commerce API — Charges
+  description: 'Coinbase Commerce API — Charges. 5 operations. Lead operation: List charges. Self-contained Naftiko capability
+    covering one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Charges
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: commerce-charges
+    baseUri: https://api.commerce.coinbase.com
+    description: Coinbase Commerce API — Charges business capability. Self-contained, no shared references.
+    resources:
+    - name: charges
+      path: /charges
+      operations:
+      - name: listcharges
+        method: GET
+        description: List charges
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createcharge
+        method: POST
+        description: Create charge
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: charges-charge_id
+      path: /charges/{charge_id}
+      operations:
+      - name: getcharge
+        method: GET
+        description: Get charge
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: charge_id
+          in: path
+          type: string
+          description: Charge ID or code
+          required: true
+    - name: charges-charge_id-cancel
+      path: /charges/{charge_id}/cancel
+      operations:
+      - name: cancelcharge
+        method: POST
+        description: Cancel charge
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: charge_id
+          in: path
+          type: string
+          description: Charge ID or code
+          required: true
+    - name: charges-charge_id-resolve
+      path: /charges/{charge_id}/resolve
+      operations:
+      - name: resolvecharge
+        method: POST
+        description: Resolve charge
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: charge_id
+          in: path
+          type: string
+          description: Charge ID or code
+          required: true
+    authentication:
+      type: apikey
+      key: X-CC-Api-Key
+      value: '{{env.COINBASE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: commerce-charges-rest
+    port: 8080
+    description: REST adapter for Coinbase Commerce API — Charges. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/charges
+      name: charges
+      description: REST surface for charges.
+      operations:
+      - method: GET
+        name: listcharges
+        description: List charges
+        call: commerce-charges.listcharges
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcharge
+        description: Create charge
+        call: commerce-charges.createcharge
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/charges/{charge-id}
+      name: charges-charge-id
+      description: REST surface for charges-charge_id.
+      operations:
+      - method: GET
+        name: getcharge
+        description: Get charge
+        call: commerce-charges.getcharge
+        with:
+          charge_id: rest.charge_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/charges/{charge-id}/cancel
+      name: charges-charge-id-cancel
+      description: REST surface for charges-charge_id-cancel.
+      operations:
+      - method: POST
+        name: cancelcharge
+        description: Cancel charge
+        call: commerce-charges.cancelcharge
+        with:
+          charge_id: rest.charge_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/charges/{charge-id}/resolve
+      name: charges-charge-id-resolve
+      description: REST surface for charges-charge_id-resolve.
+      operations:
+      - method: POST
+        name: resolvecharge
+        description: Resolve charge
+        call: commerce-charges.resolvecharge
+        with:
+          charge_id: rest.charge_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: commerce-charges-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Commerce API — Charges. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-charges
+      description: List charges
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: commerce-charges.listcharges
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-charge
+      description: Create charge
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: commerce-charges.createcharge
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-charge
+      description: Get charge
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: commerce-charges.getcharge
+      with:
+        charge_id: tools.charge_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancel-charge
+      description: Cancel charge
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: commerce-charges.cancelcharge
+      with:
+        charge_id: tools.charge_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: resolve-charge
+      description: Resolve charge
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: commerce-charges.resolvecharge
+      with:
+        charge_id: tools.charge_id
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,81 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Advanced Trade API — Fees
+  description: 'Coinbase Advanced Trade API — Fees. 1 operations. Lead operation: Get transaction summary. Self-contained
+    Naftiko capability covering one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Fees
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: advanced-trade-fees
+    baseUri: https://api.coinbase.com/api/v3/brokerage
+    description: Coinbase Advanced Trade API — Fees business capability. Self-contained, no shared references.
+    resources:
+    - name: transaction_summary
+      path: /transaction_summary
+      operations:
+      - name: gettransactionsummary
+        method: GET
+        description: Get transaction summary
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: product_type
+          in: query
+          type: string
+          description: Filter by product type
+    authentication:
+      type: apikey
+      key: CB-ACCESS-KEY
+      value: '{{env.COINBASE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: advanced-trade-fees-rest
+    port: 8080
+    description: REST adapter for Coinbase Advanced Trade API — Fees. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/transaction-summary
+      name: transaction-summary
+      description: REST surface for transaction_summary.
+      operations:
+      - method: GET
+        name: gettransactionsummary
+        description: Get transaction summary
+        call: advanced-trade-fees.gettransactionsummary
+        with:
+          product_type: rest.product_type
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: advanced-trade-fees-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Advanced Trade API — Fees. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-transaction-summary
+      description: Get transaction summary
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: advanced-trade-fees.gettransactionsummary
+      with:
+        product_type: tools.product_type
+      outputParameters:
+      - type: object
+        mapping: $.

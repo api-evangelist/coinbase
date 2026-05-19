@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Exchange API — Fees
+  description: 'Coinbase Exchange API — Fees. 1 operations. Lead operation: Get fees. Self-contained Naftiko capability covering
+    one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Fees
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: exchange-fees
+    baseUri: https://api.exchange.coinbase.com
+    description: Coinbase Exchange API — Fees business capability. Self-contained, no shared references.
+    resources:
+    - name: fees
+      path: /fees
+      operations:
+      - name: getfees
+        method: GET
+        description: Get fees
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: CB-ACCESS-KEY
+      value: '{{env.COINBASE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: exchange-fees-rest
+    port: 8080
+    description: REST adapter for Coinbase Exchange API — Fees. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/fees
+      name: fees
+      description: REST surface for fees.
+      operations:
+      - method: GET
+        name: getfees
+        description: Get fees
+        call: exchange-fees.getfees
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: exchange-fees-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Exchange API — Fees. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-fees
+      description: Get fees
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: exchange-fees.getfees
+      outputParameters:
+      - type: object
+        mapping: $.

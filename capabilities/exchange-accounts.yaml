@@ -1,0 +1,200 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Exchange API — Accounts
+  description: 'Coinbase Exchange API — Accounts. 5 operations. Lead operation: List accounts. Self-contained Naftiko capability
+    covering one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Accounts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: exchange-accounts
+    baseUri: https://api.exchange.coinbase.com
+    description: Coinbase Exchange API — Accounts business capability. Self-contained, no shared references.
+    resources:
+    - name: accounts
+      path: /accounts
+      operations:
+      - name: listaccounts
+        method: GET
+        description: List accounts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: accounts-account_id
+      path: /accounts/{account_id}
+      operations:
+      - name: getaccount
+        method: GET
+        description: Get account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: accounts-account_id-holds
+      path: /accounts/{account_id}/holds
+      operations:
+      - name: getaccountholds
+        method: GET
+        description: Get account holds
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: accounts-account_id-ledger
+      path: /accounts/{account_id}/ledger
+      operations:
+      - name: getaccountledger
+        method: GET
+        description: Get account ledger
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: accounts-account_id-transfers
+      path: /accounts/{account_id}/transfers
+      operations:
+      - name: getaccounttransfers
+        method: GET
+        description: Get account transfers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: CB-ACCESS-KEY
+      value: '{{env.COINBASE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: exchange-accounts-rest
+    port: 8080
+    description: REST adapter for Coinbase Exchange API — Accounts. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/accounts
+      name: accounts
+      description: REST surface for accounts.
+      operations:
+      - method: GET
+        name: listaccounts
+        description: List accounts
+        call: exchange-accounts.listaccounts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/{account-id}
+      name: accounts-account-id
+      description: REST surface for accounts-account_id.
+      operations:
+      - method: GET
+        name: getaccount
+        description: Get account
+        call: exchange-accounts.getaccount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/{account-id}/holds
+      name: accounts-account-id-holds
+      description: REST surface for accounts-account_id-holds.
+      operations:
+      - method: GET
+        name: getaccountholds
+        description: Get account holds
+        call: exchange-accounts.getaccountholds
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/{account-id}/ledger
+      name: accounts-account-id-ledger
+      description: REST surface for accounts-account_id-ledger.
+      operations:
+      - method: GET
+        name: getaccountledger
+        description: Get account ledger
+        call: exchange-accounts.getaccountledger
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/{account-id}/transfers
+      name: accounts-account-id-transfers
+      description: REST surface for accounts-account_id-transfers.
+      operations:
+      - method: GET
+        name: getaccounttransfers
+        description: Get account transfers
+        call: exchange-accounts.getaccounttransfers
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: exchange-accounts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Exchange API — Accounts. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-accounts
+      description: List accounts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: exchange-accounts.listaccounts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-account
+      description: Get account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: exchange-accounts.getaccount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-account-holds
+      description: Get account holds
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: exchange-accounts.getaccountholds
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-account-ledger
+      description: Get account ledger
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: exchange-accounts.getaccountledger
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-account-transfers
+      description: Get account transfers
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: exchange-accounts.getaccounttransfers
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,338 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Advanced Trade API — Orders
+  description: 'Coinbase Advanced Trade API — Orders. 6 operations. Lead operation: List orders. Self-contained Naftiko capability
+    covering one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Orders
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: advanced-trade-orders
+    baseUri: https://api.coinbase.com/api/v3/brokerage
+    description: Coinbase Advanced Trade API — Orders business capability. Self-contained, no shared references.
+    resources:
+    - name: orders
+      path: /orders
+      operations:
+      - name: listorders
+        method: GET
+        description: List orders
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: product_id
+          in: query
+          type: string
+          description: Filter orders by product ID
+        - name: order_status
+          in: query
+          type: array
+          description: Filter by order status
+        - name: start_date
+          in: query
+          type: string
+          description: Start date for filtering orders
+        - name: end_date
+          in: query
+          type: string
+          description: End date for filtering orders
+        - name: order_type
+          in: query
+          type: string
+          description: Filter by order type
+        - name: order_side
+          in: query
+          type: string
+          description: Filter by order side
+      - name: createorder
+        method: POST
+        description: Create order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orders-batch_cancel
+      path: /orders/batch_cancel
+      operations:
+      - name: cancelorders
+        method: POST
+        description: Cancel orders
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orders-historical-fills
+      path: /orders/historical/fills
+      operations:
+      - name: listfills
+        method: GET
+        description: List fills
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: order_id
+          in: query
+          type: string
+          description: Filter fills by order ID
+        - name: product_id
+          in: query
+          type: string
+          description: Filter fills by product ID
+        - name: start_sequence_timestamp
+          in: query
+          type: string
+          description: Start time for filtering fills
+        - name: end_sequence_timestamp
+          in: query
+          type: string
+          description: End time for filtering fills
+    - name: orders-order_id
+      path: /orders/{order_id}
+      operations:
+      - name: getorder
+        method: GET
+        description: Get order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: order_id
+          in: path
+          type: string
+          description: Unique identifier of the order
+          required: true
+    - name: orders-order_id-edit
+      path: /orders/{order_id}/edit
+      operations:
+      - name: editorder
+        method: POST
+        description: Edit order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: order_id
+          in: path
+          type: string
+          description: Unique identifier of the order to edit
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: CB-ACCESS-KEY
+      value: '{{env.COINBASE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: advanced-trade-orders-rest
+    port: 8080
+    description: REST adapter for Coinbase Advanced Trade API — Orders. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/orders
+      name: orders
+      description: REST surface for orders.
+      operations:
+      - method: GET
+        name: listorders
+        description: List orders
+        call: advanced-trade-orders.listorders
+        with:
+          product_id: rest.product_id
+          order_status: rest.order_status
+          start_date: rest.start_date
+          end_date: rest.end_date
+          order_type: rest.order_type
+          order_side: rest.order_side
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createorder
+        description: Create order
+        call: advanced-trade-orders.createorder
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders/batch-cancel
+      name: orders-batch-cancel
+      description: REST surface for orders-batch_cancel.
+      operations:
+      - method: POST
+        name: cancelorders
+        description: Cancel orders
+        call: advanced-trade-orders.cancelorders
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders/historical/fills
+      name: orders-historical-fills
+      description: REST surface for orders-historical-fills.
+      operations:
+      - method: GET
+        name: listfills
+        description: List fills
+        call: advanced-trade-orders.listfills
+        with:
+          order_id: rest.order_id
+          product_id: rest.product_id
+          start_sequence_timestamp: rest.start_sequence_timestamp
+          end_sequence_timestamp: rest.end_sequence_timestamp
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders/{order-id}
+      name: orders-order-id
+      description: REST surface for orders-order_id.
+      operations:
+      - method: GET
+        name: getorder
+        description: Get order
+        call: advanced-trade-orders.getorder
+        with:
+          order_id: rest.order_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders/{order-id}/edit
+      name: orders-order-id-edit
+      description: REST surface for orders-order_id-edit.
+      operations:
+      - method: POST
+        name: editorder
+        description: Edit order
+        call: advanced-trade-orders.editorder
+        with:
+          order_id: rest.order_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: advanced-trade-orders-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Advanced Trade API — Orders. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-orders
+      description: List orders
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: advanced-trade-orders.listorders
+      with:
+        product_id: tools.product_id
+        order_status: tools.order_status
+        start_date: tools.start_date
+        end_date: tools.end_date
+        order_type: tools.order_type
+        order_side: tools.order_side
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-order
+      description: Create order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: advanced-trade-orders.createorder
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancel-orders
+      description: Cancel orders
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: advanced-trade-orders.cancelorders
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-fills
+      description: List fills
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: advanced-trade-orders.listfills
+      with:
+        order_id: tools.order_id
+        product_id: tools.product_id
+        start_sequence_timestamp: tools.start_sequence_timestamp
+        end_sequence_timestamp: tools.end_sequence_timestamp
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-order
+      description: Get order
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: advanced-trade-orders.getorder
+      with:
+        order_id: tools.order_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-order
+      description: Edit order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: advanced-trade-orders.editorder
+      with:
+        order_id: tools.order_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

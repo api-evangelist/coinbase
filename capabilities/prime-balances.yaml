@@ -1,0 +1,81 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Prime API — Balances
+  description: 'Coinbase Prime API — Balances. 1 operations. Lead operation: List portfolio balances. Self-contained Naftiko
+    capability covering one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Balances
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: prime-balances
+    baseUri: https://api.prime.coinbase.com/v1
+    description: Coinbase Prime API — Balances business capability. Self-contained, no shared references.
+    resources:
+    - name: portfolios-portfolio_id-balances
+      path: /portfolios/{portfolio_id}/balances
+      operations:
+      - name: listportfoliobalances
+        method: GET
+        description: List portfolio balances
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: symbols
+          in: query
+          type: string
+          description: Filter by currency symbols
+    authentication:
+      type: apikey
+      key: X-CB-ACCESS-KEY
+      value: '{{env.COINBASE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: prime-balances-rest
+    port: 8080
+    description: REST adapter for Coinbase Prime API — Balances. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/portfolios/{portfolio-id}/balances
+      name: portfolios-portfolio-id-balances
+      description: REST surface for portfolios-portfolio_id-balances.
+      operations:
+      - method: GET
+        name: listportfoliobalances
+        description: List portfolio balances
+        call: prime-balances.listportfoliobalances
+        with:
+          symbols: rest.symbols
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: prime-balances-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Prime API — Balances. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-portfolio-balances
+      description: List portfolio balances
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: prime-balances.listportfoliobalances
+      with:
+        symbols: tools.symbols
+      outputParameters:
+      - type: object
+        mapping: $.

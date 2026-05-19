@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Onramp API — Session
+  description: 'Coinbase Onramp API — Session. 1 operations. Lead operation: Create session token. Self-contained Naftiko
+    capability covering one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Session
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: onramp-session
+    baseUri: https://api.developer.coinbase.com/onramp/v1
+    description: Coinbase Onramp API — Session business capability. Self-contained, no shared references.
+    resources:
+    - name: token
+      path: /token
+      operations:
+      - name: createsessiontoken
+        method: POST
+        description: Create session token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.COINBASE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: onramp-session-rest
+    port: 8080
+    description: REST adapter for Coinbase Onramp API — Session. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/token
+      name: token
+      description: REST surface for token.
+      operations:
+      - method: POST
+        name: createsessiontoken
+        description: Create session token
+        call: onramp-session.createsessiontoken
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: onramp-session-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Onramp API — Session. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: create-session-token
+      description: Create session token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: onramp-session.createsessiontoken
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

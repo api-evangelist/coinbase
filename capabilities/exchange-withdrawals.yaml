@@ -1,0 +1,166 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Exchange API — Withdrawals
+  description: 'Coinbase Exchange API — Withdrawals. 3 operations. Lead operation: Withdraw to Coinbase account. Self-contained
+    Naftiko capability covering one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Withdrawals
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: exchange-withdrawals
+    baseUri: https://api.exchange.coinbase.com
+    description: Coinbase Exchange API — Withdrawals business capability. Self-contained, no shared references.
+    resources:
+    - name: withdrawals-coinbase-account
+      path: /withdrawals/coinbase-account
+      operations:
+      - name: withdrawtocoinbaseaccount
+        method: POST
+        description: Withdraw to Coinbase account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: withdrawals-crypto
+      path: /withdrawals/crypto
+      operations:
+      - name: withdrawtocryptoaddress
+        method: POST
+        description: Withdraw to crypto address
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: withdrawals-payment-method
+      path: /withdrawals/payment-method
+      operations:
+      - name: withdrawtopaymentmethod
+        method: POST
+        description: Withdraw to payment method
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: CB-ACCESS-KEY
+      value: '{{env.COINBASE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: exchange-withdrawals-rest
+    port: 8080
+    description: REST adapter for Coinbase Exchange API — Withdrawals. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/withdrawals/coinbase-account
+      name: withdrawals-coinbase-account
+      description: REST surface for withdrawals-coinbase-account.
+      operations:
+      - method: POST
+        name: withdrawtocoinbaseaccount
+        description: Withdraw to Coinbase account
+        call: exchange-withdrawals.withdrawtocoinbaseaccount
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/withdrawals/crypto
+      name: withdrawals-crypto
+      description: REST surface for withdrawals-crypto.
+      operations:
+      - method: POST
+        name: withdrawtocryptoaddress
+        description: Withdraw to crypto address
+        call: exchange-withdrawals.withdrawtocryptoaddress
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/withdrawals/payment-method
+      name: withdrawals-payment-method
+      description: REST surface for withdrawals-payment-method.
+      operations:
+      - method: POST
+        name: withdrawtopaymentmethod
+        description: Withdraw to payment method
+        call: exchange-withdrawals.withdrawtopaymentmethod
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: exchange-withdrawals-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Exchange API — Withdrawals. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: withdraw-coinbase-account
+      description: Withdraw to Coinbase account
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: exchange-withdrawals.withdrawtocoinbaseaccount
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: withdraw-crypto-address
+      description: Withdraw to crypto address
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: exchange-withdrawals.withdrawtocryptoaddress
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: withdraw-payment-method
+      description: Withdraw to payment method
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: exchange-withdrawals.withdrawtopaymentmethod
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

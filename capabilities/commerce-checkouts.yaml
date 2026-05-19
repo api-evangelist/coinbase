@@ -1,0 +1,226 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Commerce API — Checkouts
+  description: 'Coinbase Commerce API — Checkouts. 5 operations. Lead operation: List checkouts. Self-contained Naftiko capability
+    covering one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Checkouts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: commerce-checkouts
+    baseUri: https://api.commerce.coinbase.com
+    description: Coinbase Commerce API — Checkouts business capability. Self-contained, no shared references.
+    resources:
+    - name: checkouts
+      path: /checkouts
+      operations:
+      - name: listcheckouts
+        method: GET
+        description: List checkouts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createcheckout
+        method: POST
+        description: Create checkout
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: checkouts-checkout_id
+      path: /checkouts/{checkout_id}
+      operations:
+      - name: getcheckout
+        method: GET
+        description: Get checkout
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: checkout_id
+          in: path
+          type: string
+          description: Checkout identifier
+          required: true
+      - name: updatecheckout
+        method: PUT
+        description: Update checkout
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: checkout_id
+          in: path
+          type: string
+          description: Checkout identifier
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecheckout
+        method: DELETE
+        description: Delete checkout
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: checkout_id
+          in: path
+          type: string
+          description: Checkout identifier
+          required: true
+    authentication:
+      type: apikey
+      key: X-CC-Api-Key
+      value: '{{env.COINBASE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: commerce-checkouts-rest
+    port: 8080
+    description: REST adapter for Coinbase Commerce API — Checkouts. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/checkouts
+      name: checkouts
+      description: REST surface for checkouts.
+      operations:
+      - method: GET
+        name: listcheckouts
+        description: List checkouts
+        call: commerce-checkouts.listcheckouts
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcheckout
+        description: Create checkout
+        call: commerce-checkouts.createcheckout
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/checkouts/{checkout-id}
+      name: checkouts-checkout-id
+      description: REST surface for checkouts-checkout_id.
+      operations:
+      - method: GET
+        name: getcheckout
+        description: Get checkout
+        call: commerce-checkouts.getcheckout
+        with:
+          checkout_id: rest.checkout_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecheckout
+        description: Update checkout
+        call: commerce-checkouts.updatecheckout
+        with:
+          checkout_id: rest.checkout_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecheckout
+        description: Delete checkout
+        call: commerce-checkouts.deletecheckout
+        with:
+          checkout_id: rest.checkout_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: commerce-checkouts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Commerce API — Checkouts. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-checkouts
+      description: List checkouts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: commerce-checkouts.listcheckouts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-checkout
+      description: Create checkout
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: commerce-checkouts.createcheckout
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-checkout
+      description: Get checkout
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: commerce-checkouts.getcheckout
+      with:
+        checkout_id: tools.checkout_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-checkout
+      description: Update checkout
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: commerce-checkouts.updatecheckout
+      with:
+        checkout_id: tools.checkout_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-checkout
+      description: Delete checkout
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: commerce-checkouts.deletecheckout
+      with:
+        checkout_id: tools.checkout_id
+      outputParameters:
+      - type: object
+        mapping: $.

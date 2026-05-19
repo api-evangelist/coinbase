@@ -1,0 +1,250 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Advanced Trade API — Portfolios
+  description: 'Coinbase Advanced Trade API — Portfolios. 6 operations. Lead operation: List portfolios. Self-contained Naftiko
+    capability covering one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Portfolios
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: advanced-trade-portfolios
+    baseUri: https://api.coinbase.com/api/v3/brokerage
+    description: Coinbase Advanced Trade API — Portfolios business capability. Self-contained, no shared references.
+    resources:
+    - name: portfolios
+      path: /portfolios
+      operations:
+      - name: listportfolios
+        method: GET
+        description: List portfolios
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: portfolio_type
+          in: query
+          type: string
+          description: Filter by portfolio type
+      - name: createportfolio
+        method: POST
+        description: Create portfolio
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: portfolios-move_funds
+      path: /portfolios/move_funds
+      operations:
+      - name: movefunds
+        method: POST
+        description: Move portfolio funds
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: portfolios-portfolio_id
+      path: /portfolios/{portfolio_id}
+      operations:
+      - name: getportfolio
+        method: GET
+        description: Get portfolio breakdown
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editportfolio
+        method: PUT
+        description: Edit portfolio
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteportfolio
+        method: DELETE
+        description: Delete portfolio
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: CB-ACCESS-KEY
+      value: '{{env.COINBASE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: advanced-trade-portfolios-rest
+    port: 8080
+    description: REST adapter for Coinbase Advanced Trade API — Portfolios. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/portfolios
+      name: portfolios
+      description: REST surface for portfolios.
+      operations:
+      - method: GET
+        name: listportfolios
+        description: List portfolios
+        call: advanced-trade-portfolios.listportfolios
+        with:
+          portfolio_type: rest.portfolio_type
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createportfolio
+        description: Create portfolio
+        call: advanced-trade-portfolios.createportfolio
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/portfolios/move-funds
+      name: portfolios-move-funds
+      description: REST surface for portfolios-move_funds.
+      operations:
+      - method: POST
+        name: movefunds
+        description: Move portfolio funds
+        call: advanced-trade-portfolios.movefunds
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/portfolios/{portfolio-id}
+      name: portfolios-portfolio-id
+      description: REST surface for portfolios-portfolio_id.
+      operations:
+      - method: GET
+        name: getportfolio
+        description: Get portfolio breakdown
+        call: advanced-trade-portfolios.getportfolio
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editportfolio
+        description: Edit portfolio
+        call: advanced-trade-portfolios.editportfolio
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteportfolio
+        description: Delete portfolio
+        call: advanced-trade-portfolios.deleteportfolio
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: advanced-trade-portfolios-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Advanced Trade API — Portfolios. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-portfolios
+      description: List portfolios
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: advanced-trade-portfolios.listportfolios
+      with:
+        portfolio_type: tools.portfolio_type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-portfolio
+      description: Create portfolio
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: advanced-trade-portfolios.createportfolio
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: move-portfolio-funds
+      description: Move portfolio funds
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: advanced-trade-portfolios.movefunds
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-portfolio-breakdown
+      description: Get portfolio breakdown
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: advanced-trade-portfolios.getportfolio
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-portfolio
+      description: Edit portfolio
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: advanced-trade-portfolios.editportfolio
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-portfolio
+      description: Delete portfolio
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: advanced-trade-portfolios.deleteportfolio
+      outputParameters:
+      - type: object
+        mapping: $.

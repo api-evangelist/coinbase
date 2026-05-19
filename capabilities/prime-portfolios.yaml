@@ -1,0 +1,136 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Prime API — Portfolios
+  description: 'Coinbase Prime API — Portfolios. 3 operations. Lead operation: List portfolios. Self-contained Naftiko capability
+    covering one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Portfolios
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: prime-portfolios
+    baseUri: https://api.prime.coinbase.com/v1
+    description: Coinbase Prime API — Portfolios business capability. Self-contained, no shared references.
+    resources:
+    - name: portfolios
+      path: /portfolios
+      operations:
+      - name: listportfolios
+        method: GET
+        description: List portfolios
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: portfolios-portfolio_id
+      path: /portfolios/{portfolio_id}
+      operations:
+      - name: getportfolio
+        method: GET
+        description: Get portfolio
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: portfolios-portfolio_id-commission
+      path: /portfolios/{portfolio_id}/commission
+      operations:
+      - name: getportfoliocommission
+        method: GET
+        description: Get portfolio commission
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-CB-ACCESS-KEY
+      value: '{{env.COINBASE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: prime-portfolios-rest
+    port: 8080
+    description: REST adapter for Coinbase Prime API — Portfolios. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/portfolios
+      name: portfolios
+      description: REST surface for portfolios.
+      operations:
+      - method: GET
+        name: listportfolios
+        description: List portfolios
+        call: prime-portfolios.listportfolios
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/portfolios/{portfolio-id}
+      name: portfolios-portfolio-id
+      description: REST surface for portfolios-portfolio_id.
+      operations:
+      - method: GET
+        name: getportfolio
+        description: Get portfolio
+        call: prime-portfolios.getportfolio
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/portfolios/{portfolio-id}/commission
+      name: portfolios-portfolio-id-commission
+      description: REST surface for portfolios-portfolio_id-commission.
+      operations:
+      - method: GET
+        name: getportfoliocommission
+        description: Get portfolio commission
+        call: prime-portfolios.getportfoliocommission
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: prime-portfolios-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Prime API — Portfolios. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-portfolios
+      description: List portfolios
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: prime-portfolios.listportfolios
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-portfolio
+      description: Get portfolio
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: prime-portfolios.getportfolio
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-portfolio-commission
+      description: Get portfolio commission
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: prime-portfolios.getportfoliocommission
+      outputParameters:
+      - type: object
+        mapping: $.

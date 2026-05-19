@@ -1,0 +1,233 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Coinbase Commerce API — Invoices
+  description: 'Coinbase Commerce API — Invoices. 5 operations. Lead operation: List invoices. Self-contained Naftiko capability
+    covering one Coinbase business surface.'
+  tags:
+  - Coinbase
+  - Invoices
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COINBASE_API_KEY: COINBASE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: commerce-invoices
+    baseUri: https://api.commerce.coinbase.com
+    description: Coinbase Commerce API — Invoices business capability. Self-contained, no shared references.
+    resources:
+    - name: invoices
+      path: /invoices
+      operations:
+      - name: listinvoices
+        method: GET
+        description: List invoices
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createinvoice
+        method: POST
+        description: Create invoice
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: invoices-invoice_id
+      path: /invoices/{invoice_id}
+      operations:
+      - name: getinvoice
+        method: GET
+        description: Get invoice
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: invoice_id
+          in: path
+          type: string
+          description: Invoice identifier
+          required: true
+    - name: invoices-invoice_id-resolve
+      path: /invoices/{invoice_id}/resolve
+      operations:
+      - name: resolveinvoice
+        method: PUT
+        description: Resolve invoice
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: invoice_id
+          in: path
+          type: string
+          description: Invoice identifier
+          required: true
+    - name: invoices-invoice_id-void
+      path: /invoices/{invoice_id}/void
+      operations:
+      - name: voidinvoice
+        method: PUT
+        description: Void invoice
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: invoice_id
+          in: path
+          type: string
+          description: Invoice identifier
+          required: true
+    authentication:
+      type: apikey
+      key: X-CC-Api-Key
+      value: '{{env.COINBASE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: commerce-invoices-rest
+    port: 8080
+    description: REST adapter for Coinbase Commerce API — Invoices. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/invoices
+      name: invoices
+      description: REST surface for invoices.
+      operations:
+      - method: GET
+        name: listinvoices
+        description: List invoices
+        call: commerce-invoices.listinvoices
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createinvoice
+        description: Create invoice
+        call: commerce-invoices.createinvoice
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/invoices/{invoice-id}
+      name: invoices-invoice-id
+      description: REST surface for invoices-invoice_id.
+      operations:
+      - method: GET
+        name: getinvoice
+        description: Get invoice
+        call: commerce-invoices.getinvoice
+        with:
+          invoice_id: rest.invoice_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/invoices/{invoice-id}/resolve
+      name: invoices-invoice-id-resolve
+      description: REST surface for invoices-invoice_id-resolve.
+      operations:
+      - method: PUT
+        name: resolveinvoice
+        description: Resolve invoice
+        call: commerce-invoices.resolveinvoice
+        with:
+          invoice_id: rest.invoice_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/invoices/{invoice-id}/void
+      name: invoices-invoice-id-void
+      description: REST surface for invoices-invoice_id-void.
+      operations:
+      - method: PUT
+        name: voidinvoice
+        description: Void invoice
+        call: commerce-invoices.voidinvoice
+        with:
+          invoice_id: rest.invoice_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: commerce-invoices-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Coinbase Commerce API — Invoices. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-invoices
+      description: List invoices
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: commerce-invoices.listinvoices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-invoice
+      description: Create invoice
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: commerce-invoices.createinvoice
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-invoice
+      description: Get invoice
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: commerce-invoices.getinvoice
+      with:
+        invoice_id: tools.invoice_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: resolve-invoice
+      description: Resolve invoice
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: commerce-invoices.resolveinvoice
+      with:
+        invoice_id: tools.invoice_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: void-invoice
+      description: Void invoice
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: commerce-invoices.voidinvoice
+      with:
+        invoice_id: tools.invoice_id
+      outputParameters:
+      - type: object
+        mapping: $.
