@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Account",
+  "title": "Account",
+  "type": "object",
+  "description": "A user account holding a specific currency",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the account"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the account"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency code for the account"
+    },
+    "available_balance": {
+      "$ref": "#/components/schemas/Balance"
+    },
+    "default": {
+      "type": "boolean",
+      "description": "Whether this is the default account"
+    },
+    "active": {
+      "type": "boolean",
+      "description": "Whether the account is active"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the account was created"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the account was last updated"
+    },
+    "type": {
+      "type": "string",
+      "description": "Account type",
+      "enum": [
+        "ACCOUNT_TYPE_CRYPTO",
+        "ACCOUNT_TYPE_FIAT"
+      ]
+    },
+    "ready": {
+      "type": "boolean",
+      "description": "Whether the account is ready for trading"
+    },
+    "hold": {
+      "$ref": "#/components/schemas/Balance"
+    }
+  }
+}

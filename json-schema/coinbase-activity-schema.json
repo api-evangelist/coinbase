@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Activity",
+  "title": "Activity",
+  "type": "object",
+  "description": "A portfolio activity event",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Activity identifier"
+    },
+    "type": {
+      "type": "string",
+      "description": "Activity type"
+    },
+    "status": {
+      "type": "string",
+      "description": "Activity status"
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Currency symbol"
+    },
+    "amount": {
+      "type": "string",
+      "description": "Activity amount"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the activity occurred"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the activity was last updated"
+    },
+    "category": {
+      "type": "string",
+      "description": "Activity category"
+    }
+  }
+}

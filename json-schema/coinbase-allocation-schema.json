@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Allocation",
+  "title": "Allocation",
+  "type": "object",
+  "description": "An order allocation across sub-portfolios",
+  "properties": {
+    "allocation_id": {
+      "type": "string",
+      "description": "Allocation identifier"
+    },
+    "order_id": {
+      "type": "string",
+      "description": "Source order ID"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "Product traded"
+    },
+    "side": {
+      "type": "string",
+      "description": "Trade side"
+    },
+    "avg_price": {
+      "type": "string",
+      "description": "Average allocation price"
+    },
+    "base_quantity": {
+      "type": "string",
+      "description": "Base quantity allocated"
+    },
+    "quote_value": {
+      "type": "string",
+      "description": "Quote value allocated"
+    },
+    "fees_allocated": {
+      "type": "string",
+      "description": "Fees allocated"
+    },
+    "status": {
+      "type": "string",
+      "description": "Allocation status"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the allocation was created"
+    }
+  }
+}

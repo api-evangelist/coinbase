@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Balance",
+  "title": "Balance",
+  "type": "object",
+  "description": "A monetary value with currency",
+  "properties": {
+    "value": {
+      "type": "string",
+      "description": "Amount as a string to preserve precision"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency code"
+    }
+  }
+}

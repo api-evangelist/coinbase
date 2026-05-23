@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AddressBookEntry",
+  "title": "AddressBookEntry",
+  "type": "object",
+  "description": "An approved withdrawal address",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Address entry identifier"
+    },
+    "currency_symbol": {
+      "type": "string",
+      "description": "Currency for this address"
+    },
+    "name": {
+      "type": "string",
+      "description": "Label for the address"
+    },
+    "address": {
+      "type": "string",
+      "description": "Blockchain address"
+    },
+    "added_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the address was added"
+    }
+  }
+}

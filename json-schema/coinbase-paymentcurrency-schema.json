@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PaymentCurrency",
+  "title": "PaymentCurrency",
+  "type": "object",
+  "description": "A fiat currency available for payments",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Currency identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Currency name"
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Currency symbol"
+    },
+    "min_amount": {
+      "type": "string",
+      "description": "Minimum transaction amount"
+    },
+    "max_amount": {
+      "type": "string",
+      "description": "Maximum transaction amount"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SellQuoteRequest",
+  "title": "SellQuoteRequest",
+  "type": "object",
+  "description": "Request body for generating a sell quote",
+  "required": [
+    "sell_currency",
+    "sell_amount",
+    "cash_out_currency",
+    "country"
+  ],
+  "properties": {
+    "sell_currency": {
+      "type": "string",
+      "description": "Cryptocurrency to sell"
+    },
+    "sell_amount": {
+      "type": "string",
+      "description": "Amount of crypto to sell"
+    },
+    "cash_out_currency": {
+      "type": "string",
+      "description": "Fiat currency to receive"
+    },
+    "country": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code"
+    },
+    "subdivision": {
+      "type": "string",
+      "description": "ISO 3166-2 subdivision code"
+    }
+  }
+}

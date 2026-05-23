@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OrderBook",
+  "title": "OrderBook",
+  "type": "object",
+  "description": "Product order book at a specific level of detail",
+  "properties": {
+    "sequence": {
+      "type": "integer",
+      "description": "Sequence number of the order book"
+    },
+    "bids": {
+      "type": "array",
+      "description": "Bid price levels",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "asks": {
+      "type": "array",
+      "description": "Ask price levels",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Transfer",
+  "title": "Transfer",
+  "type": "object",
+  "description": "A deposit or withdrawal transfer",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Transfer identifier"
+    },
+    "type": {
+      "type": "string",
+      "description": "Transfer type",
+      "enum": [
+        "deposit",
+        "withdraw"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the transfer was created"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the transfer completed"
+    },
+    "amount": {
+      "type": "string",
+      "description": "Transfer amount"
+    },
+    "details": {
+      "type": "object",
+      "description": "Additional transfer details"
+    }
+  }
+}

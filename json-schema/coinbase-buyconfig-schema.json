@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BuyConfig",
+  "title": "BuyConfig",
+  "type": "object",
+  "description": "Configuration for the onramp buy widget",
+  "properties": {
+    "countries": {
+      "type": "array",
+      "description": "Supported countries",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Country code"
+          },
+          "subdivisions": {
+            "type": "array",
+            "description": "Available subdivisions",
+            "items": {
+              "type": "string"
+            }
+          },
+          "payment_methods": {
+            "type": "array",
+            "description": "Available payment methods",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

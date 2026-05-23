@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Trade",
+  "title": "Trade",
+  "type": "object",
+  "description": "A market trade",
+  "properties": {
+    "trade_id": {
+      "type": "string",
+      "description": "Unique identifier for the trade"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "Product traded"
+    },
+    "price": {
+      "type": "string",
+      "description": "Price of the trade"
+    },
+    "size": {
+      "type": "string",
+      "description": "Size of the trade"
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time the trade occurred"
+    },
+    "side": {
+      "type": "string",
+      "description": "Taker side of the trade",
+      "enum": [
+        "BUY",
+        "SELL"
+      ]
+    }
+  }
+}

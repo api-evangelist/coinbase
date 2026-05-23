@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PaymentMethod",
+  "title": "PaymentMethod",
+  "type": "object",
+  "description": "A linked payment method",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Payment method identifier"
+    },
+    "type": {
+      "type": "string",
+      "description": "Payment method type"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency for this payment method"
+    },
+    "allow_buy": {
+      "type": "boolean",
+      "description": "Whether buying is allowed"
+    },
+    "allow_sell": {
+      "type": "boolean",
+      "description": "Whether selling is allowed"
+    },
+    "allow_deposit": {
+      "type": "boolean",
+      "description": "Whether deposits are allowed"
+    },
+    "allow_withdraw": {
+      "type": "boolean",
+      "description": "Whether withdrawals are allowed"
+    }
+  }
+}

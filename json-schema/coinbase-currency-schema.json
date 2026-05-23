@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Currency",
+  "title": "Currency",
+  "type": "object",
+  "description": "A currency supported on the exchange",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Currency identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Full name of the currency"
+    },
+    "min_size": {
+      "type": "string",
+      "description": "Minimum size for this currency"
+    },
+    "status": {
+      "type": "string",
+      "description": "Currency status"
+    },
+    "details": {
+      "type": "object",
+      "description": "Additional currency details"
+    }
+  }
+}

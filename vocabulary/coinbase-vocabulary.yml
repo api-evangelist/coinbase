@@ -1,0 +1,23 @@
+name: Coinbase Domain Vocabulary
+provider: Coinbase
+providerId: coinbase
+description: Tag-derived vocabulary for the Coinbase API surface; sourced from openapi/ tags.
+terms:
+- term: Accounts
+  description: Manage exchange accounts, retrieve balances, holds, ledger entries, and transfer history.
+- term: Conversions
+  description: Convert between stablecoin currencies on the exchange.
+- term: Currencies
+  description: Retrieve information about supported currencies on the exchange.
+- term: Deposits
+  description: View deposit information and payment methods for funding exchange accounts.
+- term: Fees
+  description: Retrieve current maker and taker fee rates for the authenticated user.
+- term: Orders
+  description: Create, cancel, and manage trading orders including market, limit, and stop orders.
+- term: Products
+  description: Retrieve product information, order books, trades, candles, and ticker data for trading pairs.
+- term: Profiles
+  description: Manage exchange profiles and transfer funds between them.
+- term: Withdrawals
+  description: Manage crypto withdrawals from exchange accounts to external addresses or Coinbase accounts.

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateInvoiceRequest",
+  "title": "CreateInvoiceRequest",
+  "type": "object",
+  "description": "Request body for creating a new invoice",
+  "required": [
+    "business_name",
+    "customer_email",
+    "local_price"
+  ],
+  "properties": {
+    "business_name": {
+      "type": "string",
+      "description": "Business name"
+    },
+    "customer_name": {
+      "type": "string",
+      "description": "Customer name"
+    },
+    "customer_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Customer email address"
+    },
+    "memo": {
+      "type": "string",
+      "description": "Invoice memo or notes"
+    },
+    "local_price": {
+      "type": "object",
+      "description": "Invoice amount",
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency code"
+        }
+      }
+    }
+  }
+}

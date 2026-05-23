@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Payment",
+  "title": "Payment",
+  "type": "object",
+  "description": "A payment received for a charge",
+  "properties": {
+    "network": {
+      "type": "string",
+      "description": "Blockchain network"
+    },
+    "transaction_id": {
+      "type": "string",
+      "description": "Blockchain transaction ID"
+    },
+    "status": {
+      "type": "string",
+      "description": "Payment status",
+      "enum": [
+        "PENDING",
+        "CONFIRMED",
+        "FAILED"
+      ]
+    },
+    "value": {
+      "type": "object",
+      "description": "Payment value",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Payment amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency"
+        }
+      }
+    },
+    "block": {
+      "type": "object",
+      "description": "Block information",
+      "properties": {
+        "height": {
+          "type": "integer",
+          "description": "Block height"
+        },
+        "hash": {
+          "type": "string",
+          "description": "Block hash"
+        },
+        "confirmations_required": {
+          "type": "integer",
+          "description": "Required confirmations"
+        },
+        "confirmations": {
+          "type": "integer",
+          "description": "Current confirmations"
+        }
+      }
+    }
+  }
+}

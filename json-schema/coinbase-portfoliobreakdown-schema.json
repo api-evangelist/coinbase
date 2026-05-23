@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PortfolioBreakdown",
+  "title": "PortfolioBreakdown",
+  "type": "object",
+  "description": "Detailed breakdown of a portfolio",
+  "properties": {
+    "portfolio": {
+      "$ref": "#/components/schemas/Portfolio"
+    },
+    "portfolio_balances": {
+      "type": "object",
+      "description": "Aggregated balance information",
+      "properties": {
+        "total_balance": {
+          "$ref": "#/components/schemas/Balance"
+        },
+        "total_futures_balance": {
+          "$ref": "#/components/schemas/Balance"
+        },
+        "total_cash_equivalent_balance": {
+          "$ref": "#/components/schemas/Balance"
+        }
+      }
+    },
+    "spot_positions": {
+      "type": "array",
+      "description": "Spot positions in the portfolio",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "type": "string",
+            "description": "Asset symbol"
+          },
+          "account_uuid": {
+            "type": "string",
+            "description": "Account UUID"
+          },
+          "total_balance_fiat": {
+            "type": "number",
+            "description": "Total balance in fiat"
+          },
+          "total_balance_crypto": {
+            "type": "number",
+            "description": "Total balance in crypto"
+          }
+        }
+      }
+    }
+  }
+}

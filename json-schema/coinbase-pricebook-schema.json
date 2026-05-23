@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PriceBook",
+  "title": "PriceBook",
+  "type": "object",
+  "description": "Order book price levels",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "Product identifier"
+    },
+    "bids": {
+      "type": "array",
+      "description": "Bid price levels",
+      "items": {
+        "type": "object",
+        "properties": {
+          "price": {
+            "type": "string",
+            "description": "Bid price"
+          },
+          "size": {
+            "type": "string",
+            "description": "Size at this price level"
+          }
+        }
+      }
+    },
+    "asks": {
+      "type": "array",
+      "description": "Ask price levels",
+      "items": {
+        "type": "object",
+        "properties": {
+          "price": {
+            "type": "string",
+            "description": "Ask price"
+          },
+          "size": {
+            "type": "string",
+            "description": "Size at this price level"
+          }
+        }
+      }
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the price book"
+    }
+  }
+}

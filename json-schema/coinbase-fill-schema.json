@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Fill",
+  "title": "Fill",
+  "type": "object",
+  "description": "A completed trade fill",
+  "properties": {
+    "entry_id": {
+      "type": "string",
+      "description": "Unique identifier for the fill entry"
+    },
+    "trade_id": {
+      "type": "string",
+      "description": "Trade identifier"
+    },
+    "order_id": {
+      "type": "string",
+      "description": "Order that generated this fill"
+    },
+    "trade_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time the trade occurred"
+    },
+    "trade_type": {
+      "type": "string",
+      "description": "Type of trade"
+    },
+    "price": {
+      "type": "string",
+      "description": "Price at which the trade executed"
+    },
+    "size": {
+      "type": "string",
+      "description": "Size of the trade"
+    },
+    "commission": {
+      "type": "string",
+      "description": "Commission charged for the trade"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "Product traded"
+    },
+    "side": {
+      "type": "string",
+      "description": "Trade side",
+      "enum": [
+        "BUY",
+        "SELL"
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Portfolio",
+  "title": "Portfolio",
+  "type": "object",
+  "description": "A user portfolio for organizing trading activity",
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the portfolio"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the portfolio"
+    },
+    "type": {
+      "type": "string",
+      "description": "Portfolio type",
+      "enum": [
+        "DEFAULT",
+        "CONSUMER",
+        "INTX"
+      ]
+    },
+    "deleted": {
+      "type": "boolean",
+      "description": "Whether the portfolio has been deleted"
+    }
+  }
+}

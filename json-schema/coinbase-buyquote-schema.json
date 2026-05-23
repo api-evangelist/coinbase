@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BuyQuote",
+  "title": "BuyQuote",
+  "type": "object",
+  "description": "A price quote for buying cryptocurrency",
+  "properties": {
+    "coinbase_fee": {
+      "type": "object",
+      "description": "Coinbase fee details",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Fee amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Fee currency"
+        }
+      }
+    },
+    "network_fee": {
+      "type": "object",
+      "description": "Network fee details",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Fee amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Fee currency"
+        }
+      }
+    },
+    "payment_subtotal": {
+      "type": "object",
+      "description": "Subtotal before fees",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Subtotal amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Subtotal currency"
+        }
+      }
+    },
+    "payment_total": {
+      "type": "object",
+      "description": "Total payment amount",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Total amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Total currency"
+        }
+      }
+    },
+    "purchase_amount": {
+      "type": "object",
+      "description": "Crypto amount to be received",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Purchase amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Crypto currency"
+        }
+      }
+    },
+    "quote_id": {
+      "type": "string",
+      "description": "Unique quote identifier"
+    }
+  }
+}

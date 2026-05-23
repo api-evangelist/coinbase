@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/User",
+  "title": "User",
+  "type": "object",
+  "description": "A user with portfolio access",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "User identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "User name"
+    },
+    "email": {
+      "type": "string",
+      "description": "User email address"
+    },
+    "role": {
+      "type": "string",
+      "description": "User role in the portfolio"
+    }
+  }
+}

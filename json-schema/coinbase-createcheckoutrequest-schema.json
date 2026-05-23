@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateCheckoutRequest",
+  "title": "CreateCheckoutRequest",
+  "type": "object",
+  "description": "Request body for creating a new checkout",
+  "required": [
+    "name",
+    "pricing_type"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name for the checkout"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description"
+    },
+    "pricing_type": {
+      "type": "string",
+      "description": "Pricing model",
+      "enum": [
+        "no_price",
+        "fixed_price"
+      ]
+    },
+    "local_price": {
+      "type": "object",
+      "description": "Price in local currency",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency code"
+        }
+      }
+    },
+    "requested_info": {
+      "type": "array",
+      "description": "Information to request from customers",
+      "items": {
+        "type": "string",
+        "enum": [
+          "name",
+          "email"
+        ]
+      }
+    }
+  }
+}

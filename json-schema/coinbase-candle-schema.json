@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Candle",
+  "title": "Candle",
+  "type": "object",
+  "description": "OHLCV candle data point",
+  "properties": {
+    "start": {
+      "type": "string",
+      "description": "UNIX timestamp for the start of the candle"
+    },
+    "low": {
+      "type": "string",
+      "description": "Lowest price during the interval"
+    },
+    "high": {
+      "type": "string",
+      "description": "Highest price during the interval"
+    },
+    "open": {
+      "type": "string",
+      "description": "Opening price of the interval"
+    },
+    "close": {
+      "type": "string",
+      "description": "Closing price of the interval"
+    },
+    "volume": {
+      "type": "string",
+      "description": "Volume traded during the interval"
+    }
+  }
+}

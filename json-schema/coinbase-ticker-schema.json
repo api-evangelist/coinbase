@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Ticker",
+  "title": "Ticker",
+  "type": "object",
+  "description": "Product ticker with latest trade and 24h stats",
+  "properties": {
+    "trade_id": {
+      "type": "integer",
+      "description": "Latest trade ID"
+    },
+    "price": {
+      "type": "string",
+      "description": "Latest trade price"
+    },
+    "size": {
+      "type": "string",
+      "description": "Latest trade size"
+    },
+    "bid": {
+      "type": "string",
+      "description": "Best bid price"
+    },
+    "ask": {
+      "type": "string",
+      "description": "Best ask price"
+    },
+    "volume": {
+      "type": "string",
+      "description": "24-hour volume"
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the ticker"
+    }
+  }
+}

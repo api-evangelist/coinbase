@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Wallet",
+  "title": "Wallet",
+  "type": "object",
+  "description": "A cryptocurrency wallet in a portfolio",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Wallet identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Wallet name"
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Currency symbol"
+    },
+    "type": {
+      "type": "string",
+      "description": "Wallet type",
+      "enum": [
+        "VAULT",
+        "TRADING",
+        "OTHER"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the wallet was created"
+    }
+  }
+}

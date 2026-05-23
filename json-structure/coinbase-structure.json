@@ -1,0 +1,394 @@
+{
+  "provider": "Coinbase",
+  "providerId": "coinbase",
+  "kind": "json-structure",
+  "description": "Structural overview of the Coinbase API surface; extracted from openapi/.",
+  "schemaCount": 15,
+  "operationCount": 32,
+  "schemas": [
+    {
+      "name": "Account",
+      "type": "object",
+      "propertyCount": 7,
+      "required": []
+    },
+    {
+      "name": "LedgerEntry",
+      "type": "object",
+      "propertyCount": 6,
+      "required": []
+    },
+    {
+      "name": "Hold",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "Transfer",
+      "type": "object",
+      "propertyCount": 6,
+      "required": []
+    },
+    {
+      "name": "Order",
+      "type": "object",
+      "propertyCount": 15,
+      "required": []
+    },
+    {
+      "name": "CreateOrderRequest",
+      "type": "object",
+      "propertyCount": 10,
+      "required": [
+        "product_id",
+        "side",
+        "type"
+      ]
+    },
+    {
+      "name": "Fill",
+      "type": "object",
+      "propertyCount": 10,
+      "required": []
+    },
+    {
+      "name": "Product",
+      "type": "object",
+      "propertyCount": 14,
+      "required": []
+    },
+    {
+      "name": "OrderBook",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "Ticker",
+      "type": "object",
+      "propertyCount": 7,
+      "required": []
+    },
+    {
+      "name": "Trade",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "Currency",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "Conversion",
+      "type": "object",
+      "propertyCount": 6,
+      "required": []
+    },
+    {
+      "name": "Profile",
+      "type": "object",
+      "propertyCount": 6,
+      "required": []
+    },
+    {
+      "name": "PaymentMethod",
+      "type": "object",
+      "propertyCount": 8,
+      "required": []
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/accounts",
+      "operationId": "listAccounts",
+      "summary": "List accounts",
+      "tags": [
+        "Accounts"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/accounts/{account_id}",
+      "operationId": "getAccount",
+      "summary": "Get account",
+      "tags": [
+        "Accounts"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/accounts/{account_id}/ledger",
+      "operationId": "getAccountLedger",
+      "summary": "Get account ledger",
+      "tags": [
+        "Accounts"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/accounts/{account_id}/holds",
+      "operationId": "getAccountHolds",
+      "summary": "Get account holds",
+      "tags": [
+        "Accounts"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/accounts/{account_id}/transfers",
+      "operationId": "getAccountTransfers",
+      "summary": "Get account transfers",
+      "tags": [
+        "Accounts"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/orders",
+      "operationId": "listOrders",
+      "summary": "List orders",
+      "tags": [
+        "Orders"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/orders",
+      "operationId": "createOrder",
+      "summary": "Create order",
+      "tags": [
+        "Orders"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/orders",
+      "operationId": "cancelAllOrders",
+      "summary": "Cancel all orders",
+      "tags": [
+        "Orders"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/orders/{order_id}",
+      "operationId": "getOrder",
+      "summary": "Get order",
+      "tags": [
+        "Orders"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/orders/{order_id}",
+      "operationId": "cancelOrder",
+      "summary": "Cancel order",
+      "tags": [
+        "Orders"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/fills",
+      "operationId": "listFills",
+      "summary": "List fills",
+      "tags": [
+        "Orders"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/products",
+      "operationId": "listProducts",
+      "summary": "List products",
+      "tags": [
+        "Products"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/products/{product_id}",
+      "operationId": "getProduct",
+      "summary": "Get product",
+      "tags": [
+        "Products"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/products/{product_id}/book",
+      "operationId": "getProductOrderBook",
+      "summary": "Get product order book",
+      "tags": [
+        "Products"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/products/{product_id}/ticker",
+      "operationId": "getProductTicker",
+      "summary": "Get product ticker",
+      "tags": [
+        "Products"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/products/{product_id}/trades",
+      "operationId": "getProductTrades",
+      "summary": "Get product trades",
+      "tags": [
+        "Products"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/products/{product_id}/candles",
+      "operationId": "getProductCandles",
+      "summary": "Get product candles",
+      "tags": [
+        "Products"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/products/{product_id}/stats",
+      "operationId": "getProductStats",
+      "summary": "Get product 24hr stats",
+      "tags": [
+        "Products"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/currencies",
+      "operationId": "listCurrencies",
+      "summary": "List currencies",
+      "tags": [
+        "Currencies"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/currencies/{currency_id}",
+      "operationId": "getCurrency",
+      "summary": "Get currency",
+      "tags": [
+        "Currencies"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/deposits/payment-method",
+      "operationId": "depositFromPaymentMethod",
+      "summary": "Deposit from payment method",
+      "tags": [
+        "Deposits"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/deposits/coinbase-account",
+      "operationId": "depositFromCoinbaseAccount",
+      "summary": "Deposit from Coinbase account",
+      "tags": [
+        "Deposits"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/withdrawals/payment-method",
+      "operationId": "withdrawToPaymentMethod",
+      "summary": "Withdraw to payment method",
+      "tags": [
+        "Withdrawals"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/withdrawals/coinbase-account",
+      "operationId": "withdrawToCoinbaseAccount",
+      "summary": "Withdraw to Coinbase account",
+      "tags": [
+        "Withdrawals"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/withdrawals/crypto",
+      "operationId": "withdrawToCryptoAddress",
+      "summary": "Withdraw to crypto address",
+      "tags": [
+        "Withdrawals"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/conversions",
+      "operationId": "createConversion",
+      "summary": "Create conversion",
+      "tags": [
+        "Conversions"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/conversions/{conversion_id}",
+      "operationId": "getConversion",
+      "summary": "Get conversion",
+      "tags": [
+        "Conversions"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/fees",
+      "operationId": "getFees",
+      "summary": "Get fees",
+      "tags": [
+        "Fees"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/profiles",
+      "operationId": "listProfiles",
+      "summary": "List profiles",
+      "tags": [
+        "Profiles"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/profiles/{profile_id}",
+      "operationId": "getProfile",
+      "summary": "Get profile",
+      "tags": [
+        "Profiles"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/profiles/transfer",
+      "operationId": "transferBetweenProfiles",
+      "summary": "Transfer between profiles",
+      "tags": [
+        "Profiles"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/payment-methods",
+      "operationId": "listPaymentMethods",
+      "summary": "List payment methods",
+      "tags": [
+        "Deposits"
+      ]
+    }
+  ]
+}

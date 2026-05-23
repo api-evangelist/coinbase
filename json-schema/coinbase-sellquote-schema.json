@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SellQuote",
+  "title": "SellQuote",
+  "type": "object",
+  "description": "A price quote for selling cryptocurrency",
+  "properties": {
+    "coinbase_fee": {
+      "type": "object",
+      "description": "Coinbase fee details",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Fee amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Fee currency"
+        }
+      }
+    },
+    "cash_out_subtotal": {
+      "type": "object",
+      "description": "Subtotal cash out amount",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Subtotal amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency"
+        }
+      }
+    },
+    "cash_out_total": {
+      "type": "object",
+      "description": "Total cash out amount",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Total amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency"
+        }
+      }
+    },
+    "quote_id": {
+      "type": "string",
+      "description": "Unique quote identifier"
+    }
+  }
+}

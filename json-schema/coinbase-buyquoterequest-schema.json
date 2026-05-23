@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BuyQuoteRequest",
+  "title": "BuyQuoteRequest",
+  "type": "object",
+  "description": "Request body for generating a buy quote",
+  "required": [
+    "purchase_currency",
+    "payment_amount",
+    "payment_currency",
+    "country"
+  ],
+  "properties": {
+    "purchase_currency": {
+      "type": "string",
+      "description": "Cryptocurrency to purchase"
+    },
+    "payment_amount": {
+      "type": "string",
+      "description": "Amount in fiat currency"
+    },
+    "payment_currency": {
+      "type": "string",
+      "description": "Fiat currency for payment"
+    },
+    "payment_method": {
+      "type": "string",
+      "description": "Payment method type"
+    },
+    "country": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code"
+    },
+    "subdivision": {
+      "type": "string",
+      "description": "ISO 3166-2 subdivision code"
+    }
+  }
+}

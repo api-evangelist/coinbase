@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/LedgerEntry",
+  "title": "LedgerEntry",
+  "type": "object",
+  "description": "A ledger entry recording account activity",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Entry identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the entry was created"
+    },
+    "amount": {
+      "type": "string",
+      "description": "Amount of the entry"
+    },
+    "balance": {
+      "type": "string",
+      "description": "Account balance after the entry"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of ledger entry",
+      "enum": [
+        "transfer",
+        "match",
+        "fee",
+        "rebate",
+        "conversion"
+      ]
+    },
+    "details": {
+      "type": "object",
+      "description": "Additional details about the entry"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Pagination",
+  "title": "Pagination",
+  "type": "object",
+  "description": "Pagination cursor information",
+  "properties": {
+    "order": {
+      "type": "string",
+      "description": "Sort order"
+    },
+    "starting_after": {
+      "type": "string",
+      "description": "Cursor for next page"
+    },
+    "ending_before": {
+      "type": "string",
+      "description": "Cursor for previous page"
+    },
+    "total": {
+      "type": "integer",
+      "description": "Total number of results"
+    },
+    "yielded": {
+      "type": "integer",
+      "description": "Number of results in this page"
+    },
+    "cursor_range": {
+      "type": "array",
+      "description": "Range of cursors in this page",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

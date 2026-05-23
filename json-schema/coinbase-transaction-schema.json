@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Transaction",
+  "title": "Transaction",
+  "type": "object",
+  "description": "A deposit, withdrawal, or transfer transaction",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Transaction identifier"
+    },
+    "wallet_id": {
+      "type": "string",
+      "description": "Associated wallet ID"
+    },
+    "portfolio_id": {
+      "type": "string",
+      "description": "Portfolio ID"
+    },
+    "type": {
+      "type": "string",
+      "description": "Transaction type",
+      "enum": [
+        "DEPOSIT",
+        "WITHDRAWAL",
+        "INTERNAL_DEPOSIT",
+        "INTERNAL_WITHDRAWAL"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Transaction status"
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Currency symbol"
+    },
+    "amount": {
+      "type": "string",
+      "description": "Transaction amount"
+    },
+    "fee": {
+      "type": "string",
+      "description": "Transaction fee"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the transaction was created"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the transaction completed"
+    },
+    "blockchain_ids": {
+      "type": "array",
+      "description": "Associated blockchain transaction IDs",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

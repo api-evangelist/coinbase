@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Hold",
+  "title": "Hold",
+  "type": "object",
+  "description": "A hold on account funds",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Hold identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the hold was created"
+    },
+    "amount": {
+      "type": "string",
+      "description": "Amount on hold"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of hold",
+      "enum": [
+        "order",
+        "transfer"
+      ]
+    },
+    "ref": {
+      "type": "string",
+      "description": "Reference ID for the hold source"
+    }
+  }
+}

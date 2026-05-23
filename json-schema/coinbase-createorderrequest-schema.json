@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateOrderRequest",
+  "title": "CreateOrderRequest",
+  "type": "object",
+  "description": "Request body for creating a new order",
+  "required": [
+    "client_order_id",
+    "product_id",
+    "side",
+    "order_configuration"
+  ],
+  "properties": {
+    "client_order_id": {
+      "type": "string",
+      "description": "Client-specified unique order ID"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "Trading pair for the order"
+    },
+    "side": {
+      "type": "string",
+      "description": "Order side",
+      "enum": [
+        "BUY",
+        "SELL"
+      ]
+    },
+    "order_configuration": {
+      "type": "object",
+      "description": "Configuration for the order type. Use one of market_market_ioc, limit_limit_gtc, limit_limit_gtd, stop_limit_stop_limit_gtc, or stop_limit_stop_limit_gtd."
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Invoice",
+  "title": "Invoice",
+  "type": "object",
+  "description": "An invoice for billing customers",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Invoice identifier"
+    },
+    "resource": {
+      "type": "string",
+      "description": "Resource type",
+      "enum": [
+        "invoice"
+      ]
+    },
+    "code": {
+      "type": "string",
+      "description": "Invoice code"
+    },
+    "status": {
+      "type": "string",
+      "description": "Invoice status",
+      "enum": [
+        "OPEN",
+        "VIEWED",
+        "PAID",
+        "VOID",
+        "UNRESOLVED"
+      ]
+    },
+    "business_name": {
+      "type": "string",
+      "description": "Business name on the invoice"
+    },
+    "customer_name": {
+      "type": "string",
+      "description": "Customer name"
+    },
+    "customer_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Customer email"
+    },
+    "memo": {
+      "type": "string",
+      "description": "Invoice memo"
+    },
+    "local_price": {
+      "type": "object",
+      "description": "Invoice amount",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency code"
+        }
+      }
+    },
+    "hosted_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL for the hosted invoice page"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the invoice was created"
+    }
+  }
+}

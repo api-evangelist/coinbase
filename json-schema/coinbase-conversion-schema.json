@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Conversion",
+  "title": "Conversion",
+  "type": "object",
+  "description": "A currency conversion between stablecoins",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Conversion identifier"
+    },
+    "amount": {
+      "type": "string",
+      "description": "Conversion amount"
+    },
+    "from_account_id": {
+      "type": "string",
+      "description": "Source account ID"
+    },
+    "to_account_id": {
+      "type": "string",
+      "description": "Destination account ID"
+    },
+    "from": {
+      "type": "string",
+      "description": "Source currency"
+    },
+    "to": {
+      "type": "string",
+      "description": "Target currency"
+    }
+  }
+}

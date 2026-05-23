@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Event",
+  "title": "Event",
+  "type": "object",
+  "description": "A webhook event tracking resource lifecycle changes",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Event identifier"
+    },
+    "resource": {
+      "type": "string",
+      "description": "Resource type",
+      "enum": [
+        "event"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "description": "Event type",
+      "enum": [
+        "charge:created",
+        "charge:confirmed",
+        "charge:failed",
+        "charge:delayed",
+        "charge:pending",
+        "charge:resolved"
+      ]
+    },
+    "api_version": {
+      "type": "string",
+      "description": "API version that generated the event"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the event occurred"
+    },
+    "data": {
+      "type": "object",
+      "description": "Event data payload containing the affected resource"
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateChargeRequest",
+  "title": "CreateChargeRequest",
+  "type": "object",
+  "description": "Request body for creating a new charge",
+  "required": [
+    "name",
+    "description",
+    "pricing_type"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name for the charge"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what is being charged for"
+    },
+    "pricing_type": {
+      "type": "string",
+      "description": "Pricing model",
+      "enum": [
+        "no_price",
+        "fixed_price"
+      ]
+    },
+    "local_price": {
+      "type": "object",
+      "description": "Price in local currency (required for fixed_price)",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency code"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Custom metadata",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "redirect_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to redirect after payment"
+    },
+    "cancel_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to redirect if payment is cancelled"
+    }
+  }
+}

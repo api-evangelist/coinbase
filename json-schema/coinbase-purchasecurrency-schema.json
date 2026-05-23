@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PurchaseCurrency",
+  "title": "PurchaseCurrency",
+  "type": "object",
+  "description": "A cryptocurrency available for purchase",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Asset identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Asset name"
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Asset symbol"
+    },
+    "icon_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL for the asset icon"
+    },
+    "networks": {
+      "type": "array",
+      "description": "Supported blockchain networks",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Network name"
+          },
+          "display_name": {
+            "type": "string",
+            "description": "Network display name"
+          },
+          "chain_id": {
+            "type": "string",
+            "description": "Blockchain chain ID"
+          },
+          "contract_address": {
+            "type": "string",
+            "description": "Token contract address on this network"
+          }
+        }
+      }
+    }
+  }
+}
