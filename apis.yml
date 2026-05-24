@@ -355,6 +355,8 @@ common:
   url: rules/coinbase-rules.yml
 - type: Naftiko Capabilities
   url: capabilities/coinbase-capabilities.yml
+- type: LLMsTxt
+  url: https://docs.cdp.coinbase.com/llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
