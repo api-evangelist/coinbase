@@ -1,0 +1,1157 @@
+"""
+Coinbase Developer Platform — Conceptual GraphQL Schema
+Covers: Advanced Trade, Exchange, Prime, Commerce, Onramp, and Data APIs
+Source: https://docs.cdp.coinbase.com/
+"""
+
+scalar DateTime
+scalar JSON
+
+"""ISO 4217 currency code or crypto ticker symbol"""
+scalar CurrencyCode
+
+"""Monetary value expressed as a decimal string to preserve precision"""
+type Money {
+  amount: String!
+  currency: CurrencyCode!
+}
+
+# ---------------------------------------------------------------------------
+# Pagination
+# ---------------------------------------------------------------------------
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# ---------------------------------------------------------------------------
+# Account & Identity
+# ---------------------------------------------------------------------------
+
+"""Top-level user account on Coinbase"""
+type Account {
+  id: ID!
+  name: String!
+  primary: Boolean!
+  type: AccountType!
+  currency: CurrencyCode!
+  balance: AccountBalance!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: User
+  wallets: [Wallet!]
+  transactions(first: Int, after: String): TransactionConnection
+  addresses: [Address!]
+}
+
+enum AccountType {
+  WALLET
+  FIAT
+  VAULT
+  MULTISIG
+}
+
+"""Balance snapshot for an account"""
+type AccountBalance {
+  amount: String!
+  currency: CurrencyCode!
+  holdAmount: String
+  availableAmount: String
+}
+
+"""On-chain or hosted wallet"""
+type Wallet {
+  id: ID!
+  name: String
+  primary: Boolean!
+  type: WalletType!
+  currency: CurrencyCode!
+  balance: AccountBalance!
+  network: CurrencyNetwork
+  addresses: [Address!]
+  createdAt: DateTime!
+}
+
+enum WalletType {
+  CUSTODIAL
+  SELF_CUSTODY
+  SMART
+}
+
+"""Cryptocurrency deposit address"""
+type Address {
+  id: ID!
+  address: String!
+  name: String
+  network: String!
+  uriScheme: String
+  qrCode: String
+  legacyAddress: String
+  destinationTag: String
+  details: AddressDetails
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Extended metadata for an address"""
+type AddressDetails {
+  address: String!
+  destinationTag: String
+  addressLabel: String
+  network: String!
+  resourcePath: String
+}
+
+# ---------------------------------------------------------------------------
+# User & Identity
+# ---------------------------------------------------------------------------
+
+"""Authenticated Coinbase user"""
+type User {
+  id: ID!
+  name: String!
+  email: String
+  username: String
+  avatarUrl: String
+  timeZone: String
+  nativeCurrency: CurrencyCode!
+  country: String
+  state: String
+  createdAt: DateTime!
+  profile: UserProfile
+  identity: Identity
+  accounts: [Account!]
+  apiKeys: [APIKey!]
+}
+
+"""Public profile data for a user"""
+type UserProfile {
+  bio: String
+  location: String
+  website: String
+  twitter: String
+}
+
+"""KYC / verification identity record"""
+type Identity {
+  id: ID!
+  userId: ID!
+  status: VerificationStatus!
+  documents: [KYCDocument!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  FAILED
+  REQUIRES_ACTION
+  EXPIRED
+}
+
+"""Identity document submitted for KYC"""
+type KYCDocument {
+  id: ID!
+  type: KYCDocumentType!
+  status: VerificationStatus!
+  country: String
+  expiresAt: DateTime
+  submittedAt: DateTime!
+}
+
+enum KYCDocumentType {
+  PASSPORT
+  DRIVERS_LICENSE
+  NATIONAL_ID
+  RESIDENCE_PERMIT
+}
+
+"""API key credential"""
+type APIKey {
+  id: ID!
+  name: String
+  scopes: [String!]!
+  status: APIKeyStatus!
+  createdAt: DateTime!
+  expiresAt: DateTime
+}
+
+enum APIKeyStatus {
+  ACTIVE
+  REVOKED
+  EXPIRED
+}
+
+"""API secret — returned only at creation time"""
+type APISecret {
+  keyId: ID!
+  secret: String!
+  algorithm: String!
+}
+
+# ---------------------------------------------------------------------------
+# Transactions & Transfers
+# ---------------------------------------------------------------------------
+
+"""A financial transaction on a Coinbase account"""
+type Transaction {
+  id: ID!
+  type: TransactionType!
+  status: TransactionStatus!
+  amount: Money!
+  nativeAmount: Money!
+  description: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  network: CurrencyNetwork
+  fee: TransactionFee
+  from: CryptoAddress
+  to: CryptoAddress
+  details: JSON
+}
+
+enum TransactionType {
+  SEND
+  REQUEST
+  TRANSFER
+  BUY
+  SELL
+  FIAT_DEPOSIT
+  FIAT_WITHDRAWAL
+  EXCHANGE_DEPOSIT
+  EXCHANGE_WITHDRAWAL
+  INTEREST
+  REWARD
+  INFLATION_REWARD
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  EXPIRED
+  CANCELED
+  WAITING_FOR_SIGNATURE
+  WAITING_FOR_CLEARING
+}
+
+type TransactionFee {
+  amount: String!
+  currency: CurrencyCode!
+}
+
+type TransactionConnection {
+  edges: [TransactionEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type TransactionEdge {
+  node: Transaction!
+  cursor: String!
+}
+
+"""Internal transfer between Coinbase accounts"""
+type Transfer {
+  id: ID!
+  type: TransferType!
+  amount: Money!
+  status: TransactionStatus!
+  fromAccountId: ID!
+  toAccountId: ID!
+  createdAt: DateTime!
+  completedAt: DateTime
+}
+
+enum TransferType {
+  INTER_ACCOUNT
+  WALLET_TO_EXCHANGE
+  EXCHANGE_TO_WALLET
+  VAULT_WITHDRAWAL
+}
+
+# ---------------------------------------------------------------------------
+# Orders (Advanced Trade & Exchange)
+# ---------------------------------------------------------------------------
+
+"""A trading order"""
+type Order {
+  id: ID!
+  productId: String!
+  side: OrderSide!
+  type: OrderType!
+  status: OrderStatus!
+  configuration: OrderConfiguration!
+  filledSize: String
+  filledValue: String
+  averageFillPrice: String
+  fees: String
+  createdAt: DateTime!
+  completionPercentage: String
+  fills: [OrderFill!]
+  clientOrderId: String
+}
+
+enum OrderSide {
+  BUY
+  SELL
+}
+
+enum OrderType {
+  MARKET
+  LIMIT
+  STOP_LIMIT
+  STOP
+  TWAP
+  VWAP
+}
+
+enum OrderStatus {
+  OPEN
+  FILLED
+  CANCELLED
+  EXPIRED
+  FAILED
+  PENDING
+  QUEUED
+  CANCEL_QUEUED
+  BRACKETED
+}
+
+"""Order type-specific parameters"""
+type OrderConfiguration {
+  limitPrice: String
+  stopPrice: String
+  stopDirection: StopDirection
+  baseSize: String
+  quoteSize: String
+  postOnly: Boolean
+  endTime: DateTime
+}
+
+enum StopDirection {
+  STOP_DIRECTION_STOP_UP
+  STOP_DIRECTION_STOP_DOWN
+}
+
+"""A fill record from an executed order"""
+type OrderFill {
+  fillId: ID!
+  orderId: ID!
+  tradeId: ID!
+  price: String!
+  size: String!
+  side: OrderSide!
+  commission: String
+  settledAt: DateTime
+  tradeTime: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# Trades (market tape & execution)
+# ---------------------------------------------------------------------------
+
+"""A trade event — either a market-data ticker trade or an execution fill"""
+type Trade {
+  id: ID!
+  tradeId: String!
+  productId: String!
+  price: String!
+  size: String!
+  side: OrderSide!
+  time: DateTime!
+  tradeType: TradeType!
+}
+
+enum TradeType {
+  MARKET_DATA
+  EXECUTION
+}
+
+"""An order submitted for trading"""
+type TradeOrder {
+  id: ID!
+  clientOrderId: String
+  productId: String!
+  side: OrderSide!
+  orderType: OrderType!
+  price: String
+  size: String
+  quoteSize: String
+  status: OrderStatus!
+  createdAt: DateTime!
+}
+
+"""An execution record for a trade"""
+type TradeExecution {
+  executionId: ID!
+  orderId: ID!
+  productId: String!
+  price: String!
+  filledQuantity: String!
+  commission: String
+  executedAt: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# Market Data
+# ---------------------------------------------------------------------------
+
+"""A tradeable product (currency pair)"""
+type Product {
+  id: ID!
+  baseCurrencyId: String!
+  quoteCurrencyId: String!
+  quoteIncrement: String!
+  baseIncrement: String!
+  displayName: String!
+  minMarketFunds: String
+  isDisabled: Boolean!
+  isNew: Boolean!
+  status: ProductStatus!
+  cancelOnly: Boolean!
+  limitOnly: Boolean!
+  postOnly: Boolean!
+  tradingDisabled: Boolean!
+  auctionMode: Boolean!
+  productType: ProductType!
+  ticker: Ticker
+  candles(granularity: CandleGranularity!, start: DateTime!, end: DateTime!): [Candle!]
+  book(level: Int): ProductBook
+}
+
+enum ProductStatus {
+  ONLINE
+  OFFLINE
+  INTERNAL
+  DELISTED
+}
+
+enum ProductType {
+  SPOT
+  FUTURE
+}
+
+"""Order book snapshot for a product"""
+type ProductBook {
+  productId: String!
+  bids: [BookLevel!]!
+  asks: [BookLevel!]!
+  time: DateTime!
+  bestBid: BestBid
+  bestAsk: BestAsk
+}
+
+type BookLevel {
+  price: String!
+  size: String!
+  numOrders: Int
+}
+
+type BestBid {
+  price: String!
+  size: String!
+}
+
+type BestAsk {
+  price: String!
+  size: String!
+}
+
+"""Real-time ticker data for a product"""
+type Ticker {
+  productId: String!
+  price: String!
+  size: String!
+  bid: String
+  ask: String
+  volume: String!
+  time: DateTime!
+  trade: Trade
+}
+
+"""OHLCV candlestick entry"""
+type Candle {
+  start: DateTime!
+  low: String!
+  high: String!
+  open: String!
+  close: String!
+  volume: String!
+  granularity: CandleGranularity!
+}
+
+"""Typed alias for Candle to support direct references"""
+type CandleData {
+  productId: String!
+  granularity: CandleGranularity!
+  candles: [Candle!]!
+}
+
+"""Raw OHLCV fields for data-pipeline use cases"""
+type OHLCV {
+  timestamp: DateTime!
+  open: String!
+  high: String!
+  low: String!
+  close: String!
+  volume: String!
+  productId: String!
+}
+
+enum CandleGranularity {
+  ONE_MINUTE
+  FIVE_MINUTE
+  FIFTEEN_MINUTE
+  THIRTY_MINUTE
+  ONE_HOUR
+  TWO_HOUR
+  SIX_HOUR
+  ONE_DAY
+}
+
+# ---------------------------------------------------------------------------
+# Currency & Networks
+# ---------------------------------------------------------------------------
+
+"""A supported currency or digital asset"""
+type Currency {
+  id: ID!
+  name: String!
+  minSize: String
+  status: CurrencyStatus!
+  type: CurrencyType!
+  details: CurrencyDetails
+  networks: [CurrencyNetwork!]
+}
+
+enum CurrencyStatus {
+  ONLINE
+  OFFLINE
+  DELISTED
+}
+
+enum CurrencyType {
+  CRYPTO
+  FIAT
+}
+
+"""Extended metadata for a currency"""
+type CurrencyDetails {
+  type: String!
+  symbol: String
+  networkConfirmations: Int
+  sortOrder: Int
+  cryptoAddressLink: String
+  push: Boolean
+  groupId: String
+  displayName: String
+  processingTimeSeconds: Int
+  minWithdrawalAmount: Float
+  maxWithdrawalAmount: Float
+}
+
+"""Blockchain network associated with a currency"""
+type CurrencyNetwork {
+  id: ID!
+  name: String!
+  status: NetworkStatus!
+  contractAddress: String
+  cryptoAddressLink: String
+  cryptoTransactionLink: String
+  supportsDestinationTag: Boolean!
+  defaultDestinationTag: String
+  minConfirmations: Int
+}
+
+enum NetworkStatus {
+  ONLINE
+  OFFLINE
+  MAINTENANCE
+}
+
+"""An asset (token or coin) listed on Coinbase"""
+type Asset {
+  id: ID!
+  name: String!
+  symbol: String!
+  currency: Currency!
+  logoUrl: String
+  externalUrl: String
+}
+
+# ---------------------------------------------------------------------------
+# Exchange Rates & Quotes
+# ---------------------------------------------------------------------------
+
+"""Spot exchange rate between two currencies"""
+type ExchangeRate {
+  currency: CurrencyCode!
+  rates: JSON!
+  updatedAt: DateTime!
+}
+
+"""Quote for an instant buy"""
+type InstantBuyQuote {
+  id: ID!
+  currency: CurrencyCode!
+  amount: Money!
+  total: Money!
+  subtotal: Money!
+  fee: Money!
+  expiresAt: DateTime!
+}
+
+"""Quote for a sell order"""
+type SellQuote {
+  id: ID!
+  currency: CurrencyCode!
+  amount: Money!
+  total: Money!
+  fee: Money!
+  expiresAt: DateTime!
+}
+
+"""Quote for a fiat deposit"""
+type DepositQuote {
+  id: ID!
+  paymentMethodId: ID!
+  amount: Money!
+  fee: Money!
+  subtotal: Money!
+  total: Money!
+  expiresAt: DateTime!
+}
+
+"""Quote for a fiat withdrawal"""
+type WithdrawalQuote {
+  id: ID!
+  paymentMethodId: ID!
+  amount: Money!
+  fee: Money!
+  subtotal: Money!
+  total: Money!
+  expiresAt: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# Payment Methods
+# ---------------------------------------------------------------------------
+
+"""A payment method attached to a Coinbase account"""
+type PaymentMethod {
+  id: ID!
+  type: PaymentMethodType!
+  name: String!
+  currency: CurrencyCode!
+  primaryBuy: Boolean!
+  primarySell: Boolean!
+  instantBuy: Boolean!
+  instantSell: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  limits: [PaymentMethodLimit!]
+  fiatAccount: FiatAccount
+  bankAccount: BankAccount
+}
+
+enum PaymentMethodType {
+  ACH_BANK_ACCOUNT
+  SEPA_BANK_ACCOUNT
+  IDEAL_BANK_ACCOUNT
+  FIAT_ACCOUNT
+  BANK_WIRE
+  CREDIT_CARD
+  DEBIT_CARD
+  APPLE_PAY
+  GOOGLE_PAY
+  CRYPTO_ACCOUNT
+  PAYPAL_ACCOUNT
+}
+
+"""Usage limits for a payment method"""
+type PaymentMethodLimit {
+  periodInDays: Int!
+  total: Money!
+  remaining: Money!
+}
+
+"""Fiat (USD/EUR/etc.) account linked as a payment method"""
+type FiatAccount {
+  id: ID!
+  resourcePath: String
+  currency: CurrencyCode!
+}
+
+"""Bank account details"""
+type BankAccount {
+  id: ID!
+  accountNumber: String
+  routingNumber: String
+  institutionName: String
+  swift: String
+  iban: String
+  country: String
+  currency: CurrencyCode!
+}
+
+"""A crypto address used for sending or receiving"""
+type CryptoAddress {
+  address: String!
+  currency: CurrencyCode!
+  network: String
+  destinationTag: String
+}
+
+"""Extended details on a crypto address"""
+type CryptoAddressDetails {
+  address: String!
+  currency: CurrencyCode!
+  network: String!
+  destinationTag: String
+  addressFormat: String
+  legacyAddress: String
+}
+
+# ---------------------------------------------------------------------------
+# Commerce
+# ---------------------------------------------------------------------------
+
+"""Merchant commerce configuration"""
+type Commerce {
+  id: ID!
+  name: String!
+  description: String
+  logoUrl: String
+  supportEmail: String
+  checkouts: [Checkout!]
+  charges: [Charge!]
+}
+
+"""A hosted checkout page"""
+type Checkout {
+  id: ID!
+  name: String!
+  description: String
+  amount: Money
+  pricingType: PricingType!
+  localPrice: Money
+  logoUrl: String
+  requestedInfo: [String!]
+  redirectUrl: String
+  cancelUrl: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A payment charge created for a purchase"""
+type Charge {
+  id: ID!
+  code: String!
+  name: String!
+  description: String
+  pricingType: PricingType!
+  pricing: JSON
+  addresses: JSON
+  timeline: [ChargeTimeline!]!
+  metadata: JSON
+  payments: [JSON!]
+  redirectUrl: String
+  cancelUrl: String
+  hostedUrl: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  expiresAt: DateTime
+  confirmedAt: DateTime
+}
+
+"""A state-transition event in a charge lifecycle"""
+type ChargeTimeline {
+  time: DateTime!
+  status: ChargeStatus!
+  context: String
+}
+
+enum ChargeStatus {
+  NEW
+  PENDING
+  COMPLETED
+  EXPIRED
+  UNRESOLVED
+  RESOLVED
+  SIGNED
+  VOIDED
+}
+
+"""A line item on an invoice"""
+type InvoiceItem {
+  id: ID!
+  description: String!
+  quantity: Int!
+  unitPrice: Money!
+  totalPrice: Money!
+}
+
+enum PricingType {
+  FIXED_PRICE
+  NO_PRICE
+}
+
+"""Settlement record for a merchant payout"""
+type Settlement {
+  id: ID!
+  chargeId: ID!
+  amount: Money!
+  currency: CurrencyCode!
+  settledAt: DateTime!
+  status: SettlementStatus!
+}
+
+enum SettlementStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+# ---------------------------------------------------------------------------
+# Portfolio & Institutional (Prime)
+# ---------------------------------------------------------------------------
+
+"""An institutional portfolio account (Prime)"""
+type PortfolioAccount {
+  id: ID!
+  name: String!
+  entityId: ID!
+  type: PortfolioAccountType!
+  status: PortfolioAccountStatus!
+  balances: [PortfolioBalance!]
+  createdAt: DateTime!
+}
+
+enum PortfolioAccountType {
+  TRADING
+  CUSTODY
+  COLLATERAL
+  MASTER
+}
+
+enum PortfolioAccountStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+"""Balance within a portfolio account"""
+type PortfolioBalance {
+  currency: CurrencyCode!
+  amount: String!
+  holdAmount: String
+  tradingAmount: String
+  vaultAmount: String
+}
+
+# ---------------------------------------------------------------------------
+# Staking
+# ---------------------------------------------------------------------------
+
+"""Staking position for an asset"""
+type StakingBalance {
+  id: ID!
+  currency: CurrencyCode!
+  stakedAmount: String!
+  pendingAmount: String
+  rewardsEarned: String
+  apy: String
+  updatedAt: DateTime!
+}
+
+"""A staking transaction (stake, unstake, reward)"""
+type StakingTransaction {
+  id: ID!
+  type: StakingTransactionType!
+  currency: CurrencyCode!
+  amount: String!
+  status: TransactionStatus!
+  createdAt: DateTime!
+  completedAt: DateTime
+}
+
+enum StakingTransactionType {
+  STAKE
+  UNSTAKE
+  REWARD
+  PARTIAL_UNBOND
+}
+
+"""A staking reward payment"""
+type Reward {
+  id: ID!
+  currency: CurrencyCode!
+  amount: String!
+  rewardType: RewardType!
+  earnedAt: DateTime!
+  settledAt: DateTime
+}
+
+enum RewardType {
+  STAKING
+  INFLATION
+  LEARNING
+}
+
+"""A product eligible for staking"""
+type EligibleProduct {
+  id: ID!
+  currency: CurrencyCode!
+  minStakeAmount: String
+  maxStakeAmount: String
+  apy: String
+  lockupPeriodDays: Int
+  network: CurrencyNetwork
+}
+
+# ---------------------------------------------------------------------------
+# Webhooks & Notifications
+# ---------------------------------------------------------------------------
+
+"""A registered webhook endpoint"""
+type Webhook {
+  id: ID!
+  url: String!
+  description: String
+  notificationType: [WebhookNotificationType!]!
+  status: WebhookStatus!
+  secretKey: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum WebhookNotificationType {
+  WALLET_ACTIVITY
+  SWAP_SUMMARY
+  ERC_20_TRANSFER
+  NFT_PURCHASE
+  NFT_MINT
+  SMART_CONTRACT_EVENT
+  CHARGE_COMPLETED
+  CHARGE_FAILED
+  CHARGE_DELAYED
+  CHARGE_PENDING
+  CHARGE_RESOLVED
+  CHARGE_UNRESOLVED
+}
+
+enum WebhookStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+"""A single webhook delivery event"""
+type WebhookEvent {
+  id: ID!
+  webhookId: ID!
+  type: WebhookNotificationType!
+  payload: JSON!
+  deliveredAt: DateTime
+  status: WebhookEventStatus!
+  attemptCount: Int!
+  createdAt: DateTime!
+}
+
+enum WebhookEventStatus {
+  DELIVERED
+  PENDING
+  FAILED
+  RETRYING
+}
+
+"""An in-app notification for a user"""
+type Notification {
+  id: ID!
+  userId: ID!
+  type: String!
+  title: String!
+  body: String!
+  read: Boolean!
+  metadata: JSON
+  createdAt: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# Root Types
+# ---------------------------------------------------------------------------
+
+type Query {
+  """Get the authenticated user"""
+  me: User
+
+  """Get an account by ID"""
+  account(id: ID!): Account
+
+  """List all accounts for the authenticated user"""
+  accounts(type: AccountType): [Account!]!
+
+  """Get a wallet by ID"""
+  wallet(id: ID!): Wallet
+
+  """Get a transaction by ID"""
+  transaction(accountId: ID!, transactionId: ID!): Transaction
+
+  """List transactions for an account"""
+  transactions(accountId: ID!, first: Int, after: String): TransactionConnection
+
+  """Get a transfer by ID"""
+  transfer(id: ID!): Transfer
+
+  """Get an order by ID"""
+  order(id: ID!): Order
+
+  """List orders (Advanced Trade)"""
+  orders(productId: String, status: OrderStatus, limit: Int): [Order!]!
+
+  """Get a product by ID"""
+  product(id: ID!): Product
+
+  """List all products"""
+  products(productType: ProductType): [Product!]!
+
+  """Get the best bid/ask order book for a product"""
+  productBook(productId: String!, level: Int): ProductBook
+
+  """Get the ticker for a product"""
+  ticker(productId: String!): Ticker
+
+  """Get candles for a product"""
+  candles(productId: String!, granularity: CandleGranularity!, start: DateTime!, end: DateTime!): [Candle!]!
+
+  """Get recent trades for a product"""
+  trades(productId: String!, limit: Int): [Trade!]!
+
+  """Get a currency by ID"""
+  currency(id: ID!): Currency
+
+  """List all currencies"""
+  currencies(type: CurrencyType): [Currency!]!
+
+  """Get exchange rates"""
+  exchangeRates(currency: CurrencyCode!): ExchangeRate
+
+  """List payment methods"""
+  paymentMethods: [PaymentMethod!]!
+
+  """Get a charge by ID or code"""
+  charge(id: ID!): Charge
+
+  """List charges"""
+  charges(limit: Int): [Charge!]!
+
+  """Get a checkout by ID"""
+  checkout(id: ID!): Checkout
+
+  """List checkouts"""
+  checkouts: [Checkout!]!
+
+  """List portfolio accounts (Prime)"""
+  portfolioAccounts(entityId: ID!): [PortfolioAccount!]!
+
+  """Get staking balances"""
+  stakingBalances: [StakingBalance!]!
+
+  """List staking transactions"""
+  stakingTransactions(currency: CurrencyCode): [StakingTransaction!]!
+
+  """List eligible staking products"""
+  eligibleProducts: [EligibleProduct!]!
+
+  """List rewards"""
+  rewards(currency: CurrencyCode, type: RewardType): [Reward!]!
+
+  """List registered webhooks"""
+  webhooks: [Webhook!]!
+
+  """List webhook events"""
+  webhookEvents(webhookId: ID!, limit: Int): [WebhookEvent!]!
+
+  """List notifications for the authenticated user"""
+  notifications(unreadOnly: Boolean): [Notification!]!
+}
+
+type Mutation {
+  """Create a new order (Advanced Trade)"""
+  createOrder(
+    productId: String!
+    side: OrderSide!
+    orderConfiguration: OrderConfigurationInput!
+    clientOrderId: String
+  ): Order
+
+  """Cancel one or more orders"""
+  cancelOrders(orderIds: [ID!]!): [Order!]!
+
+  """Create a crypto send transaction"""
+  sendCrypto(
+    accountId: ID!
+    to: String!
+    amount: String!
+    currency: CurrencyCode!
+    description: String
+  ): Transaction
+
+  """Create a charge (Commerce)"""
+  createCharge(
+    name: String!
+    description: String!
+    pricingType: PricingType!
+    localPrice: MoneyInput
+    metadata: JSON
+  ): Charge
+
+  """Create a checkout (Commerce)"""
+  createCheckout(
+    name: String!
+    description: String!
+    pricingType: PricingType!
+    localPrice: MoneyInput
+    requestedInfo: [String!]
+  ): Checkout
+
+  """Create a webhook"""
+  createWebhook(
+    url: String!
+    notificationType: [WebhookNotificationType!]!
+    description: String
+  ): Webhook
+
+  """Delete a webhook"""
+  deleteWebhook(id: ID!): Boolean
+
+  """Mark a notification as read"""
+  markNotificationRead(id: ID!): Notification
+
+  """Create a new address on a wallet"""
+  createAddress(walletId: ID!, name: String): Address
+}
+
+# ---------------------------------------------------------------------------
+# Input Types
+# ---------------------------------------------------------------------------
+
+input OrderConfigurationInput {
+  limitPrice: String
+  stopPrice: String
+  stopDirection: StopDirection
+  baseSize: String
+  quoteSize: String
+  postOnly: Boolean
+  endTime: DateTime
+}
+
+input MoneyInput {
+  amount: String!
+  currency: CurrencyCode!
+}
