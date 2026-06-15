@@ -1,0 +1,1138 @@
+{
+  "item": [
+    {
+      "id": "5f2e9594-f6ab-4324-948b-299c2df063ef",
+      "name": "Buy",
+      "description": {
+        "content": "Endpoints for discovering buy options, generating buy quotes, and retrieving buy configuration for fiat-to-crypto purchases.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "521800f9-d69e-41e9-857f-fa564a5d1556",
+          "name": "Get buy options",
+          "request": {
+            "name": "Get buy options",
+            "description": {
+              "content": "Provides clients with a way to discover the available options for buying cryptocurrency with Coinbase Onramp. Returns supported fiat currencies and available crypto assets that can be passed into the Buy Quote API. Clients should call this API periodically for each country they support and cache the response.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buy",
+                "options"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "(Required) ISO 3166-1 alpha-2 country code"
+                },
+                {
+                  "disabled": false,
+                  "key": "subdivision",
+                  "value": "<string>",
+                  "description": "ISO 3166-2 subdivision code"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0b006ebb-9416-4530-aee8-1f9e652abeff",
+              "name": "Successfully retrieved buy options",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "options"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subdivision",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"payment_currencies\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"min_amount\": \"string\",\n      \"max_amount\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"min_amount\": \"string\",\n      \"max_amount\": \"string\"\n    }\n  ],\n  \"purchase_currencies\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"icon_url\": \"https://oSMEfWLUyhboTaWZUQAvQxaeWrBVgiF.gkqyaKjbAw7nCjckMFkPW,,fhK\",\n      \"networks\": [\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        }\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"icon_url\": \"http://TV.gytW+M-XoLL4JkMTBwR2HStey9,E8KhtxNzIPu9i1WYkny\",\n      \"networks\": [\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c6042c27-12aa-462b-bd90-34c2a19bb27b",
+              "name": "Unauthorized - Invalid or missing authentication",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "options"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subdivision",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3d01860d-eb40-4d97-8372-e78e26198a46",
+          "name": "Create buy quote",
+          "request": {
+            "name": "Create buy quote",
+            "description": {
+              "content": "Generates a price quote for buying cryptocurrency. Returns the estimated amount of crypto that will be received for a given fiat amount. Rate limited to 10 requests per second per app ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buy",
+                "quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"purchase_currency\": \"<string>\",\n  \"payment_amount\": \"<string>\",\n  \"payment_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"payment_method\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9d2b6c0e-5cc8-4cea-a738-827877ddf8eb",
+              "name": "Successfully generated buy quote",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"purchase_currency\": \"<string>\",\n  \"payment_amount\": \"<string>\",\n  \"payment_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"payment_method\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"coinbase_fee\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"network_fee\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"payment_subtotal\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"payment_total\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"purchase_amount\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"quote_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4860c44-eab6-4a0c-9040-7eb6b7fd45e8",
+              "name": "Bad request - Invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"purchase_currency\": \"<string>\",\n  \"payment_amount\": \"<string>\",\n  \"payment_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"payment_method\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d4b38268-2d6f-4b12-a219-1e49368b1e48",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"purchase_currency\": \"<string>\",\n  \"payment_amount\": \"<string>\",\n  \"payment_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"payment_method\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "617e3460-9c54-479a-9f67-5a7d15917921",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"purchase_currency\": \"<string>\",\n  \"payment_amount\": \"<string>\",\n  \"payment_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"payment_method\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "28991ab5-2218-4bb7-afbd-bdb25d5d73f3",
+          "name": "Get buy config",
+          "request": {
+            "name": "Get buy config",
+            "description": {
+              "content": "Retrieves the buy configuration for the onramp widget, including supported countries, payment methods, and available assets.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buy",
+                "config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "(Required) ISO 3166-1 alpha-2 country code"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b1dabd42-be51-43e7-9837-c5a156b785a3",
+              "name": "Successfully retrieved buy config",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"countries\": [\n    {\n      \"id\": \"string\",\n      \"subdivisions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"payment_methods\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"subdivisions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"payment_methods\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f713f8f-11b1-4328-8925-b2a1bff9917d",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "6c0a6404-f0b6-4f11-a011-ac93a10f8438",
+      "name": "Sell",
+      "description": {
+        "content": "Endpoints for discovering sell options and generating sell quotes for crypto-to-fiat transactions.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c279a6e4-0b2b-4b2c-8153-402260e097be",
+          "name": "Get sell options",
+          "request": {
+            "name": "Get sell options",
+            "description": {
+              "content": "Provides clients with a way to discover the available options for selling cryptocurrency. Returns supported fiat deposit currencies and available crypto assets.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sell",
+                "options"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "(Required) ISO 3166-1 alpha-2 country code"
+                },
+                {
+                  "disabled": false,
+                  "key": "subdivision",
+                  "value": "<string>",
+                  "description": "ISO 3166-2 subdivision code"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6fc45ead-47e6-4915-82bf-232e724f5c93",
+              "name": "Successfully retrieved sell options",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "options"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subdivision",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sell_currencies\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"icon_url\": \"http://JjCukap.socAMlP7WJpW+XUNooWjHdJ5WcfgB0rR7ax0HnyvljGXlQZYeEPbFHECl5fOH9jfOWUrSyzWJcfa\",\n      \"networks\": [\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        }\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"icon_url\": \"https://XZEGwKLUcVCB.fwbWW1NTNODz.dhqRootxpQIi,PBQASoV4zzrXx\",\n      \"networks\": [\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"cash_out_currencies\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"min_amount\": \"string\",\n      \"max_amount\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"min_amount\": \"string\",\n      \"max_amount\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6b2b10d0-5552-494f-8360-8b92db21d1b3",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "options"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subdivision",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0abce689-91b9-44f4-a2be-2db90aaf77d5",
+          "name": "Create sell quote",
+          "request": {
+            "name": "Create sell quote",
+            "description": {
+              "content": "Generates a price quote for selling cryptocurrency. Returns the estimated fiat amount that will be received for a given crypto amount. Rate limited to 10 requests per second per app ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sell",
+                "quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "888c074f-65d4-4a97-9865-e3a1eb7ff9d3",
+              "name": "Successfully generated sell quote",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"coinbase_fee\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"cash_out_subtotal\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"cash_out_total\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"quote_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "85c96510-371a-4f65-b1eb-26322adeb0f0",
+              "name": "Bad request - Invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a5427743-8178-4a69-ac58-abdaaae7c9d8",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f2dd4cbe-64b3-495d-b2a3-38e2d11608db",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "f446762e-afb0-4d31-a62d-1d949c7c8ba2",
+      "name": "Session",
+      "description": {
+        "content": "Manage session tokens for embedded onramp widget authentication.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "39d66e30-b16c-478c-a658-aa8ceb58e856",
+          "name": "Create session token",
+          "request": {
+            "name": "Create session token",
+            "description": {
+              "content": "Creates a session token for authenticating the embedded onramp widget. The token is used to initialize the Coinbase Onramp widget within a third-party application.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destination_wallets\": [\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8def8f47-01c7-4951-9b1f-1a27fde14ded",
+              "name": "Session token created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"destination_wallets\": [\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "74ba7432-63cd-47fa-a151-0cc930149c49",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"destination_wallets\": [\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.developer.coinbase.com/onramp/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b4a63a9e-6ce3-4099-bee0-d6185949229d",
+    "name": "Coinbase Onramp API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Coinbase Onramp API allows developers to integrate fiat-to-crypto purchasing and crypto-to-fiat selling directly into their applications. It provides REST APIs to discover available buy and sell options, generate price quotes, create one-click-buy URLs, and manage session tokens for embedded onramp experiences. The API supports multiple fiat currencies and payment methods.\n\nContact Support:\n Name: Coinbase Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

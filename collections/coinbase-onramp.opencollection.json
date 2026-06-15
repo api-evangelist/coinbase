@@ -1,0 +1,154 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Onramp API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Buy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get buy options",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.developer.coinbase.com/onramp/v1/buy/options",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-1 alpha-2 country code"
+              },
+              {
+                "name": "subdivision",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-2 subdivision code"
+              }
+            ]
+          },
+          "docs": "Provides clients with a way to discover the available options for buying cryptocurrency with Coinbase Onramp. Returns supported fiat currencies and available crypto assets that can be passed into the Buy Quote API. Clients should call this API periodically for each country they support and cache the response."
+        },
+        {
+          "info": {
+            "name": "Create buy quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.developer.coinbase.com/onramp/v1/buy/quote",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a price quote for buying cryptocurrency. Returns the estimated amount of crypto that will be received for a given fiat amount. Rate limited to 10 requests per second per app ID."
+        },
+        {
+          "info": {
+            "name": "Get buy config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.developer.coinbase.com/onramp/v1/buy/config",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-1 alpha-2 country code"
+              }
+            ]
+          },
+          "docs": "Retrieves the buy configuration for the onramp widget, including supported countries, payment methods, and available assets."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sell",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get sell options",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.developer.coinbase.com/onramp/v1/sell/options",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-1 alpha-2 country code"
+              },
+              {
+                "name": "subdivision",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-2 subdivision code"
+              }
+            ]
+          },
+          "docs": "Provides clients with a way to discover the available options for selling cryptocurrency. Returns supported fiat deposit currencies and available crypto assets."
+        },
+        {
+          "info": {
+            "name": "Create sell quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.developer.coinbase.com/onramp/v1/sell/quote",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a price quote for selling cryptocurrency. Returns the estimated fiat amount that will be received for a given crypto amount. Rate limited to 10 requests per second per app ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Session",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create session token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.developer.coinbase.com/onramp/v1/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a session token for authenticating the embedded onramp widget. The token is used to initialize the Coinbase Onramp widget within a third-party application."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

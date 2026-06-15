@@ -1,0 +1,389 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Commerce API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-CC-Api-Key",
+      "value": "{{X-CC-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Charges",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List charges",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commerce.coinbase.com/charges",
+            "params": [
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination to fetch the next page of results"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for results"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of all charges. Charges represent individual payment requests that have been created for customers."
+        },
+        {
+          "info": {
+            "name": "Create charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commerce.coinbase.com/charges",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new charge for accepting cryptocurrency payment. A charge generates blockchain addresses where customers can send payment. The charge tracks payment status through its lifecycle."
+        },
+        {
+          "info": {
+            "name": "Get charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commerce.coinbase.com/charges/:charge_id",
+            "params": [
+              {
+                "name": "charge_id",
+                "value": "",
+                "type": "path",
+                "description": "Charge ID or code"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific charge by its ID or code. Returns the full charge details including payment addresses, amounts, and current status."
+        },
+        {
+          "info": {
+            "name": "Cancel charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commerce.coinbase.com/charges/:charge_id/cancel",
+            "params": [
+              {
+                "name": "charge_id",
+                "value": "",
+                "type": "path",
+                "description": "Charge ID or code"
+              }
+            ]
+          },
+          "docs": "Cancels a charge that has not yet received a payment. Once cancelled, the charge can no longer receive payments."
+        },
+        {
+          "info": {
+            "name": "Resolve charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commerce.coinbase.com/charges/:charge_id/resolve",
+            "params": [
+              {
+                "name": "charge_id",
+                "value": "",
+                "type": "path",
+                "description": "Charge ID or code"
+              }
+            ]
+          },
+          "docs": "Resolves a charge that has been marked as unresolved. This is used to handle cases where payment was received but requires manual review."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Checkouts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List checkouts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commerce.coinbase.com/checkouts",
+            "params": [
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination to fetch the next page of results"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for results"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of all checkouts. Checkouts are reusable payment pages that can be shared with customers."
+        },
+        {
+          "info": {
+            "name": "Create checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commerce.coinbase.com/checkouts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new checkout page for accepting payments. Checkouts are reusable and generate a unique URL that can be shared with customers."
+        },
+        {
+          "info": {
+            "name": "Get checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commerce.coinbase.com/checkouts/:checkout_id",
+            "params": [
+              {
+                "name": "checkout_id",
+                "value": "",
+                "type": "path",
+                "description": "Checkout identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific checkout by its ID."
+        },
+        {
+          "info": {
+            "name": "Update checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.commerce.coinbase.com/checkouts/:checkout_id",
+            "params": [
+              {
+                "name": "checkout_id",
+                "value": "",
+                "type": "path",
+                "description": "Checkout identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing checkout page with new details."
+        },
+        {
+          "info": {
+            "name": "Delete checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.commerce.coinbase.com/checkouts/:checkout_id",
+            "params": [
+              {
+                "name": "checkout_id",
+                "value": "",
+                "type": "path",
+                "description": "Checkout identifier"
+              }
+            ]
+          },
+          "docs": "Deletes a checkout page by its ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Invoices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commerce.coinbase.com/invoices",
+            "params": [
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination to fetch the next page of results"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for results"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of all invoices. Invoices are used to bill customers with specific payment terms and due dates."
+        },
+        {
+          "info": {
+            "name": "Create invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.commerce.coinbase.com/invoices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new invoice for billing a customer. The invoice specifies payment terms, due date, and line items."
+        },
+        {
+          "info": {
+            "name": "Get invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commerce.coinbase.com/invoices/:invoice_id",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "Invoice identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific invoice by its ID."
+        },
+        {
+          "info": {
+            "name": "Void invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.commerce.coinbase.com/invoices/:invoice_id/void",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "Invoice identifier"
+              }
+            ]
+          },
+          "docs": "Voids an unpaid invoice. Once voided, the invoice can no longer accept payments."
+        },
+        {
+          "info": {
+            "name": "Resolve invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.commerce.coinbase.com/invoices/:invoice_id/resolve",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "Invoice identifier"
+              }
+            ]
+          },
+          "docs": "Resolves an unresolved invoice that requires manual review."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commerce.coinbase.com/events",
+            "params": [
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination to fetch the next page of results"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for results"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of webhook events. Events track the lifecycle of charges, checkouts, and invoices including creation, confirmation, and failure."
+        },
+        {
+          "info": {
+            "name": "Get event",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.commerce.coinbase.com/events/:event_id",
+            "params": [
+              {
+                "name": "event_id",
+                "value": "",
+                "type": "path",
+                "description": "Event identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific event by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

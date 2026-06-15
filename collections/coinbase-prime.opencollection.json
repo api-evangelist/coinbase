@@ -1,0 +1,759 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Prime API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-CB-ACCESS-KEY",
+      "value": "{{X-CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Portfolios",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List portfolios",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios"
+          },
+          "docs": "Retrieves a list of all portfolios for which the current API key has read access. Returns portfolio details including name, ID, and entity."
+        },
+        {
+          "info": {
+            "name": "Get portfolio",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific portfolio including its name, entity ID, and organization."
+        },
+        {
+          "info": {
+            "name": "Get portfolio commission",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/commission",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves the commission and fee rate structure for a portfolio."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Balances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List portfolio balances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/balances",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "symbols",
+                "value": "",
+                "type": "query",
+                "description": "Filter by currency symbols"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for results"
+              }
+            ]
+          },
+          "docs": "Retrieves all asset balances for a specific portfolio, including available, held, and total amounts for each currency."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List portfolio orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/orders",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "product_ids",
+                "value": "",
+                "type": "query",
+                "description": "Filter by product IDs"
+              },
+              {
+                "name": "order_statuses",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order statuses"
+              },
+              {
+                "name": "order_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order type"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date for filtering"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date for filtering"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for results"
+              }
+            ]
+          },
+          "docs": "Retrieves historical orders for a given portfolio. Returns a default limit of 100 results with a maximum allowed limit of 3000. Supports filtering by product, status, and date range."
+        },
+        {
+          "info": {
+            "name": "Create order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/orders",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new order within the specified portfolio. Supports market, limit, TWAP, and block order types for institutional trading."
+        },
+        {
+          "info": {
+            "name": "Get order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/orders/:order_id",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "Order identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific order by its order ID within a portfolio."
+        },
+        {
+          "info": {
+            "name": "Cancel order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/orders/:order_id/cancel",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "Order identifier"
+              }
+            ]
+          },
+          "docs": "Cancels an open order by its order ID within a portfolio."
+        },
+        {
+          "info": {
+            "name": "List order fills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/orders/:order_id/fills",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "Order identifier"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Retrieves all fills associated with a specific order in a portfolio."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Allocations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List portfolio allocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/allocations",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "product_ids",
+                "value": "",
+                "type": "query",
+                "description": "Filter by product IDs"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for results"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of order allocations for the given portfolio. Allocations represent the distribution of fills across sub-portfolios."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Wallets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List portfolio wallets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/wallets",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by wallet type"
+              },
+              {
+                "name": "symbols",
+                "value": "",
+                "type": "query",
+                "description": "Filter by currency symbols"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of wallets associated with a portfolio. Each wallet holds a specific type of cryptocurrency asset."
+        },
+        {
+          "info": {
+            "name": "Get wallet",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/wallets/:wallet_id",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "wallet_id",
+                "value": "",
+                "type": "path",
+                "description": "Wallet identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific wallet by its wallet ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Activities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List activities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/activities",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "symbols",
+                "value": "",
+                "type": "query",
+                "description": "Filter by currency symbols"
+              },
+              {
+                "name": "categories",
+                "value": "",
+                "type": "query",
+                "description": "Filter by activity categories"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "Filter by activity statuses"
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "Start time filter"
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "End time filter"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for results"
+              }
+            ]
+          },
+          "docs": "Retrieves all activities associated with a given portfolio. Activities include trades, transfers, deposits, withdrawals, and other events."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/transactions",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "symbols",
+                "value": "",
+                "type": "query",
+                "description": "Filter by currency symbols"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "Filter by transaction types"
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "Start time filter"
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "End time filter"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for results"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of transactions for a portfolio including deposits, withdrawals, and internal transfers."
+        },
+        {
+          "info": {
+            "name": "Get transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/transactions/:transaction_id",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "path",
+                "description": "Transaction identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific transaction by its transaction ID."
+        },
+        {
+          "info": {
+            "name": "Create withdrawal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/wallets/:wallet_id/transactions",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "wallet_id",
+                "value": "",
+                "type": "path",
+                "description": "Wallet identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a withdrawal from a specific wallet to an approved address in the address book."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/products",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Retrieves the list of tradeable products available in the portfolio."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List portfolio users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/users",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of users who have access to the specified portfolio."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Address Book",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List address book entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prime.coinbase.com/v1/portfolios/:portfolio_id/address_book",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "currency_symbol",
+                "value": "",
+                "type": "query",
+                "description": "Filter by currency symbol"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Retrieves the list of approved withdrawal addresses in the portfolio address book."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

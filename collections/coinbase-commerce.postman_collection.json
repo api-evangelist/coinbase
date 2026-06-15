@@ -1,0 +1,2235 @@
+{
+  "item": [
+    {
+      "id": "2cb11e27-1e82-4107-ab14-913af750e2b9",
+      "name": "Charges",
+      "description": {
+        "content": "Create and manage payment charges. A charge represents a request for cryptocurrency payment from a customer.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d150a7d9-7205-4271-9241-0b801dac7f91",
+          "name": "List charges",
+          "request": {
+            "name": "List charges",
+            "description": {
+              "content": "Retrieves a paginated list of all charges. Charges represent individual payment requests that have been created for customers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "charges"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "starting_after",
+                  "value": "<string>",
+                  "description": "Cursor for pagination to fetch the next page of results"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "desc",
+                  "description": "Sort order for results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "53203ea4-0545-486a-8f91-cf85ba0f1534",
+              "name": "Successfully retrieved list of charges",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "starting_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"resource\": \"charge\",\n      \"code\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"hosted_url\": \"https://RAm.hbjHiy5tdOQ9YqaZvzQ\",\n      \"created_at\": \"2010-02-20T20:40:03.892Z\",\n      \"confirmed_at\": \"2023-09-28T18:45:28.544Z\",\n      \"expires_at\": \"1947-12-17T08:23:25.760Z\",\n      \"pricing\": {\n        \"key_0\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        }\n      },\n      \"pricing_type\": \"fixed_price\",\n      \"addresses\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      },\n      \"payments\": [\n        {\n          \"network\": \"string\",\n          \"transaction_id\": \"string\",\n          \"status\": \"FAILED\",\n          \"value\": {\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          },\n          \"block\": {\n            \"height\": 5787,\n            \"hash\": \"string\",\n            \"confirmations_required\": 7862,\n            \"confirmations\": 3716\n          }\n        },\n        {\n          \"network\": \"string\",\n          \"transaction_id\": \"string\",\n          \"status\": \"FAILED\",\n          \"value\": {\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          },\n          \"block\": {\n            \"height\": 3700,\n            \"hash\": \"string\",\n            \"confirmations_required\": 9893,\n            \"confirmations\": 5306\n          }\n        }\n      ],\n      \"timeline\": [\n        {\n          \"time\": \"1979-01-30T14:42:49.519Z\",\n          \"status\": \"string\"\n        },\n        {\n          \"time\": \"1962-11-04T19:57:23.707Z\",\n          \"status\": \"string\"\n        }\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"resource\": \"charge\",\n      \"code\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"hosted_url\": \"http://YLOLhoJ.xyxxefohWO+.\",\n      \"created_at\": \"1954-08-09T10:31:35.836Z\",\n      \"confirmed_at\": \"1989-02-07T06:30:36.901Z\",\n      \"expires_at\": \"1959-01-04T03:46:47.534Z\",\n      \"pricing\": {\n        \"key_0\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        },\n        \"key_1\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        },\n        \"key_2\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        }\n      },\n      \"pricing_type\": \"no_price\",\n      \"addresses\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      },\n      \"payments\": [\n        {\n          \"network\": \"string\",\n          \"transaction_id\": \"string\",\n          \"status\": \"FAILED\",\n          \"value\": {\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          },\n          \"block\": {\n            \"height\": 8497,\n            \"hash\": \"string\",\n            \"confirmations_required\": 4942,\n            \"confirmations\": 9357\n          }\n        },\n        {\n          \"network\": \"string\",\n          \"transaction_id\": \"string\",\n          \"status\": \"FAILED\",\n          \"value\": {\n            \"amount\": \"string\",\n            \"currency\": \"string\"\n          },\n          \"block\": {\n            \"height\": 7834,\n            \"hash\": \"string\",\n            \"confirmations_required\": 1761,\n            \"confirmations\": 8531\n          }\n        }\n      ],\n      \"timeline\": [\n        {\n          \"time\": \"1951-04-11T06:40:19.443Z\",\n          \"status\": \"string\"\n        },\n        {\n          \"time\": \"2017-06-24T06:32:25.561Z\",\n          \"status\": \"string\"\n        }\n      ],\n      \"metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      }\n    }\n  ],\n  \"pagination\": {\n    \"order\": \"string\",\n    \"starting_after\": \"string\",\n    \"ending_before\": \"string\",\n    \"total\": 4576,\n    \"yielded\": 6369,\n    \"cursor_range\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7907fbb0-4619-441c-9991-50fd53f7556c",
+              "name": "Unauthorized - Invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "starting_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fae9f910-d0dc-4f7e-b883-91ae701383ab",
+          "name": "Create charge",
+          "request": {
+            "name": "Create charge",
+            "description": {
+              "content": "Creates a new charge for accepting cryptocurrency payment. A charge generates blockchain addresses where customers can send payment. The charge tracks payment status through its lifecycle.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "charges"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"pricing_type\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"metadata\": {\n    \"key_0\": \"<string>\"\n  },\n  \"redirect_url\": \"<uri>\",\n  \"cancel_url\": \"<uri>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "02ad12d0-7543-48a7-b0d2-1c15dc59afff",
+              "name": "Charge successfully created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"pricing_type\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"redirect_url\": \"<uri>\",\n  \"cancel_url\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"charge\",\n    \"code\": \"string\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"hosted_url\": \"http://n.iuW7rHdj12nlvuXc4N.kluqqkAJrVLolXhcGJSdXN+Tp8LHlz8jtec8-OPr\",\n    \"created_at\": \"2018-12-04T18:16:32.425Z\",\n    \"confirmed_at\": \"1986-07-13T13:02:28.251Z\",\n    \"expires_at\": \"2001-06-22T06:46:38.340Z\",\n    \"pricing\": {\n      \"key_0\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      },\n      \"key_1\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      }\n    },\n    \"pricing_type\": \"no_price\",\n    \"addresses\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"payments\": [\n      {\n        \"network\": \"string\",\n        \"transaction_id\": \"string\",\n        \"status\": \"PENDING\",\n        \"value\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        },\n        \"block\": {\n          \"height\": 9795,\n          \"hash\": \"string\",\n          \"confirmations_required\": 2912,\n          \"confirmations\": 2478\n        }\n      },\n      {\n        \"network\": \"string\",\n        \"transaction_id\": \"string\",\n        \"status\": \"FAILED\",\n        \"value\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        },\n        \"block\": {\n          \"height\": 6025,\n          \"hash\": \"string\",\n          \"confirmations_required\": 3742,\n          \"confirmations\": 9371\n        }\n      }\n    ],\n    \"timeline\": [\n      {\n        \"time\": \"1981-11-09T09:44:25.111Z\",\n        \"status\": \"string\"\n      },\n      {\n        \"time\": \"1991-03-25T00:08:53.114Z\",\n        \"status\": \"string\"\n      }\n    ],\n    \"metadata\": {\n      \"key_0\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7a1f9ae8-40ab-465c-89ea-667af32f9c4f",
+              "name": "Bad request - Invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"pricing_type\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"redirect_url\": \"<uri>\",\n  \"cancel_url\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1a0fe947-59de-4aba-bb0f-59950c76218d",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charges"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"pricing_type\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"metadata\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"redirect_url\": \"<uri>\",\n  \"cancel_url\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2435a1a2-50ab-4333-acf1-9497a5f35b86",
+          "name": "Get charge",
+          "request": {
+            "name": "Get charge",
+            "description": {
+              "content": "Retrieves a specific charge by its ID or code. Returns the full charge details including payment addresses, amounts, and current status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "charges",
+                ":charge_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "charge_id",
+                  "description": "(Required) Charge ID or code"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9a5c65b5-7e29-485a-8d4a-5f7292d571b5",
+              "name": "Successfully retrieved charge",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charges",
+                    ":charge_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "charge_id",
+                      "description": "(Required) Charge ID or code"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"charge\",\n    \"code\": \"string\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"hosted_url\": \"http://n.iuW7rHdj12nlvuXc4N.kluqqkAJrVLolXhcGJSdXN+Tp8LHlz8jtec8-OPr\",\n    \"created_at\": \"2018-12-04T18:16:32.425Z\",\n    \"confirmed_at\": \"1986-07-13T13:02:28.251Z\",\n    \"expires_at\": \"2001-06-22T06:46:38.340Z\",\n    \"pricing\": {\n      \"key_0\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      },\n      \"key_1\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      }\n    },\n    \"pricing_type\": \"no_price\",\n    \"addresses\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"payments\": [\n      {\n        \"network\": \"string\",\n        \"transaction_id\": \"string\",\n        \"status\": \"PENDING\",\n        \"value\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        },\n        \"block\": {\n          \"height\": 9795,\n          \"hash\": \"string\",\n          \"confirmations_required\": 2912,\n          \"confirmations\": 2478\n        }\n      },\n      {\n        \"network\": \"string\",\n        \"transaction_id\": \"string\",\n        \"status\": \"FAILED\",\n        \"value\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        },\n        \"block\": {\n          \"height\": 6025,\n          \"hash\": \"string\",\n          \"confirmations_required\": 3742,\n          \"confirmations\": 9371\n        }\n      }\n    ],\n    \"timeline\": [\n      {\n        \"time\": \"1981-11-09T09:44:25.111Z\",\n        \"status\": \"string\"\n      },\n      {\n        \"time\": \"1991-03-25T00:08:53.114Z\",\n        \"status\": \"string\"\n      }\n    ],\n    \"metadata\": {\n      \"key_0\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7825e3da-c7c0-45e6-824b-5ba11a7c0617",
+              "name": "Charge not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charges",
+                    ":charge_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "charge_id",
+                      "description": "(Required) Charge ID or code"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "014ac902-11ee-48c5-a0b2-62959effc1db",
+          "name": "Cancel charge",
+          "request": {
+            "name": "Cancel charge",
+            "description": {
+              "content": "Cancels a charge that has not yet received a payment. Once cancelled, the charge can no longer receive payments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "charges",
+                ":charge_id",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "charge_id",
+                  "description": "(Required) Charge ID or code"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f13ad98d-14af-4c41-9b79-d85299c957ae",
+              "name": "Charge cancelled",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charges",
+                    ":charge_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "charge_id",
+                      "description": "(Required) Charge ID or code"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"charge\",\n    \"code\": \"string\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"hosted_url\": \"http://n.iuW7rHdj12nlvuXc4N.kluqqkAJrVLolXhcGJSdXN+Tp8LHlz8jtec8-OPr\",\n    \"created_at\": \"2018-12-04T18:16:32.425Z\",\n    \"confirmed_at\": \"1986-07-13T13:02:28.251Z\",\n    \"expires_at\": \"2001-06-22T06:46:38.340Z\",\n    \"pricing\": {\n      \"key_0\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      },\n      \"key_1\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      }\n    },\n    \"pricing_type\": \"no_price\",\n    \"addresses\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"payments\": [\n      {\n        \"network\": \"string\",\n        \"transaction_id\": \"string\",\n        \"status\": \"PENDING\",\n        \"value\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        },\n        \"block\": {\n          \"height\": 9795,\n          \"hash\": \"string\",\n          \"confirmations_required\": 2912,\n          \"confirmations\": 2478\n        }\n      },\n      {\n        \"network\": \"string\",\n        \"transaction_id\": \"string\",\n        \"status\": \"FAILED\",\n        \"value\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        },\n        \"block\": {\n          \"height\": 6025,\n          \"hash\": \"string\",\n          \"confirmations_required\": 3742,\n          \"confirmations\": 9371\n        }\n      }\n    ],\n    \"timeline\": [\n      {\n        \"time\": \"1981-11-09T09:44:25.111Z\",\n        \"status\": \"string\"\n      },\n      {\n        \"time\": \"1991-03-25T00:08:53.114Z\",\n        \"status\": \"string\"\n      }\n    ],\n    \"metadata\": {\n      \"key_0\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "864d4bab-bbc2-4e6c-b7ca-667620d1e722",
+              "name": "Charge cannot be cancelled",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charges",
+                    ":charge_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "charge_id",
+                      "description": "(Required) Charge ID or code"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9c5a489f-0404-4e93-a15a-f535d50d36a1",
+          "name": "Resolve charge",
+          "request": {
+            "name": "Resolve charge",
+            "description": {
+              "content": "Resolves a charge that has been marked as unresolved. This is used to handle cases where payment was received but requires manual review.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "charges",
+                ":charge_id",
+                "resolve"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "charge_id",
+                  "description": "(Required) Charge ID or code"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6fb83ff4-8643-49b8-a28e-f12a04241bc3",
+              "name": "Charge resolved",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "charges",
+                    ":charge_id",
+                    "resolve"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "charge_id",
+                      "description": "(Required) Charge ID or code"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"charge\",\n    \"code\": \"string\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"hosted_url\": \"http://n.iuW7rHdj12nlvuXc4N.kluqqkAJrVLolXhcGJSdXN+Tp8LHlz8jtec8-OPr\",\n    \"created_at\": \"2018-12-04T18:16:32.425Z\",\n    \"confirmed_at\": \"1986-07-13T13:02:28.251Z\",\n    \"expires_at\": \"2001-06-22T06:46:38.340Z\",\n    \"pricing\": {\n      \"key_0\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      },\n      \"key_1\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      }\n    },\n    \"pricing_type\": \"no_price\",\n    \"addresses\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"payments\": [\n      {\n        \"network\": \"string\",\n        \"transaction_id\": \"string\",\n        \"status\": \"PENDING\",\n        \"value\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        },\n        \"block\": {\n          \"height\": 9795,\n          \"hash\": \"string\",\n          \"confirmations_required\": 2912,\n          \"confirmations\": 2478\n        }\n      },\n      {\n        \"network\": \"string\",\n        \"transaction_id\": \"string\",\n        \"status\": \"FAILED\",\n        \"value\": {\n          \"amount\": \"string\",\n          \"currency\": \"string\"\n        },\n        \"block\": {\n          \"height\": 6025,\n          \"hash\": \"string\",\n          \"confirmations_required\": 3742,\n          \"confirmations\": 9371\n        }\n      }\n    ],\n    \"timeline\": [\n      {\n        \"time\": \"1981-11-09T09:44:25.111Z\",\n        \"status\": \"string\"\n      },\n      {\n        \"time\": \"1991-03-25T00:08:53.114Z\",\n        \"status\": \"string\"\n      }\n    ],\n    \"metadata\": {\n      \"key_0\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "aa05432f-10ba-4571-979b-be5fceadc59c",
+      "name": "Checkouts",
+      "description": {
+        "content": "Create and manage reusable checkout pages for accepting recurring or standardized payments.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "05c2cdba-1005-46ae-a34f-192ede9aa3bd",
+          "name": "List checkouts",
+          "request": {
+            "name": "List checkouts",
+            "description": {
+              "content": "Retrieves a paginated list of all checkouts. Checkouts are reusable payment pages that can be shared with customers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "checkouts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "starting_after",
+                  "value": "<string>",
+                  "description": "Cursor for pagination to fetch the next page of results"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "desc",
+                  "description": "Sort order for results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8549341f-096e-4bc4-9d3c-0b6153b0d4a7",
+              "name": "Successfully retrieved checkouts",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "checkouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "starting_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"resource\": \"checkout\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"requested_info\": [\n        \"name\",\n        \"email\"\n      ],\n      \"pricing_type\": \"no_price\",\n      \"local_price\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"resource\": \"checkout\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"requested_info\": [\n        \"name\",\n        \"name\"\n      ],\n      \"pricing_type\": \"no_price\",\n      \"local_price\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      }\n    }\n  ],\n  \"pagination\": {\n    \"order\": \"string\",\n    \"starting_after\": \"string\",\n    \"ending_before\": \"string\",\n    \"total\": 3160,\n    \"yielded\": 1217,\n    \"cursor_range\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "55f190b9-1d3c-4038-82b6-babad92569c7",
+          "name": "Create checkout",
+          "request": {
+            "name": "Create checkout",
+            "description": {
+              "content": "Creates a new checkout page for accepting payments. Checkouts are reusable and generate a unique URL that can be shared with customers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "checkouts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"pricing_type\": \"<string>\",\n  \"description\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"requested_info\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "17dd948a-3677-4518-8547-0421f6d83ffc",
+              "name": "Checkout created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "checkouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"pricing_type\": \"<string>\",\n  \"description\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"requested_info\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"checkout\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"requested_info\": [\n      \"email\",\n      \"name\"\n    ],\n    \"pricing_type\": \"fixed_price\",\n    \"local_price\": {\n      \"amount\": \"string\",\n      \"currency\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cc3a2ecb-34d0-4eb6-8744-586736b15c4c",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "checkouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"pricing_type\": \"<string>\",\n  \"description\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"requested_info\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5a1a12f0-c228-4459-b0cc-f47b149d3122",
+          "name": "Get checkout",
+          "request": {
+            "name": "Get checkout",
+            "description": {
+              "content": "Retrieves a specific checkout by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "checkouts",
+                ":checkout_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "checkout_id",
+                  "description": "(Required) Checkout identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1ea71c0c-6488-4897-bd6a-9e03eec73b85",
+              "name": "Successfully retrieved checkout",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "checkouts",
+                    ":checkout_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "checkout_id",
+                      "description": "(Required) Checkout identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"checkout\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"requested_info\": [\n      \"email\",\n      \"name\"\n    ],\n    \"pricing_type\": \"fixed_price\",\n    \"local_price\": {\n      \"amount\": \"string\",\n      \"currency\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f53534ff-8d51-44b8-a0af-41384d741f6c",
+              "name": "Checkout not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "checkouts",
+                    ":checkout_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "checkout_id",
+                      "description": "(Required) Checkout identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "681911f8-5fa6-4bb3-9314-84142ec7e565",
+          "name": "Update checkout",
+          "request": {
+            "name": "Update checkout",
+            "description": {
+              "content": "Updates an existing checkout page with new details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "checkouts",
+                ":checkout_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "checkout_id",
+                  "description": "(Required) Checkout identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"pricing_type\": \"<string>\",\n  \"description\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"requested_info\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "876b9f7c-3db1-44f6-b4dc-8da96be3b190",
+              "name": "Checkout updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "checkouts",
+                    ":checkout_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "checkout_id",
+                      "description": "(Required) Checkout identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"pricing_type\": \"<string>\",\n  \"description\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"requested_info\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"checkout\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"requested_info\": [\n      \"email\",\n      \"name\"\n    ],\n    \"pricing_type\": \"fixed_price\",\n    \"local_price\": {\n      \"amount\": \"string\",\n      \"currency\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "053aec40-b4c8-4db7-81a1-0dfa7ae86524",
+          "name": "Delete checkout",
+          "request": {
+            "name": "Delete checkout",
+            "description": {
+              "content": "Deletes a checkout page by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "checkouts",
+                ":checkout_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "checkout_id",
+                  "description": "(Required) Checkout identifier"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cae07d75-ea89-4c9d-b75b-2c61b534d589",
+              "name": "Checkout deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "checkouts",
+                    ":checkout_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "checkout_id",
+                      "description": "(Required) Checkout identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e6ec5c64-1d4a-41d1-b549-47ff3107683b",
+      "name": "Events",
+      "description": {
+        "content": "Retrieve webhook events that track the lifecycle of charges, checkouts, and invoices.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "20d63866-6369-4e2a-9480-eef8800adf7b",
+          "name": "List events",
+          "request": {
+            "name": "List events",
+            "description": {
+              "content": "Retrieves a paginated list of webhook events. Events track the lifecycle of charges, checkouts, and invoices including creation, confirmation, and failure.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "starting_after",
+                  "value": "<string>",
+                  "description": "Cursor for pagination to fetch the next page of results"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "desc",
+                  "description": "Sort order for results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "86e34a37-85cb-4492-a165-780ee49b828a",
+              "name": "Successfully retrieved events",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "starting_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"resource\": \"event\",\n      \"type\": \"charge:confirmed\",\n      \"api_version\": \"string\",\n      \"created_at\": \"2024-06-02T14:46:17.523Z\",\n      \"data\": {}\n    },\n    {\n      \"id\": \"string\",\n      \"resource\": \"event\",\n      \"type\": \"charge:created\",\n      \"api_version\": \"string\",\n      \"created_at\": \"1965-03-09T06:43:36.820Z\",\n      \"data\": {}\n    }\n  ],\n  \"pagination\": {\n    \"order\": \"string\",\n    \"starting_after\": \"string\",\n    \"ending_before\": \"string\",\n    \"total\": 9970,\n    \"yielded\": 1894,\n    \"cursor_range\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3733eac1-b1d1-44d7-bff8-d624b911d91d",
+          "name": "Get event",
+          "request": {
+            "name": "Get event",
+            "description": {
+              "content": "Retrieves a specific event by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "events",
+                ":event_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "event_id",
+                  "description": "(Required) Event identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8b45836e-4530-4aef-b462-b84278117bca",
+              "name": "Successfully retrieved event",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "events",
+                    ":event_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_id",
+                      "description": "(Required) Event identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"event\",\n    \"type\": \"charge:confirmed\",\n    \"api_version\": \"string\",\n    \"created_at\": \"1963-09-12T13:36:48.282Z\",\n    \"data\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "edfd6857-8fe7-4731-a613-3e576e8aa383",
+              "name": "Event not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "events",
+                    ":event_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_id",
+                      "description": "(Required) Event identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "c55a589d-aee1-4ed0-8c51-1f7b7f7ee733",
+      "name": "Invoices",
+      "description": {
+        "content": "Create and manage invoices for billing customers with cryptocurrency payment options.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1c738126-c0aa-4a28-8a57-c5981cb9c538",
+          "name": "List invoices",
+          "request": {
+            "name": "List invoices",
+            "description": {
+              "content": "Retrieves a paginated list of all invoices. Invoices are used to bill customers with specific payment terms and due dates.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invoices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "starting_after",
+                  "value": "<string>",
+                  "description": "Cursor for pagination to fetch the next page of results"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "desc",
+                  "description": "Sort order for results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3de4a058-915c-424f-91f9-e8c4327fa005",
+              "name": "Successfully retrieved invoices",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "starting_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"resource\": \"invoice\",\n      \"code\": \"string\",\n      \"status\": \"VOID\",\n      \"business_name\": \"string\",\n      \"customer_name\": \"string\",\n      \"customer_email\": \"zLefB@YXQCUZPLOrloJpGUNFCghcKXke.qck\",\n      \"memo\": \"string\",\n      \"local_price\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      },\n      \"hosted_url\": \"http://kKipVJHOSJkwccowcBy.gpoUw3XC,N,8fZO.bKNiP36fnmNXpKZwFXcWPa6tEaJzZbmCqwr\",\n      \"created_at\": \"1990-06-20T18:47:29.971Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"resource\": \"invoice\",\n      \"code\": \"string\",\n      \"status\": \"OPEN\",\n      \"business_name\": \"string\",\n      \"customer_name\": \"string\",\n      \"customer_email\": \"SEamZsHMq7c@sEtOKtvYTteNmkmaNadGEWIAtHE.qnn\",\n      \"memo\": \"string\",\n      \"local_price\": {\n        \"amount\": \"string\",\n        \"currency\": \"string\"\n      },\n      \"hosted_url\": \"https://ajKUkFMLQnevmSoV.ucoVLKS,CVHIIeuJ3Q6WMF4V1G1Xa1QNhz34tN5I\",\n      \"created_at\": \"2000-06-01T10:44:39.642Z\"\n    }\n  ],\n  \"pagination\": {\n    \"order\": \"string\",\n    \"starting_after\": \"string\",\n    \"ending_before\": \"string\",\n    \"total\": 9253,\n    \"yielded\": 8225,\n    \"cursor_range\": [\n      \"string\",\n      \"string\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a71cea48-a42e-4047-b5ae-c7db49f89b77",
+          "name": "Create invoice",
+          "request": {
+            "name": "Create invoice",
+            "description": {
+              "content": "Creates a new invoice for billing a customer. The invoice specifies payment terms, due date, and line items.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invoices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"business_name\": \"<string>\",\n  \"customer_email\": \"<email>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"customer_name\": \"<string>\",\n  \"memo\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "78f77fd3-a185-453e-ae68-c9e96cc5fce1",
+              "name": "Invoice created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_name\": \"<string>\",\n  \"customer_email\": \"<email>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"customer_name\": \"<string>\",\n  \"memo\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"invoice\",\n    \"code\": \"string\",\n    \"status\": \"PAID\",\n    \"business_name\": \"string\",\n    \"customer_name\": \"string\",\n    \"customer_email\": \"momfTq@AwhUAgeQAZsYJNgdDUdUqD.jp\",\n    \"memo\": \"string\",\n    \"local_price\": {\n      \"amount\": \"string\",\n      \"currency\": \"string\"\n    },\n    \"hosted_url\": \"https://sFbElrHXQzh.kreiJgZwYDinOFE6zbBX+TWtBYGTm.misBn0oukIk5+\",\n    \"created_at\": \"1988-10-27T13:42:37.996Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2174ddfe-4bf8-4ae2-8ca1-f2bbc359fba3",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_name\": \"<string>\",\n  \"customer_email\": \"<email>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"customer_name\": \"<string>\",\n  \"memo\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1c85c92b-8373-444b-9554-25a17dc86701",
+          "name": "Get invoice",
+          "request": {
+            "name": "Get invoice",
+            "description": {
+              "content": "Retrieves a specific invoice by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invoices",
+                ":invoice_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "invoice_id",
+                  "description": "(Required) Invoice identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "314e12fa-3a49-46c9-abcc-b4b39dfb0ecc",
+              "name": "Successfully retrieved invoice",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices",
+                    ":invoice_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "invoice_id",
+                      "description": "(Required) Invoice identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"invoice\",\n    \"code\": \"string\",\n    \"status\": \"PAID\",\n    \"business_name\": \"string\",\n    \"customer_name\": \"string\",\n    \"customer_email\": \"momfTq@AwhUAgeQAZsYJNgdDUdUqD.jp\",\n    \"memo\": \"string\",\n    \"local_price\": {\n      \"amount\": \"string\",\n      \"currency\": \"string\"\n    },\n    \"hosted_url\": \"https://sFbElrHXQzh.kreiJgZwYDinOFE6zbBX+TWtBYGTm.misBn0oukIk5+\",\n    \"created_at\": \"1988-10-27T13:42:37.996Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34967814-43fd-43a0-8184-51ae0d711273",
+              "name": "Invoice not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices",
+                    ":invoice_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "invoice_id",
+                      "description": "(Required) Invoice identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e8bdeda8-ba33-4aef-8439-37f89ca68ad2",
+          "name": "Void invoice",
+          "request": {
+            "name": "Void invoice",
+            "description": {
+              "content": "Voids an unpaid invoice. Once voided, the invoice can no longer accept payments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invoices",
+                ":invoice_id",
+                "void"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "invoice_id",
+                  "description": "(Required) Invoice identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "174369ec-111f-45b3-aeac-340c454db88d",
+              "name": "Invoice voided",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices",
+                    ":invoice_id",
+                    "void"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "invoice_id",
+                      "description": "(Required) Invoice identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"invoice\",\n    \"code\": \"string\",\n    \"status\": \"PAID\",\n    \"business_name\": \"string\",\n    \"customer_name\": \"string\",\n    \"customer_email\": \"momfTq@AwhUAgeQAZsYJNgdDUdUqD.jp\",\n    \"memo\": \"string\",\n    \"local_price\": {\n      \"amount\": \"string\",\n      \"currency\": \"string\"\n    },\n    \"hosted_url\": \"https://sFbElrHXQzh.kreiJgZwYDinOFE6zbBX+TWtBYGTm.misBn0oukIk5+\",\n    \"created_at\": \"1988-10-27T13:42:37.996Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "08c965a0-ca81-44e3-ac36-2922e7b72c34",
+          "name": "Resolve invoice",
+          "request": {
+            "name": "Resolve invoice",
+            "description": {
+              "content": "Resolves an unresolved invoice that requires manual review.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invoices",
+                ":invoice_id",
+                "resolve"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "invoice_id",
+                  "description": "(Required) Invoice identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4db5a01c-917c-467a-add1-114ac243b8cb",
+              "name": "Invoice resolved",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invoices",
+                    ":invoice_id",
+                    "resolve"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "invoice_id",
+                      "description": "(Required) Invoice identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-CC-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"resource\": \"invoice\",\n    \"code\": \"string\",\n    \"status\": \"PAID\",\n    \"business_name\": \"string\",\n    \"customer_name\": \"string\",\n    \"customer_email\": \"momfTq@AwhUAgeQAZsYJNgdDUdUqD.jp\",\n    \"memo\": \"string\",\n    \"local_price\": {\n      \"amount\": \"string\",\n      \"currency\": \"string\"\n    },\n    \"hosted_url\": \"https://sFbElrHXQzh.kreiJgZwYDinOFE6zbBX+TWtBYGTm.misBn0oukIk5+\",\n    \"created_at\": \"1988-10-27T13:42:37.996Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.commerce.coinbase.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-CC-Api-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "afeb6b42-6bc7-48c8-9fa1-8b50e45012cd",
+    "name": "Coinbase Commerce API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Coinbase Commerce API enables merchants and developers to accept cryptocurrency payments globally. It supports creating charges, managing checkouts, handling invoices, and receiving webhook notifications for payment events. The API provides endpoints for creating payment requests, tracking payment status, and automating financial workflows for businesses accepting crypto as a payment method.\n\nContact Support:\n Name: Coinbase Commerce Support",
+      "type": "text/plain"
+    }
+  }
+}

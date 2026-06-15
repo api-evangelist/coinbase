@@ -1,0 +1,577 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/accounts",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of authenticated accounts for the current user. Returns account details including available balance, hold amount, and currency information."
+        },
+        {
+          "info": {
+            "name": "Get account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/accounts/:account_id",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the account"
+              }
+            ]
+          },
+          "docs": "Retrieves a single account by account ID including the available balance, hold amount, and currency information."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter orders by product ID"
+              },
+              {
+                "name": "order_status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order status"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date for filtering orders"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date for filtering orders"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "order_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order type"
+              },
+              {
+                "name": "order_side",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order side"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of orders for the authenticated user. Supports filtering by product ID, order status, and time range. Returns orders sorted by creation time."
+        },
+        {
+          "info": {
+            "name": "Create order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new order for the authenticated user. Supports market, limit, stop, and stop-limit order types. The order configuration varies based on the order type selected."
+        },
+        {
+          "info": {
+            "name": "Get order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders/:order_id",
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the order"
+              }
+            ]
+          },
+          "docs": "Retrieves a single order by order ID. Returns the full order details including status, fills, and configuration."
+        },
+        {
+          "info": {
+            "name": "Cancel orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders/batch_cancel",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancels one or more open orders by order ID. Accepts an array of order IDs to cancel in a single request."
+        },
+        {
+          "info": {
+            "name": "Edit order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders/:order_id/edit",
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the order to edit"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edits an existing open order. Only the price and size of the order can be modified."
+        },
+        {
+          "info": {
+            "name": "List fills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders/historical/fills",
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter fills by order ID"
+              },
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter fills by product ID"
+              },
+              {
+                "name": "start_sequence_timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Start time for filtering fills"
+              },
+              {
+                "name": "end_sequence_timestamp",
+                "value": "",
+                "type": "query",
+                "description": "End time for filtering fills"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of fills (completed trades) for the authenticated user. Supports filtering by order ID, product ID, and time range."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/products",
+            "params": [
+              {
+                "name": "product_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by product type"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of products to offset before returning"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of available trading products. Returns product details including trading pair, status, and price information. This endpoint is publicly accessible without authentication."
+        },
+        {
+          "info": {
+            "name": "Get product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/products/:product_id",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "Trading pair identifier such as BTC-USD"
+              }
+            ]
+          },
+          "docs": "Retrieves information about a single trading product by its product ID. Returns detailed product information including current price, volume, and trading parameters. This endpoint is publicly accessible."
+        },
+        {
+          "info": {
+            "name": "Get product candles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/products/:product_id/candles",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "Trading pair identifier such as BTC-USD"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "Start time in UNIX timestamp format"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "End time in UNIX timestamp format"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Time granularity for each candle"
+              }
+            ]
+          },
+          "docs": "Retrieves historical candle data for a specific product. Returns OHLCV data at the specified granularity. This endpoint is publicly accessible."
+        },
+        {
+          "info": {
+            "name": "Get market trades",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/products/:product_id/ticker",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "Trading pair identifier such as BTC-USD"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Retrieves the latest trades for a specific product. Returns trade details including price, size, and time. This endpoint is publicly accessible."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Market Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get best bid and ask",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/best_bid_ask",
+            "params": [
+              {
+                "name": "product_ids",
+                "value": "",
+                "type": "query",
+                "description": "List of product IDs to get bid/ask for"
+              }
+            ]
+          },
+          "docs": "Retrieves the best bid and ask prices for the specified products. This endpoint is publicly accessible."
+        },
+        {
+          "info": {
+            "name": "Get product book",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/product_book",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "query",
+                "description": "Product ID to get the order book for"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Retrieves the order book for a specific product. Returns bids and asks at various price levels. This endpoint is publicly accessible."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Portfolios",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List portfolios",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios",
+            "params": [
+              {
+                "name": "portfolio_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by portfolio type"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all portfolios associated with the authenticated user. Returns portfolio details including name, UUID, and type."
+        },
+        {
+          "info": {
+            "name": "Create portfolio",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new portfolio for the authenticated user. Each portfolio provides an isolated trading environment with its own balances."
+        },
+        {
+          "info": {
+            "name": "Get portfolio breakdown",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the portfolio"
+              }
+            ]
+          },
+          "docs": "Retrieves a breakdown of a single portfolio by its ID. Returns detailed information about the portfolio including its balances and positions."
+        },
+        {
+          "info": {
+            "name": "Edit portfolio",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the portfolio"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the name of an existing portfolio. Only the portfolio name can be modified."
+        },
+        {
+          "info": {
+            "name": "Delete portfolio",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the portfolio"
+              }
+            ]
+          },
+          "docs": "Deletes a portfolio by its ID. The portfolio must have zero balances before it can be deleted."
+        },
+        {
+          "info": {
+            "name": "Move portfolio funds",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/move_funds",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Moves funds between portfolios owned by the authenticated user. Both the source and target portfolio must belong to the same user."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Fees",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get transaction summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/transaction_summary",
+            "params": [
+              {
+                "name": "product_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by product type"
+              }
+            ]
+          },
+          "docs": "Retrieves the transaction summary for the authenticated user, including fee tier information, total volume, and maker/taker fee rates."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
