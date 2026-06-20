@@ -13,7 +13,7 @@ tags:
 - Web3
 type: Index
 kind: company
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 created: '2026-03-20'
 modified: '2026-05-19'
@@ -36,7 +36,7 @@ apis:
   - Market Data
   - Orders
   - Trading
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.coinbase.com
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   properties:
@@ -73,7 +73,7 @@ apis:
   - Market Data
   - Trading
   - WebSocket
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.exchange.coinbase.com
   humanURL: https://www.coinbase.com/developer-platform/products/exchange-api
   properties:
@@ -107,7 +107,7 @@ apis:
   - Institutional
   - Prime Brokerage
   - Trading
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.prime.coinbase.com
   humanURL: https://www.coinbase.com/developer-platform/products/prime-apis
   properties:
@@ -140,7 +140,7 @@ apis:
   - Offramp
   - Onramp
   - Payments
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.developer.coinbase.com
   humanURL: https://www.coinbase.com/developer-platform/products/onramp
   properties:
@@ -171,7 +171,7 @@ apis:
   - Cryptocurrency
   - Invoices
   - Payments
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.commerce.coinbase.com
   humanURL: https://commerce.coinbase.com/docs
   properties:
@@ -205,7 +205,7 @@ apis:
   - SDK
   - Wallet
   - Web3
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
   properties:
   - url: https://docs.cdp.coinbase.com/wallet-sdk/docs/welcome
@@ -232,7 +232,7 @@ apis:
   - Blockchain
   - Cryptocurrency
   - Market Data
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.coinbase.com/developer-platform/products/data-api
   properties:
   - url: https://www.coinbase.com/developer-platform/products/data-api
@@ -259,7 +259,7 @@ apis:
   - Blockchain
   - SDK
   - Wallet
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://docs.cdp.coinbase.com/agent-kit/welcome
   properties:
   - url: https://docs.cdp.coinbase.com/agent-kit/welcome
