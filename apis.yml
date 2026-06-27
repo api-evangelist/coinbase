@@ -280,7 +280,7 @@ apis:
 common:
 - type: LinkedIn
   url: https://www.linkedin.com/company/coinbase
-- type: Developer Portal
+- type: DeveloperPortal
   url: https://www.coinbase.com/developer-platform
 - type: Documentation
   url: https://docs.cdp.coinbase.com/
@@ -308,7 +308,7 @@ common:
   url: json-schema/coinbase-product-schema.json
 - type: Spectral Ruleset
   url: rules/coinbase-rules.yml
-- type: LLMsTxt
+- type: LlmsText
   url: https://docs.cdp.coinbase.com/llms.txt
 maintainers:
 - FN: Kin Lane

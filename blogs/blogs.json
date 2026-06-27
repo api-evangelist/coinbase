@@ -3,13 +3,10 @@
   "feeds": [
     {
       "source": "https://www.coinbase.com/blog",
-      "error": "HTTPError"
-    },
-    {
-      "source": "https://www.coinbase.com/",
-      "error": "HTTPError"
+      "saved": 0,
+      "error": "HTTP 403 Forbidden"
     }
   ],
-  "fetched": "2026-06-14T20:42:17Z",
+  "fetched": "2026-06-27T12:33:57Z",
   "post_count": 0
 }
