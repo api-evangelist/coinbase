@@ -278,6 +278,12 @@ apis:
   - Automate token swaps, transfers, and contract calls
   - Connect agentic frameworks to wallet primitives
 common:
+- type: VulnerabilityDisclosure
+  url: security/coinbase-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/coinbase-domain-security.yml
+- type: Authentication
+  url: authentication/coinbase-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/coinbase
 - type: DeveloperPortal

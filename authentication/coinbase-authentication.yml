@@ -1,0 +1,42 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/coinbase-advanced-trade-openapi.yml, openapi/coinbase-commerce-openapi.yml,
+  openapi/coinbase-exchange-openapi.yml, openapi/coinbase-onramp-openapi.yml, openapi/coinbase-prime-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: CB-ACCESS-KEY
+  description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY,
+    CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+  sources:
+  - openapi/coinbase-advanced-trade-openapi.yml
+  - openapi/coinbase-exchange-openapi.yml
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-CC-Api-Key
+  description: Coinbase Commerce API key for authentication. Include the key in the X-CC-Api-Key
+    header.
+  sources:
+  - openapi/coinbase-commerce-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: Bearer token authentication using a CDP API key.
+  sources:
+  - openapi/coinbase-onramp-openapi.yml
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-CB-ACCESS-KEY
+  description: Coinbase Prime API key authentication. Requires X-CB-ACCESS-KEY, X-CB-ACCESS-SIGNATURE,
+    X-CB-ACCESS-TIMESTAMP, and X-CB-ACCESS-PASSPHRASE headers with HMAC SHA-256 signatures.
+  sources:
+  - openapi/coinbase-prime-openapi.yml
