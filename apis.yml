@@ -278,6 +278,8 @@ apis:
   - Automate token swaps, transfers, and contract calls
   - Connect agentic frameworks to wallet primitives
 common:
+- type: AgenticAccess
+  url: agentic-access/coinbase-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/coinbase-vulnerability-disclosure.yml
 - type: DomainSecurity
