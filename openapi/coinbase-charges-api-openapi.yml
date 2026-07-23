@@ -1,0 +1,367 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Charges API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Charges
+  description: Create and manage payment charges. A charge represents a request for cryptocurrency payment from a customer.
+paths:
+  /charges:
+    get:
+      operationId: listCharges
+      summary: List charges
+      description: Retrieves a paginated list of all charges. Charges represent individual payment requests that have been created for customers.
+      tags:
+      - Charges
+      parameters:
+      - $ref: '#/components/parameters/PaginationParam'
+      - $ref: '#/components/parameters/OrderParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of charges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Charge'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+    post:
+      operationId: createCharge
+      summary: Create charge
+      description: Creates a new charge for accepting cryptocurrency payment. A charge generates blockchain addresses where customers can send payment. The charge tracks payment status through its lifecycle.
+      tags:
+      - Charges
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChargeRequest'
+      responses:
+        '201':
+          description: Charge successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Charge'
+        '400':
+          description: Bad request - Invalid parameters
+        '401':
+          description: Unauthorized
+  /charges/{charge_id}:
+    get:
+      operationId: getCharge
+      summary: Get charge
+      description: Retrieves a specific charge by its ID or code. Returns the full charge details including payment addresses, amounts, and current status.
+      tags:
+      - Charges
+      parameters:
+      - name: charge_id
+        in: path
+        required: true
+        description: Charge ID or code
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved charge
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Charge'
+        '404':
+          description: Charge not found
+  /charges/{charge_id}/cancel:
+    post:
+      operationId: cancelCharge
+      summary: Cancel charge
+      description: Cancels a charge that has not yet received a payment. Once cancelled, the charge can no longer receive payments.
+      tags:
+      - Charges
+      parameters:
+      - name: charge_id
+        in: path
+        required: true
+        description: Charge ID or code
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Charge cancelled
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Charge'
+        '400':
+          description: Charge cannot be cancelled
+  /charges/{charge_id}/resolve:
+    post:
+      operationId: resolveCharge
+      summary: Resolve charge
+      description: Resolves a charge that has been marked as unresolved. This is used to handle cases where payment was received but requires manual review.
+      tags:
+      - Charges
+      parameters:
+      - name: charge_id
+        in: path
+        required: true
+        description: Charge ID or code
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Charge resolved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Charge'
+components:
+  schemas:
+    Charge:
+      type: object
+      description: A payment charge representing a request for cryptocurrency payment
+      properties:
+        id:
+          type: string
+          description: Unique charge identifier
+        resource:
+          type: string
+          description: Resource type
+          enum:
+          - charge
+        code:
+          type: string
+          description: Unique charge code
+        name:
+          type: string
+          description: Name of the charge
+        description:
+          type: string
+          description: Description of the charge
+        hosted_url:
+          type: string
+          format: uri
+          description: URL for the hosted payment page
+        created_at:
+          type: string
+          format: date-time
+          description: When the charge was created
+        confirmed_at:
+          type: string
+          format: date-time
+          description: When payment was confirmed
+        expires_at:
+          type: string
+          format: date-time
+          description: When the charge expires
+        pricing:
+          type: object
+          description: Pricing in different currencies
+          additionalProperties:
+            type: object
+            properties:
+              amount:
+                type: string
+                description: Amount in this currency
+              currency:
+                type: string
+                description: Currency code
+        pricing_type:
+          type: string
+          description: Pricing model type
+          enum:
+          - no_price
+          - fixed_price
+        addresses:
+          type: object
+          description: Blockchain addresses for payment
+          additionalProperties:
+            type: string
+        payments:
+          type: array
+          description: Payments received for this charge
+          items:
+            $ref: '#/components/schemas/Payment'
+        timeline:
+          type: array
+          description: Status change timeline
+          items:
+            type: object
+            properties:
+              time:
+                type: string
+                format: date-time
+                description: Time of the status change
+              status:
+                type: string
+                description: Status at this point
+        metadata:
+          type: object
+          description: Custom metadata attached to the charge
+          additionalProperties:
+            type: string
+    Payment:
+      type: object
+      description: A payment received for a charge
+      properties:
+        network:
+          type: string
+          description: Blockchain network
+        transaction_id:
+          type: string
+          description: Blockchain transaction ID
+        status:
+          type: string
+          description: Payment status
+          enum:
+          - PENDING
+          - CONFIRMED
+          - FAILED
+        value:
+          type: object
+          description: Payment value
+          properties:
+            amount:
+              type: string
+              description: Payment amount
+            currency:
+              type: string
+              description: Currency
+        block:
+          type: object
+          description: Block information
+          properties:
+            height:
+              type: integer
+              description: Block height
+            hash:
+              type: string
+              description: Block hash
+            confirmations_required:
+              type: integer
+              description: Required confirmations
+            confirmations:
+              type: integer
+              description: Current confirmations
+    CreateChargeRequest:
+      type: object
+      description: Request body for creating a new charge
+      required:
+      - name
+      - description
+      - pricing_type
+      properties:
+        name:
+          type: string
+          description: Name for the charge
+        description:
+          type: string
+          description: Description of what is being charged for
+        pricing_type:
+          type: string
+          description: Pricing model
+          enum:
+          - no_price
+          - fixed_price
+        local_price:
+          type: object
+          description: Price in local currency (required for fixed_price)
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
+        metadata:
+          type: object
+          description: Custom metadata
+          additionalProperties:
+            type: string
+        redirect_url:
+          type: string
+          format: uri
+          description: URL to redirect after payment
+        cancel_url:
+          type: string
+          format: uri
+          description: URL to redirect if payment is cancelled
+    Pagination:
+      type: object
+      description: Pagination cursor information
+      properties:
+        order:
+          type: string
+          description: Sort order
+        starting_after:
+          type: string
+          description: Cursor for next page
+        ending_before:
+          type: string
+          description: Cursor for previous page
+        total:
+          type: integer
+          description: Total number of results
+        yielded:
+          type: integer
+          description: Number of results in this page
+        cursor_range:
+          type: array
+          description: Range of cursors in this page
+          items:
+            type: string
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      description: Sort order for results
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

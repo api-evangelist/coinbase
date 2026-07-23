@@ -1,0 +1,281 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Invoices API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Invoices
+  description: Create and manage invoices for billing customers with cryptocurrency payment options.
+paths:
+  /invoices:
+    get:
+      operationId: listInvoices
+      summary: List invoices
+      description: Retrieves a paginated list of all invoices. Invoices are used to bill customers with specific payment terms and due dates.
+      tags:
+      - Invoices
+      parameters:
+      - $ref: '#/components/parameters/PaginationParam'
+      - $ref: '#/components/parameters/OrderParam'
+      responses:
+        '200':
+          description: Successfully retrieved invoices
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Invoice'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+    post:
+      operationId: createInvoice
+      summary: Create invoice
+      description: Creates a new invoice for billing a customer. The invoice specifies payment terms, due date, and line items.
+      tags:
+      - Invoices
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInvoiceRequest'
+      responses:
+        '201':
+          description: Invoice created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Invoice'
+        '400':
+          description: Bad request
+  /invoices/{invoice_id}:
+    get:
+      operationId: getInvoice
+      summary: Get invoice
+      description: Retrieves a specific invoice by its ID.
+      tags:
+      - Invoices
+      parameters:
+      - name: invoice_id
+        in: path
+        required: true
+        description: Invoice identifier
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved invoice
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Invoice'
+        '404':
+          description: Invoice not found
+  /invoices/{invoice_id}/void:
+    put:
+      operationId: voidInvoice
+      summary: Void invoice
+      description: Voids an unpaid invoice. Once voided, the invoice can no longer accept payments.
+      tags:
+      - Invoices
+      parameters:
+      - name: invoice_id
+        in: path
+        required: true
+        description: Invoice identifier
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Invoice voided
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Invoice'
+  /invoices/{invoice_id}/resolve:
+    put:
+      operationId: resolveInvoice
+      summary: Resolve invoice
+      description: Resolves an unresolved invoice that requires manual review.
+      tags:
+      - Invoices
+      parameters:
+      - name: invoice_id
+        in: path
+        required: true
+        description: Invoice identifier
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Invoice resolved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Invoice'
+components:
+  schemas:
+    CreateInvoiceRequest:
+      type: object
+      description: Request body for creating a new invoice
+      required:
+      - business_name
+      - customer_email
+      - local_price
+      properties:
+        business_name:
+          type: string
+          description: Business name
+        customer_name:
+          type: string
+          description: Customer name
+        customer_email:
+          type: string
+          format: email
+          description: Customer email address
+        memo:
+          type: string
+          description: Invoice memo or notes
+        local_price:
+          type: object
+          description: Invoice amount
+          required:
+          - amount
+          - currency
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
+    Invoice:
+      type: object
+      description: An invoice for billing customers
+      properties:
+        id:
+          type: string
+          description: Invoice identifier
+        resource:
+          type: string
+          description: Resource type
+          enum:
+          - invoice
+        code:
+          type: string
+          description: Invoice code
+        status:
+          type: string
+          description: Invoice status
+          enum:
+          - OPEN
+          - VIEWED
+          - PAID
+          - VOID
+          - UNRESOLVED
+        business_name:
+          type: string
+          description: Business name on the invoice
+        customer_name:
+          type: string
+          description: Customer name
+        customer_email:
+          type: string
+          format: email
+          description: Customer email
+        memo:
+          type: string
+          description: Invoice memo
+        local_price:
+          type: object
+          description: Invoice amount
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
+        hosted_url:
+          type: string
+          format: uri
+          description: URL for the hosted invoice page
+        created_at:
+          type: string
+          format: date-time
+          description: When the invoice was created
+    Pagination:
+      type: object
+      description: Pagination cursor information
+      properties:
+        order:
+          type: string
+          description: Sort order
+        starting_after:
+          type: string
+          description: Cursor for next page
+        ending_before:
+          type: string
+          description: Cursor for previous page
+        total:
+          type: integer
+          description: Total number of results
+        yielded:
+          type: integer
+          description: Number of results in this page
+        cursor_range:
+          type: array
+          description: Range of cursors in this page
+          items:
+            type: string
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      description: Sort order for results
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

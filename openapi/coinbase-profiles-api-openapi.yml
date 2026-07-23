@@ -1,0 +1,129 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Profiles API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Profiles
+  description: Manage exchange profiles and transfer funds between them.
+paths:
+  /profiles:
+    get:
+      operationId: listProfiles
+      summary: List profiles
+      description: Retrieves a list of trading profiles for the authenticated user. Profiles are used to separate trading activity.
+      tags:
+      - Profiles
+      parameters:
+      - name: active
+        in: query
+        description: Filter for active profiles only
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Successfully retrieved profiles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+  /profiles/{profile_id}:
+    get:
+      operationId: getProfile
+      summary: Get profile
+      description: Retrieves a single profile by its profile ID.
+      tags:
+      - Profiles
+      parameters:
+      - name: profile_id
+        in: path
+        required: true
+        description: Profile ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+  /profiles/transfer:
+    post:
+      operationId: transferBetweenProfiles
+      summary: Transfer between profiles
+      description: Transfers an amount of currency from one profile to another.
+      tags:
+      - Profiles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - from
+              - to
+              - currency
+              - amount
+              properties:
+                from:
+                  type: string
+                  description: Source profile ID
+                to:
+                  type: string
+                  description: Destination profile ID
+                currency:
+                  type: string
+                  description: Currency to transfer
+                amount:
+                  type: string
+                  description: Amount to transfer
+      responses:
+        '200':
+          description: Transfer completed
+components:
+  schemas:
+    Profile:
+      type: object
+      description: A trading profile
+      properties:
+        id:
+          type: string
+          description: Profile identifier
+        user_id:
+          type: string
+          description: User identifier
+        name:
+          type: string
+          description: Profile name
+        active:
+          type: boolean
+          description: Whether the profile is active
+        is_default:
+          type: boolean
+          description: Whether this is the default profile
+        created_at:
+          type: string
+          format: date-time
+          description: When the profile was created
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

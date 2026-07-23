@@ -1,0 +1,327 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Accounts
+  description: Manage user accounts and retrieve account information including balances and holds.
+paths:
+  /accounts:
+    get:
+      operationId: listAccounts
+      summary: List accounts
+      description: Retrieves a list of authenticated accounts for the current user. Returns account details including available balance, hold amount, and currency information.
+      tags:
+      - Accounts
+      parameters:
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/CursorParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of accounts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Account'
+                  has_next:
+                    type: boolean
+                    description: Whether there are more results
+                  cursor:
+                    type: string
+                    description: Cursor for pagination
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /accounts/{account_id}:
+    get:
+      operationId: getAccount
+      summary: Get account
+      description: Retrieves a single account by account ID including the available balance, hold amount, and currency information.
+      tags:
+      - Accounts
+      parameters:
+      - $ref: '#/components/parameters/AccountIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved account details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account:
+                    $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Account not found
+  /accounts/{account_id}/ledger:
+    get:
+      operationId: getAccountLedger
+      summary: Get account ledger
+      description: Retrieves the ledger (transaction history) for a specific account. Returns a paginated list of account activity entries.
+      tags:
+      - Accounts
+      parameters:
+      - $ref: '#/components/parameters/AccountIdParam_2'
+      - $ref: '#/components/parameters/BeforeParam'
+      - $ref: '#/components/parameters/AfterParam'
+      - $ref: '#/components/parameters/LimitParam_2'
+      responses:
+        '200':
+          description: Successfully retrieved account ledger
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LedgerEntry'
+  /accounts/{account_id}/holds:
+    get:
+      operationId: getAccountHolds
+      summary: Get account holds
+      description: Retrieves holds on an account that are associated with active orders or pending withdraw requests. Holds make funds unavailable for trading.
+      tags:
+      - Accounts
+      parameters:
+      - $ref: '#/components/parameters/AccountIdParam_2'
+      - $ref: '#/components/parameters/BeforeParam'
+      - $ref: '#/components/parameters/AfterParam'
+      - $ref: '#/components/parameters/LimitParam_2'
+      responses:
+        '200':
+          description: Successfully retrieved account holds
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hold'
+  /accounts/{account_id}/transfers:
+    get:
+      operationId: getAccountTransfers
+      summary: Get account transfers
+      description: Retrieves a list of in-progress and completed transfers of funds to or from the account.
+      tags:
+      - Accounts
+      parameters:
+      - $ref: '#/components/parameters/AccountIdParam_2'
+      - $ref: '#/components/parameters/BeforeParam'
+      - $ref: '#/components/parameters/AfterParam'
+      - $ref: '#/components/parameters/LimitParam_2'
+      responses:
+        '200':
+          description: Successfully retrieved account transfers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transfer'
+components:
+  parameters:
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    AccountIdParam:
+      name: account_id
+      in: path
+      required: true
+      description: Unique identifier for the account
+      schema:
+        type: string
+        format: uuid
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    AccountIdParam_2:
+      name: account_id
+      in: path
+      required: true
+      description: Account identifier
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
+  schemas:
+    Transfer:
+      type: object
+      description: A deposit or withdrawal transfer
+      properties:
+        id:
+          type: string
+          description: Transfer identifier
+        type:
+          type: string
+          description: Transfer type
+          enum:
+          - deposit
+          - withdraw
+        created_at:
+          type: string
+          format: date-time
+          description: When the transfer was created
+        completed_at:
+          type: string
+          format: date-time
+          description: When the transfer completed
+        amount:
+          type: string
+          description: Transfer amount
+        details:
+          type: object
+          description: Additional transfer details
+    Balance:
+      type: object
+      description: A monetary value with currency
+      properties:
+        value:
+          type: string
+          description: Amount as a string to preserve precision
+        currency:
+          type: string
+          description: Currency code
+    LedgerEntry:
+      type: object
+      description: A ledger entry recording account activity
+      properties:
+        id:
+          type: string
+          description: Entry identifier
+        created_at:
+          type: string
+          format: date-time
+          description: When the entry was created
+        amount:
+          type: string
+          description: Amount of the entry
+        balance:
+          type: string
+          description: Account balance after the entry
+        type:
+          type: string
+          description: Type of ledger entry
+          enum:
+          - transfer
+          - match
+          - fee
+          - rebate
+          - conversion
+        details:
+          type: object
+          description: Additional details about the entry
+    Hold:
+      type: object
+      description: A hold on account funds
+      properties:
+        id:
+          type: string
+          description: Hold identifier
+        created_at:
+          type: string
+          format: date-time
+          description: When the hold was created
+        amount:
+          type: string
+          description: Amount on hold
+        type:
+          type: string
+          description: Type of hold
+          enum:
+          - order
+          - transfer
+        ref:
+          type: string
+          description: Reference ID for the hold source
+    Account:
+      type: object
+      description: A user account holding a specific currency
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for the account
+        name:
+          type: string
+          description: Name of the account
+        currency:
+          type: string
+          description: Currency code for the account
+        available_balance:
+          $ref: '#/components/schemas/Balance'
+        default:
+          type: boolean
+          description: Whether this is the default account
+        active:
+          type: boolean
+          description: Whether the account is active
+        created_at:
+          type: string
+          format: date-time
+          description: When the account was created
+        updated_at:
+          type: string
+          format: date-time
+          description: When the account was last updated
+        type:
+          type: string
+          description: Account type
+          enum:
+          - ACCOUNT_TYPE_CRYPTO
+          - ACCOUNT_TYPE_FIAT
+        ready:
+          type: boolean
+          description: Whether the account is ready for trading
+        hold:
+          $ref: '#/components/schemas/Balance'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

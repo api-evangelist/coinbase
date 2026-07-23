@@ -1,0 +1,106 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Conversions API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Conversions
+  description: Convert between stablecoin currencies on the exchange.
+paths:
+  /conversions:
+    post:
+      operationId: createConversion
+      summary: Create conversion
+      description: Converts funds from one stablecoin currency to another within the exchange account.
+      tags:
+      - Conversions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - from
+              - to
+              - amount
+              properties:
+                from:
+                  type: string
+                  description: Currency to convert from
+                to:
+                  type: string
+                  description: Currency to convert to
+                amount:
+                  type: string
+                  description: Amount to convert
+      responses:
+        '200':
+          description: Conversion created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversion'
+  /conversions/{conversion_id}:
+    get:
+      operationId: getConversion
+      summary: Get conversion
+      description: Retrieves the details of a specific conversion by its conversion ID.
+      tags:
+      - Conversions
+      parameters:
+      - name: conversion_id
+        in: path
+        required: true
+        description: Conversion ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved conversion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversion'
+components:
+  schemas:
+    Conversion:
+      type: object
+      description: A currency conversion between stablecoins
+      properties:
+        id:
+          type: string
+          description: Conversion identifier
+        amount:
+          type: string
+          description: Conversion amount
+        from_account_id:
+          type: string
+          description: Source account ID
+        to_account_id:
+          type: string
+          description: Destination account ID
+        from:
+          type: string
+          description: Source currency
+        to:
+          type: string
+          description: Target currency
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

@@ -1,0 +1,115 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Address Book API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Address Book
+  description: Manage approved withdrawal addresses in the address book.
+paths:
+  /portfolios/{portfolio_id}/address_book:
+    get:
+      operationId: listAddressBook
+      summary: List address book entries
+      description: Retrieves the list of approved withdrawal addresses in the portfolio address book.
+      tags:
+      - Address Book
+      parameters:
+      - $ref: '#/components/parameters/PortfolioIdParam'
+      - name: currency_symbol
+        in: query
+        description: Filter by currency symbol
+        schema:
+          type: string
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved address book
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  addresses:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AddressBookEntry'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+components:
+  parameters:
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Portfolio identifier
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 3000
+        default: 100
+  schemas:
+    AddressBookEntry:
+      type: object
+      description: An approved withdrawal address
+      properties:
+        id:
+          type: string
+          description: Address entry identifier
+        currency_symbol:
+          type: string
+          description: Currency for this address
+        name:
+          type: string
+          description: Label for the address
+        address:
+          type: string
+          description: Blockchain address
+        added_at:
+          type: string
+          format: date-time
+          description: When the address was added
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

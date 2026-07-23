@@ -1,0 +1,315 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Portfolios API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Portfolios
+  description: Create and manage portfolios for organizing trading activity and asset allocation.
+paths:
+  /portfolios:
+    get:
+      operationId: listPortfolios
+      summary: List portfolios
+      description: Retrieves a list of all portfolios associated with the authenticated user. Returns portfolio details including name, UUID, and type.
+      tags:
+      - Portfolios
+      parameters:
+      - name: portfolio_type
+        in: query
+        description: Filter by portfolio type
+        schema:
+          type: string
+          enum:
+          - DEFAULT
+          - CONSUMER
+          - INTX
+      responses:
+        '200':
+          description: Successfully retrieved list of portfolios
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portfolios:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Portfolio'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+    post:
+      operationId: createPortfolio
+      summary: Create portfolio
+      description: Creates a new portfolio for the authenticated user. Each portfolio provides an isolated trading environment with its own balances.
+      tags:
+      - Portfolios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  description: Name for the new portfolio
+      responses:
+        '200':
+          description: Portfolio successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portfolio:
+                    $ref: '#/components/schemas/Portfolio'
+        '400':
+          description: Bad request - Invalid portfolio parameters
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /portfolios/{portfolio_id}:
+    get:
+      operationId: getPortfolio
+      summary: Get portfolio breakdown
+      description: Retrieves a breakdown of a single portfolio by its ID. Returns detailed information about the portfolio including its balances and positions.
+      tags:
+      - Portfolios
+      parameters:
+      - $ref: '#/components/parameters/PortfolioIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved portfolio breakdown
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  breakdown:
+                    $ref: '#/components/schemas/PortfolioBreakdown'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Portfolio not found
+    put:
+      operationId: editPortfolio
+      summary: Edit portfolio
+      description: Updates the name of an existing portfolio. Only the portfolio name can be modified.
+      tags:
+      - Portfolios
+      parameters:
+      - $ref: '#/components/parameters/PortfolioIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  description: Updated name for the portfolio
+      responses:
+        '200':
+          description: Portfolio successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portfolio:
+                    $ref: '#/components/schemas/Portfolio'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Portfolio not found
+    delete:
+      operationId: deletePortfolio
+      summary: Delete portfolio
+      description: Deletes a portfolio by its ID. The portfolio must have zero balances before it can be deleted.
+      tags:
+      - Portfolios
+      parameters:
+      - $ref: '#/components/parameters/PortfolioIdParam'
+      responses:
+        '200':
+          description: Portfolio successfully deleted
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Portfolio not found
+  /portfolios/move_funds:
+    post:
+      operationId: moveFunds
+      summary: Move portfolio funds
+      description: Moves funds between portfolios owned by the authenticated user. Both the source and target portfolio must belong to the same user.
+      tags:
+      - Portfolios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - funds
+              - source_portfolio_uuid
+              - target_portfolio_uuid
+              properties:
+                funds:
+                  type: object
+                  description: Funds to move
+                  properties:
+                    value:
+                      type: string
+                      description: Amount to transfer
+                    currency:
+                      type: string
+                      description: Currency of the transfer
+                source_portfolio_uuid:
+                  type: string
+                  description: UUID of the source portfolio
+                target_portfolio_uuid:
+                  type: string
+                  description: UUID of the target portfolio
+      responses:
+        '200':
+          description: Funds successfully moved
+        '400':
+          description: Bad request - Invalid transfer parameters
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /portfolios/{portfolio_id}/commission:
+    get:
+      operationId: getPortfolioCommission
+      summary: Get portfolio commission
+      description: Retrieves the commission and fee rate structure for a portfolio.
+      tags:
+      - Portfolios
+      parameters:
+      - $ref: '#/components/parameters/PortfolioIdParam_2'
+      responses:
+        '200':
+          description: Successfully retrieved commission details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trading_volume:
+                    type: string
+                    description: Total trading volume
+                  fee_tier:
+                    type: object
+                    properties:
+                      maker_fee_rate:
+                        type: string
+                        description: Maker fee rate
+                      taker_fee_rate:
+                        type: string
+                        description: Taker fee rate
+components:
+  schemas:
+    Portfolio:
+      type: object
+      description: A user portfolio for organizing trading activity
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for the portfolio
+        name:
+          type: string
+          description: Name of the portfolio
+        type:
+          type: string
+          description: Portfolio type
+          enum:
+          - DEFAULT
+          - CONSUMER
+          - INTX
+        deleted:
+          type: boolean
+          description: Whether the portfolio has been deleted
+    PortfolioBreakdown:
+      type: object
+      description: Detailed breakdown of a portfolio
+      properties:
+        portfolio:
+          $ref: '#/components/schemas/Portfolio'
+        portfolio_balances:
+          type: object
+          description: Aggregated balance information
+          properties:
+            total_balance:
+              $ref: '#/components/schemas/Balance'
+            total_futures_balance:
+              $ref: '#/components/schemas/Balance'
+            total_cash_equivalent_balance:
+              $ref: '#/components/schemas/Balance'
+        spot_positions:
+          type: array
+          description: Spot positions in the portfolio
+          items:
+            type: object
+            properties:
+              asset:
+                type: string
+                description: Asset symbol
+              account_uuid:
+                type: string
+                description: Account UUID
+              total_balance_fiat:
+                type: number
+                description: Total balance in fiat
+              total_balance_crypto:
+                type: number
+                description: Total balance in crypto
+    Balance:
+      type: object
+      description: A monetary value with currency
+      properties:
+        value:
+          type: string
+          description: Amount as a string to preserve precision
+        currency:
+          type: string
+          description: Currency code
+  parameters:
+    PortfolioIdParam_2:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Portfolio identifier
+      schema:
+        type: string
+    PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Unique identifier for the portfolio
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

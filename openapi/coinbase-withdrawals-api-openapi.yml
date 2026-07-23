@@ -1,0 +1,158 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Withdrawals API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Withdrawals
+  description: Manage crypto withdrawals from exchange accounts to external addresses or Coinbase accounts.
+paths:
+  /withdrawals/payment-method:
+    post:
+      operationId: withdrawToPaymentMethod
+      summary: Withdraw to payment method
+      description: Withdraws funds from the exchange account to a linked payment method.
+      tags:
+      - Withdrawals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - amount
+              - currency
+              - payment_method_id
+              properties:
+                amount:
+                  type: string
+                  description: Amount to withdraw
+                currency:
+                  type: string
+                  description: Currency to withdraw
+                payment_method_id:
+                  type: string
+                  description: ID of the payment method
+      responses:
+        '200':
+          description: Withdrawal initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+  /withdrawals/coinbase-account:
+    post:
+      operationId: withdrawToCoinbaseAccount
+      summary: Withdraw to Coinbase account
+      description: Withdraws funds from the exchange account to a Coinbase account.
+      tags:
+      - Withdrawals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - amount
+              - currency
+              - coinbase_account_id
+              properties:
+                amount:
+                  type: string
+                  description: Amount to withdraw
+                currency:
+                  type: string
+                  description: Currency to withdraw
+                coinbase_account_id:
+                  type: string
+                  description: ID of the Coinbase account
+      responses:
+        '200':
+          description: Withdrawal initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+  /withdrawals/crypto:
+    post:
+      operationId: withdrawToCryptoAddress
+      summary: Withdraw to crypto address
+      description: Withdraws funds from the exchange account to an external crypto address.
+      tags:
+      - Withdrawals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - amount
+              - currency
+              - crypto_address
+              properties:
+                amount:
+                  type: string
+                  description: Amount to withdraw
+                currency:
+                  type: string
+                  description: Currency to withdraw
+                crypto_address:
+                  type: string
+                  description: Destination crypto address
+      responses:
+        '200':
+          description: Withdrawal initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+components:
+  schemas:
+    Transfer:
+      type: object
+      description: A deposit or withdrawal transfer
+      properties:
+        id:
+          type: string
+          description: Transfer identifier
+        type:
+          type: string
+          description: Transfer type
+          enum:
+          - deposit
+          - withdraw
+        created_at:
+          type: string
+          format: date-time
+          description: When the transfer was created
+        completed_at:
+          type: string
+          format: date-time
+          description: When the transfer completed
+        amount:
+          type: string
+          description: Transfer amount
+        details:
+          type: object
+          description: Additional transfer details
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

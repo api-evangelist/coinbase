@@ -1,0 +1,89 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Currencies API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Currencies
+  description: Retrieve information about supported currencies on the exchange.
+paths:
+  /currencies:
+    get:
+      operationId: listCurrencies
+      summary: List currencies
+      description: Retrieves a list of all known currencies on the exchange, including their names, minimum sizes, and status.
+      tags:
+      - Currencies
+      security: []
+      responses:
+        '200':
+          description: Successfully retrieved currencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Currency'
+  /currencies/{currency_id}:
+    get:
+      operationId: getCurrency
+      summary: Get currency
+      description: Retrieves information about a single currency by its currency ID.
+      tags:
+      - Currencies
+      security: []
+      parameters:
+      - name: currency_id
+        in: path
+        required: true
+        description: Currency identifier
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved currency
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Currency'
+        '404':
+          description: Currency not found
+components:
+  schemas:
+    Currency:
+      type: object
+      description: A currency supported on the exchange
+      properties:
+        id:
+          type: string
+          description: Currency identifier
+        name:
+          type: string
+          description: Full name of the currency
+        min_size:
+          type: string
+          description: Minimum size for this currency
+        status:
+          type: string
+          description: Currency status
+        details:
+          type: object
+          description: Additional currency details
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

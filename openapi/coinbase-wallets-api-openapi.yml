@@ -1,0 +1,153 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Wallets API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Wallets
+  description: Manage wallets within a portfolio for different asset types.
+paths:
+  /portfolios/{portfolio_id}/wallets:
+    get:
+      operationId: listPortfolioWallets
+      summary: List portfolio wallets
+      description: Retrieves a list of wallets associated with a portfolio. Each wallet holds a specific type of cryptocurrency asset.
+      tags:
+      - Wallets
+      parameters:
+      - $ref: '#/components/parameters/PortfolioIdParam'
+      - name: type
+        in: query
+        description: Filter by wallet type
+        schema:
+          type: string
+          enum:
+          - VAULT
+          - TRADING
+          - OTHER
+      - name: symbols
+        in: query
+        description: Filter by currency symbols
+        schema:
+          type: string
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved wallets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wallets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Wallet'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /portfolios/{portfolio_id}/wallets/{wallet_id}:
+    get:
+      operationId: getWallet
+      summary: Get wallet
+      description: Retrieves details of a specific wallet by its wallet ID.
+      tags:
+      - Wallets
+      parameters:
+      - $ref: '#/components/parameters/PortfolioIdParam'
+      - name: wallet_id
+        in: path
+        required: true
+        description: Wallet identifier
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved wallet
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wallet:
+                    $ref: '#/components/schemas/Wallet'
+components:
+  schemas:
+    Wallet:
+      type: object
+      description: A cryptocurrency wallet in a portfolio
+      properties:
+        id:
+          type: string
+          description: Wallet identifier
+        name:
+          type: string
+          description: Wallet name
+        symbol:
+          type: string
+          description: Currency symbol
+        type:
+          type: string
+          description: Wallet type
+          enum:
+          - VAULT
+          - TRADING
+          - OTHER
+        created_at:
+          type: string
+          format: date-time
+          description: When the wallet was created
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
+  parameters:
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Portfolio identifier
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 3000
+        default: 100
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

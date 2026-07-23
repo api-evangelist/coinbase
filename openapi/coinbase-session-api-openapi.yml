@@ -1,0 +1,81 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Session API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Session
+  description: Manage session tokens for embedded onramp widget authentication.
+paths:
+  /token:
+    post:
+      operationId: createSessionToken
+      summary: Create session token
+      description: Creates a session token for authenticating the embedded onramp widget. The token is used to initialize the Coinbase Onramp widget within a third-party application.
+      tags:
+      - Session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - destination_wallets
+              properties:
+                destination_wallets:
+                  type: array
+                  description: Wallet addresses to receive purchased crypto
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                        description: Wallet address
+                      blockchains:
+                        type: array
+                        description: Supported blockchains for this address
+                        items:
+                          type: string
+                      assets:
+                        type: array
+                        description: Supported assets for this address
+                        items:
+                          type: string
+                      supported_networks:
+                        type: array
+                        description: Supported network identifiers
+                        items:
+                          type: string
+      responses:
+        '200':
+          description: Session token created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Session token for widget initialization
+        '401':
+          description: Unauthorized
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

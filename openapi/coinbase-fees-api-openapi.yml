@@ -1,0 +1,113 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Fees API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Fees
+  description: Retrieve transaction summary and fee information for the authenticated user.
+paths:
+  /transaction_summary:
+    get:
+      operationId: getTransactionSummary
+      summary: Get transaction summary
+      description: Retrieves the transaction summary for the authenticated user, including fee tier information, total volume, and maker/taker fee rates.
+      tags:
+      - Fees
+      parameters:
+      - name: product_type
+        in: query
+        description: Filter by product type
+        schema:
+          type: string
+          enum:
+          - SPOT
+          - FUTURE
+      responses:
+        '200':
+          description: Successfully retrieved transaction summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionSummary'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /fees:
+    get:
+      operationId: getFees
+      summary: Get fees
+      description: Retrieves the current maker and taker fee rates for the authenticated user based on their trading volume.
+      tags:
+      - Fees
+      responses:
+        '200':
+          description: Successfully retrieved fees
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  maker_fee_rate:
+                    type: string
+                    description: Current maker fee rate
+                  taker_fee_rate:
+                    type: string
+                    description: Current taker fee rate
+                  usd_volume:
+                    type: string
+                    description: USD trading volume
+components:
+  schemas:
+    TransactionSummary:
+      type: object
+      description: Summary of user transaction fees and volume
+      properties:
+        total_volume:
+          type: number
+          description: Total trading volume
+        total_fees:
+          type: number
+          description: Total fees paid
+        fee_tier:
+          type: object
+          description: Current fee tier information
+          properties:
+            pricing_tier:
+              type: string
+              description: Current pricing tier name
+            usd_from:
+              type: string
+              description: Lower bound of the tier volume range
+            usd_to:
+              type: string
+              description: Upper bound of the tier volume range
+            taker_fee_rate:
+              type: string
+              description: Taker fee rate for the current tier
+            maker_fee_rate:
+              type: string
+              description: Maker fee rate for the current tier
+        advanced_trade_only_volume:
+          type: number
+          description: Volume from Advanced Trade only
+        advanced_trade_only_fees:
+          type: number
+          description: Fees from Advanced Trade only
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

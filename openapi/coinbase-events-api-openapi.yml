@@ -1,0 +1,152 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Events API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Events
+  description: Retrieve webhook events that track the lifecycle of charges, checkouts, and invoices.
+paths:
+  /events:
+    get:
+      operationId: listEvents
+      summary: List events
+      description: Retrieves a paginated list of webhook events. Events track the lifecycle of charges, checkouts, and invoices including creation, confirmation, and failure.
+      tags:
+      - Events
+      parameters:
+      - $ref: '#/components/parameters/PaginationParam'
+      - $ref: '#/components/parameters/OrderParam'
+      responses:
+        '200':
+          description: Successfully retrieved events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+  /events/{event_id}:
+    get:
+      operationId: getEvent
+      summary: Get event
+      description: Retrieves a specific event by its ID.
+      tags:
+      - Events
+      parameters:
+      - name: event_id
+        in: path
+        required: true
+        description: Event identifier
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved event
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Event'
+        '404':
+          description: Event not found
+components:
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      description: Sort order for results
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
+  schemas:
+    Event:
+      type: object
+      description: A webhook event tracking resource lifecycle changes
+      properties:
+        id:
+          type: string
+          description: Event identifier
+        resource:
+          type: string
+          description: Resource type
+          enum:
+          - event
+        type:
+          type: string
+          description: Event type
+          enum:
+          - charge:created
+          - charge:confirmed
+          - charge:failed
+          - charge:delayed
+          - charge:pending
+          - charge:resolved
+        api_version:
+          type: string
+          description: API version that generated the event
+        created_at:
+          type: string
+          format: date-time
+          description: When the event occurred
+        data:
+          type: object
+          description: Event data payload containing the affected resource
+    Pagination:
+      type: object
+      description: Pagination cursor information
+      properties:
+        order:
+          type: string
+          description: Sort order
+        starting_after:
+          type: string
+          description: Cursor for next page
+        ending_before:
+          type: string
+          description: Cursor for previous page
+        total:
+          type: integer
+          description: Total number of results
+        yielded:
+          type: integer
+          description: Number of results in this page
+        cursor_range:
+          type: array
+          description: Range of cursors in this page
+          items:
+            type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

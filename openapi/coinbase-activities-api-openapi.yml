@@ -1,0 +1,162 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Activities API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Activities
+  description: View activity history for portfolios including trades, transfers, and other events.
+paths:
+  /portfolios/{portfolio_id}/activities:
+    get:
+      operationId: listActivities
+      summary: List activities
+      description: Retrieves all activities associated with a given portfolio. Activities include trades, transfers, deposits, withdrawals, and other events.
+      tags:
+      - Activities
+      parameters:
+      - $ref: '#/components/parameters/PortfolioIdParam'
+      - name: symbols
+        in: query
+        description: Filter by currency symbols
+        schema:
+          type: string
+      - name: categories
+        in: query
+        description: Filter by activity categories
+        schema:
+          type: array
+          items:
+            type: string
+      - name: statuses
+        in: query
+        description: Filter by activity statuses
+        schema:
+          type: array
+          items:
+            type: string
+      - name: start_time
+        in: query
+        description: Start time filter
+        schema:
+          type: string
+          format: date-time
+      - name: end_time
+        in: query
+        description: End time filter
+        schema:
+          type: string
+          format: date-time
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/SortDirectionParam'
+      responses:
+        '200':
+          description: Successfully retrieved activities
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Activity'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+components:
+  schemas:
+    Activity:
+      type: object
+      description: A portfolio activity event
+      properties:
+        id:
+          type: string
+          description: Activity identifier
+        type:
+          type: string
+          description: Activity type
+        status:
+          type: string
+          description: Activity status
+        symbol:
+          type: string
+          description: Currency symbol
+        amount:
+          type: string
+          description: Activity amount
+        created_at:
+          type: string
+          format: date-time
+          description: When the activity occurred
+        updated_at:
+          type: string
+          format: date-time
+          description: When the activity was last updated
+        category:
+          type: string
+          description: Activity category
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
+  parameters:
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    SortDirectionParam:
+      name: sort_direction
+      in: query
+      description: Sort direction for results
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+        default: DESC
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 3000
+        default: 100
+    PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Portfolio identifier
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

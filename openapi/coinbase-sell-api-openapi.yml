@@ -1,0 +1,211 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Sell API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Sell
+  description: Endpoints for discovering sell options and generating sell quotes for crypto-to-fiat transactions.
+paths:
+  /sell/options:
+    get:
+      operationId: getSellOptions
+      summary: Get sell options
+      description: Provides clients with a way to discover the available options for selling cryptocurrency. Returns supported fiat deposit currencies and available crypto assets.
+      tags:
+      - Sell
+      parameters:
+      - name: country
+        in: query
+        required: true
+        description: ISO 3166-1 alpha-2 country code
+        schema:
+          type: string
+          minLength: 2
+          maxLength: 2
+      - name: subdivision
+        in: query
+        description: ISO 3166-2 subdivision code
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved sell options
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sell_currencies:
+                    type: array
+                    description: Crypto assets available for selling
+                    items:
+                      $ref: '#/components/schemas/PurchaseCurrency'
+                  cash_out_currencies:
+                    type: array
+                    description: Fiat currencies for receiving funds
+                    items:
+                      $ref: '#/components/schemas/PaymentCurrency'
+        '401':
+          description: Unauthorized
+  /sell/quote:
+    post:
+      operationId: createSellQuote
+      summary: Create sell quote
+      description: Generates a price quote for selling cryptocurrency. Returns the estimated fiat amount that will be received for a given crypto amount. Rate limited to 10 requests per second per app ID.
+      tags:
+      - Sell
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SellQuoteRequest'
+      responses:
+        '200':
+          description: Successfully generated sell quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellQuote'
+        '400':
+          description: Bad request - Invalid parameters
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limit exceeded
+components:
+  schemas:
+    PaymentCurrency:
+      type: object
+      description: A fiat currency available for payments
+      properties:
+        id:
+          type: string
+          description: Currency identifier
+        name:
+          type: string
+          description: Currency name
+        symbol:
+          type: string
+          description: Currency symbol
+        min_amount:
+          type: string
+          description: Minimum transaction amount
+        max_amount:
+          type: string
+          description: Maximum transaction amount
+    SellQuote:
+      type: object
+      description: A price quote for selling cryptocurrency
+      properties:
+        coinbase_fee:
+          type: object
+          description: Coinbase fee details
+          properties:
+            amount:
+              type: string
+              description: Fee amount
+            currency:
+              type: string
+              description: Fee currency
+        cash_out_subtotal:
+          type: object
+          description: Subtotal cash out amount
+          properties:
+            amount:
+              type: string
+              description: Subtotal amount
+            currency:
+              type: string
+              description: Currency
+        cash_out_total:
+          type: object
+          description: Total cash out amount
+          properties:
+            amount:
+              type: string
+              description: Total amount
+            currency:
+              type: string
+              description: Currency
+        quote_id:
+          type: string
+          description: Unique quote identifier
+    SellQuoteRequest:
+      type: object
+      description: Request body for generating a sell quote
+      required:
+      - sell_currency
+      - sell_amount
+      - cash_out_currency
+      - country
+      properties:
+        sell_currency:
+          type: string
+          description: Cryptocurrency to sell
+        sell_amount:
+          type: string
+          description: Amount of crypto to sell
+        cash_out_currency:
+          type: string
+          description: Fiat currency to receive
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+        subdivision:
+          type: string
+          description: ISO 3166-2 subdivision code
+    PurchaseCurrency:
+      type: object
+      description: A cryptocurrency available for purchase
+      properties:
+        id:
+          type: string
+          description: Asset identifier
+        name:
+          type: string
+          description: Asset name
+        symbol:
+          type: string
+          description: Asset symbol
+        icon_url:
+          type: string
+          format: uri
+          description: URL for the asset icon
+        networks:
+          type: array
+          description: Supported blockchain networks
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Network name
+              display_name:
+                type: string
+                description: Network display name
+              chain_id:
+                type: string
+                description: Blockchain chain ID
+              contract_address:
+                type: string
+                description: Token contract address on this network
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

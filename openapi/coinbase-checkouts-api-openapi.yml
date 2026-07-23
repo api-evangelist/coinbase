@@ -1,0 +1,268 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Checkouts API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Checkouts
+  description: Create and manage reusable checkout pages for accepting recurring or standardized payments.
+paths:
+  /checkouts:
+    get:
+      operationId: listCheckouts
+      summary: List checkouts
+      description: Retrieves a paginated list of all checkouts. Checkouts are reusable payment pages that can be shared with customers.
+      tags:
+      - Checkouts
+      parameters:
+      - $ref: '#/components/parameters/PaginationParam'
+      - $ref: '#/components/parameters/OrderParam'
+      responses:
+        '200':
+          description: Successfully retrieved checkouts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Checkout'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+    post:
+      operationId: createCheckout
+      summary: Create checkout
+      description: Creates a new checkout page for accepting payments. Checkouts are reusable and generate a unique URL that can be shared with customers.
+      tags:
+      - Checkouts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCheckoutRequest'
+      responses:
+        '201':
+          description: Checkout created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Checkout'
+        '400':
+          description: Bad request
+  /checkouts/{checkout_id}:
+    get:
+      operationId: getCheckout
+      summary: Get checkout
+      description: Retrieves a specific checkout by its ID.
+      tags:
+      - Checkouts
+      parameters:
+      - name: checkout_id
+        in: path
+        required: true
+        description: Checkout identifier
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved checkout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Checkout'
+        '404':
+          description: Checkout not found
+    put:
+      operationId: updateCheckout
+      summary: Update checkout
+      description: Updates an existing checkout page with new details.
+      tags:
+      - Checkouts
+      parameters:
+      - name: checkout_id
+        in: path
+        required: true
+        description: Checkout identifier
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCheckoutRequest'
+      responses:
+        '200':
+          description: Checkout updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Checkout'
+    delete:
+      operationId: deleteCheckout
+      summary: Delete checkout
+      description: Deletes a checkout page by its ID.
+      tags:
+      - Checkouts
+      parameters:
+      - name: checkout_id
+        in: path
+        required: true
+        description: Checkout identifier
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Checkout deleted
+components:
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      description: Sort order for results
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
+  schemas:
+    Checkout:
+      type: object
+      description: A reusable checkout page for accepting payments
+      properties:
+        id:
+          type: string
+          description: Checkout identifier
+        resource:
+          type: string
+          description: Resource type
+          enum:
+          - checkout
+        name:
+          type: string
+          description: Checkout name
+        description:
+          type: string
+          description: Checkout description
+        requested_info:
+          type: array
+          description: Information requested from the customer
+          items:
+            type: string
+            enum:
+            - name
+            - email
+        pricing_type:
+          type: string
+          description: Pricing model
+          enum:
+          - no_price
+          - fixed_price
+        local_price:
+          type: object
+          description: Price in local currency
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
+    CreateCheckoutRequest:
+      type: object
+      description: Request body for creating a new checkout
+      required:
+      - name
+      - pricing_type
+      properties:
+        name:
+          type: string
+          description: Name for the checkout
+        description:
+          type: string
+          description: Description
+        pricing_type:
+          type: string
+          description: Pricing model
+          enum:
+          - no_price
+          - fixed_price
+        local_price:
+          type: object
+          description: Price in local currency
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
+        requested_info:
+          type: array
+          description: Information to request from customers
+          items:
+            type: string
+            enum:
+            - name
+            - email
+    Pagination:
+      type: object
+      description: Pagination cursor information
+      properties:
+        order:
+          type: string
+          description: Sort order
+        starting_after:
+          type: string
+          description: Cursor for next page
+        ending_before:
+          type: string
+          description: Cursor for previous page
+        total:
+          type: integer
+          description: Total number of results
+        yielded:
+          type: integer
+          description: Number of results in this page
+        cursor_range:
+          type: array
+          description: Range of cursors in this page
+          items:
+            type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

@@ -1,0 +1,128 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Market Data API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Market Data
+  description: Access public market data including products, order books, trades, and candles without authentication.
+paths:
+  /best_bid_ask:
+    get:
+      operationId: getBestBidAsk
+      summary: Get best bid and ask
+      description: Retrieves the best bid and ask prices for the specified products. This endpoint is publicly accessible.
+      tags:
+      - Market Data
+      security: []
+      parameters:
+      - name: product_ids
+        in: query
+        description: List of product IDs to get bid/ask for
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved best bid and ask
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pricebooks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PriceBook'
+  /product_book:
+    get:
+      operationId: getProductBook
+      summary: Get product book
+      description: Retrieves the order book for a specific product. Returns bids and asks at various price levels. This endpoint is publicly accessible.
+      tags:
+      - Market Data
+      security: []
+      parameters:
+      - name: product_id
+        in: query
+        required: true
+        description: Product ID to get the order book for
+        schema:
+          type: string
+      - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved product book
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pricebook:
+                    $ref: '#/components/schemas/PriceBook'
+components:
+  schemas:
+    PriceBook:
+      type: object
+      description: Order book price levels
+      properties:
+        product_id:
+          type: string
+          description: Product identifier
+        bids:
+          type: array
+          description: Bid price levels
+          items:
+            type: object
+            properties:
+              price:
+                type: string
+                description: Bid price
+              size:
+                type: string
+                description: Size at this price level
+        asks:
+          type: array
+          description: Ask price levels
+          items:
+            type: object
+            properties:
+              price:
+                type: string
+                description: Ask price
+              size:
+                type: string
+                description: Size at this price level
+        time:
+          type: string
+          format: date-time
+          description: Timestamp of the price book
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

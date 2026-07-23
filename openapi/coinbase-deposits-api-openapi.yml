@@ -1,0 +1,168 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Deposits API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Deposits
+  description: View deposit information and payment methods for funding exchange accounts.
+paths:
+  /deposits/payment-method:
+    post:
+      operationId: depositFromPaymentMethod
+      summary: Deposit from payment method
+      description: Deposits funds from a payment method into the exchange account.
+      tags:
+      - Deposits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - amount
+              - currency
+              - payment_method_id
+              properties:
+                amount:
+                  type: string
+                  description: Amount to deposit
+                currency:
+                  type: string
+                  description: Currency to deposit
+                payment_method_id:
+                  type: string
+                  description: ID of the payment method
+      responses:
+        '200':
+          description: Deposit initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+  /deposits/coinbase-account:
+    post:
+      operationId: depositFromCoinbaseAccount
+      summary: Deposit from Coinbase account
+      description: Deposits funds from a Coinbase account into the exchange account.
+      tags:
+      - Deposits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - amount
+              - currency
+              - coinbase_account_id
+              properties:
+                amount:
+                  type: string
+                  description: Amount to deposit
+                currency:
+                  type: string
+                  description: Currency to deposit
+                coinbase_account_id:
+                  type: string
+                  description: ID of the Coinbase account
+      responses:
+        '200':
+          description: Deposit initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+  /payment-methods:
+    get:
+      operationId: listPaymentMethods
+      summary: List payment methods
+      description: Retrieves a list of payment methods linked to the authenticated user.
+      tags:
+      - Deposits
+      responses:
+        '200':
+          description: Successfully retrieved payment methods
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentMethod'
+components:
+  schemas:
+    PaymentMethod:
+      type: object
+      description: A linked payment method
+      properties:
+        id:
+          type: string
+          description: Payment method identifier
+        type:
+          type: string
+          description: Payment method type
+        name:
+          type: string
+          description: Display name
+        currency:
+          type: string
+          description: Currency for this payment method
+        allow_buy:
+          type: boolean
+          description: Whether buying is allowed
+        allow_sell:
+          type: boolean
+          description: Whether selling is allowed
+        allow_deposit:
+          type: boolean
+          description: Whether deposits are allowed
+        allow_withdraw:
+          type: boolean
+          description: Whether withdrawals are allowed
+    Transfer:
+      type: object
+      description: A deposit or withdrawal transfer
+      properties:
+        id:
+          type: string
+          description: Transfer identifier
+        type:
+          type: string
+          description: Transfer type
+          enum:
+          - deposit
+          - withdraw
+        created_at:
+          type: string
+          format: date-time
+          description: When the transfer was created
+        completed_at:
+          type: string
+          format: date-time
+          description: When the transfer completed
+        amount:
+          type: string
+          description: Transfer amount
+        details:
+          type: object
+          description: Additional transfer details
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api

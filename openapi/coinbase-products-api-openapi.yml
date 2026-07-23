@@ -1,0 +1,431 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Advanced Trade Accounts Products API
+  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
+  version: '3.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+servers:
+- url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Products
+  description: Retrieve product information, market trades, product books, and candle data for trading pairs.
+paths:
+  /products:
+    get:
+      operationId: listProducts
+      summary: List products
+      description: Retrieves a list of available trading products. Returns product details including trading pair, status, and price information. This endpoint is publicly accessible without authentication.
+      tags:
+      - Products
+      security: []
+      parameters:
+      - name: product_type
+        in: query
+        description: Filter by product type
+        schema:
+          type: string
+          enum:
+          - SPOT
+          - FUTURE
+      - $ref: '#/components/parameters/LimitParam'
+      - name: offset
+        in: query
+        description: Number of products to offset before returning
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successfully retrieved list of products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  num_products:
+                    type: integer
+                    description: Total number of products
+  /products/{product_id}:
+    get:
+      operationId: getProduct
+      summary: Get product
+      description: Retrieves information about a single trading product by its product ID. Returns detailed product information including current price, volume, and trading parameters. This endpoint is publicly accessible.
+      tags:
+      - Products
+      security: []
+      parameters:
+      - $ref: '#/components/parameters/ProductIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved product details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found
+  /products/{product_id}/candles:
+    get:
+      operationId: getProductCandles
+      summary: Get product candles
+      description: Retrieves historical candle data for a specific product. Returns OHLCV data at the specified granularity. This endpoint is publicly accessible.
+      tags:
+      - Products
+      security: []
+      parameters:
+      - $ref: '#/components/parameters/ProductIdParam'
+      - name: start
+        in: query
+        required: true
+        description: Start time in UNIX timestamp format
+        schema:
+          type: string
+      - name: end
+        in: query
+        required: true
+        description: End time in UNIX timestamp format
+        schema:
+          type: string
+      - name: granularity
+        in: query
+        required: true
+        description: Time granularity for each candle
+        schema:
+          type: string
+          enum:
+          - ONE_MINUTE
+          - FIVE_MINUTE
+          - FIFTEEN_MINUTE
+          - THIRTY_MINUTE
+          - ONE_HOUR
+          - TWO_HOUR
+          - SIX_HOUR
+          - ONE_DAY
+      responses:
+        '200':
+          description: Successfully retrieved candle data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  candles:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Candle'
+  /products/{product_id}/ticker:
+    get:
+      operationId: getMarketTrades
+      summary: Get market trades
+      description: Retrieves the latest trades for a specific product. Returns trade details including price, size, and time. This endpoint is publicly accessible.
+      tags:
+      - Products
+      security: []
+      parameters:
+      - $ref: '#/components/parameters/ProductIdParam'
+      - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Successfully retrieved market trades
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trades:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Trade'
+                  best_bid:
+                    type: string
+                    description: Best current bid price
+                  best_ask:
+                    type: string
+                    description: Best current ask price
+  /products/{product_id}/book:
+    get:
+      operationId: getProductOrderBook
+      summary: Get product order book
+      description: Retrieves the order book for a product. The default level is 1 which returns the best bid and ask. Level 2 returns the top 50 bids and asks. Level 3 is not recommended for polling.
+      tags:
+      - Products
+      security: []
+      parameters:
+      - $ref: '#/components/parameters/ProductIdParam'
+      - name: level
+        in: query
+        description: Order book detail level (1, 2, or 3)
+        schema:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+          default: 1
+      responses:
+        '200':
+          description: Successfully retrieved order book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderBook'
+  /products/{product_id}/trades:
+    get:
+      operationId: getProductTrades
+      summary: Get product trades
+      description: Retrieves a list of the latest trades for a product. Returns the trade ID, price, size, and time for each trade.
+      tags:
+      - Products
+      security: []
+      parameters:
+      - $ref: '#/components/parameters/ProductIdParam'
+      - $ref: '#/components/parameters/BeforeParam'
+      - $ref: '#/components/parameters/AfterParam'
+      - $ref: '#/components/parameters/LimitParam_2'
+      responses:
+        '200':
+          description: Successfully retrieved trades
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trade_2'
+  /products/{product_id}/stats:
+    get:
+      operationId: getProductStats
+      summary: Get product 24hr stats
+      description: Retrieves 24-hour statistics for a product including open, high, low, and volume.
+      tags:
+      - Products
+      security: []
+      parameters:
+      - $ref: '#/components/parameters/ProductIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved 24hr stats
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  open:
+                    type: string
+                    description: Opening price 24 hours ago
+                  high:
+                    type: string
+                    description: Highest price in the last 24 hours
+                  low:
+                    type: string
+                    description: Lowest price in the last 24 hours
+                  volume:
+                    type: string
+                    description: Total volume in the last 24 hours
+                  last:
+                    type: string
+                    description: Last traded price
+                  volume_30day:
+                    type: string
+                    description: Total volume in the last 30 days
+components:
+  parameters:
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+    ProductIdParam:
+      name: product_id
+      in: path
+      required: true
+      description: Trading pair identifier such as BTC-USD
+      schema:
+        type: string
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
+  schemas:
+    Trade_2:
+      type: object
+      description: A market trade
+      properties:
+        time:
+          type: string
+          format: date-time
+          description: Trade time
+        trade_id:
+          type: integer
+          description: Trade identifier
+        price:
+          type: string
+          description: Trade price
+        size:
+          type: string
+          description: Trade size
+        side:
+          type: string
+          description: Maker side
+          enum:
+          - buy
+          - sell
+    Trade:
+      type: object
+      description: A market trade
+      properties:
+        trade_id:
+          type: string
+          description: Unique identifier for the trade
+        product_id:
+          type: string
+          description: Product traded
+        price:
+          type: string
+          description: Price of the trade
+        size:
+          type: string
+          description: Size of the trade
+        time:
+          type: string
+          format: date-time
+          description: Time the trade occurred
+        side:
+          type: string
+          description: Taker side of the trade
+          enum:
+          - BUY
+          - SELL
+    Product:
+      type: object
+      description: A trading product representing a currency pair
+      properties:
+        product_id:
+          type: string
+          description: Unique identifier for the product
+        price:
+          type: string
+          description: Current price of the product
+        price_percentage_change_24h:
+          type: string
+          description: 24-hour price change percentage
+        volume_24h:
+          type: string
+          description: 24-hour trading volume
+        volume_percentage_change_24h:
+          type: string
+          description: 24-hour volume change percentage
+        base_increment:
+          type: string
+          description: Minimum order size increment
+        quote_increment:
+          type: string
+          description: Minimum price increment
+        quote_min_size:
+          type: string
+          description: Minimum order value in quote currency
+        quote_max_size:
+          type: string
+          description: Maximum order value in quote currency
+        base_min_size:
+          type: string
+          description: Minimum order size in base currency
+        base_max_size:
+          type: string
+          description: Maximum order size in base currency
+        base_name:
+          type: string
+          description: Name of the base currency
+        quote_name:
+          type: string
+          description: Name of the quote currency
+        status:
+          type: string
+          description: Trading status of the product
+        product_type:
+          type: string
+          description: Type of product
+          enum:
+          - SPOT
+          - FUTURE
+    OrderBook:
+      type: object
+      description: Product order book at a specific level of detail
+      properties:
+        sequence:
+          type: integer
+          description: Sequence number of the order book
+        bids:
+          type: array
+          description: Bid price levels
+          items:
+            type: array
+            items:
+              type: string
+        asks:
+          type: array
+          description: Ask price levels
+          items:
+            type: array
+            items:
+              type: string
+    Candle:
+      type: object
+      description: OHLCV candle data point
+      properties:
+        start:
+          type: string
+          description: UNIX timestamp for the start of the candle
+        low:
+          type: string
+          description: Lowest price during the interval
+        high:
+          type: string
+          description: Highest price during the interval
+        open:
+          type: string
+          description: Opening price of the interval
+        close:
+          type: string
+          description: Closing price of the interval
+        volume:
+          type: string
+          description: Volume traded during the interval
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: CB-ACCESS-KEY
+      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+externalDocs:
+  description: Coinbase Advanced Trade API Documentation
+  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
