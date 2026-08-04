@@ -1,0 +1,181 @@
+{
+  "info": {
+    "_postman_id": "ecf6a030-431f-499d-b99b-fc26f949cd4b",
+    "name": "Coinbase Advanced Trade Accounts Users API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:25:08.000Z",
+    "updatedAt": "2026-07-28T01:25:09.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-ecf6a030-431f-499d-b99b-fc26f949cd4b"
+  },
+  "item": [
+    {
+      "name": "portfolios",
+      "item": [
+        {
+          "name": "{portfolio_id}",
+          "item": [
+            {
+              "name": "users",
+              "item": [
+                {
+                  "name": "List portfolio users",
+                  "id": "b22baae5-f11d-4853-8bfb-fe6b1c486584",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id/users?cursor=<string>&limit=100",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id",
+                        "users"
+                      ],
+                      "query": [
+                        {
+                          "description": "Cursor for pagination",
+                          "key": "cursor",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return",
+                          "key": "limit",
+                          "value": "100"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "a28cdc42-1eb6-4b1d-a949-017be5827e67",
+                          "key": "portfolio_id",
+                          "value": "<string>",
+                          "description": "(Required) Portfolio identifier"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves a list of users who have access to the specified portfolio."
+                  },
+                  "response": [
+                    {
+                      "id": "c78920a3-7808-431f-84ad-a1f6590dd571",
+                      "name": "Successfully retrieved users",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/portfolios/:portfolio_id/users?cursor=<string>&limit=100",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "portfolios",
+                            ":portfolio_id",
+                            "users"
+                          ],
+                          "query": [
+                            {
+                              "description": "Cursor for pagination",
+                              "key": "cursor",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return",
+                              "key": "limit",
+                              "value": "100"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "portfolio_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"users\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"email\": \"<string>\",\n      \"role\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"email\": \"<string>\",\n      \"role\": \"<string>\"\n    }\n  ],\n  \"pagination\": {\n    \"next_cursor\": \"<string>\",\n    \"sort_direction\": \"<string>\",\n    \"has_next\": \"<boolean>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:25:09.000Z",
+                      "updatedAt": "2026-07-28T01:25:09.000Z",
+                      "uid": "35240-c78920a3-7808-431f-84ad-a1f6590dd571"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:25:09.000Z",
+                  "updatedAt": "2026-07-28T01:25:09.000Z",
+                  "uid": "35240-b22baae5-f11d-4853-8bfb-fe6b1c486584"
+                }
+              ],
+              "id": "a5bb2b1f-6255-47b8-bdca-6f815f55594a",
+              "createdAt": "2026-07-28T01:25:09.000Z",
+              "updatedAt": "2026-07-28T01:25:09.000Z",
+              "uid": "35240-a5bb2b1f-6255-47b8-bdca-6f815f55594a"
+            }
+          ],
+          "id": "eab5d506-7e35-4970-b8dc-7c64f5d054af",
+          "createdAt": "2026-07-28T01:25:09.000Z",
+          "updatedAt": "2026-07-28T01:25:09.000Z",
+          "uid": "35240-eab5d506-7e35-4970-b8dc-7c64f5d054af"
+        }
+      ],
+      "id": "82dd9411-250f-4dcb-9c40-96b1d71daba8",
+      "createdAt": "2026-07-28T01:25:09.000Z",
+      "updatedAt": "2026-07-28T01:25:09.000Z",
+      "uid": "35240-82dd9411-250f-4dcb-9c40-96b1d71daba8"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

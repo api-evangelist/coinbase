@@ -1,0 +1,247 @@
+{
+  "info": {
+    "_postman_id": "94ef4f55-22d3-4123-8091-147300529418",
+    "name": "Coinbase Advanced Trade Accounts Market Data API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:46.000Z",
+    "updatedAt": "2026-07-28T01:24:47.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-94ef4f55-22d3-4123-8091-147300529418"
+  },
+  "item": [
+    {
+      "name": "best_bid_ask",
+      "item": [
+        {
+          "name": "Get best bid and ask",
+          "id": "f905a1a9-f9eb-4ade-9296-b1e84fa0f2fa",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/best_bid_ask?product_ids=<string>&product_ids=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "best_bid_ask"
+              ],
+              "query": [
+                {
+                  "description": "List of product IDs to get bid/ask for",
+                  "key": "product_ids",
+                  "value": "<string>"
+                },
+                {
+                  "description": "List of product IDs to get bid/ask for",
+                  "key": "product_ids",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "Retrieves the best bid and ask prices for the specified products. This endpoint is publicly accessible."
+          },
+          "response": [
+            {
+              "id": "8cf49185-e27f-4d6b-84f3-b0578cfdcfb3",
+              "name": "Successfully retrieved best bid and ask",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/best_bid_ask?product_ids=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "best_bid_ask"
+                  ],
+                  "query": [
+                    {
+                      "description": "List of product IDs to get bid/ask for",
+                      "key": "product_ids",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"pricebooks\": [\n    {\n      \"product_id\": \"<string>\",\n      \"bids\": [\n        {\n          \"price\": \"<string>\",\n          \"size\": \"<string>\"\n        },\n        {\n          \"price\": \"<string>\",\n          \"size\": \"<string>\"\n        }\n      ],\n      \"asks\": [\n        {\n          \"price\": \"<string>\",\n          \"size\": \"<string>\"\n        },\n        {\n          \"price\": \"<string>\",\n          \"size\": \"<string>\"\n        }\n      ],\n      \"time\": \"<dateTime>\"\n    },\n    {\n      \"product_id\": \"<string>\",\n      \"bids\": [\n        {\n          \"price\": \"<string>\",\n          \"size\": \"<string>\"\n        },\n        {\n          \"price\": \"<string>\",\n          \"size\": \"<string>\"\n        }\n      ],\n      \"asks\": [\n        {\n          \"price\": \"<string>\",\n          \"size\": \"<string>\"\n        },\n        {\n          \"price\": \"<string>\",\n          \"size\": \"<string>\"\n        }\n      ],\n      \"time\": \"<dateTime>\"\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T01:24:47.000Z",
+              "updatedAt": "2026-07-28T01:24:47.000Z",
+              "uid": "35240-8cf49185-e27f-4d6b-84f3-b0578cfdcfb3"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:47.000Z",
+          "updatedAt": "2026-07-28T01:24:47.000Z",
+          "uid": "35240-f905a1a9-f9eb-4ade-9296-b1e84fa0f2fa"
+        }
+      ],
+      "id": "d0cb8567-2181-4d9a-a159-efc28adff0e4",
+      "createdAt": "2026-07-28T01:24:47.000Z",
+      "updatedAt": "2026-07-28T01:24:47.000Z",
+      "uid": "35240-d0cb8567-2181-4d9a-a159-efc28adff0e4"
+    },
+    {
+      "name": "product_book",
+      "item": [
+        {
+          "name": "Get product book",
+          "id": "dff16f84-9402-4003-bbab-faf50f261459",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/product_book?product_id=<string>&limit=49",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "product_book"
+              ],
+              "query": [
+                {
+                  "description": "(Required) Product ID to get the order book for",
+                  "key": "product_id",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Maximum number of results to return",
+                  "key": "limit",
+                  "value": "49"
+                }
+              ]
+            },
+            "description": "Retrieves the order book for a specific product. Returns bids and asks at various price levels. This endpoint is publicly accessible."
+          },
+          "response": [
+            {
+              "id": "4759bdb9-1ab7-4c96-80b1-5869b2c0cc2a",
+              "name": "Successfully retrieved product book",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/product_book?product_id=<string>&limit=49",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "product_book"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) Product ID to get the order book for",
+                      "key": "product_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Maximum number of results to return",
+                      "key": "limit",
+                      "value": "49"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"pricebook\": {\n    \"product_id\": \"<string>\",\n    \"bids\": [\n      {\n        \"price\": \"<string>\",\n        \"size\": \"<string>\"\n      },\n      {\n        \"price\": \"<string>\",\n        \"size\": \"<string>\"\n      }\n    ],\n    \"asks\": [\n      {\n        \"price\": \"<string>\",\n        \"size\": \"<string>\"\n      },\n      {\n        \"price\": \"<string>\",\n        \"size\": \"<string>\"\n      }\n    ],\n    \"time\": \"<dateTime>\"\n  }\n}",
+              "createdAt": "2026-07-28T01:24:47.000Z",
+              "updatedAt": "2026-07-28T01:24:47.000Z",
+              "uid": "35240-4759bdb9-1ab7-4c96-80b1-5869b2c0cc2a"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:47.000Z",
+          "updatedAt": "2026-07-28T01:24:47.000Z",
+          "uid": "35240-dff16f84-9402-4003-bbab-faf50f261459"
+        }
+      ],
+      "id": "e0728845-7049-429a-b8eb-eb9168af61ce",
+      "createdAt": "2026-07-28T01:24:47.000Z",
+      "updatedAt": "2026-07-28T01:24:47.000Z",
+      "uid": "35240-e0728845-7049-429a-b8eb-eb9168af61ce"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

@@ -1,0 +1,355 @@
+{
+  "info": {
+    "_postman_id": "57d84425-7a9c-4d0a-b070-41a2816a5a28",
+    "name": "Coinbase Advanced Trade Accounts Deposits API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:43.000Z",
+    "updatedAt": "2026-07-28T01:24:43.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-57d84425-7a9c-4d0a-b070-41a2816a5a28"
+  },
+  "item": [
+    {
+      "name": "deposits",
+      "item": [
+        {
+          "name": "payment-method",
+          "item": [
+            {
+              "name": "Deposit from payment method",
+              "id": "bd9ae5c5-04e2-40c0-8b99-2a276dc81f8b",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"payment_method_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/deposits/payment-method",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "deposits",
+                    "payment-method"
+                  ]
+                },
+                "description": "Deposits funds from a payment method into the exchange account."
+              },
+              "response": [
+                {
+                  "id": "9ba0a888-9bff-4179-9dab-d5ae43f7f57e",
+                  "name": "Deposit initiated",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"amount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"payment_method_id\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/deposits/payment-method",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "deposits",
+                        "payment-method"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"type\": \"deposit\",\n  \"created_at\": \"<dateTime>\",\n  \"completed_at\": \"<dateTime>\",\n  \"amount\": \"<string>\",\n  \"details\": {}\n}",
+                  "createdAt": "2026-07-28T01:24:43.000Z",
+                  "updatedAt": "2026-07-28T01:24:43.000Z",
+                  "uid": "35240-9ba0a888-9bff-4179-9dab-d5ae43f7f57e"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:43.000Z",
+              "updatedAt": "2026-07-28T01:24:43.000Z",
+              "uid": "35240-bd9ae5c5-04e2-40c0-8b99-2a276dc81f8b"
+            }
+          ],
+          "id": "48bed7d9-3633-40ee-8402-33afeaa3ea49",
+          "createdAt": "2026-07-28T01:24:43.000Z",
+          "updatedAt": "2026-07-28T01:24:43.000Z",
+          "uid": "35240-48bed7d9-3633-40ee-8402-33afeaa3ea49"
+        },
+        {
+          "name": "coinbase-account",
+          "item": [
+            {
+              "name": "Deposit from Coinbase account",
+              "id": "d6f49c81-baa1-49cb-830e-7330188f6cf4",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"coinbase_account_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/deposits/coinbase-account",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "deposits",
+                    "coinbase-account"
+                  ]
+                },
+                "description": "Deposits funds from a Coinbase account into the exchange account."
+              },
+              "response": [
+                {
+                  "id": "e41ddd44-3bff-4296-b00a-b53b8c78c63d",
+                  "name": "Deposit initiated",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"amount\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"coinbase_account_id\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/deposits/coinbase-account",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "deposits",
+                        "coinbase-account"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"type\": \"deposit\",\n  \"created_at\": \"<dateTime>\",\n  \"completed_at\": \"<dateTime>\",\n  \"amount\": \"<string>\",\n  \"details\": {}\n}",
+                  "createdAt": "2026-07-28T01:24:43.000Z",
+                  "updatedAt": "2026-07-28T01:24:43.000Z",
+                  "uid": "35240-e41ddd44-3bff-4296-b00a-b53b8c78c63d"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:43.000Z",
+              "updatedAt": "2026-07-28T01:24:43.000Z",
+              "uid": "35240-d6f49c81-baa1-49cb-830e-7330188f6cf4"
+            }
+          ],
+          "id": "6c3d84c6-2213-429c-bab6-3f4dc91e4dec",
+          "createdAt": "2026-07-28T01:24:43.000Z",
+          "updatedAt": "2026-07-28T01:24:43.000Z",
+          "uid": "35240-6c3d84c6-2213-429c-bab6-3f4dc91e4dec"
+        }
+      ],
+      "id": "ebbf5b1f-d280-4756-b43a-14deaa61162f",
+      "createdAt": "2026-07-28T01:24:43.000Z",
+      "updatedAt": "2026-07-28T01:24:43.000Z",
+      "uid": "35240-ebbf5b1f-d280-4756-b43a-14deaa61162f"
+    },
+    {
+      "name": "payment-methods",
+      "item": [
+        {
+          "name": "List payment methods",
+          "id": "65eefd8c-5076-42ea-a896-65260d38b8af",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/payment-methods",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "payment-methods"
+              ]
+            },
+            "description": "Retrieves a list of payment methods linked to the authenticated user."
+          },
+          "response": [
+            {
+              "id": "d9619bea-ea30-4d2e-8dbe-9a5cd401e214",
+              "name": "Successfully retrieved payment methods",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/payment-methods",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "payment-methods"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "[\n  {\n    \"id\": \"<string>\",\n    \"type\": \"<string>\",\n    \"name\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"allow_buy\": \"<boolean>\",\n    \"allow_sell\": \"<boolean>\",\n    \"allow_deposit\": \"<boolean>\",\n    \"allow_withdraw\": \"<boolean>\"\n  },\n  {\n    \"id\": \"<string>\",\n    \"type\": \"<string>\",\n    \"name\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"allow_buy\": \"<boolean>\",\n    \"allow_sell\": \"<boolean>\",\n    \"allow_deposit\": \"<boolean>\",\n    \"allow_withdraw\": \"<boolean>\"\n  }\n]",
+              "createdAt": "2026-07-28T01:24:43.000Z",
+              "updatedAt": "2026-07-28T01:24:43.000Z",
+              "uid": "35240-d9619bea-ea30-4d2e-8dbe-9a5cd401e214"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:43.000Z",
+          "updatedAt": "2026-07-28T01:24:43.000Z",
+          "uid": "35240-65eefd8c-5076-42ea-a896-65260d38b8af"
+        }
+      ],
+      "id": "52300252-4648-40e8-b38b-af59c11e06e1",
+      "createdAt": "2026-07-28T01:24:43.000Z",
+      "updatedAt": "2026-07-28T01:24:43.000Z",
+      "uid": "35240-52300252-4648-40e8-b38b-af59c11e06e1"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

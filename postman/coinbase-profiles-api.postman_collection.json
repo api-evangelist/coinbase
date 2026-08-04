@@ -1,0 +1,332 @@
+{
+  "info": {
+    "_postman_id": "b93ba281-7fb4-43b4-85e9-6ba82598a0e3",
+    "name": "Coinbase Advanced Trade Accounts Profiles API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:25:01.000Z",
+    "updatedAt": "2026-07-28T01:25:01.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b93ba281-7fb4-43b4-85e9-6ba82598a0e3"
+  },
+  "item": [
+    {
+      "name": "profiles",
+      "item": [
+        {
+          "name": "{profile_id}",
+          "item": [
+            {
+              "name": "Get profile",
+              "id": "cb606268-01f3-4e39-9acb-dc755289f835",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/profiles/:profile_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "profiles",
+                    ":profile_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "4fbb59c0-b0fe-4681-ab56-508e38d593af",
+                      "key": "profile_id",
+                      "value": "<string>",
+                      "description": "(Required) Profile ID"
+                    }
+                  ]
+                },
+                "description": "Retrieves a single profile by its profile ID."
+              },
+              "response": [
+                {
+                  "id": "2a4bb940-68c0-42b8-af22-4e1369707fb6",
+                  "name": "Successfully retrieved profile",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/profiles/:profile_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "profiles",
+                        ":profile_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "profile_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"user_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"active\": \"<boolean>\",\n  \"is_default\": \"<boolean>\",\n  \"created_at\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-07-28T01:25:02.000Z",
+                  "updatedAt": "2026-07-28T01:25:02.000Z",
+                  "uid": "35240-2a4bb940-68c0-42b8-af22-4e1369707fb6"
+                }
+              ],
+              "createdAt": "2026-07-28T01:25:02.000Z",
+              "updatedAt": "2026-07-28T01:25:02.000Z",
+              "uid": "35240-cb606268-01f3-4e39-9acb-dc755289f835"
+            }
+          ],
+          "id": "bf671deb-5a05-4cf3-9be7-f125dc6422a0",
+          "createdAt": "2026-07-28T01:25:02.000Z",
+          "updatedAt": "2026-07-28T01:25:02.000Z",
+          "uid": "35240-bf671deb-5a05-4cf3-9be7-f125dc6422a0"
+        },
+        {
+          "name": "transfer",
+          "item": [
+            {
+              "name": "Transfer between profiles",
+              "id": "9f878b81-8c28-48ff-9688-1a816bd4c957",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from\": \"<string>\",\n  \"to\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"amount\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/profiles/transfer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "profiles",
+                    "transfer"
+                  ]
+                },
+                "description": "Transfers an amount of currency from one profile to another."
+              },
+              "response": [
+                {
+                  "id": "a3daea4a-8d1e-4bfc-8dc2-e7a57d102428",
+                  "name": "Transfer completed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"from\": \"<string>\",\n  \"to\": \"<string>\",\n  \"currency\": \"<string>\",\n  \"amount\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/profiles/transfer",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "profiles",
+                        "transfer"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:25:02.000Z",
+                  "updatedAt": "2026-07-28T01:25:02.000Z",
+                  "uid": "35240-a3daea4a-8d1e-4bfc-8dc2-e7a57d102428"
+                }
+              ],
+              "createdAt": "2026-07-28T01:25:02.000Z",
+              "updatedAt": "2026-07-28T01:25:02.000Z",
+              "uid": "35240-9f878b81-8c28-48ff-9688-1a816bd4c957"
+            }
+          ],
+          "id": "e431767e-2e45-459c-a5a4-b5b747e24a9b",
+          "createdAt": "2026-07-28T01:25:02.000Z",
+          "updatedAt": "2026-07-28T01:25:02.000Z",
+          "uid": "35240-e431767e-2e45-459c-a5a4-b5b747e24a9b"
+        },
+        {
+          "name": "List profiles",
+          "id": "70e247be-c36e-429a-b0b8-896eb7a50e4c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/profiles?active=<boolean>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profiles"
+              ],
+              "query": [
+                {
+                  "description": "Filter for active profiles only",
+                  "key": "active",
+                  "value": "<boolean>"
+                }
+              ]
+            },
+            "description": "Retrieves a list of trading profiles for the authenticated user. Profiles are used to separate trading activity."
+          },
+          "response": [
+            {
+              "id": "a2718e6a-8fd5-4ed8-b438-d18ff55477c6",
+              "name": "Successfully retrieved profiles",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/profiles?active=<boolean>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "profiles"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter for active profiles only",
+                      "key": "active",
+                      "value": "<boolean>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "[\n  {\n    \"id\": \"<string>\",\n    \"user_id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"active\": \"<boolean>\",\n    \"is_default\": \"<boolean>\",\n    \"created_at\": \"<dateTime>\"\n  },\n  {\n    \"id\": \"<string>\",\n    \"user_id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"active\": \"<boolean>\",\n    \"is_default\": \"<boolean>\",\n    \"created_at\": \"<dateTime>\"\n  }\n]",
+              "createdAt": "2026-07-28T01:25:02.000Z",
+              "updatedAt": "2026-07-28T01:25:02.000Z",
+              "uid": "35240-a2718e6a-8fd5-4ed8-b438-d18ff55477c6"
+            }
+          ],
+          "createdAt": "2026-07-28T01:25:02.000Z",
+          "updatedAt": "2026-07-28T01:25:02.000Z",
+          "uid": "35240-70e247be-c36e-429a-b0b8-896eb7a50e4c"
+        }
+      ],
+      "id": "71483d3a-41e2-4d7e-a517-2ba39825baac",
+      "createdAt": "2026-07-28T01:25:02.000Z",
+      "updatedAt": "2026-07-28T01:25:02.000Z",
+      "uid": "35240-71483d3a-41e2-4d7e-a517-2ba39825baac"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

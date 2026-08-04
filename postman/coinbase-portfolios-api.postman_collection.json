@@ -1,0 +1,1214 @@
+{
+  "info": {
+    "_postman_id": "a670c413-ffdf-40b8-8863-babe07fd7922",
+    "name": "Coinbase Advanced Trade Accounts Portfolios API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:48.000Z",
+    "updatedAt": "2026-07-28T01:24:49.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-a670c413-ffdf-40b8-8863-babe07fd7922"
+  },
+  "item": [
+    {
+      "name": "portfolios",
+      "item": [
+        {
+          "name": "{portfolio_id}",
+          "item": [
+            {
+              "name": "commission",
+              "item": [
+                {
+                  "name": "Get portfolio commission",
+                  "id": "7f4e7401-0dc7-4daf-8a6c-fc4e74dd9c41",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id/commission",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id",
+                        "commission"
+                      ],
+                      "variable": [
+                        {
+                          "id": "117c3f21-a1b2-4203-b843-d11cd5b26409",
+                          "key": "portfolio_id",
+                          "value": "<string>",
+                          "description": "(Required) Portfolio identifier"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves the commission and fee rate structure for a portfolio."
+                  },
+                  "response": [
+                    {
+                      "id": "c23fa172-81a8-464f-9dc6-ecdf2225b3f9",
+                      "name": "Successfully retrieved commission details",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/portfolios/:portfolio_id/commission",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "portfolios",
+                            ":portfolio_id",
+                            "commission"
+                          ],
+                          "variable": [
+                            {
+                              "key": "portfolio_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"trading_volume\": \"<string>\",\n  \"fee_tier\": {\n    \"maker_fee_rate\": \"<string>\",\n    \"taker_fee_rate\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:24:49.000Z",
+                      "updatedAt": "2026-07-28T01:24:49.000Z",
+                      "uid": "35240-c23fa172-81a8-464f-9dc6-ecdf2225b3f9"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-7f4e7401-0dc7-4daf-8a6c-fc4e74dd9c41"
+                }
+              ],
+              "id": "ad343d4d-b549-4c61-8ff0-19735e5e262c",
+              "createdAt": "2026-07-28T01:24:49.000Z",
+              "updatedAt": "2026-07-28T01:24:49.000Z",
+              "uid": "35240-ad343d4d-b549-4c61-8ff0-19735e5e262c"
+            },
+            {
+              "name": "Get portfolio breakdown",
+              "id": "bf4b43b2-747f-49cd-92d1-b9d19ef1d04a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "portfolios",
+                    ":portfolio_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "f0cddecd-535a-4a97-907e-e3df99bce312",
+                      "key": "portfolio_id",
+                      "value": "<uuid>",
+                      "description": "(Required) Unique identifier for the portfolio"
+                    }
+                  ]
+                },
+                "description": "Retrieves a breakdown of a single portfolio by its ID. Returns detailed information about the portfolio including its balances and positions."
+              },
+              "response": [
+                {
+                  "id": "ed5d07a8-28c4-4727-860d-600fa5c70de3",
+                  "name": "Successfully retrieved portfolio breakdown",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "portfolio_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"breakdown\": {\n    \"portfolio\": {\n      \"uuid\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"type\": \"DEFAULT\",\n      \"deleted\": \"<boolean>\"\n    },\n    \"portfolio_balances\": {\n      \"total_balance\": {\n        \"value\": \"<string>\",\n        \"currency\": \"<string>\"\n      },\n      \"total_futures_balance\": {\n        \"value\": \"<string>\",\n        \"currency\": \"<string>\"\n      },\n      \"total_cash_equivalent_balance\": {\n        \"value\": \"<string>\",\n        \"currency\": \"<string>\"\n      }\n    },\n    \"spot_positions\": [\n      {\n        \"asset\": \"<string>\",\n        \"account_uuid\": \"<string>\",\n        \"total_balance_fiat\": \"<number>\",\n        \"total_balance_crypto\": \"<number>\"\n      },\n      {\n        \"asset\": \"<string>\",\n        \"account_uuid\": \"<string>\",\n        \"total_balance_fiat\": \"<number>\",\n        \"total_balance_crypto\": \"<number>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-ed5d07a8-28c4-4727-860d-600fa5c70de3"
+                },
+                {
+                  "id": "9cd1c856-9289-4036-97c5-6d393ed7add8",
+                  "name": "Unauthorized - Invalid or missing authentication",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "portfolio_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-9cd1c856-9289-4036-97c5-6d393ed7add8"
+                },
+                {
+                  "id": "3bd0a425-c001-460f-8033-c88bcd73217c",
+                  "name": "Portfolio not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "portfolio_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-3bd0a425-c001-460f-8033-c88bcd73217c"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:49.000Z",
+              "updatedAt": "2026-07-28T01:24:49.000Z",
+              "uid": "35240-bf4b43b2-747f-49cd-92d1-b9d19ef1d04a"
+            },
+            {
+              "name": "Edit portfolio",
+              "id": "b435b4ac-c20f-4cb3-a7f6-9ba27a7158df",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "portfolios",
+                    ":portfolio_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "0774d4b3-a487-4157-af4f-4b7194feb801",
+                      "key": "portfolio_id",
+                      "value": "<uuid>",
+                      "description": "(Required) Unique identifier for the portfolio"
+                    }
+                  ]
+                },
+                "description": "Updates the name of an existing portfolio. Only the portfolio name can be modified."
+              },
+              "response": [
+                {
+                  "id": "c9d073b4-2929-4a41-83fc-3581c501ee60",
+                  "name": "Portfolio successfully updated",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "portfolio_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"portfolio\": {\n    \"uuid\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"type\": \"CONSUMER\",\n    \"deleted\": \"<boolean>\"\n  }\n}",
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-c9d073b4-2929-4a41-83fc-3581c501ee60"
+                },
+                {
+                  "id": "ef700eb0-cb2a-4f2e-85e2-dc135848cb77",
+                  "name": "Unauthorized - Invalid or missing authentication",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "portfolio_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-ef700eb0-cb2a-4f2e-85e2-dc135848cb77"
+                },
+                {
+                  "id": "ea33b4f3-0f1b-429c-ae91-a3252509f42c",
+                  "name": "Portfolio not found",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "portfolio_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-ea33b4f3-0f1b-429c-ae91-a3252509f42c"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:49.000Z",
+              "updatedAt": "2026-07-28T01:24:49.000Z",
+              "uid": "35240-b435b4ac-c20f-4cb3-a7f6-9ba27a7158df"
+            },
+            {
+              "name": "Delete portfolio",
+              "id": "cd248498-18a8-4110-85c9-055cf6add30a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "portfolios",
+                    ":portfolio_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "2fae7001-c43b-40fc-bc19-49ab33249882",
+                      "key": "portfolio_id",
+                      "value": "<uuid>",
+                      "description": "(Required) Unique identifier for the portfolio"
+                    }
+                  ]
+                },
+                "description": "Deletes a portfolio by its ID. The portfolio must have zero balances before it can be deleted."
+              },
+              "response": [
+                {
+                  "id": "03e3c05b-b450-4524-94c2-2903d1b9e5c7",
+                  "name": "Portfolio successfully deleted",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "portfolio_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-03e3c05b-b450-4524-94c2-2903d1b9e5c7"
+                },
+                {
+                  "id": "0b687bcb-85ef-44a6-8b62-450af7b65ef5",
+                  "name": "Unauthorized - Invalid or missing authentication",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "portfolio_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-0b687bcb-85ef-44a6-8b62-450af7b65ef5"
+                },
+                {
+                  "id": "cad25e82-175a-44a6-b062-e6461dea7a26",
+                  "name": "Portfolio not found",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "portfolio_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-cad25e82-175a-44a6-b062-e6461dea7a26"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:49.000Z",
+              "updatedAt": "2026-07-28T01:24:49.000Z",
+              "uid": "35240-cd248498-18a8-4110-85c9-055cf6add30a"
+            }
+          ],
+          "id": "ac0a3ece-0f36-4d7b-ab54-c0a425787635",
+          "createdAt": "2026-07-28T01:24:49.000Z",
+          "updatedAt": "2026-07-28T01:24:49.000Z",
+          "uid": "35240-ac0a3ece-0f36-4d7b-ab54-c0a425787635"
+        },
+        {
+          "name": "move_funds",
+          "item": [
+            {
+              "name": "Move portfolio funds",
+              "id": "ca453b99-8f97-4524-8380-09cd7d9c9f1d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"funds\": {\n    \"value\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"source_portfolio_uuid\": \"<string>\",\n  \"target_portfolio_uuid\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/portfolios/move_funds",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "portfolios",
+                    "move_funds"
+                  ]
+                },
+                "description": "Moves funds between portfolios owned by the authenticated user. Both the source and target portfolio must belong to the same user."
+              },
+              "response": [
+                {
+                  "id": "6ba84d2b-b2c9-4ced-a352-289bc7030bb1",
+                  "name": "Funds successfully moved",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"funds\": {\n    \"value\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"source_portfolio_uuid\": \"<string>\",\n  \"target_portfolio_uuid\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/move_funds",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        "move_funds"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-6ba84d2b-b2c9-4ced-a352-289bc7030bb1"
+                },
+                {
+                  "id": "967e819c-39b4-41d5-9f2c-b8ed05eae033",
+                  "name": "Bad request - Invalid transfer parameters",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"funds\": {\n    \"value\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"source_portfolio_uuid\": \"<string>\",\n  \"target_portfolio_uuid\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/move_funds",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        "move_funds"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-967e819c-39b4-41d5-9f2c-b8ed05eae033"
+                },
+                {
+                  "id": "141d22a9-0fcc-4f7a-a781-3eee01caaa49",
+                  "name": "Unauthorized - Invalid or missing authentication",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"funds\": {\n    \"value\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"source_portfolio_uuid\": \"<string>\",\n  \"target_portfolio_uuid\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/move_funds",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        "move_funds"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:49.000Z",
+                  "updatedAt": "2026-07-28T01:24:49.000Z",
+                  "uid": "35240-141d22a9-0fcc-4f7a-a781-3eee01caaa49"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:49.000Z",
+              "updatedAt": "2026-07-28T01:24:49.000Z",
+              "uid": "35240-ca453b99-8f97-4524-8380-09cd7d9c9f1d"
+            }
+          ],
+          "id": "292ebb45-6a5e-4a84-94f7-d63a07948a4b",
+          "createdAt": "2026-07-28T01:24:49.000Z",
+          "updatedAt": "2026-07-28T01:24:49.000Z",
+          "uid": "35240-292ebb45-6a5e-4a84-94f7-d63a07948a4b"
+        },
+        {
+          "name": "List portfolios",
+          "id": "77ed90cf-5574-42ed-aa01-2ee72c59eed9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/portfolios?portfolio_type=DEFAULT",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "portfolios"
+              ],
+              "query": [
+                {
+                  "description": "Filter by portfolio type",
+                  "key": "portfolio_type",
+                  "value": "DEFAULT"
+                }
+              ]
+            },
+            "description": "Retrieves a list of all portfolios associated with the authenticated user. Returns portfolio details including name, UUID, and type."
+          },
+          "response": [
+            {
+              "id": "3c76e0b7-37aa-4b01-83f3-415beb509be5",
+              "name": "Successfully retrieved list of portfolios",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/portfolios?portfolio_type=DEFAULT",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "portfolios"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter by portfolio type",
+                      "key": "portfolio_type",
+                      "value": "DEFAULT"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"portfolios\": [\n    {\n      \"uuid\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"type\": \"CONSUMER\",\n      \"deleted\": \"<boolean>\"\n    },\n    {\n      \"uuid\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"type\": \"INTX\",\n      \"deleted\": \"<boolean>\"\n    }\n  ]\n}",
+              "createdAt": "2026-07-28T01:24:49.000Z",
+              "updatedAt": "2026-07-28T01:24:49.000Z",
+              "uid": "35240-3c76e0b7-37aa-4b01-83f3-415beb509be5"
+            },
+            {
+              "id": "be6772f3-675f-4525-a346-5388b58a13a4",
+              "name": "Unauthorized - Invalid or missing authentication",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/portfolios?portfolio_type=DEFAULT",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "portfolios"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter by portfolio type",
+                      "key": "portfolio_type",
+                      "value": "DEFAULT"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:49.000Z",
+              "updatedAt": "2026-07-28T01:24:49.000Z",
+              "uid": "35240-be6772f3-675f-4525-a346-5388b58a13a4"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:49.000Z",
+          "updatedAt": "2026-07-28T01:24:49.000Z",
+          "uid": "35240-77ed90cf-5574-42ed-aa01-2ee72c59eed9"
+        },
+        {
+          "name": "Create portfolio",
+          "id": "f24fcf49-77b3-4639-b58d-c33adf54ebba",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/portfolios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "portfolios"
+              ]
+            },
+            "description": "Creates a new portfolio for the authenticated user. Each portfolio provides an isolated trading environment with its own balances."
+          },
+          "response": [
+            {
+              "id": "bcdace0e-1518-4f93-ab5d-22c464e79574",
+              "name": "Portfolio successfully created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/portfolios",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "portfolios"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"portfolio\": {\n    \"uuid\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"type\": \"CONSUMER\",\n    \"deleted\": \"<boolean>\"\n  }\n}",
+              "createdAt": "2026-07-28T01:24:49.000Z",
+              "updatedAt": "2026-07-28T01:24:49.000Z",
+              "uid": "35240-bcdace0e-1518-4f93-ab5d-22c464e79574"
+            },
+            {
+              "id": "52c80683-22ea-4642-a421-57569c690db9",
+              "name": "Bad request - Invalid portfolio parameters",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/portfolios",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "portfolios"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:49.000Z",
+              "updatedAt": "2026-07-28T01:24:49.000Z",
+              "uid": "35240-52c80683-22ea-4642-a421-57569c690db9"
+            },
+            {
+              "id": "6d3121fc-00b6-43a7-a079-eccf8fc0ed86",
+              "name": "Unauthorized - Invalid or missing authentication",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/portfolios",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "portfolios"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:49.000Z",
+              "updatedAt": "2026-07-28T01:24:49.000Z",
+              "uid": "35240-6d3121fc-00b6-43a7-a079-eccf8fc0ed86"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:49.000Z",
+          "updatedAt": "2026-07-28T01:24:49.000Z",
+          "uid": "35240-f24fcf49-77b3-4639-b58d-c33adf54ebba"
+        }
+      ],
+      "id": "5d1945b7-f8ea-439e-986c-3792f159b856",
+      "createdAt": "2026-07-28T01:24:49.000Z",
+      "updatedAt": "2026-07-28T01:24:49.000Z",
+      "uid": "35240-5d1945b7-f8ea-439e-986c-3792f159b856"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

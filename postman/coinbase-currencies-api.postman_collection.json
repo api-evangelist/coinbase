@@ -1,0 +1,258 @@
+{
+  "info": {
+    "_postman_id": "e1191214-b8dc-43e8-a2eb-d2c18a446167",
+    "name": "Coinbase Advanced Trade Accounts Currencies API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:42.000Z",
+    "updatedAt": "2026-07-28T01:24:42.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-e1191214-b8dc-43e8-a2eb-d2c18a446167"
+  },
+  "item": [
+    {
+      "name": "currencies",
+      "item": [
+        {
+          "name": "{currency_id}",
+          "item": [
+            {
+              "name": "Get currency",
+              "id": "f37f2af1-6a4d-4d78-b0e6-0123ddb1d1d1",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/currencies/:currency_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "currencies",
+                    ":currency_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "e92e8f96-14af-4f79-af3d-c10a6f3c8280",
+                      "key": "currency_id",
+                      "value": "<string>",
+                      "description": "(Required) Currency identifier"
+                    }
+                  ]
+                },
+                "description": "Retrieves information about a single currency by its currency ID."
+              },
+              "response": [
+                {
+                  "id": "bdef8482-838a-431f-90fd-912469011a2c",
+                  "name": "Successfully retrieved currency",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/currencies/:currency_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "currencies",
+                        ":currency_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "currency_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"min_size\": \"<string>\",\n  \"status\": \"<string>\",\n  \"details\": {}\n}",
+                  "createdAt": "2026-07-28T01:24:42.000Z",
+                  "updatedAt": "2026-07-28T01:24:42.000Z",
+                  "uid": "35240-bdef8482-838a-431f-90fd-912469011a2c"
+                },
+                {
+                  "id": "b44d79b2-d0c0-401d-97f2-ccced0a8a906",
+                  "name": "Currency not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/currencies/:currency_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "currencies",
+                        ":currency_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "currency_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:42.000Z",
+                  "updatedAt": "2026-07-28T01:24:42.000Z",
+                  "uid": "35240-b44d79b2-d0c0-401d-97f2-ccced0a8a906"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:42.000Z",
+              "updatedAt": "2026-07-28T01:24:42.000Z",
+              "uid": "35240-f37f2af1-6a4d-4d78-b0e6-0123ddb1d1d1"
+            }
+          ],
+          "id": "b29a7644-e7c8-4884-aa16-8bc4cf31a2a2",
+          "createdAt": "2026-07-28T01:24:42.000Z",
+          "updatedAt": "2026-07-28T01:24:42.000Z",
+          "uid": "35240-b29a7644-e7c8-4884-aa16-8bc4cf31a2a2"
+        },
+        {
+          "name": "List currencies",
+          "id": "a3547c77-7d9f-489c-908e-b9b59417dea2",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/currencies",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "currencies"
+              ]
+            },
+            "description": "Retrieves a list of all known currencies on the exchange, including their names, minimum sizes, and status."
+          },
+          "response": [
+            {
+              "id": "9503a5b9-e40b-4384-9383-1899d59a9783",
+              "name": "Successfully retrieved currencies",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/currencies",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "currencies"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "[\n  {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"min_size\": \"<string>\",\n    \"status\": \"<string>\",\n    \"details\": {}\n  },\n  {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"min_size\": \"<string>\",\n    \"status\": \"<string>\",\n    \"details\": {}\n  }\n]",
+              "createdAt": "2026-07-28T01:24:42.000Z",
+              "updatedAt": "2026-07-28T01:24:42.000Z",
+              "uid": "35240-9503a5b9-e40b-4384-9383-1899d59a9783"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:42.000Z",
+          "updatedAt": "2026-07-28T01:24:42.000Z",
+          "uid": "35240-a3547c77-7d9f-489c-908e-b9b59417dea2"
+        }
+      ],
+      "id": "cd489497-fc01-43fb-b09a-5edf8d3defc8",
+      "createdAt": "2026-07-28T01:24:42.000Z",
+      "updatedAt": "2026-07-28T01:24:42.000Z",
+      "uid": "35240-cd489497-fc01-43fb-b09a-5edf8d3defc8"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

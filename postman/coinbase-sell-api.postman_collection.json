@@ -1,0 +1,459 @@
+{
+  "info": {
+    "_postman_id": "b4602ab6-6631-4fe1-b9da-e33ae57da4ef",
+    "name": "Coinbase Advanced Trade Accounts Sell API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:25:02.000Z",
+    "updatedAt": "2026-07-28T01:25:03.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b4602ab6-6631-4fe1-b9da-e33ae57da4ef"
+  },
+  "item": [
+    {
+      "name": "sell",
+      "item": [
+        {
+          "name": "options",
+          "item": [
+            {
+              "name": "Get sell options",
+              "id": "c77f3107-e93e-49cf-bcf3-cb8bc05ec43d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/sell/options?country=<string>&subdivision=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sell",
+                    "options"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) ISO 3166-1 alpha-2 country code",
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "ISO 3166-2 subdivision code",
+                      "key": "subdivision",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Provides clients with a way to discover the available options for selling cryptocurrency. Returns supported fiat deposit currencies and available crypto assets."
+              },
+              "response": [
+                {
+                  "id": "78c56d14-4c1d-44ce-9e2e-0397e7398de9",
+                  "name": "Successfully retrieved sell options",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sell/options?country=<string>&subdivision=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sell",
+                        "options"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) ISO 3166-1 alpha-2 country code",
+                          "key": "country",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "ISO 3166-2 subdivision code",
+                          "key": "subdivision",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"sell_currencies\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"icon_url\": \"<uri>\",\n      \"networks\": [\n        {\n          \"name\": \"<string>\",\n          \"display_name\": \"<string>\",\n          \"chain_id\": \"<string>\",\n          \"contract_address\": \"<string>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"display_name\": \"<string>\",\n          \"chain_id\": \"<string>\",\n          \"contract_address\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"icon_url\": \"<uri>\",\n      \"networks\": [\n        {\n          \"name\": \"<string>\",\n          \"display_name\": \"<string>\",\n          \"chain_id\": \"<string>\",\n          \"contract_address\": \"<string>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"display_name\": \"<string>\",\n          \"chain_id\": \"<string>\",\n          \"contract_address\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"cash_out_currencies\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"min_amount\": \"<string>\",\n      \"max_amount\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"min_amount\": \"<string>\",\n      \"max_amount\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-07-28T01:25:03.000Z",
+                  "updatedAt": "2026-07-28T01:25:03.000Z",
+                  "uid": "35240-78c56d14-4c1d-44ce-9e2e-0397e7398de9"
+                },
+                {
+                  "id": "36561b6d-e863-49f5-a177-cf89dee74a1d",
+                  "name": "Unauthorized",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sell/options?country=<string>&subdivision=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sell",
+                        "options"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) ISO 3166-1 alpha-2 country code",
+                          "key": "country",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "ISO 3166-2 subdivision code",
+                          "key": "subdivision",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:25:03.000Z",
+                  "updatedAt": "2026-07-28T01:25:03.000Z",
+                  "uid": "35240-36561b6d-e863-49f5-a177-cf89dee74a1d"
+                }
+              ],
+              "createdAt": "2026-07-28T01:25:03.000Z",
+              "updatedAt": "2026-07-28T01:25:03.000Z",
+              "uid": "35240-c77f3107-e93e-49cf-bcf3-cb8bc05ec43d"
+            }
+          ],
+          "id": "8b352609-e4fa-4e32-9761-386695446e4b",
+          "createdAt": "2026-07-28T01:25:03.000Z",
+          "updatedAt": "2026-07-28T01:25:03.000Z",
+          "uid": "35240-8b352609-e4fa-4e32-9761-386695446e4b"
+        },
+        {
+          "name": "quote",
+          "item": [
+            {
+              "name": "Create sell quote",
+              "id": "60f9cb96-12c2-4af7-8d1b-99c290d6cf6d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/sell/quote",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sell",
+                    "quote"
+                  ]
+                },
+                "description": "Generates a price quote for selling cryptocurrency. Returns the estimated fiat amount that will be received for a given crypto amount. Rate limited to 10 requests per second per app ID."
+              },
+              "response": [
+                {
+                  "id": "296dfb71-927d-45fa-9541-f5c75519a2da",
+                  "name": "Successfully generated sell quote",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/sell/quote",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sell",
+                        "quote"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"coinbase_fee\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"cash_out_subtotal\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"cash_out_total\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"quote_id\": \"<string>\"\n}",
+                  "createdAt": "2026-07-28T01:25:03.000Z",
+                  "updatedAt": "2026-07-28T01:25:03.000Z",
+                  "uid": "35240-296dfb71-927d-45fa-9541-f5c75519a2da"
+                },
+                {
+                  "id": "e837093f-afec-48b3-8e4d-0e842ac061ff",
+                  "name": "Bad request - Invalid parameters",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/sell/quote",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sell",
+                        "quote"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:25:03.000Z",
+                  "updatedAt": "2026-07-28T01:25:03.000Z",
+                  "uid": "35240-e837093f-afec-48b3-8e4d-0e842ac061ff"
+                },
+                {
+                  "id": "5700da52-c2d8-4ea1-a2db-66b3b7642b63",
+                  "name": "Unauthorized",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/sell/quote",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sell",
+                        "quote"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:25:03.000Z",
+                  "updatedAt": "2026-07-28T01:25:03.000Z",
+                  "uid": "35240-5700da52-c2d8-4ea1-a2db-66b3b7642b63"
+                },
+                {
+                  "id": "9acbad8e-053b-4a0d-83e2-ef3d50fb12ee",
+                  "name": "Rate limit exceeded",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/sell/quote",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sell",
+                        "quote"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:25:03.000Z",
+                  "updatedAt": "2026-07-28T01:25:03.000Z",
+                  "uid": "35240-9acbad8e-053b-4a0d-83e2-ef3d50fb12ee"
+                }
+              ],
+              "createdAt": "2026-07-28T01:25:03.000Z",
+              "updatedAt": "2026-07-28T01:25:03.000Z",
+              "uid": "35240-60f9cb96-12c2-4af7-8d1b-99c290d6cf6d"
+            }
+          ],
+          "id": "1720107d-e84b-47da-99b8-0694bbd169b4",
+          "createdAt": "2026-07-28T01:25:03.000Z",
+          "updatedAt": "2026-07-28T01:25:03.000Z",
+          "uid": "35240-1720107d-e84b-47da-99b8-0694bbd169b4"
+        }
+      ],
+      "id": "9a70ffc1-9844-460f-ad91-2478f656e0b4",
+      "createdAt": "2026-07-28T01:25:03.000Z",
+      "updatedAt": "2026-07-28T01:25:03.000Z",
+      "uid": "35240-9a70ffc1-9844-460f-ad91-2478f656e0b4"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

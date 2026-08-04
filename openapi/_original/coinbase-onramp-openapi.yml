@@ -1,0 +1,497 @@
+openapi: 3.1.0
+info:
+  title: Coinbase Onramp API
+  description: >-
+    The Coinbase Onramp API allows developers to integrate fiat-to-crypto
+    purchasing and crypto-to-fiat selling directly into their applications.
+    It provides REST APIs to discover available buy and sell options, generate
+    price quotes, create one-click-buy URLs, and manage session tokens for
+    embedded onramp experiences. The API supports multiple fiat currencies and
+    payment methods.
+  version: '1.0'
+  contact:
+    name: Coinbase Developer Support
+    url: https://help.coinbase.com
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+externalDocs:
+  description: Coinbase Onramp Documentation
+  url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+servers:
+  - url: https://api.developer.coinbase.com/onramp/v1
+    description: Production Server
+tags:
+  - name: Buy
+    description: >-
+      Endpoints for discovering buy options, generating buy quotes, and
+      retrieving buy configuration for fiat-to-crypto purchases.
+  - name: Sell
+    description: >-
+      Endpoints for discovering sell options and generating sell quotes for
+      crypto-to-fiat transactions.
+  - name: Session
+    description: >-
+      Manage session tokens for embedded onramp widget authentication.
+security:
+  - bearerAuth: []
+paths:
+  /buy/options:
+    get:
+      operationId: getBuyOptions
+      summary: Get buy options
+      description: >-
+        Provides clients with a way to discover the available options for
+        buying cryptocurrency with Coinbase Onramp. Returns supported fiat
+        currencies and available crypto assets that can be passed into the
+        Buy Quote API. Clients should call this API periodically for each
+        country they support and cache the response.
+      tags:
+        - Buy
+      parameters:
+        - name: country
+          in: query
+          required: true
+          description: ISO 3166-1 alpha-2 country code
+          schema:
+            type: string
+            minLength: 2
+            maxLength: 2
+        - name: subdivision
+          in: query
+          description: ISO 3166-2 subdivision code
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved buy options
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payment_currencies:
+                    type: array
+                    description: Available fiat currencies with transaction limits
+                    items:
+                      $ref: '#/components/schemas/PaymentCurrency'
+                  purchase_currencies:
+                    type: array
+                    description: Cryptocurrency assets available for purchase
+                    items:
+                      $ref: '#/components/schemas/PurchaseCurrency'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /buy/quote:
+    post:
+      operationId: createBuyQuote
+      summary: Create buy quote
+      description: >-
+        Generates a price quote for buying cryptocurrency. Returns the
+        estimated amount of crypto that will be received for a given fiat
+        amount. Rate limited to 10 requests per second per app ID.
+      tags:
+        - Buy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuyQuoteRequest'
+      responses:
+        '200':
+          description: Successfully generated buy quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyQuote'
+        '400':
+          description: Bad request - Invalid parameters
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limit exceeded
+  /buy/config:
+    get:
+      operationId: getBuyConfig
+      summary: Get buy config
+      description: >-
+        Retrieves the buy configuration for the onramp widget, including
+        supported countries, payment methods, and available assets.
+      tags:
+        - Buy
+      parameters:
+        - name: country
+          in: query
+          required: true
+          description: ISO 3166-1 alpha-2 country code
+          schema:
+            type: string
+            minLength: 2
+            maxLength: 2
+      responses:
+        '200':
+          description: Successfully retrieved buy config
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyConfig'
+        '401':
+          description: Unauthorized
+  /sell/options:
+    get:
+      operationId: getSellOptions
+      summary: Get sell options
+      description: >-
+        Provides clients with a way to discover the available options for
+        selling cryptocurrency. Returns supported fiat deposit currencies and
+        available crypto assets.
+      tags:
+        - Sell
+      parameters:
+        - name: country
+          in: query
+          required: true
+          description: ISO 3166-1 alpha-2 country code
+          schema:
+            type: string
+            minLength: 2
+            maxLength: 2
+        - name: subdivision
+          in: query
+          description: ISO 3166-2 subdivision code
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved sell options
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sell_currencies:
+                    type: array
+                    description: Crypto assets available for selling
+                    items:
+                      $ref: '#/components/schemas/PurchaseCurrency'
+                  cash_out_currencies:
+                    type: array
+                    description: Fiat currencies for receiving funds
+                    items:
+                      $ref: '#/components/schemas/PaymentCurrency'
+        '401':
+          description: Unauthorized
+  /sell/quote:
+    post:
+      operationId: createSellQuote
+      summary: Create sell quote
+      description: >-
+        Generates a price quote for selling cryptocurrency. Returns the
+        estimated fiat amount that will be received for a given crypto amount.
+        Rate limited to 10 requests per second per app ID.
+      tags:
+        - Sell
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SellQuoteRequest'
+      responses:
+        '200':
+          description: Successfully generated sell quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellQuote'
+        '400':
+          description: Bad request - Invalid parameters
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limit exceeded
+  /token:
+    post:
+      operationId: createSessionToken
+      summary: Create session token
+      description: >-
+        Creates a session token for authenticating the embedded onramp widget.
+        The token is used to initialize the Coinbase Onramp widget within a
+        third-party application.
+      tags:
+        - Session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - destination_wallets
+              properties:
+                destination_wallets:
+                  type: array
+                  description: Wallet addresses to receive purchased crypto
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                        description: Wallet address
+                      blockchains:
+                        type: array
+                        description: Supported blockchains for this address
+                        items:
+                          type: string
+                      assets:
+                        type: array
+                        description: Supported assets for this address
+                        items:
+                          type: string
+                      supported_networks:
+                        type: array
+                        description: Supported network identifiers
+                        items:
+                          type: string
+      responses:
+        '200':
+          description: Session token created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Session token for widget initialization
+        '401':
+          description: Unauthorized
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Bearer token authentication using a CDP API key.
+  schemas:
+    PaymentCurrency:
+      type: object
+      description: A fiat currency available for payments
+      properties:
+        id:
+          type: string
+          description: Currency identifier
+        name:
+          type: string
+          description: Currency name
+        symbol:
+          type: string
+          description: Currency symbol
+        min_amount:
+          type: string
+          description: Minimum transaction amount
+        max_amount:
+          type: string
+          description: Maximum transaction amount
+    PurchaseCurrency:
+      type: object
+      description: A cryptocurrency available for purchase
+      properties:
+        id:
+          type: string
+          description: Asset identifier
+        name:
+          type: string
+          description: Asset name
+        symbol:
+          type: string
+          description: Asset symbol
+        icon_url:
+          type: string
+          format: uri
+          description: URL for the asset icon
+        networks:
+          type: array
+          description: Supported blockchain networks
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Network name
+              display_name:
+                type: string
+                description: Network display name
+              chain_id:
+                type: string
+                description: Blockchain chain ID
+              contract_address:
+                type: string
+                description: Token contract address on this network
+    BuyQuoteRequest:
+      type: object
+      description: Request body for generating a buy quote
+      required:
+        - purchase_currency
+        - payment_amount
+        - payment_currency
+        - country
+      properties:
+        purchase_currency:
+          type: string
+          description: Cryptocurrency to purchase
+        payment_amount:
+          type: string
+          description: Amount in fiat currency
+        payment_currency:
+          type: string
+          description: Fiat currency for payment
+        payment_method:
+          type: string
+          description: Payment method type
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+        subdivision:
+          type: string
+          description: ISO 3166-2 subdivision code
+    BuyQuote:
+      type: object
+      description: A price quote for buying cryptocurrency
+      properties:
+        coinbase_fee:
+          type: object
+          description: Coinbase fee details
+          properties:
+            amount:
+              type: string
+              description: Fee amount
+            currency:
+              type: string
+              description: Fee currency
+        network_fee:
+          type: object
+          description: Network fee details
+          properties:
+            amount:
+              type: string
+              description: Fee amount
+            currency:
+              type: string
+              description: Fee currency
+        payment_subtotal:
+          type: object
+          description: Subtotal before fees
+          properties:
+            amount:
+              type: string
+              description: Subtotal amount
+            currency:
+              type: string
+              description: Subtotal currency
+        payment_total:
+          type: object
+          description: Total payment amount
+          properties:
+            amount:
+              type: string
+              description: Total amount
+            currency:
+              type: string
+              description: Total currency
+        purchase_amount:
+          type: object
+          description: Crypto amount to be received
+          properties:
+            amount:
+              type: string
+              description: Purchase amount
+            currency:
+              type: string
+              description: Crypto currency
+        quote_id:
+          type: string
+          description: Unique quote identifier
+    BuyConfig:
+      type: object
+      description: Configuration for the onramp buy widget
+      properties:
+        countries:
+          type: array
+          description: Supported countries
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Country code
+              subdivisions:
+                type: array
+                description: Available subdivisions
+                items:
+                  type: string
+              payment_methods:
+                type: array
+                description: Available payment methods
+                items:
+                  type: string
+    SellQuoteRequest:
+      type: object
+      description: Request body for generating a sell quote
+      required:
+        - sell_currency
+        - sell_amount
+        - cash_out_currency
+        - country
+      properties:
+        sell_currency:
+          type: string
+          description: Cryptocurrency to sell
+        sell_amount:
+          type: string
+          description: Amount of crypto to sell
+        cash_out_currency:
+          type: string
+          description: Fiat currency to receive
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+        subdivision:
+          type: string
+          description: ISO 3166-2 subdivision code
+    SellQuote:
+      type: object
+      description: A price quote for selling cryptocurrency
+      properties:
+        coinbase_fee:
+          type: object
+          description: Coinbase fee details
+          properties:
+            amount:
+              type: string
+              description: Fee amount
+            currency:
+              type: string
+              description: Fee currency
+        cash_out_subtotal:
+          type: object
+          description: Subtotal cash out amount
+          properties:
+            amount:
+              type: string
+              description: Subtotal amount
+            currency:
+              type: string
+              description: Currency
+        cash_out_total:
+          type: object
+          description: Total cash out amount
+          properties:
+            amount:
+              type: string
+              description: Total amount
+            currency:
+              type: string
+              description: Currency
+        quote_id:
+          type: string
+          description: Unique quote identifier

@@ -1,0 +1,2408 @@
+{
+  "info": {
+    "_postman_id": "7d02d18b-2d57-410c-9f07-aa6720dce882",
+    "name": "Coinbase Advanced Trade Accounts Orders API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:47.000Z",
+    "updatedAt": "2026-07-28T01:24:48.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-7d02d18b-2d57-410c-9f07-aa6720dce882"
+  },
+  "item": [
+    {
+      "name": "orders",
+      "item": [
+        {
+          "name": "{order_id}",
+          "item": [
+            {
+              "name": "edit",
+              "item": [
+                {
+                  "name": "Edit order",
+                  "id": "7e798f53-dad8-416e-bcfc-9a11dede86c8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"price\": \"<string>\",\n  \"size\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/orders/:order_id/edit",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "orders",
+                        ":order_id",
+                        "edit"
+                      ],
+                      "variable": [
+                        {
+                          "id": "a4133eb4-a6f9-4bdf-9e90-d6bd981f3d0a",
+                          "key": "order_id",
+                          "value": "<string>",
+                          "description": "(Required) Unique identifier of the order to edit"
+                        }
+                      ]
+                    },
+                    "description": "Edits an existing open order. Only the price and size of the order can be modified."
+                  },
+                  "response": [
+                    {
+                      "id": "bd555945-e157-4a61-a78f-bd27d8890835",
+                      "name": "Order successfully edited",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"price\": \"<string>\",\n  \"size\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/orders/:order_id/edit",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "orders",
+                            ":order_id",
+                            "edit"
+                          ],
+                          "variable": [
+                            {
+                              "key": "order_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"success\": \"<boolean>\"\n}",
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-bd555945-e157-4a61-a78f-bd27d8890835"
+                    },
+                    {
+                      "id": "e40f5841-686c-4d7b-ab3e-d049c08fbe22",
+                      "name": "Bad request - Invalid edit parameters",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"price\": \"<string>\",\n  \"size\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/orders/:order_id/edit",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "orders",
+                            ":order_id",
+                            "edit"
+                          ],
+                          "variable": [
+                            {
+                              "key": "order_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-e40f5841-686c-4d7b-ab3e-d049c08fbe22"
+                    },
+                    {
+                      "id": "4ce53e32-917b-4433-859e-63896f0dc730",
+                      "name": "Unauthorized - Invalid or missing authentication",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"price\": \"<string>\",\n  \"size\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/orders/:order_id/edit",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "orders",
+                            ":order_id",
+                            "edit"
+                          ],
+                          "variable": [
+                            {
+                              "key": "order_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-4ce53e32-917b-4433-859e-63896f0dc730"
+                    },
+                    {
+                      "id": "5aba083a-4516-4bd2-9414-d8dd97605acd",
+                      "name": "Order not found",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"price\": \"<string>\",\n  \"size\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/orders/:order_id/edit",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "orders",
+                            ":order_id",
+                            "edit"
+                          ],
+                          "variable": [
+                            {
+                              "key": "order_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-5aba083a-4516-4bd2-9414-d8dd97605acd"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:48.000Z",
+                  "updatedAt": "2026-07-28T01:24:48.000Z",
+                  "uid": "35240-7e798f53-dad8-416e-bcfc-9a11dede86c8"
+                }
+              ],
+              "id": "dfeaba83-27c0-48fa-8aa6-cf873b6f2a88",
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-dfeaba83-27c0-48fa-8aa6-cf873b6f2a88"
+            },
+            {
+              "name": "Get order",
+              "id": "8aec7174-da0a-4cd1-912b-b234fdace8e0",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders/:order_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders",
+                    ":order_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "fdf622c1-1737-437f-96cf-f2586be2173c",
+                      "key": "order_id",
+                      "value": "<string>",
+                      "description": "(Required) Unique identifier of the order"
+                    }
+                  ]
+                },
+                "description": "Retrieves a single order by order ID. Returns the full order details including status, fills, and configuration."
+              },
+              "response": [
+                {
+                  "id": "241e1de8-6e70-4490-8c43-d920f5f8896a",
+                  "name": "Successfully retrieved order details",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/orders/:order_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "orders",
+                        ":order_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "order_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"order\": {\n    \"order_id\": \"<string>\",\n    \"product_id\": \"<string>\",\n    \"side\": \"SELL\",\n    \"client_order_id\": \"<string>\",\n    \"status\": \"OPEN\",\n    \"time_in_force\": \"GOOD_UNTIL_CANCELLED\",\n    \"created_time\": \"<dateTime>\",\n    \"completion_percentage\": \"<string>\",\n    \"filled_size\": \"<string>\",\n    \"average_filled_price\": \"<string>\",\n    \"fee\": \"<string>\",\n    \"number_of_fills\": \"<string>\",\n    \"filled_value\": \"<string>\",\n    \"order_type\": \"LIMIT\",\n    \"order_configuration\": {}\n  }\n}",
+                  "createdAt": "2026-07-28T01:24:48.000Z",
+                  "updatedAt": "2026-07-28T01:24:48.000Z",
+                  "uid": "35240-241e1de8-6e70-4490-8c43-d920f5f8896a"
+                },
+                {
+                  "id": "1b58cc33-d10b-4472-9ead-98a7301c6f73",
+                  "name": "Unauthorized - Invalid or missing authentication",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/orders/:order_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "orders",
+                        ":order_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "order_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:48.000Z",
+                  "updatedAt": "2026-07-28T01:24:48.000Z",
+                  "uid": "35240-1b58cc33-d10b-4472-9ead-98a7301c6f73"
+                },
+                {
+                  "id": "c2a68737-43ad-4e76-b403-0b6ee9be4a2c",
+                  "name": "Order not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/orders/:order_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "orders",
+                        ":order_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "order_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:48.000Z",
+                  "updatedAt": "2026-07-28T01:24:48.000Z",
+                  "uid": "35240-c2a68737-43ad-4e76-b403-0b6ee9be4a2c"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-8aec7174-da0a-4cd1-912b-b234fdace8e0"
+            },
+            {
+              "name": "Cancel order",
+              "id": "e20de874-8999-4232-8408-721deb516791",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/orders/:order_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders",
+                    ":order_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "ea0eccf4-eb2e-4026-8c20-395ca0ad76bd",
+                      "key": "order_id",
+                      "value": "<string>",
+                      "description": "(Required) Order ID to cancel"
+                    }
+                  ]
+                },
+                "description": "Cancels a previously placed order by its ID. The order must still be in an open or pending state."
+              },
+              "response": [
+                {
+                  "id": "b20f5b40-2100-4bf6-a0c9-78398a545dff",
+                  "name": "Order successfully cancelled",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/orders/:order_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "orders",
+                        ":order_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "order_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:48.000Z",
+                  "updatedAt": "2026-07-28T01:24:48.000Z",
+                  "uid": "35240-b20f5b40-2100-4bf6-a0c9-78398a545dff"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-e20de874-8999-4232-8408-721deb516791"
+            }
+          ],
+          "id": "437db486-80de-4ae0-9392-03c9dab7d064",
+          "createdAt": "2026-07-28T01:24:48.000Z",
+          "updatedAt": "2026-07-28T01:24:48.000Z",
+          "uid": "35240-437db486-80de-4ae0-9392-03c9dab7d064"
+        },
+        {
+          "name": "batch_cancel",
+          "item": [
+            {
+              "name": "Cancel orders",
+              "id": "72327627-e4f2-4e94-b76c-c4599793db2f",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"order_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders/batch_cancel",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders",
+                    "batch_cancel"
+                  ]
+                },
+                "description": "Cancels one or more open orders by order ID. Accepts an array of order IDs to cancel in a single request."
+              },
+              "response": [
+                {
+                  "id": "b3af1221-3db6-4cd4-99e3-43aca46d71c7",
+                  "name": "Cancel results for each order",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"order_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/orders/batch_cancel",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "orders",
+                        "batch_cancel"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"results\": [\n    {\n      \"success\": \"<boolean>\",\n      \"order_id\": \"<string>\",\n      \"failure_reason\": \"<string>\"\n    },\n    {\n      \"success\": \"<boolean>\",\n      \"order_id\": \"<string>\",\n      \"failure_reason\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-07-28T01:24:48.000Z",
+                  "updatedAt": "2026-07-28T01:24:48.000Z",
+                  "uid": "35240-b3af1221-3db6-4cd4-99e3-43aca46d71c7"
+                },
+                {
+                  "id": "b50388b2-89e2-4477-aa00-210f6ca93ccc",
+                  "name": "Unauthorized - Invalid or missing authentication",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"order_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/orders/batch_cancel",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "orders",
+                        "batch_cancel"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:48.000Z",
+                  "updatedAt": "2026-07-28T01:24:48.000Z",
+                  "uid": "35240-b50388b2-89e2-4477-aa00-210f6ca93ccc"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-72327627-e4f2-4e94-b76c-c4599793db2f"
+            }
+          ],
+          "id": "6f48b2ec-b30f-491c-8d9e-6fcba927769e",
+          "createdAt": "2026-07-28T01:24:48.000Z",
+          "updatedAt": "2026-07-28T01:24:48.000Z",
+          "uid": "35240-6f48b2ec-b30f-491c-8d9e-6fcba927769e"
+        },
+        {
+          "name": "historical",
+          "item": [
+            {
+              "name": "fills",
+              "item": [
+                {
+                  "name": "List fills",
+                  "id": "f0431523-dc1b-497c-8f2a-805bdef7352c",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/orders/historical/fills?order_id=<string>&product_id=<string>&start_sequence_timestamp=<dateTime>&end_sequence_timestamp=<dateTime>&limit=49&cursor=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "orders",
+                        "historical",
+                        "fills"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter fills by order ID",
+                          "key": "order_id",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter fills by product ID",
+                          "key": "product_id",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start time for filtering fills",
+                          "key": "start_sequence_timestamp",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "End time for filtering fills",
+                          "key": "end_sequence_timestamp",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Maximum number of results to return",
+                          "key": "limit",
+                          "value": "49"
+                        },
+                        {
+                          "description": "Cursor for pagination",
+                          "key": "cursor",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves a list of fills (completed trades) for the authenticated user. Supports filtering by order ID, product ID, and time range."
+                  },
+                  "response": [
+                    {
+                      "id": "266345f2-33db-424f-85fe-9f5f9d325b97",
+                      "name": "Successfully retrieved list of fills",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/orders/historical/fills?order_id=<string>&product_id=<string>&start_sequence_timestamp=<dateTime>&end_sequence_timestamp=<dateTime>&limit=49&cursor=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "orders",
+                            "historical",
+                            "fills"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter fills by order ID",
+                              "key": "order_id",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Filter fills by product ID",
+                              "key": "product_id",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Start time for filtering fills",
+                              "key": "start_sequence_timestamp",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "End time for filtering fills",
+                              "key": "end_sequence_timestamp",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Maximum number of results to return",
+                              "key": "limit",
+                              "value": "49"
+                            },
+                            {
+                              "description": "Cursor for pagination",
+                              "key": "cursor",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"fills\": [\n    {\n      \"entry_id\": \"<string>\",\n      \"trade_id\": \"<string>\",\n      \"order_id\": \"<string>\",\n      \"trade_time\": \"<dateTime>\",\n      \"trade_type\": \"<string>\",\n      \"price\": \"<string>\",\n      \"size\": \"<string>\",\n      \"commission\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"side\": \"BUY\"\n    },\n    {\n      \"entry_id\": \"<string>\",\n      \"trade_id\": \"<string>\",\n      \"order_id\": \"<string>\",\n      \"trade_time\": \"<dateTime>\",\n      \"trade_type\": \"<string>\",\n      \"price\": \"<string>\",\n      \"size\": \"<string>\",\n      \"commission\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"side\": \"BUY\"\n    }\n  ],\n  \"cursor\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-266345f2-33db-424f-85fe-9f5f9d325b97"
+                    },
+                    {
+                      "id": "5813c48e-7d00-4801-b35c-8c66013a7b44",
+                      "name": "Unauthorized - Invalid or missing authentication",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/orders/historical/fills?order_id=<string>&product_id=<string>&start_sequence_timestamp=<dateTime>&end_sequence_timestamp=<dateTime>&limit=49&cursor=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "orders",
+                            "historical",
+                            "fills"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter fills by order ID",
+                              "key": "order_id",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Filter fills by product ID",
+                              "key": "product_id",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Start time for filtering fills",
+                              "key": "start_sequence_timestamp",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "End time for filtering fills",
+                              "key": "end_sequence_timestamp",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Maximum number of results to return",
+                              "key": "limit",
+                              "value": "49"
+                            },
+                            {
+                              "description": "Cursor for pagination",
+                              "key": "cursor",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-5813c48e-7d00-4801-b35c-8c66013a7b44"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:48.000Z",
+                  "updatedAt": "2026-07-28T01:24:48.000Z",
+                  "uid": "35240-f0431523-dc1b-497c-8f2a-805bdef7352c"
+                }
+              ],
+              "id": "e476b534-acbb-4149-9a6e-ed5b326853f8",
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-e476b534-acbb-4149-9a6e-ed5b326853f8"
+            }
+          ],
+          "id": "99bdcf68-64bc-419e-ac7d-69baebc861c3",
+          "createdAt": "2026-07-28T01:24:48.000Z",
+          "updatedAt": "2026-07-28T01:24:48.000Z",
+          "uid": "35240-99bdcf68-64bc-419e-ac7d-69baebc861c3"
+        },
+        {
+          "name": "List orders",
+          "id": "919e657d-e04f-4e51-8216-c453632c8d67",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders?product_id=<string>&order_status=CANCELLED&order_status=CANCELLED&start_date=<dateTime>&end_date=<dateTime>&limit=49&cursor=<string>&order_type=STOP_LIMIT&order_side=SELL",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ],
+              "query": [
+                {
+                  "description": "Filter orders by product ID",
+                  "key": "product_id",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Filter by order status",
+                  "key": "order_status",
+                  "value": "CANCELLED"
+                },
+                {
+                  "description": "Filter by order status",
+                  "key": "order_status",
+                  "value": "CANCELLED"
+                },
+                {
+                  "description": "Start date for filtering orders",
+                  "key": "start_date",
+                  "value": "<dateTime>"
+                },
+                {
+                  "description": "End date for filtering orders",
+                  "key": "end_date",
+                  "value": "<dateTime>"
+                },
+                {
+                  "description": "Maximum number of results to return",
+                  "key": "limit",
+                  "value": "49"
+                },
+                {
+                  "description": "Cursor for pagination",
+                  "key": "cursor",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Filter by order type",
+                  "key": "order_type",
+                  "value": "STOP_LIMIT"
+                },
+                {
+                  "description": "Filter by order side",
+                  "key": "order_side",
+                  "value": "SELL"
+                }
+              ]
+            },
+            "description": "Retrieves a list of orders for the authenticated user. Supports filtering by product ID, order status, and time range. Returns orders sorted by creation time."
+          },
+          "response": [
+            {
+              "id": "d0a0b6b4-99e2-4f49-a001-d34a456054aa",
+              "name": "Successfully retrieved list of orders",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders?product_id=<string>&order_status=CANCELLED&start_date=<dateTime>&end_date=<dateTime>&limit=49&cursor=<string>&order_type=STOP_LIMIT&order_side=SELL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter orders by product ID",
+                      "key": "product_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter by order status",
+                      "key": "order_status",
+                      "value": "CANCELLED"
+                    },
+                    {
+                      "description": "Start date for filtering orders",
+                      "key": "start_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "End date for filtering orders",
+                      "key": "end_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "Maximum number of results to return",
+                      "key": "limit",
+                      "value": "49"
+                    },
+                    {
+                      "description": "Cursor for pagination",
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter by order type",
+                      "key": "order_type",
+                      "value": "STOP_LIMIT"
+                    },
+                    {
+                      "description": "Filter by order side",
+                      "key": "order_side",
+                      "value": "SELL"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"orders\": [\n    {\n      \"order_id\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"side\": \"SELL\",\n      \"client_order_id\": \"<string>\",\n      \"status\": \"CANCELLED\",\n      \"time_in_force\": \"GOOD_UNTIL_CANCELLED\",\n      \"created_time\": \"<dateTime>\",\n      \"completion_percentage\": \"<string>\",\n      \"filled_size\": \"<string>\",\n      \"average_filled_price\": \"<string>\",\n      \"fee\": \"<string>\",\n      \"number_of_fills\": \"<string>\",\n      \"filled_value\": \"<string>\",\n      \"order_type\": \"MARKET\",\n      \"order_configuration\": {}\n    },\n    {\n      \"order_id\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"side\": \"BUY\",\n      \"client_order_id\": \"<string>\",\n      \"status\": \"FAILED\",\n      \"time_in_force\": \"IMMEDIATE_OR_CANCEL\",\n      \"created_time\": \"<dateTime>\",\n      \"completion_percentage\": \"<string>\",\n      \"filled_size\": \"<string>\",\n      \"average_filled_price\": \"<string>\",\n      \"fee\": \"<string>\",\n      \"number_of_fills\": \"<string>\",\n      \"filled_value\": \"<string>\",\n      \"order_type\": \"LIMIT\",\n      \"order_configuration\": {}\n    }\n  ],\n  \"has_next\": \"<boolean>\",\n  \"cursor\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-d0a0b6b4-99e2-4f49-a001-d34a456054aa"
+            },
+            {
+              "id": "344c4eb3-fee1-4a22-b573-67730e3d0abd",
+              "name": "Unauthorized - Invalid or missing authentication",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders?product_id=<string>&order_status=CANCELLED&start_date=<dateTime>&end_date=<dateTime>&limit=49&cursor=<string>&order_type=STOP_LIMIT&order_side=SELL",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter orders by product ID",
+                      "key": "product_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter by order status",
+                      "key": "order_status",
+                      "value": "CANCELLED"
+                    },
+                    {
+                      "description": "Start date for filtering orders",
+                      "key": "start_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "End date for filtering orders",
+                      "key": "end_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "Maximum number of results to return",
+                      "key": "limit",
+                      "value": "49"
+                    },
+                    {
+                      "description": "Cursor for pagination",
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter by order type",
+                      "key": "order_type",
+                      "value": "STOP_LIMIT"
+                    },
+                    {
+                      "description": "Filter by order side",
+                      "key": "order_side",
+                      "value": "SELL"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-344c4eb3-fee1-4a22-b573-67730e3d0abd"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:48.000Z",
+          "updatedAt": "2026-07-28T01:24:48.000Z",
+          "uid": "35240-919e657d-e04f-4e51-8216-c453632c8d67"
+        },
+        {
+          "name": "Create order",
+          "id": "78a20f2a-6504-4ad1-872c-2fcf3817a205",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client_order_id\": \"<string>\",\n  \"product_id\": \"<string>\",\n  \"side\": \"SELL\",\n  \"order_configuration\": {}\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            },
+            "description": "Creates a new order for the authenticated user. Supports market, limit, stop, and stop-limit order types. The order configuration varies based on the order type selected."
+          },
+          "response": [
+            {
+              "id": "b75eef36-d695-4034-a209-7945292388c8",
+              "name": "Order successfully created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"client_order_id\": \"<string>\",\n  \"product_id\": \"<string>\",\n  \"side\": \"SELL\",\n  \"order_configuration\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"success\": \"<boolean>\",\n  \"order_id\": \"<string>\",\n  \"failure_reason\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-b75eef36-d695-4034-a209-7945292388c8"
+            },
+            {
+              "id": "d9f1876d-edad-4641-b2bc-9b65cc52ec55",
+              "name": "Bad request - Invalid order parameters",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"client_order_id\": \"<string>\",\n  \"product_id\": \"<string>\",\n  \"side\": \"SELL\",\n  \"order_configuration\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-d9f1876d-edad-4641-b2bc-9b65cc52ec55"
+            },
+            {
+              "id": "cf058641-d899-4939-8ba2-85c2bf27017f",
+              "name": "Unauthorized - Invalid or missing authentication",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"client_order_id\": \"<string>\",\n  \"product_id\": \"<string>\",\n  \"side\": \"SELL\",\n  \"order_configuration\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-cf058641-d899-4939-8ba2-85c2bf27017f"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:48.000Z",
+          "updatedAt": "2026-07-28T01:24:48.000Z",
+          "uid": "35240-78a20f2a-6504-4ad1-872c-2fcf3817a205"
+        },
+        {
+          "name": "Cancel all orders",
+          "id": "33ef9477-40a7-405c-9329-d0a837c4a5dc",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/orders?product_id=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ],
+              "query": [
+                {
+                  "description": "Only cancel orders for this product",
+                  "key": "product_id",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "Cancels all open orders on the exchange. Optionally filter by product ID to cancel orders for a specific trading pair only."
+          },
+          "response": [
+            {
+              "id": "6fcfbf61-a8b8-47c8-a461-a2ce91c32bbb",
+              "name": "Orders successfully cancelled",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders?product_id=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ],
+                  "query": [
+                    {
+                      "description": "Only cancel orders for this product",
+                      "key": "product_id",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "[\n  \"<string>\",\n  \"<string>\"\n]",
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-6fcfbf61-a8b8-47c8-a461-a2ce91c32bbb"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:48.000Z",
+          "updatedAt": "2026-07-28T01:24:48.000Z",
+          "uid": "35240-33ef9477-40a7-405c-9329-d0a837c4a5dc"
+        }
+      ],
+      "id": "d90045bf-1d07-4f9d-96b7-a664f2eac17a",
+      "createdAt": "2026-07-28T01:24:48.000Z",
+      "updatedAt": "2026-07-28T01:24:48.000Z",
+      "uid": "35240-d90045bf-1d07-4f9d-96b7-a664f2eac17a"
+    },
+    {
+      "name": "fills",
+      "item": [
+        {
+          "name": "List fills",
+          "id": "8d8cd07d-4fad-476d-bb6f-ed1078b0ed3c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/fills?order_id=<string>&product_id=<string>&before=<string>&after=<string>&limit=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fills"
+              ],
+              "query": [
+                {
+                  "description": "Filter fills by order ID",
+                  "key": "order_id",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Filter fills by product ID",
+                  "key": "product_id",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Cursor for pagination (newer items)",
+                  "key": "before",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Cursor for pagination (older items)",
+                  "key": "after",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Number of results per request (max 100)",
+                  "key": "limit",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Retrieves a list of recent fills for the authenticated user. Fills represent the settlement of an order at a specific price and quantity."
+          },
+          "response": [
+            {
+              "id": "e20bee48-454d-434a-bd5e-0f1136c7301d",
+              "name": "Successfully retrieved fills",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fills?order_id=<string>&product_id=<string>&before=<string>&after=<string>&limit=100",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "fills"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter fills by order ID",
+                      "key": "order_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter fills by product ID",
+                      "key": "product_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Cursor for pagination (newer items)",
+                      "key": "before",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Cursor for pagination (older items)",
+                      "key": "after",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Number of results per request (max 100)",
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "[\n  {\n    \"trade_id\": \"<integer>\",\n    \"product_id\": \"<string>\",\n    \"price\": \"<string>\",\n    \"size\": \"<string>\",\n    \"order_id\": \"<string>\",\n    \"created_at\": \"<dateTime>\",\n    \"liquidity\": \"M\",\n    \"fee\": \"<string>\",\n    \"settled\": \"<boolean>\",\n    \"side\": \"sell\"\n  },\n  {\n    \"trade_id\": \"<integer>\",\n    \"product_id\": \"<string>\",\n    \"price\": \"<string>\",\n    \"size\": \"<string>\",\n    \"order_id\": \"<string>\",\n    \"created_at\": \"<dateTime>\",\n    \"liquidity\": \"M\",\n    \"fee\": \"<string>\",\n    \"settled\": \"<boolean>\",\n    \"side\": \"buy\"\n  }\n]",
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-e20bee48-454d-434a-bd5e-0f1136c7301d"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:48.000Z",
+          "updatedAt": "2026-07-28T01:24:48.000Z",
+          "uid": "35240-8d8cd07d-4fad-476d-bb6f-ed1078b0ed3c"
+        }
+      ],
+      "id": "ee5702e2-ebab-47ef-a597-68c62ba97188",
+      "createdAt": "2026-07-28T01:24:48.000Z",
+      "updatedAt": "2026-07-28T01:24:48.000Z",
+      "uid": "35240-ee5702e2-ebab-47ef-a597-68c62ba97188"
+    },
+    {
+      "name": "portfolios",
+      "item": [
+        {
+          "name": "{portfolio_id}",
+          "item": [
+            {
+              "name": "orders",
+              "item": [
+                {
+                  "name": "{order_id}",
+                  "item": [
+                    {
+                      "name": "cancel",
+                      "item": [
+                        {
+                          "name": "Cancel order",
+                          "id": "48376507-5941-4808-b244-eedf78cfb81f",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders/:order_id/cancel",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "portfolios",
+                                ":portfolio_id",
+                                "orders",
+                                ":order_id",
+                                "cancel"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "eb64ef06-a656-4c2f-a650-b161060805cf",
+                                  "key": "portfolio_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Portfolio identifier"
+                                },
+                                {
+                                  "id": "298bd155-0246-41d8-bf33-2b5998d1784a",
+                                  "key": "order_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Order identifier"
+                                }
+                              ]
+                            },
+                            "description": "Cancels an open order by its order ID within a portfolio."
+                          },
+                          "response": [
+                            {
+                              "id": "f25a3fda-09bd-4889-8897-0e0373f1c6e4",
+                              "name": "Order cancelled",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "CB-ACCESS-KEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders/:order_id/cancel",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "portfolios",
+                                    ":portfolio_id",
+                                    "orders",
+                                    ":order_id",
+                                    "cancel"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "portfolio_id"
+                                    },
+                                    {
+                                      "key": "order_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"order_id\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:24:48.000Z",
+                              "updatedAt": "2026-07-28T01:24:48.000Z",
+                              "uid": "35240-f25a3fda-09bd-4889-8897-0e0373f1c6e4"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:24:48.000Z",
+                          "updatedAt": "2026-07-28T01:24:48.000Z",
+                          "uid": "35240-48376507-5941-4808-b244-eedf78cfb81f"
+                        }
+                      ],
+                      "id": "ce6f488d-fd20-4493-bb90-b85f26240e2a",
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-ce6f488d-fd20-4493-bb90-b85f26240e2a"
+                    },
+                    {
+                      "name": "fills",
+                      "item": [
+                        {
+                          "name": "List order fills",
+                          "id": "3599f502-1ff9-4e73-bb6a-1a7369a4b13a",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders/:order_id/fills?cursor=<string>&limit=100",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "portfolios",
+                                ":portfolio_id",
+                                "orders",
+                                ":order_id",
+                                "fills"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Cursor for pagination",
+                                  "key": "cursor",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Maximum number of results to return",
+                                  "key": "limit",
+                                  "value": "100"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "id": "eae49ad7-aabb-4cb4-99e7-839aa4d45dd9",
+                                  "key": "portfolio_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Portfolio identifier"
+                                },
+                                {
+                                  "id": "7a3b3c95-9ce5-4bf8-b437-9550c0df5033",
+                                  "key": "order_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Order identifier"
+                                }
+                              ]
+                            },
+                            "description": "Retrieves all fills associated with a specific order in a portfolio."
+                          },
+                          "response": [
+                            {
+                              "id": "43b24162-73a9-447f-9cd2-cedb9744de43",
+                              "name": "Successfully retrieved fills",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "CB-ACCESS-KEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders/:order_id/fills?cursor=<string>&limit=100",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "portfolios",
+                                    ":portfolio_id",
+                                    "orders",
+                                    ":order_id",
+                                    "fills"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Cursor for pagination",
+                                      "key": "cursor",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return",
+                                      "key": "limit",
+                                      "value": "100"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "portfolio_id"
+                                    },
+                                    {
+                                      "key": "order_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"fills\": [\n    {\n      \"id\": \"<string>\",\n      \"order_id\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"side\": \"<string>\",\n      \"filled_quantity\": \"<string>\",\n      \"filled_value\": \"<string>\",\n      \"price\": \"<string>\",\n      \"time\": \"<dateTime>\",\n      \"commission\": \"<string>\",\n      \"venue\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"order_id\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"side\": \"<string>\",\n      \"filled_quantity\": \"<string>\",\n      \"filled_value\": \"<string>\",\n      \"price\": \"<string>\",\n      \"time\": \"<dateTime>\",\n      \"commission\": \"<string>\",\n      \"venue\": \"<string>\"\n    }\n  ],\n  \"pagination\": {\n    \"next_cursor\": \"<string>\",\n    \"sort_direction\": \"<string>\",\n    \"has_next\": \"<boolean>\"\n  }\n}",
+                              "createdAt": "2026-07-28T01:24:48.000Z",
+                              "updatedAt": "2026-07-28T01:24:48.000Z",
+                              "uid": "35240-43b24162-73a9-447f-9cd2-cedb9744de43"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:24:48.000Z",
+                          "updatedAt": "2026-07-28T01:24:48.000Z",
+                          "uid": "35240-3599f502-1ff9-4e73-bb6a-1a7369a4b13a"
+                        }
+                      ],
+                      "id": "2ee0e8fd-28cc-4e63-82ac-112436b8ae6d",
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-2ee0e8fd-28cc-4e63-82ac-112436b8ae6d"
+                    },
+                    {
+                      "name": "Get order",
+                      "id": "76e279bb-3545-48cc-a9e3-e0218c69ec90",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders/:order_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "portfolios",
+                            ":portfolio_id",
+                            "orders",
+                            ":order_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "e50df28b-f57b-422c-9917-b8d95515d1c4",
+                              "key": "portfolio_id",
+                              "value": "<string>",
+                              "description": "(Required) Portfolio identifier"
+                            },
+                            {
+                              "id": "83e2c78e-a4e9-4655-b619-38019ecdd17e",
+                              "key": "order_id",
+                              "value": "<string>",
+                              "description": "(Required) Order identifier"
+                            }
+                          ]
+                        },
+                        "description": "Retrieves details of a specific order by its order ID within a portfolio."
+                      },
+                      "response": [
+                        {
+                          "id": "7c6539fb-ed7d-4ef0-a367-17a8c51250c4",
+                          "name": "Successfully retrieved order",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "CB-ACCESS-KEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders/:order_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "portfolios",
+                                ":portfolio_id",
+                                "orders",
+                                ":order_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "portfolio_id"
+                                },
+                                {
+                                  "key": "order_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"order\": {\n    \"id\": \"<string>\",\n    \"portfolio_id\": \"<string>\",\n    \"product_id\": \"<string>\",\n    \"side\": \"BUY\",\n    \"type\": \"BLOCK\",\n    \"base_quantity\": \"<string>\",\n    \"quote_value\": \"<string>\",\n    \"limit_price\": \"<string>\",\n    \"start_time\": \"<dateTime>\",\n    \"expiry_time\": \"<dateTime>\",\n    \"status\": \"OPEN\",\n    \"created_at\": \"<dateTime>\",\n    \"filled_quantity\": \"<string>\",\n    \"filled_value\": \"<string>\",\n    \"average_filled_price\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-07-28T01:24:48.000Z",
+                          "updatedAt": "2026-07-28T01:24:48.000Z",
+                          "uid": "35240-7c6539fb-ed7d-4ef0-a367-17a8c51250c4"
+                        },
+                        {
+                          "id": "827ec326-ce2c-41a6-9ba5-add186556c10",
+                          "name": "Order not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "CB-ACCESS-KEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders/:order_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "portfolios",
+                                ":portfolio_id",
+                                "orders",
+                                ":order_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "portfolio_id"
+                                },
+                                {
+                                  "key": "order_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:24:48.000Z",
+                          "updatedAt": "2026-07-28T01:24:48.000Z",
+                          "uid": "35240-827ec326-ce2c-41a6-9ba5-add186556c10"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-76e279bb-3545-48cc-a9e3-e0218c69ec90"
+                    }
+                  ],
+                  "id": "57f456b1-04de-40d0-b389-836e1a5f0f6e",
+                  "createdAt": "2026-07-28T01:24:48.000Z",
+                  "updatedAt": "2026-07-28T01:24:48.000Z",
+                  "uid": "35240-57f456b1-04de-40d0-b389-836e1a5f0f6e"
+                },
+                {
+                  "name": "List portfolio orders",
+                  "id": "45bd9648-348b-44fb-b545-bc11c0fe79e6",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders?product_ids=<string>&order_statuses=OPEN&order_statuses=OPEN&order_type=BLOCK&start_date=<dateTime>&end_date=<dateTime>&cursor=<string>&limit=100&sort_direction=DESC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id",
+                        "orders"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter by product IDs",
+                          "key": "product_ids",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter by order statuses",
+                          "key": "order_statuses",
+                          "value": "OPEN"
+                        },
+                        {
+                          "description": "Filter by order statuses",
+                          "key": "order_statuses",
+                          "value": "OPEN"
+                        },
+                        {
+                          "description": "Filter by order type",
+                          "key": "order_type",
+                          "value": "BLOCK"
+                        },
+                        {
+                          "description": "Start date for filtering",
+                          "key": "start_date",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "End date for filtering",
+                          "key": "end_date",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Cursor for pagination",
+                          "key": "cursor",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return",
+                          "key": "limit",
+                          "value": "100"
+                        },
+                        {
+                          "description": "Sort direction for results",
+                          "key": "sort_direction",
+                          "value": "DESC"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "ae41030a-ab60-4fae-a364-ab76d99211ad",
+                          "key": "portfolio_id",
+                          "value": "<string>",
+                          "description": "(Required) Portfolio identifier"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves historical orders for a given portfolio. Returns a default limit of 100 results with a maximum allowed limit of 3000. Supports filtering by product, status, and date range."
+                  },
+                  "response": [
+                    {
+                      "id": "52096c60-a1ed-462e-985d-a57af77affd1",
+                      "name": "Successfully retrieved orders",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders?product_ids=<string>&order_statuses=OPEN&order_type=BLOCK&start_date=<dateTime>&end_date=<dateTime>&cursor=<string>&limit=100&sort_direction=DESC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "portfolios",
+                            ":portfolio_id",
+                            "orders"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter by product IDs",
+                              "key": "product_ids",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Filter by order statuses",
+                              "key": "order_statuses",
+                              "value": "OPEN"
+                            },
+                            {
+                              "description": "Filter by order type",
+                              "key": "order_type",
+                              "value": "BLOCK"
+                            },
+                            {
+                              "description": "Start date for filtering",
+                              "key": "start_date",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "End date for filtering",
+                              "key": "end_date",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Cursor for pagination",
+                              "key": "cursor",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return",
+                              "key": "limit",
+                              "value": "100"
+                            },
+                            {
+                              "description": "Sort direction for results",
+                              "key": "sort_direction",
+                              "value": "DESC"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "portfolio_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"orders\": [\n    {\n      \"id\": \"<string>\",\n      \"portfolio_id\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"side\": \"SELL\",\n      \"type\": \"MARKET\",\n      \"base_quantity\": \"<string>\",\n      \"quote_value\": \"<string>\",\n      \"limit_price\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"expiry_time\": \"<dateTime>\",\n      \"status\": \"OPEN\",\n      \"created_at\": \"<dateTime>\",\n      \"filled_quantity\": \"<string>\",\n      \"filled_value\": \"<string>\",\n      \"average_filled_price\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"portfolio_id\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"side\": \"SELL\",\n      \"type\": \"MARKET\",\n      \"base_quantity\": \"<string>\",\n      \"quote_value\": \"<string>\",\n      \"limit_price\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"expiry_time\": \"<dateTime>\",\n      \"status\": \"EXPIRED\",\n      \"created_at\": \"<dateTime>\",\n      \"filled_quantity\": \"<string>\",\n      \"filled_value\": \"<string>\",\n      \"average_filled_price\": \"<string>\"\n    }\n  ],\n  \"pagination\": {\n    \"next_cursor\": \"<string>\",\n    \"sort_direction\": \"<string>\",\n    \"has_next\": \"<boolean>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-52096c60-a1ed-462e-985d-a57af77affd1"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:48.000Z",
+                  "updatedAt": "2026-07-28T01:24:48.000Z",
+                  "uid": "35240-45bd9648-348b-44fb-b545-bc11c0fe79e6"
+                },
+                {
+                  "name": "Create order",
+                  "id": "8ef79ab3-e7fc-4764-b05f-7e45b11e4114",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"portfolio_id\": \"<string>\",\n  \"product_id\": \"<string>\",\n  \"side\": \"SELL\",\n  \"type\": \"BLOCK\",\n  \"base_quantity\": \"<string>\",\n  \"quote_value\": \"<string>\",\n  \"limit_price\": \"<string>\",\n  \"start_time\": \"<dateTime>\",\n  \"expiry_time\": \"<dateTime>\",\n  \"time_in_force\": \"FILL_OR_KILL\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id",
+                        "orders"
+                      ],
+                      "variable": [
+                        {
+                          "id": "0bad8dca-cfdf-4db2-9ec3-8eeff6a7214a",
+                          "key": "portfolio_id",
+                          "value": "<string>",
+                          "description": "(Required) Portfolio identifier"
+                        }
+                      ]
+                    },
+                    "description": "Creates a new order within the specified portfolio. Supports market, limit, TWAP, and block order types for institutional trading."
+                  },
+                  "response": [
+                    {
+                      "id": "5dca4b22-fadf-4abd-9753-378264447f95",
+                      "name": "Order successfully created",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"portfolio_id\": \"<string>\",\n  \"product_id\": \"<string>\",\n  \"side\": \"SELL\",\n  \"type\": \"BLOCK\",\n  \"base_quantity\": \"<string>\",\n  \"quote_value\": \"<string>\",\n  \"limit_price\": \"<string>\",\n  \"start_time\": \"<dateTime>\",\n  \"expiry_time\": \"<dateTime>\",\n  \"time_in_force\": \"FILL_OR_KILL\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "portfolios",
+                            ":portfolio_id",
+                            "orders"
+                          ],
+                          "variable": [
+                            {
+                              "key": "portfolio_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"order_id\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-5dca4b22-fadf-4abd-9753-378264447f95"
+                    },
+                    {
+                      "id": "0e990147-94a7-4326-8cfb-f737857dc7ff",
+                      "name": "Bad request",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"portfolio_id\": \"<string>\",\n  \"product_id\": \"<string>\",\n  \"side\": \"SELL\",\n  \"type\": \"BLOCK\",\n  \"base_quantity\": \"<string>\",\n  \"quote_value\": \"<string>\",\n  \"limit_price\": \"<string>\",\n  \"start_time\": \"<dateTime>\",\n  \"expiry_time\": \"<dateTime>\",\n  \"time_in_force\": \"FILL_OR_KILL\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/portfolios/:portfolio_id/orders",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "portfolios",
+                            ":portfolio_id",
+                            "orders"
+                          ],
+                          "variable": [
+                            {
+                              "key": "portfolio_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:24:48.000Z",
+                      "updatedAt": "2026-07-28T01:24:48.000Z",
+                      "uid": "35240-0e990147-94a7-4326-8cfb-f737857dc7ff"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:48.000Z",
+                  "updatedAt": "2026-07-28T01:24:48.000Z",
+                  "uid": "35240-8ef79ab3-e7fc-4764-b05f-7e45b11e4114"
+                }
+              ],
+              "id": "0b4be83c-0d62-4b63-a41b-6b2c1cfe93c9",
+              "createdAt": "2026-07-28T01:24:48.000Z",
+              "updatedAt": "2026-07-28T01:24:48.000Z",
+              "uid": "35240-0b4be83c-0d62-4b63-a41b-6b2c1cfe93c9"
+            }
+          ],
+          "id": "58ac86fd-b742-436a-a7d7-bb248113d97a",
+          "createdAt": "2026-07-28T01:24:48.000Z",
+          "updatedAt": "2026-07-28T01:24:48.000Z",
+          "uid": "35240-58ac86fd-b742-436a-a7d7-bb248113d97a"
+        }
+      ],
+      "id": "cf74cdfa-9126-46ae-821a-9f511f668d33",
+      "createdAt": "2026-07-28T01:24:48.000Z",
+      "updatedAt": "2026-07-28T01:24:48.000Z",
+      "uid": "35240-cf74cdfa-9126-46ae-821a-9f511f668d33"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

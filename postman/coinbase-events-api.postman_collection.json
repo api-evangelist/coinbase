@@ -1,0 +1,282 @@
+{
+  "info": {
+    "_postman_id": "dedbecef-c382-4a62-907e-ff0089a103e4",
+    "name": "Coinbase Advanced Trade Accounts Events API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:44.000Z",
+    "updatedAt": "2026-07-28T01:24:44.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-dedbecef-c382-4a62-907e-ff0089a103e4"
+  },
+  "item": [
+    {
+      "name": "events",
+      "item": [
+        {
+          "name": "{event_id}",
+          "item": [
+            {
+              "name": "Get event",
+              "id": "1d348e7e-f622-42ed-bbb4-713f0d88824f",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/events/:event_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    ":event_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "570d92c1-3cae-4edd-9cf0-fe8551b87886",
+                      "key": "event_id",
+                      "value": "<string>",
+                      "description": "(Required) Event identifier"
+                    }
+                  ]
+                },
+                "description": "Retrieves a specific event by its ID."
+              },
+              "response": [
+                {
+                  "id": "0aed041d-8064-4a5d-9875-2be866eea20c",
+                  "name": "Successfully retrieved event",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/events/:event_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "events",
+                        ":event_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "event_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"event\",\n    \"type\": \"charge:confirmed\",\n    \"api_version\": \"<string>\",\n    \"created_at\": \"<dateTime>\",\n    \"data\": {}\n  }\n}",
+                  "createdAt": "2026-07-28T01:24:44.000Z",
+                  "updatedAt": "2026-07-28T01:24:44.000Z",
+                  "uid": "35240-0aed041d-8064-4a5d-9875-2be866eea20c"
+                },
+                {
+                  "id": "423ce6fe-98d2-4432-ad06-f131804a3948",
+                  "name": "Event not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/events/:event_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "events",
+                        ":event_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "event_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:44.000Z",
+                  "updatedAt": "2026-07-28T01:24:44.000Z",
+                  "uid": "35240-423ce6fe-98d2-4432-ad06-f131804a3948"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:44.000Z",
+              "updatedAt": "2026-07-28T01:24:44.000Z",
+              "uid": "35240-1d348e7e-f622-42ed-bbb4-713f0d88824f"
+            }
+          ],
+          "id": "57a894f0-dd8a-4734-814a-1ba1a4f33a32",
+          "createdAt": "2026-07-28T01:24:44.000Z",
+          "updatedAt": "2026-07-28T01:24:44.000Z",
+          "uid": "35240-57a894f0-dd8a-4734-814a-1ba1a4f33a32"
+        },
+        {
+          "name": "List events",
+          "id": "2f33287e-7550-472f-a120-388578bbcd30",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/events?starting_after=<string>&order=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "events"
+              ],
+              "query": [
+                {
+                  "description": "Cursor for pagination to fetch the next page of results",
+                  "key": "starting_after",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Sort order for results",
+                  "key": "order",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "Retrieves a paginated list of webhook events. Events track the lifecycle of charges, checkouts, and invoices including creation, confirmation, and failure."
+          },
+          "response": [
+            {
+              "id": "32d2b9bf-69e1-4471-aadc-8880e7c18a82",
+              "name": "Successfully retrieved events",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/events?starting_after=<string>&order=desc",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events"
+                  ],
+                  "query": [
+                    {
+                      "description": "Cursor for pagination to fetch the next page of results",
+                      "key": "starting_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Sort order for results",
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"resource\": \"event\",\n      \"type\": \"charge:delayed\",\n      \"api_version\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"data\": {}\n    },\n    {\n      \"id\": \"<string>\",\n      \"resource\": \"event\",\n      \"type\": \"charge:delayed\",\n      \"api_version\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"data\": {}\n    }\n  ],\n  \"pagination\": {\n    \"order\": \"<string>\",\n    \"starting_after\": \"<string>\",\n    \"ending_before\": \"<string>\",\n    \"total\": \"<integer>\",\n    \"yielded\": \"<integer>\",\n    \"cursor_range\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "createdAt": "2026-07-28T01:24:44.000Z",
+              "updatedAt": "2026-07-28T01:24:44.000Z",
+              "uid": "35240-32d2b9bf-69e1-4471-aadc-8880e7c18a82"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:44.000Z",
+          "updatedAt": "2026-07-28T01:24:44.000Z",
+          "uid": "35240-2f33287e-7550-472f-a120-388578bbcd30"
+        }
+      ],
+      "id": "acacd67b-0d3c-4ac8-827e-662be8bedd1c",
+      "createdAt": "2026-07-28T01:24:44.000Z",
+      "updatedAt": "2026-07-28T01:24:44.000Z",
+      "uid": "35240-acacd67b-0d3c-4ac8-827e-662be8bedd1c"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

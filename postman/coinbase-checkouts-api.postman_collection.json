@@ -1,0 +1,620 @@
+{
+  "info": {
+    "_postman_id": "b8b32d5c-72ec-4ed9-ab05-4829e170e022",
+    "name": "Coinbase Advanced Trade Accounts Checkouts API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:36.000Z",
+    "updatedAt": "2026-07-28T01:24:36.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b8b32d5c-72ec-4ed9-ab05-4829e170e022"
+  },
+  "item": [
+    {
+      "name": "checkouts",
+      "item": [
+        {
+          "name": "{checkout_id}",
+          "item": [
+            {
+              "name": "Get checkout",
+              "id": "3b6cfd7d-d378-4894-8157-550f37c25c3e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/checkouts/:checkout_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "checkouts",
+                    ":checkout_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "cc0f44b3-574d-4097-83ec-8df2c335ca75",
+                      "key": "checkout_id",
+                      "value": "<string>",
+                      "description": "(Required) Checkout identifier"
+                    }
+                  ]
+                },
+                "description": "Retrieves a specific checkout by its ID."
+              },
+              "response": [
+                {
+                  "id": "da726dd6-b29f-4f68-b6a3-f74aa7b9b8c2",
+                  "name": "Successfully retrieved checkout",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/checkouts/:checkout_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "checkouts",
+                        ":checkout_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "checkout_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"checkout\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"requested_info\": [\n      \"name\",\n      \"email\"\n    ],\n    \"pricing_type\": \"fixed_price\",\n    \"local_price\": {\n      \"amount\": \"<string>\",\n      \"currency\": \"<string>\"\n    }\n  }\n}",
+                  "createdAt": "2026-07-28T01:24:37.000Z",
+                  "updatedAt": "2026-07-28T01:24:37.000Z",
+                  "uid": "35240-da726dd6-b29f-4f68-b6a3-f74aa7b9b8c2"
+                },
+                {
+                  "id": "7a4bed30-6156-45b7-8e80-de1af49cce1d",
+                  "name": "Checkout not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/checkouts/:checkout_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "checkouts",
+                        ":checkout_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "checkout_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:37.000Z",
+                  "updatedAt": "2026-07-28T01:24:37.000Z",
+                  "uid": "35240-7a4bed30-6156-45b7-8e80-de1af49cce1d"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:37.000Z",
+              "updatedAt": "2026-07-28T01:24:37.000Z",
+              "uid": "35240-3b6cfd7d-d378-4894-8157-550f37c25c3e"
+            },
+            {
+              "name": "Update checkout",
+              "id": "9c42f758-5639-4b96-9f01-0bd1f800e139",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"pricing_type\": \"fixed_price\",\n  \"description\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"requested_info\": [\n    \"name\",\n    \"name\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/checkouts/:checkout_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "checkouts",
+                    ":checkout_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "ca0b6a00-84a7-4a83-9c4c-8dd9e78a82ca",
+                      "key": "checkout_id",
+                      "value": "<string>",
+                      "description": "(Required) Checkout identifier"
+                    }
+                  ]
+                },
+                "description": "Updates an existing checkout page with new details."
+              },
+              "response": [
+                {
+                  "id": "72b618b7-27f2-4aa0-9897-f4669c2a79a7",
+                  "name": "Checkout updated",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"pricing_type\": \"fixed_price\",\n  \"description\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"requested_info\": [\n    \"name\",\n    \"name\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/checkouts/:checkout_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "checkouts",
+                        ":checkout_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "checkout_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"checkout\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"requested_info\": [\n      \"name\",\n      \"email\"\n    ],\n    \"pricing_type\": \"fixed_price\",\n    \"local_price\": {\n      \"amount\": \"<string>\",\n      \"currency\": \"<string>\"\n    }\n  }\n}",
+                  "createdAt": "2026-07-28T01:24:37.000Z",
+                  "updatedAt": "2026-07-28T01:24:37.000Z",
+                  "uid": "35240-72b618b7-27f2-4aa0-9897-f4669c2a79a7"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:37.000Z",
+              "updatedAt": "2026-07-28T01:24:37.000Z",
+              "uid": "35240-9c42f758-5639-4b96-9f01-0bd1f800e139"
+            },
+            {
+              "name": "Delete checkout",
+              "id": "b17ce97e-69e8-472e-afea-daa40cea3a14",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/checkouts/:checkout_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "checkouts",
+                    ":checkout_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "a83f7653-d939-4bd1-9dab-9d01f1ebfeb7",
+                      "key": "checkout_id",
+                      "value": "<string>",
+                      "description": "(Required) Checkout identifier"
+                    }
+                  ]
+                },
+                "description": "Deletes a checkout page by its ID."
+              },
+              "response": [
+                {
+                  "id": "b728fa1f-be0a-4f62-8a2f-ad7232e639fa",
+                  "name": "Checkout deleted",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/checkouts/:checkout_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "checkouts",
+                        ":checkout_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "checkout_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:37.000Z",
+                  "updatedAt": "2026-07-28T01:24:37.000Z",
+                  "uid": "35240-b728fa1f-be0a-4f62-8a2f-ad7232e639fa"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:37.000Z",
+              "updatedAt": "2026-07-28T01:24:37.000Z",
+              "uid": "35240-b17ce97e-69e8-472e-afea-daa40cea3a14"
+            }
+          ],
+          "id": "d97c33e6-1eaa-45ff-8517-dcb85d21ac81",
+          "createdAt": "2026-07-28T01:24:37.000Z",
+          "updatedAt": "2026-07-28T01:24:37.000Z",
+          "uid": "35240-d97c33e6-1eaa-45ff-8517-dcb85d21ac81"
+        },
+        {
+          "name": "List checkouts",
+          "id": "dec4ee34-ccc6-4045-9adf-57204c18436e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/checkouts?starting_after=<string>&order=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "checkouts"
+              ],
+              "query": [
+                {
+                  "description": "Cursor for pagination to fetch the next page of results",
+                  "key": "starting_after",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Sort order for results",
+                  "key": "order",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "Retrieves a paginated list of all checkouts. Checkouts are reusable payment pages that can be shared with customers."
+          },
+          "response": [
+            {
+              "id": "e442c0fa-6133-42a5-93f7-6950ec3de994",
+              "name": "Successfully retrieved checkouts",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/checkouts?starting_after=<string>&order=desc",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "checkouts"
+                  ],
+                  "query": [
+                    {
+                      "description": "Cursor for pagination to fetch the next page of results",
+                      "key": "starting_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Sort order for results",
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"resource\": \"checkout\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"requested_info\": [\n        \"name\",\n        \"email\"\n      ],\n      \"pricing_type\": \"fixed_price\",\n      \"local_price\": {\n        \"amount\": \"<string>\",\n        \"currency\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"resource\": \"checkout\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"requested_info\": [\n        \"name\",\n        \"name\"\n      ],\n      \"pricing_type\": \"fixed_price\",\n      \"local_price\": {\n        \"amount\": \"<string>\",\n        \"currency\": \"<string>\"\n      }\n    }\n  ],\n  \"pagination\": {\n    \"order\": \"<string>\",\n    \"starting_after\": \"<string>\",\n    \"ending_before\": \"<string>\",\n    \"total\": \"<integer>\",\n    \"yielded\": \"<integer>\",\n    \"cursor_range\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "createdAt": "2026-07-28T01:24:37.000Z",
+              "updatedAt": "2026-07-28T01:24:37.000Z",
+              "uid": "35240-e442c0fa-6133-42a5-93f7-6950ec3de994"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:37.000Z",
+          "updatedAt": "2026-07-28T01:24:37.000Z",
+          "uid": "35240-dec4ee34-ccc6-4045-9adf-57204c18436e"
+        },
+        {
+          "name": "Create checkout",
+          "id": "25fa1551-1a9f-48ba-94fd-063ac25bcc01",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"pricing_type\": \"fixed_price\",\n  \"description\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"requested_info\": [\n    \"name\",\n    \"name\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/checkouts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "checkouts"
+              ]
+            },
+            "description": "Creates a new checkout page for accepting payments. Checkouts are reusable and generate a unique URL that can be shared with customers."
+          },
+          "response": [
+            {
+              "id": "69e83330-a6e4-42b0-b976-78c63c64a580",
+              "name": "Checkout created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"pricing_type\": \"fixed_price\",\n  \"description\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"requested_info\": [\n    \"name\",\n    \"name\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/checkouts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "checkouts"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"checkout\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"requested_info\": [\n      \"name\",\n      \"email\"\n    ],\n    \"pricing_type\": \"fixed_price\",\n    \"local_price\": {\n      \"amount\": \"<string>\",\n      \"currency\": \"<string>\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T01:24:37.000Z",
+              "updatedAt": "2026-07-28T01:24:37.000Z",
+              "uid": "35240-69e83330-a6e4-42b0-b976-78c63c64a580"
+            },
+            {
+              "id": "2ee6b4c3-d1a9-4934-b9ba-e05dce6ad7eb",
+              "name": "Bad request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"pricing_type\": \"fixed_price\",\n  \"description\": \"<string>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"requested_info\": [\n    \"name\",\n    \"name\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/checkouts",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "checkouts"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:37.000Z",
+              "updatedAt": "2026-07-28T01:24:37.000Z",
+              "uid": "35240-2ee6b4c3-d1a9-4934-b9ba-e05dce6ad7eb"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:37.000Z",
+          "updatedAt": "2026-07-28T01:24:37.000Z",
+          "uid": "35240-25fa1551-1a9f-48ba-94fd-063ac25bcc01"
+        }
+      ],
+      "id": "1acda32e-b65c-401d-a6f2-14c23e9be026",
+      "createdAt": "2026-07-28T01:24:37.000Z",
+      "updatedAt": "2026-07-28T01:24:37.000Z",
+      "uid": "35240-1acda32e-b65c-401d-a6f2-14c23e9be026"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

@@ -1,0 +1,311 @@
+{
+  "info": {
+    "_postman_id": "47bb1adc-50a0-40f7-8ffc-8c8fa776824b",
+    "name": "Coinbase Advanced Trade Accounts Wallets API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:25:09.000Z",
+    "updatedAt": "2026-07-28T01:25:09.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-47bb1adc-50a0-40f7-8ffc-8c8fa776824b"
+  },
+  "item": [
+    {
+      "name": "portfolios",
+      "item": [
+        {
+          "name": "{portfolio_id}",
+          "item": [
+            {
+              "name": "wallets",
+              "item": [
+                {
+                  "name": "{wallet_id}",
+                  "item": [
+                    {
+                      "name": "Get wallet",
+                      "id": "94790a45-896c-4eba-9c5d-b176bf0353f0",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/portfolios/:portfolio_id/wallets/:wallet_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "portfolios",
+                            ":portfolio_id",
+                            "wallets",
+                            ":wallet_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "63be5117-233c-4b35-b792-9ae07dc3b878",
+                              "key": "portfolio_id",
+                              "value": "<string>",
+                              "description": "(Required) Portfolio identifier"
+                            },
+                            {
+                              "id": "ef1d6578-c357-4855-aedc-7502c009ffaa",
+                              "key": "wallet_id",
+                              "value": "<string>",
+                              "description": "(Required) Wallet identifier"
+                            }
+                          ]
+                        },
+                        "description": "Retrieves details of a specific wallet by its wallet ID."
+                      },
+                      "response": [
+                        {
+                          "id": "e0d6bf2e-7f4f-4ea4-b25b-afb2cfc85b93",
+                          "name": "Successfully retrieved wallet",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "CB-ACCESS-KEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/portfolios/:portfolio_id/wallets/:wallet_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "portfolios",
+                                ":portfolio_id",
+                                "wallets",
+                                ":wallet_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "portfolio_id"
+                                },
+                                {
+                                  "key": "wallet_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"wallet\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"symbol\": \"<string>\",\n    \"type\": \"TRADING\",\n    \"created_at\": \"<dateTime>\"\n  }\n}",
+                          "createdAt": "2026-07-28T01:25:10.000Z",
+                          "updatedAt": "2026-07-28T01:25:10.000Z",
+                          "uid": "35240-e0d6bf2e-7f4f-4ea4-b25b-afb2cfc85b93"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:25:10.000Z",
+                      "updatedAt": "2026-07-28T01:25:10.000Z",
+                      "uid": "35240-94790a45-896c-4eba-9c5d-b176bf0353f0"
+                    }
+                  ],
+                  "id": "f77ff8d6-7213-43aa-9f9d-b3196add00d2",
+                  "createdAt": "2026-07-28T01:25:10.000Z",
+                  "updatedAt": "2026-07-28T01:25:10.000Z",
+                  "uid": "35240-f77ff8d6-7213-43aa-9f9d-b3196add00d2"
+                },
+                {
+                  "name": "List portfolio wallets",
+                  "id": "147d2f52-03ef-4aa5-b29f-bb61e15e4b35",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id/wallets?type=VAULT&symbols=<string>&cursor=<string>&limit=100",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id",
+                        "wallets"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter by wallet type",
+                          "key": "type",
+                          "value": "VAULT"
+                        },
+                        {
+                          "description": "Filter by currency symbols",
+                          "key": "symbols",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Cursor for pagination",
+                          "key": "cursor",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return",
+                          "key": "limit",
+                          "value": "100"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "0d631cbd-4efe-4c62-87bc-8ecb3aa69975",
+                          "key": "portfolio_id",
+                          "value": "<string>",
+                          "description": "(Required) Portfolio identifier"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves a list of wallets associated with a portfolio. Each wallet holds a specific type of cryptocurrency asset."
+                  },
+                  "response": [
+                    {
+                      "id": "5fc83fe7-ee94-490f-95b9-b02d398c716b",
+                      "name": "Successfully retrieved wallets",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/portfolios/:portfolio_id/wallets?type=VAULT&symbols=<string>&cursor=<string>&limit=100",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "portfolios",
+                            ":portfolio_id",
+                            "wallets"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter by wallet type",
+                              "key": "type",
+                              "value": "VAULT"
+                            },
+                            {
+                              "description": "Filter by currency symbols",
+                              "key": "symbols",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Cursor for pagination",
+                              "key": "cursor",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return",
+                              "key": "limit",
+                              "value": "100"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "portfolio_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"wallets\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"type\": \"VAULT\",\n      \"created_at\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"type\": \"TRADING\",\n      \"created_at\": \"<dateTime>\"\n    }\n  ],\n  \"pagination\": {\n    \"next_cursor\": \"<string>\",\n    \"sort_direction\": \"<string>\",\n    \"has_next\": \"<boolean>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:25:10.000Z",
+                      "updatedAt": "2026-07-28T01:25:10.000Z",
+                      "uid": "35240-5fc83fe7-ee94-490f-95b9-b02d398c716b"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:25:10.000Z",
+                  "updatedAt": "2026-07-28T01:25:10.000Z",
+                  "uid": "35240-147d2f52-03ef-4aa5-b29f-bb61e15e4b35"
+                }
+              ],
+              "id": "d352b308-e2d0-4bf0-963a-ab9dc9ae0542",
+              "createdAt": "2026-07-28T01:25:10.000Z",
+              "updatedAt": "2026-07-28T01:25:10.000Z",
+              "uid": "35240-d352b308-e2d0-4bf0-963a-ab9dc9ae0542"
+            }
+          ],
+          "id": "6f6aa729-04ab-4175-b2b2-560790e6e186",
+          "createdAt": "2026-07-28T01:25:10.000Z",
+          "updatedAt": "2026-07-28T01:25:10.000Z",
+          "uid": "35240-6f6aa729-04ab-4175-b2b2-560790e6e186"
+        }
+      ],
+      "id": "b461086d-768e-454c-803a-04dfc512ffa4",
+      "createdAt": "2026-07-28T01:25:10.000Z",
+      "updatedAt": "2026-07-28T01:25:10.000Z",
+      "uid": "35240-b461086d-768e-454c-803a-04dfc512ffa4"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

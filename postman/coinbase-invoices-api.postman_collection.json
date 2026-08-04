@@ -1,0 +1,628 @@
+{
+  "info": {
+    "_postman_id": "721848b0-8419-4c36-a673-def3eae12cbb",
+    "name": "Coinbase Advanced Trade Accounts Invoices API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:46.000Z",
+    "updatedAt": "2026-07-28T01:24:46.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-721848b0-8419-4c36-a673-def3eae12cbb"
+  },
+  "item": [
+    {
+      "name": "invoices",
+      "item": [
+        {
+          "name": "{invoice_id}",
+          "item": [
+            {
+              "name": "void",
+              "item": [
+                {
+                  "name": "Void invoice",
+                  "id": "31f1e306-a5c6-4023-8c52-f681aa5adea4",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/invoices/:invoice_id/void",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "invoices",
+                        ":invoice_id",
+                        "void"
+                      ],
+                      "variable": [
+                        {
+                          "id": "4515c755-6fd2-49f0-99fe-1275ff37400d",
+                          "key": "invoice_id",
+                          "value": "<string>",
+                          "description": "(Required) Invoice identifier"
+                        }
+                      ]
+                    },
+                    "description": "Voids an unpaid invoice. Once voided, the invoice can no longer accept payments."
+                  },
+                  "response": [
+                    {
+                      "id": "558d0527-7f95-40f9-b1a3-9b66ce99607f",
+                      "name": "Invoice voided",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/invoices/:invoice_id/void",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "invoices",
+                            ":invoice_id",
+                            "void"
+                          ],
+                          "variable": [
+                            {
+                              "key": "invoice_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"invoice\",\n    \"code\": \"<string>\",\n    \"status\": \"VOID\",\n    \"business_name\": \"<string>\",\n    \"customer_name\": \"<string>\",\n    \"customer_email\": \"<email>\",\n    \"memo\": \"<string>\",\n    \"local_price\": {\n      \"amount\": \"<string>\",\n      \"currency\": \"<string>\"\n    },\n    \"hosted_url\": \"<uri>\",\n    \"created_at\": \"<dateTime>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:24:46.000Z",
+                      "updatedAt": "2026-07-28T01:24:46.000Z",
+                      "uid": "35240-558d0527-7f95-40f9-b1a3-9b66ce99607f"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:46.000Z",
+                  "updatedAt": "2026-07-28T01:24:46.000Z",
+                  "uid": "35240-31f1e306-a5c6-4023-8c52-f681aa5adea4"
+                }
+              ],
+              "id": "98c99af1-c626-4610-b268-2884e3c4c5d9",
+              "createdAt": "2026-07-28T01:24:46.000Z",
+              "updatedAt": "2026-07-28T01:24:46.000Z",
+              "uid": "35240-98c99af1-c626-4610-b268-2884e3c4c5d9"
+            },
+            {
+              "name": "resolve",
+              "item": [
+                {
+                  "name": "Resolve invoice",
+                  "id": "b830efaf-5d02-4353-b448-fdb8a75bf13e",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/invoices/:invoice_id/resolve",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "invoices",
+                        ":invoice_id",
+                        "resolve"
+                      ],
+                      "variable": [
+                        {
+                          "id": "985cfb1c-6555-47f3-84a9-4dd19ea68525",
+                          "key": "invoice_id",
+                          "value": "<string>",
+                          "description": "(Required) Invoice identifier"
+                        }
+                      ]
+                    },
+                    "description": "Resolves an unresolved invoice that requires manual review."
+                  },
+                  "response": [
+                    {
+                      "id": "e1241856-3e36-444f-87b7-c1f351b454db",
+                      "name": "Invoice resolved",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/invoices/:invoice_id/resolve",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "invoices",
+                            ":invoice_id",
+                            "resolve"
+                          ],
+                          "variable": [
+                            {
+                              "key": "invoice_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"invoice\",\n    \"code\": \"<string>\",\n    \"status\": \"VOID\",\n    \"business_name\": \"<string>\",\n    \"customer_name\": \"<string>\",\n    \"customer_email\": \"<email>\",\n    \"memo\": \"<string>\",\n    \"local_price\": {\n      \"amount\": \"<string>\",\n      \"currency\": \"<string>\"\n    },\n    \"hosted_url\": \"<uri>\",\n    \"created_at\": \"<dateTime>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:24:46.000Z",
+                      "updatedAt": "2026-07-28T01:24:46.000Z",
+                      "uid": "35240-e1241856-3e36-444f-87b7-c1f351b454db"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:46.000Z",
+                  "updatedAt": "2026-07-28T01:24:46.000Z",
+                  "uid": "35240-b830efaf-5d02-4353-b448-fdb8a75bf13e"
+                }
+              ],
+              "id": "2fa7b7d9-93de-4c5d-8af3-d80df2b9fc8a",
+              "createdAt": "2026-07-28T01:24:46.000Z",
+              "updatedAt": "2026-07-28T01:24:46.000Z",
+              "uid": "35240-2fa7b7d9-93de-4c5d-8af3-d80df2b9fc8a"
+            },
+            {
+              "name": "Get invoice",
+              "id": "573e511d-11ae-4eca-bbd3-8693bbdd4644",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/invoices/:invoice_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invoices",
+                    ":invoice_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "4ef5f556-d074-496f-ba73-1c7c9e8620e5",
+                      "key": "invoice_id",
+                      "value": "<string>",
+                      "description": "(Required) Invoice identifier"
+                    }
+                  ]
+                },
+                "description": "Retrieves a specific invoice by its ID."
+              },
+              "response": [
+                {
+                  "id": "3e6ce72f-83ee-4dc9-9439-0451a149fcff",
+                  "name": "Successfully retrieved invoice",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/invoices/:invoice_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "invoices",
+                        ":invoice_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "invoice_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"invoice\",\n    \"code\": \"<string>\",\n    \"status\": \"VOID\",\n    \"business_name\": \"<string>\",\n    \"customer_name\": \"<string>\",\n    \"customer_email\": \"<email>\",\n    \"memo\": \"<string>\",\n    \"local_price\": {\n      \"amount\": \"<string>\",\n      \"currency\": \"<string>\"\n    },\n    \"hosted_url\": \"<uri>\",\n    \"created_at\": \"<dateTime>\"\n  }\n}",
+                  "createdAt": "2026-07-28T01:24:46.000Z",
+                  "updatedAt": "2026-07-28T01:24:46.000Z",
+                  "uid": "35240-3e6ce72f-83ee-4dc9-9439-0451a149fcff"
+                },
+                {
+                  "id": "4ba8d289-2137-4ed3-ba58-aa29de2fe781",
+                  "name": "Invoice not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/invoices/:invoice_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "invoices",
+                        ":invoice_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "invoice_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:46.000Z",
+                  "updatedAt": "2026-07-28T01:24:46.000Z",
+                  "uid": "35240-4ba8d289-2137-4ed3-ba58-aa29de2fe781"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:46.000Z",
+              "updatedAt": "2026-07-28T01:24:46.000Z",
+              "uid": "35240-573e511d-11ae-4eca-bbd3-8693bbdd4644"
+            }
+          ],
+          "id": "7a30de3d-6c2d-43d7-9a64-064d51e5aef0",
+          "createdAt": "2026-07-28T01:24:46.000Z",
+          "updatedAt": "2026-07-28T01:24:46.000Z",
+          "uid": "35240-7a30de3d-6c2d-43d7-9a64-064d51e5aef0"
+        },
+        {
+          "name": "List invoices",
+          "id": "e1671677-5fc3-44d1-9a2f-c12433109ec2",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/invoices?starting_after=<string>&order=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "invoices"
+              ],
+              "query": [
+                {
+                  "description": "Cursor for pagination to fetch the next page of results",
+                  "key": "starting_after",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Sort order for results",
+                  "key": "order",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "Retrieves a paginated list of all invoices. Invoices are used to bill customers with specific payment terms and due dates."
+          },
+          "response": [
+            {
+              "id": "12b07cfb-6784-403f-a779-782015e046aa",
+              "name": "Successfully retrieved invoices",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/invoices?starting_after=<string>&order=desc",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invoices"
+                  ],
+                  "query": [
+                    {
+                      "description": "Cursor for pagination to fetch the next page of results",
+                      "key": "starting_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Sort order for results",
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"resource\": \"invoice\",\n      \"code\": \"<string>\",\n      \"status\": \"UNRESOLVED\",\n      \"business_name\": \"<string>\",\n      \"customer_name\": \"<string>\",\n      \"customer_email\": \"<email>\",\n      \"memo\": \"<string>\",\n      \"local_price\": {\n        \"amount\": \"<string>\",\n        \"currency\": \"<string>\"\n      },\n      \"hosted_url\": \"<uri>\",\n      \"created_at\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"resource\": \"invoice\",\n      \"code\": \"<string>\",\n      \"status\": \"VIEWED\",\n      \"business_name\": \"<string>\",\n      \"customer_name\": \"<string>\",\n      \"customer_email\": \"<email>\",\n      \"memo\": \"<string>\",\n      \"local_price\": {\n        \"amount\": \"<string>\",\n        \"currency\": \"<string>\"\n      },\n      \"hosted_url\": \"<uri>\",\n      \"created_at\": \"<dateTime>\"\n    }\n  ],\n  \"pagination\": {\n    \"order\": \"<string>\",\n    \"starting_after\": \"<string>\",\n    \"ending_before\": \"<string>\",\n    \"total\": \"<integer>\",\n    \"yielded\": \"<integer>\",\n    \"cursor_range\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "createdAt": "2026-07-28T01:24:46.000Z",
+              "updatedAt": "2026-07-28T01:24:46.000Z",
+              "uid": "35240-12b07cfb-6784-403f-a779-782015e046aa"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:46.000Z",
+          "updatedAt": "2026-07-28T01:24:46.000Z",
+          "uid": "35240-e1671677-5fc3-44d1-9a2f-c12433109ec2"
+        },
+        {
+          "name": "Create invoice",
+          "id": "81d95dda-e70a-4986-9fc3-c8e385b7d2c2",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"business_name\": \"<string>\",\n  \"customer_email\": \"<email>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"customer_name\": \"<string>\",\n  \"memo\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/invoices",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "invoices"
+              ]
+            },
+            "description": "Creates a new invoice for billing a customer. The invoice specifies payment terms, due date, and line items."
+          },
+          "response": [
+            {
+              "id": "7545577e-db30-40f0-808a-728ffd751e21",
+              "name": "Invoice created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_name\": \"<string>\",\n  \"customer_email\": \"<email>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"customer_name\": \"<string>\",\n  \"memo\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invoices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invoices"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"invoice\",\n    \"code\": \"<string>\",\n    \"status\": \"VOID\",\n    \"business_name\": \"<string>\",\n    \"customer_name\": \"<string>\",\n    \"customer_email\": \"<email>\",\n    \"memo\": \"<string>\",\n    \"local_price\": {\n      \"amount\": \"<string>\",\n      \"currency\": \"<string>\"\n    },\n    \"hosted_url\": \"<uri>\",\n    \"created_at\": \"<dateTime>\"\n  }\n}",
+              "createdAt": "2026-07-28T01:24:46.000Z",
+              "updatedAt": "2026-07-28T01:24:46.000Z",
+              "uid": "35240-7545577e-db30-40f0-808a-728ffd751e21"
+            },
+            {
+              "id": "39798e66-a3fa-4eee-b3e9-aa0589d30a95",
+              "name": "Bad request",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_name\": \"<string>\",\n  \"customer_email\": \"<email>\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"customer_name\": \"<string>\",\n  \"memo\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invoices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invoices"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:46.000Z",
+              "updatedAt": "2026-07-28T01:24:46.000Z",
+              "uid": "35240-39798e66-a3fa-4eee-b3e9-aa0589d30a95"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:46.000Z",
+          "updatedAt": "2026-07-28T01:24:46.000Z",
+          "uid": "35240-81d95dda-e70a-4986-9fc3-c8e385b7d2c2"
+        }
+      ],
+      "id": "b3dbf241-0fef-4332-ba90-9d72ff4cab26",
+      "createdAt": "2026-07-28T01:24:46.000Z",
+      "updatedAt": "2026-07-28T01:24:46.000Z",
+      "uid": "35240-b3dbf241-0fef-4332-ba90-9d72ff4cab26"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

@@ -1,0 +1,765 @@
+{
+  "info": {
+    "_postman_id": "bae1f3a3-4229-4744-b55f-dc505cf4d9a5",
+    "name": "Coinbase Advanced Trade Accounts API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:14.000Z",
+    "updatedAt": "2026-07-28T01:24:14.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-bae1f3a3-4229-4744-b55f-dc505cf4d9a5"
+  },
+  "item": [
+    {
+      "name": "accounts",
+      "item": [
+        {
+          "name": "{account_id}",
+          "item": [
+            {
+              "name": "ledger",
+              "item": [
+                {
+                  "name": "Get account ledger",
+                  "id": "d8875d12-48e6-4b5e-9534-4e42abfa08e5",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/accounts/:account_id/ledger?before=<string>&after=<string>&limit=100",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        ":account_id",
+                        "ledger"
+                      ],
+                      "query": [
+                        {
+                          "description": "Cursor for pagination (newer items)",
+                          "key": "before",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Cursor for pagination (older items)",
+                          "key": "after",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Number of results per request (max 100)",
+                          "key": "limit",
+                          "value": "100"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "859b2fe4-0f96-4ab4-bea7-b4cbc6f474b8",
+                          "key": "account_id",
+                          "value": "<string>",
+                          "description": "(Required) Account identifier"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves the ledger (transaction history) for a specific account. Returns a paginated list of account activity entries."
+                  },
+                  "response": [
+                    {
+                      "id": "4bcd94e9-2e99-4e4f-8da4-59cbd5bba15d",
+                      "name": "Successfully retrieved account ledger",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/accounts/:account_id/ledger?before=<string>&after=<string>&limit=100",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "accounts",
+                            ":account_id",
+                            "ledger"
+                          ],
+                          "query": [
+                            {
+                              "description": "Cursor for pagination (newer items)",
+                              "key": "before",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Cursor for pagination (older items)",
+                              "key": "after",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Number of results per request (max 100)",
+                              "key": "limit",
+                              "value": "100"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "account_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"id\": \"<string>\",\n    \"created_at\": \"<dateTime>\",\n    \"amount\": \"<string>\",\n    \"balance\": \"<string>\",\n    \"type\": \"match\",\n    \"details\": {}\n  },\n  {\n    \"id\": \"<string>\",\n    \"created_at\": \"<dateTime>\",\n    \"amount\": \"<string>\",\n    \"balance\": \"<string>\",\n    \"type\": \"fee\",\n    \"details\": {}\n  }\n]",
+                      "createdAt": "2026-07-28T01:24:14.000Z",
+                      "updatedAt": "2026-07-28T01:24:14.000Z",
+                      "uid": "35240-4bcd94e9-2e99-4e4f-8da4-59cbd5bba15d"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:14.000Z",
+                  "updatedAt": "2026-07-28T01:24:14.000Z",
+                  "uid": "35240-d8875d12-48e6-4b5e-9534-4e42abfa08e5"
+                }
+              ],
+              "id": "b8f8f4a1-82aa-4847-8c2b-d17dff5c5eb9",
+              "createdAt": "2026-07-28T01:24:14.000Z",
+              "updatedAt": "2026-07-28T01:24:14.000Z",
+              "uid": "35240-b8f8f4a1-82aa-4847-8c2b-d17dff5c5eb9"
+            },
+            {
+              "name": "holds",
+              "item": [
+                {
+                  "name": "Get account holds",
+                  "id": "9d4fdbec-0a9c-4880-8696-e848952c7baf",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/accounts/:account_id/holds?before=<string>&after=<string>&limit=100",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        ":account_id",
+                        "holds"
+                      ],
+                      "query": [
+                        {
+                          "description": "Cursor for pagination (newer items)",
+                          "key": "before",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Cursor for pagination (older items)",
+                          "key": "after",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Number of results per request (max 100)",
+                          "key": "limit",
+                          "value": "100"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "f99b1838-4059-42e1-84b6-1058262d75bc",
+                          "key": "account_id",
+                          "value": "<string>",
+                          "description": "(Required) Account identifier"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves holds on an account that are associated with active orders or pending withdraw requests. Holds make funds unavailable for trading."
+                  },
+                  "response": [
+                    {
+                      "id": "e325f0da-b591-4f66-921a-06b4369aa142",
+                      "name": "Successfully retrieved account holds",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/accounts/:account_id/holds?before=<string>&after=<string>&limit=100",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "accounts",
+                            ":account_id",
+                            "holds"
+                          ],
+                          "query": [
+                            {
+                              "description": "Cursor for pagination (newer items)",
+                              "key": "before",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Cursor for pagination (older items)",
+                              "key": "after",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Number of results per request (max 100)",
+                              "key": "limit",
+                              "value": "100"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "account_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"id\": \"<string>\",\n    \"created_at\": \"<dateTime>\",\n    \"amount\": \"<string>\",\n    \"type\": \"order\",\n    \"ref\": \"<string>\"\n  },\n  {\n    \"id\": \"<string>\",\n    \"created_at\": \"<dateTime>\",\n    \"amount\": \"<string>\",\n    \"type\": \"transfer\",\n    \"ref\": \"<string>\"\n  }\n]",
+                      "createdAt": "2026-07-28T01:24:14.000Z",
+                      "updatedAt": "2026-07-28T01:24:14.000Z",
+                      "uid": "35240-e325f0da-b591-4f66-921a-06b4369aa142"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:14.000Z",
+                  "updatedAt": "2026-07-28T01:24:14.000Z",
+                  "uid": "35240-9d4fdbec-0a9c-4880-8696-e848952c7baf"
+                }
+              ],
+              "id": "c2de18a8-bfc5-492d-b174-6a3c8b1d4a36",
+              "createdAt": "2026-07-28T01:24:14.000Z",
+              "updatedAt": "2026-07-28T01:24:14.000Z",
+              "uid": "35240-c2de18a8-bfc5-492d-b174-6a3c8b1d4a36"
+            },
+            {
+              "name": "transfers",
+              "item": [
+                {
+                  "name": "Get account transfers",
+                  "id": "329549f9-8bcc-4dea-b6c5-a977325ee85c",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/accounts/:account_id/transfers?before=<string>&after=<string>&limit=100",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        ":account_id",
+                        "transfers"
+                      ],
+                      "query": [
+                        {
+                          "description": "Cursor for pagination (newer items)",
+                          "key": "before",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Cursor for pagination (older items)",
+                          "key": "after",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Number of results per request (max 100)",
+                          "key": "limit",
+                          "value": "100"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "ef557a54-95d4-46ad-bc75-91a7d4a46fb2",
+                          "key": "account_id",
+                          "value": "<string>",
+                          "description": "(Required) Account identifier"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves a list of in-progress and completed transfers of funds to or from the account."
+                  },
+                  "response": [
+                    {
+                      "id": "2d780740-1290-4f31-ae8e-0162a113e18e",
+                      "name": "Successfully retrieved account transfers",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/accounts/:account_id/transfers?before=<string>&after=<string>&limit=100",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "accounts",
+                            ":account_id",
+                            "transfers"
+                          ],
+                          "query": [
+                            {
+                              "description": "Cursor for pagination (newer items)",
+                              "key": "before",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Cursor for pagination (older items)",
+                              "key": "after",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Number of results per request (max 100)",
+                              "key": "limit",
+                              "value": "100"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "account_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"id\": \"<string>\",\n    \"type\": \"withdraw\",\n    \"created_at\": \"<dateTime>\",\n    \"completed_at\": \"<dateTime>\",\n    \"amount\": \"<string>\",\n    \"details\": {}\n  },\n  {\n    \"id\": \"<string>\",\n    \"type\": \"withdraw\",\n    \"created_at\": \"<dateTime>\",\n    \"completed_at\": \"<dateTime>\",\n    \"amount\": \"<string>\",\n    \"details\": {}\n  }\n]",
+                      "createdAt": "2026-07-28T01:24:14.000Z",
+                      "updatedAt": "2026-07-28T01:24:14.000Z",
+                      "uid": "35240-2d780740-1290-4f31-ae8e-0162a113e18e"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:14.000Z",
+                  "updatedAt": "2026-07-28T01:24:14.000Z",
+                  "uid": "35240-329549f9-8bcc-4dea-b6c5-a977325ee85c"
+                }
+              ],
+              "id": "dbfac517-b21d-402d-90b7-7a0d74ac3427",
+              "createdAt": "2026-07-28T01:24:14.000Z",
+              "updatedAt": "2026-07-28T01:24:14.000Z",
+              "uid": "35240-dbfac517-b21d-402d-90b7-7a0d74ac3427"
+            },
+            {
+              "name": "Get account",
+              "id": "5a73e6d3-f122-42c5-ae4d-23ff1c0f6403",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/accounts/:account_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accounts",
+                    ":account_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "73b0ec7b-2cb5-422d-beb2-bbc0b351e299",
+                      "key": "account_id",
+                      "value": "<uuid>",
+                      "description": "(Required) Unique identifier for the account"
+                    }
+                  ]
+                },
+                "description": "Retrieves a single account by account ID including the available balance, hold amount, and currency information."
+              },
+              "response": [
+                {
+                  "id": "d267372b-5382-4e38-a855-1fde0d6da925",
+                  "name": "Successfully retrieved account details",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/accounts/:account_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        ":account_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "account_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"account\": {\n    \"uuid\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"currency\": \"<string>\",\n    \"available_balance\": {\n      \"value\": \"<string>\",\n      \"currency\": \"<string>\"\n    },\n    \"default\": \"<boolean>\",\n    \"active\": \"<boolean>\",\n    \"created_at\": \"<dateTime>\",\n    \"updated_at\": \"<dateTime>\",\n    \"type\": \"ACCOUNT_TYPE_CRYPTO\",\n    \"ready\": \"<boolean>\",\n    \"hold\": {\n      \"value\": \"<string>\",\n      \"currency\": \"<string>\"\n    }\n  }\n}",
+                  "createdAt": "2026-07-28T01:24:14.000Z",
+                  "updatedAt": "2026-07-28T01:24:14.000Z",
+                  "uid": "35240-d267372b-5382-4e38-a855-1fde0d6da925"
+                },
+                {
+                  "id": "a0798409-654a-4007-8247-f4cad045d545",
+                  "name": "Unauthorized - Invalid or missing authentication",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/accounts/:account_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        ":account_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "account_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:14.000Z",
+                  "updatedAt": "2026-07-28T01:24:14.000Z",
+                  "uid": "35240-a0798409-654a-4007-8247-f4cad045d545"
+                },
+                {
+                  "id": "9355ebe0-2d08-47c5-aa02-66dc2a283122",
+                  "name": "Account not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/accounts/:account_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        ":account_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "account_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:14.000Z",
+                  "updatedAt": "2026-07-28T01:24:14.000Z",
+                  "uid": "35240-9355ebe0-2d08-47c5-aa02-66dc2a283122"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:14.000Z",
+              "updatedAt": "2026-07-28T01:24:14.000Z",
+              "uid": "35240-5a73e6d3-f122-42c5-ae4d-23ff1c0f6403"
+            }
+          ],
+          "id": "7db1253c-bec6-4a7e-aacc-ad2ae5474bd4",
+          "createdAt": "2026-07-28T01:24:14.000Z",
+          "updatedAt": "2026-07-28T01:24:14.000Z",
+          "uid": "35240-7db1253c-bec6-4a7e-aacc-ad2ae5474bd4"
+        },
+        {
+          "name": "List accounts",
+          "id": "8385e4fc-1c39-4f22-bbfe-f1fa7c75ed54",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/accounts?limit=49&cursor=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "accounts"
+              ],
+              "query": [
+                {
+                  "description": "Maximum number of results to return",
+                  "key": "limit",
+                  "value": "49"
+                },
+                {
+                  "description": "Cursor for pagination",
+                  "key": "cursor",
+                  "value": "<string>"
+                }
+              ]
+            },
+            "description": "Retrieves a list of authenticated accounts for the current user. Returns account details including available balance, hold amount, and currency information."
+          },
+          "response": [
+            {
+              "id": "f93592fc-10f5-424d-a02f-4b930bbdf712",
+              "name": "Successfully retrieved list of accounts",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/accounts?limit=49&cursor=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accounts"
+                  ],
+                  "query": [
+                    {
+                      "description": "Maximum number of results to return",
+                      "key": "limit",
+                      "value": "49"
+                    },
+                    {
+                      "description": "Cursor for pagination",
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"accounts\": [\n    {\n      \"uuid\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"currency\": \"<string>\",\n      \"available_balance\": {\n        \"value\": \"<string>\",\n        \"currency\": \"<string>\"\n      },\n      \"default\": \"<boolean>\",\n      \"active\": \"<boolean>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\",\n      \"type\": \"ACCOUNT_TYPE_FIAT\",\n      \"ready\": \"<boolean>\",\n      \"hold\": {\n        \"value\": \"<string>\",\n        \"currency\": \"<string>\"\n      }\n    },\n    {\n      \"uuid\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"currency\": \"<string>\",\n      \"available_balance\": {\n        \"value\": \"<string>\",\n        \"currency\": \"<string>\"\n      },\n      \"default\": \"<boolean>\",\n      \"active\": \"<boolean>\",\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\",\n      \"type\": \"ACCOUNT_TYPE_CRYPTO\",\n      \"ready\": \"<boolean>\",\n      \"hold\": {\n        \"value\": \"<string>\",\n        \"currency\": \"<string>\"\n      }\n    }\n  ],\n  \"has_next\": \"<boolean>\",\n  \"cursor\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T01:24:14.000Z",
+              "updatedAt": "2026-07-28T01:24:14.000Z",
+              "uid": "35240-f93592fc-10f5-424d-a02f-4b930bbdf712"
+            },
+            {
+              "id": "ffed82b4-26a3-40cd-a268-172610b18d72",
+              "name": "Unauthorized - Invalid or missing authentication",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/accounts?limit=49&cursor=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "accounts"
+                  ],
+                  "query": [
+                    {
+                      "description": "Maximum number of results to return",
+                      "key": "limit",
+                      "value": "49"
+                    },
+                    {
+                      "description": "Cursor for pagination",
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:14.000Z",
+              "updatedAt": "2026-07-28T01:24:14.000Z",
+              "uid": "35240-ffed82b4-26a3-40cd-a268-172610b18d72"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:14.000Z",
+          "updatedAt": "2026-07-28T01:24:14.000Z",
+          "uid": "35240-8385e4fc-1c39-4f22-bbfe-f1fa7c75ed54"
+        }
+      ],
+      "id": "e525d1db-ca6e-48c3-991a-fbc1cd90ccc0",
+      "createdAt": "2026-07-28T01:24:14.000Z",
+      "updatedAt": "2026-07-28T01:24:14.000Z",
+      "uid": "35240-e525d1db-ca6e-48c3-991a-fbc1cd90ccc0"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

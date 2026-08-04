@@ -1,0 +1,760 @@
+{
+  "info": {
+    "_postman_id": "d5db5ff9-c854-4b7d-ad04-a773324c7efa",
+    "name": "Coinbase Advanced Trade Accounts Charges API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:35.000Z",
+    "updatedAt": "2026-07-28T01:24:36.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-d5db5ff9-c854-4b7d-ad04-a773324c7efa"
+  },
+  "item": [
+    {
+      "name": "charges",
+      "item": [
+        {
+          "name": "{charge_id}",
+          "item": [
+            {
+              "name": "cancel",
+              "item": [
+                {
+                  "name": "Cancel charge",
+                  "id": "829c4702-efea-4763-ad72-34b3307b8735",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/charges/:charge_id/cancel",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "charges",
+                        ":charge_id",
+                        "cancel"
+                      ],
+                      "variable": [
+                        {
+                          "id": "cd3de49f-e61e-4621-a62b-bf5b49de4ef3",
+                          "key": "charge_id",
+                          "value": "<string>",
+                          "description": "(Required) Charge ID or code"
+                        }
+                      ]
+                    },
+                    "description": "Cancels a charge that has not yet received a payment. Once cancelled, the charge can no longer receive payments."
+                  },
+                  "response": [
+                    {
+                      "id": "5df52059-5551-4ba7-a63b-f5f1c662f3f4",
+                      "name": "Charge cancelled",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/charges/:charge_id/cancel",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "charges",
+                            ":charge_id",
+                            "cancel"
+                          ],
+                          "variable": [
+                            {
+                              "key": "charge_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"charge\",\n    \"code\": \"<string>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"hosted_url\": \"<uri>\",\n    \"created_at\": \"<dateTime>\",\n    \"confirmed_at\": \"<dateTime>\",\n    \"expires_at\": \"<dateTime>\",\n    \"pricing\": {\n      \"culpa_ba\": {\n        \"amount\": \"<string>\",\n        \"currency\": \"<string>\"\n      }\n    },\n    \"pricing_type\": \"fixed_price\",\n    \"addresses\": {\n      \"cupidatate6d\": \"<string>\"\n    },\n    \"payments\": [\n      {\n        \"network\": \"<string>\",\n        \"transaction_id\": \"<string>\",\n        \"status\": \"CONFIRMED\",\n        \"value\": {\n          \"amount\": \"<string>\",\n          \"currency\": \"<string>\"\n        },\n        \"block\": {\n          \"height\": \"<integer>\",\n          \"hash\": \"<string>\",\n          \"confirmations_required\": \"<integer>\",\n          \"confirmations\": \"<integer>\"\n        }\n      },\n      {\n        \"network\": \"<string>\",\n        \"transaction_id\": \"<string>\",\n        \"status\": \"CONFIRMED\",\n        \"value\": {\n          \"amount\": \"<string>\",\n          \"currency\": \"<string>\"\n        },\n        \"block\": {\n          \"height\": \"<integer>\",\n          \"hash\": \"<string>\",\n          \"confirmations_required\": \"<integer>\",\n          \"confirmations\": \"<integer>\"\n        }\n      }\n    ],\n    \"timeline\": [\n      {\n        \"time\": \"<dateTime>\",\n        \"status\": \"<string>\"\n      },\n      {\n        \"time\": \"<dateTime>\",\n        \"status\": \"<string>\"\n      }\n    ],\n    \"metadata\": {\n      \"ametc9_\": \"<string>\"\n    }\n  }\n}",
+                      "createdAt": "2026-07-28T01:24:36.000Z",
+                      "updatedAt": "2026-07-28T01:24:36.000Z",
+                      "uid": "35240-5df52059-5551-4ba7-a63b-f5f1c662f3f4"
+                    },
+                    {
+                      "id": "0de5ac5f-7ccb-42c2-82c6-94bb3819f724",
+                      "name": "Charge cannot be cancelled",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/charges/:charge_id/cancel",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "charges",
+                            ":charge_id",
+                            "cancel"
+                          ],
+                          "variable": [
+                            {
+                              "key": "charge_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:24:36.000Z",
+                      "updatedAt": "2026-07-28T01:24:36.000Z",
+                      "uid": "35240-0de5ac5f-7ccb-42c2-82c6-94bb3819f724"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:36.000Z",
+                  "updatedAt": "2026-07-28T01:24:36.000Z",
+                  "uid": "35240-829c4702-efea-4763-ad72-34b3307b8735"
+                }
+              ],
+              "id": "3e602e11-d8ab-48db-a17b-04a8f06bf9dd",
+              "createdAt": "2026-07-28T01:24:36.000Z",
+              "updatedAt": "2026-07-28T01:24:36.000Z",
+              "uid": "35240-3e602e11-d8ab-48db-a17b-04a8f06bf9dd"
+            },
+            {
+              "name": "resolve",
+              "item": [
+                {
+                  "name": "Resolve charge",
+                  "id": "552eba24-f323-4892-a21a-997c9d06376e",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/charges/:charge_id/resolve",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "charges",
+                        ":charge_id",
+                        "resolve"
+                      ],
+                      "variable": [
+                        {
+                          "id": "218c9d53-e105-49fe-adca-65d348ad1110",
+                          "key": "charge_id",
+                          "value": "<string>",
+                          "description": "(Required) Charge ID or code"
+                        }
+                      ]
+                    },
+                    "description": "Resolves a charge that has been marked as unresolved. This is used to handle cases where payment was received but requires manual review."
+                  },
+                  "response": [
+                    {
+                      "id": "303d0ab5-bda5-4333-8d76-df0a8fe456df",
+                      "name": "Charge resolved",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/charges/:charge_id/resolve",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "charges",
+                            ":charge_id",
+                            "resolve"
+                          ],
+                          "variable": [
+                            {
+                              "key": "charge_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"charge\",\n    \"code\": \"<string>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"hosted_url\": \"<uri>\",\n    \"created_at\": \"<dateTime>\",\n    \"confirmed_at\": \"<dateTime>\",\n    \"expires_at\": \"<dateTime>\",\n    \"pricing\": {\n      \"culpa_ba\": {\n        \"amount\": \"<string>\",\n        \"currency\": \"<string>\"\n      }\n    },\n    \"pricing_type\": \"fixed_price\",\n    \"addresses\": {\n      \"cupidatate6d\": \"<string>\"\n    },\n    \"payments\": [\n      {\n        \"network\": \"<string>\",\n        \"transaction_id\": \"<string>\",\n        \"status\": \"CONFIRMED\",\n        \"value\": {\n          \"amount\": \"<string>\",\n          \"currency\": \"<string>\"\n        },\n        \"block\": {\n          \"height\": \"<integer>\",\n          \"hash\": \"<string>\",\n          \"confirmations_required\": \"<integer>\",\n          \"confirmations\": \"<integer>\"\n        }\n      },\n      {\n        \"network\": \"<string>\",\n        \"transaction_id\": \"<string>\",\n        \"status\": \"CONFIRMED\",\n        \"value\": {\n          \"amount\": \"<string>\",\n          \"currency\": \"<string>\"\n        },\n        \"block\": {\n          \"height\": \"<integer>\",\n          \"hash\": \"<string>\",\n          \"confirmations_required\": \"<integer>\",\n          \"confirmations\": \"<integer>\"\n        }\n      }\n    ],\n    \"timeline\": [\n      {\n        \"time\": \"<dateTime>\",\n        \"status\": \"<string>\"\n      },\n      {\n        \"time\": \"<dateTime>\",\n        \"status\": \"<string>\"\n      }\n    ],\n    \"metadata\": {\n      \"ametc9_\": \"<string>\"\n    }\n  }\n}",
+                      "createdAt": "2026-07-28T01:24:36.000Z",
+                      "updatedAt": "2026-07-28T01:24:36.000Z",
+                      "uid": "35240-303d0ab5-bda5-4333-8d76-df0a8fe456df"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:36.000Z",
+                  "updatedAt": "2026-07-28T01:24:36.000Z",
+                  "uid": "35240-552eba24-f323-4892-a21a-997c9d06376e"
+                }
+              ],
+              "id": "ecd2ef90-c3c3-4a9e-8705-e4254da2f328",
+              "createdAt": "2026-07-28T01:24:36.000Z",
+              "updatedAt": "2026-07-28T01:24:36.000Z",
+              "uid": "35240-ecd2ef90-c3c3-4a9e-8705-e4254da2f328"
+            },
+            {
+              "name": "Get charge",
+              "id": "99d17762-333c-4508-9ee2-93144d7e1230",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/charges/:charge_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "charges",
+                    ":charge_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "77eeb8a6-d239-42c9-b3db-6b3a788ae5a8",
+                      "key": "charge_id",
+                      "value": "<string>",
+                      "description": "(Required) Charge ID or code"
+                    }
+                  ]
+                },
+                "description": "Retrieves a specific charge by its ID or code. Returns the full charge details including payment addresses, amounts, and current status."
+              },
+              "response": [
+                {
+                  "id": "b7813a55-c873-4975-95c1-002ea9df441d",
+                  "name": "Successfully retrieved charge",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/charges/:charge_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "charges",
+                        ":charge_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "charge_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"charge\",\n    \"code\": \"<string>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"hosted_url\": \"<uri>\",\n    \"created_at\": \"<dateTime>\",\n    \"confirmed_at\": \"<dateTime>\",\n    \"expires_at\": \"<dateTime>\",\n    \"pricing\": {\n      \"culpa_ba\": {\n        \"amount\": \"<string>\",\n        \"currency\": \"<string>\"\n      }\n    },\n    \"pricing_type\": \"fixed_price\",\n    \"addresses\": {\n      \"cupidatate6d\": \"<string>\"\n    },\n    \"payments\": [\n      {\n        \"network\": \"<string>\",\n        \"transaction_id\": \"<string>\",\n        \"status\": \"CONFIRMED\",\n        \"value\": {\n          \"amount\": \"<string>\",\n          \"currency\": \"<string>\"\n        },\n        \"block\": {\n          \"height\": \"<integer>\",\n          \"hash\": \"<string>\",\n          \"confirmations_required\": \"<integer>\",\n          \"confirmations\": \"<integer>\"\n        }\n      },\n      {\n        \"network\": \"<string>\",\n        \"transaction_id\": \"<string>\",\n        \"status\": \"CONFIRMED\",\n        \"value\": {\n          \"amount\": \"<string>\",\n          \"currency\": \"<string>\"\n        },\n        \"block\": {\n          \"height\": \"<integer>\",\n          \"hash\": \"<string>\",\n          \"confirmations_required\": \"<integer>\",\n          \"confirmations\": \"<integer>\"\n        }\n      }\n    ],\n    \"timeline\": [\n      {\n        \"time\": \"<dateTime>\",\n        \"status\": \"<string>\"\n      },\n      {\n        \"time\": \"<dateTime>\",\n        \"status\": \"<string>\"\n      }\n    ],\n    \"metadata\": {\n      \"ametc9_\": \"<string>\"\n    }\n  }\n}",
+                  "createdAt": "2026-07-28T01:24:36.000Z",
+                  "updatedAt": "2026-07-28T01:24:36.000Z",
+                  "uid": "35240-b7813a55-c873-4975-95c1-002ea9df441d"
+                },
+                {
+                  "id": "47792f64-38f2-456f-b5a8-249a8c5e5382",
+                  "name": "Charge not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/charges/:charge_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "charges",
+                        ":charge_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "charge_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:36.000Z",
+                  "updatedAt": "2026-07-28T01:24:36.000Z",
+                  "uid": "35240-47792f64-38f2-456f-b5a8-249a8c5e5382"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:36.000Z",
+              "updatedAt": "2026-07-28T01:24:36.000Z",
+              "uid": "35240-99d17762-333c-4508-9ee2-93144d7e1230"
+            }
+          ],
+          "id": "b35936c8-1b40-4542-bd12-827841e4a791",
+          "createdAt": "2026-07-28T01:24:36.000Z",
+          "updatedAt": "2026-07-28T01:24:36.000Z",
+          "uid": "35240-b35936c8-1b40-4542-bd12-827841e4a791"
+        },
+        {
+          "name": "List charges",
+          "id": "a0bd3331-4fba-43c4-8797-6038a49db6dd",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/charges?starting_after=<string>&order=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "charges"
+              ],
+              "query": [
+                {
+                  "description": "Cursor for pagination to fetch the next page of results",
+                  "key": "starting_after",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Sort order for results",
+                  "key": "order",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "Retrieves a paginated list of all charges. Charges represent individual payment requests that have been created for customers."
+          },
+          "response": [
+            {
+              "id": "7616470a-44c5-4c4e-8533-865c5dc76d15",
+              "name": "Successfully retrieved list of charges",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/charges?starting_after=<string>&order=desc",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "charges"
+                  ],
+                  "query": [
+                    {
+                      "description": "Cursor for pagination to fetch the next page of results",
+                      "key": "starting_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Sort order for results",
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"resource\": \"charge\",\n      \"code\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"hosted_url\": \"<uri>\",\n      \"created_at\": \"<dateTime>\",\n      \"confirmed_at\": \"<dateTime>\",\n      \"expires_at\": \"<dateTime>\",\n      \"pricing\": {\n        \"nulla77\": {\n          \"amount\": \"<string>\",\n          \"currency\": \"<string>\"\n        }\n      },\n      \"pricing_type\": \"no_price\",\n      \"addresses\": {\n        \"enimf\": \"<string>\",\n        \"proident_4\": \"<string>\",\n        \"adipisicing_3d\": \"<string>\"\n      },\n      \"payments\": [\n        {\n          \"network\": \"<string>\",\n          \"transaction_id\": \"<string>\",\n          \"status\": \"FAILED\",\n          \"value\": {\n            \"amount\": \"<string>\",\n            \"currency\": \"<string>\"\n          },\n          \"block\": {\n            \"height\": \"<integer>\",\n            \"hash\": \"<string>\",\n            \"confirmations_required\": \"<integer>\",\n            \"confirmations\": \"<integer>\"\n          }\n        },\n        {\n          \"network\": \"<string>\",\n          \"transaction_id\": \"<string>\",\n          \"status\": \"PENDING\",\n          \"value\": {\n            \"amount\": \"<string>\",\n            \"currency\": \"<string>\"\n          },\n          \"block\": {\n            \"height\": \"<integer>\",\n            \"hash\": \"<string>\",\n            \"confirmations_required\": \"<integer>\",\n            \"confirmations\": \"<integer>\"\n          }\n        }\n      ],\n      \"timeline\": [\n        {\n          \"time\": \"<dateTime>\",\n          \"status\": \"<string>\"\n        },\n        {\n          \"time\": \"<dateTime>\",\n          \"status\": \"<string>\"\n        }\n      ],\n      \"metadata\": {\n        \"ea_59\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"resource\": \"charge\",\n      \"code\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"hosted_url\": \"<uri>\",\n      \"created_at\": \"<dateTime>\",\n      \"confirmed_at\": \"<dateTime>\",\n      \"expires_at\": \"<dateTime>\",\n      \"pricing\": {\n        \"dolor_c8\": {\n          \"amount\": \"<string>\",\n          \"currency\": \"<string>\"\n        },\n        \"aliquip_11c\": {\n          \"amount\": \"<string>\",\n          \"currency\": \"<string>\"\n        }\n      },\n      \"pricing_type\": \"fixed_price\",\n      \"addresses\": {\n        \"suntd\": \"<string>\",\n        \"elit_705\": \"<string>\",\n        \"ut3\": \"<string>\"\n      },\n      \"payments\": [\n        {\n          \"network\": \"<string>\",\n          \"transaction_id\": \"<string>\",\n          \"status\": \"PENDING\",\n          \"value\": {\n            \"amount\": \"<string>\",\n            \"currency\": \"<string>\"\n          },\n          \"block\": {\n            \"height\": \"<integer>\",\n            \"hash\": \"<string>\",\n            \"confirmations_required\": \"<integer>\",\n            \"confirmations\": \"<integer>\"\n          }\n        },\n        {\n          \"network\": \"<string>\",\n          \"transaction_id\": \"<string>\",\n          \"status\": \"PENDING\",\n          \"value\": {\n            \"amount\": \"<string>\",\n            \"currency\": \"<string>\"\n          },\n          \"block\": {\n            \"height\": \"<integer>\",\n            \"hash\": \"<string>\",\n            \"confirmations_required\": \"<integer>\",\n            \"confirmations\": \"<integer>\"\n          }\n        }\n      ],\n      \"timeline\": [\n        {\n          \"time\": \"<dateTime>\",\n          \"status\": \"<string>\"\n        },\n        {\n          \"time\": \"<dateTime>\",\n          \"status\": \"<string>\"\n        }\n      ],\n      \"metadata\": {\n        \"magna4\": \"<string>\",\n        \"fugiatcd2\": \"<string>\"\n      }\n    }\n  ],\n  \"pagination\": {\n    \"order\": \"<string>\",\n    \"starting_after\": \"<string>\",\n    \"ending_before\": \"<string>\",\n    \"total\": \"<integer>\",\n    \"yielded\": \"<integer>\",\n    \"cursor_range\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+              "createdAt": "2026-07-28T01:24:36.000Z",
+              "updatedAt": "2026-07-28T01:24:36.000Z",
+              "uid": "35240-7616470a-44c5-4c4e-8533-865c5dc76d15"
+            },
+            {
+              "id": "43a5f09d-cb53-4678-9449-78865ca50ed9",
+              "name": "Unauthorized - Invalid or missing API key",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/charges?starting_after=<string>&order=desc",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "charges"
+                  ],
+                  "query": [
+                    {
+                      "description": "Cursor for pagination to fetch the next page of results",
+                      "key": "starting_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Sort order for results",
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:36.000Z",
+              "updatedAt": "2026-07-28T01:24:36.000Z",
+              "uid": "35240-43a5f09d-cb53-4678-9449-78865ca50ed9"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:36.000Z",
+          "updatedAt": "2026-07-28T01:24:36.000Z",
+          "uid": "35240-a0bd3331-4fba-43c4-8797-6038a49db6dd"
+        },
+        {
+          "name": "Create charge",
+          "id": "8199bab8-f8b4-49d8-be48-f3942f6b025d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"pricing_type\": \"no_price\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"metadata\": {\n    \"ullamco_241\": \"<string>\",\n    \"non_7\": \"<string>\",\n    \"et6e\": \"<string>\",\n    \"aliqua385\": \"<string>\"\n  },\n  \"redirect_url\": \"<uri>\",\n  \"cancel_url\": \"<uri>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/charges",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "charges"
+              ]
+            },
+            "description": "Creates a new charge for accepting cryptocurrency payment. A charge generates blockchain addresses where customers can send payment. The charge tracks payment status through its lifecycle."
+          },
+          "response": [
+            {
+              "id": "0fa88162-cc69-4f8f-9b50-86a5e86752f5",
+              "name": "Charge successfully created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"pricing_type\": \"no_price\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"metadata\": {\n    \"ullamco_241\": \"<string>\",\n    \"non_7\": \"<string>\",\n    \"et6e\": \"<string>\",\n    \"aliqua385\": \"<string>\"\n  },\n  \"redirect_url\": \"<uri>\",\n  \"cancel_url\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/charges",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "charges"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"resource\": \"charge\",\n    \"code\": \"<string>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"hosted_url\": \"<uri>\",\n    \"created_at\": \"<dateTime>\",\n    \"confirmed_at\": \"<dateTime>\",\n    \"expires_at\": \"<dateTime>\",\n    \"pricing\": {\n      \"culpa_ba\": {\n        \"amount\": \"<string>\",\n        \"currency\": \"<string>\"\n      }\n    },\n    \"pricing_type\": \"fixed_price\",\n    \"addresses\": {\n      \"cupidatate6d\": \"<string>\"\n    },\n    \"payments\": [\n      {\n        \"network\": \"<string>\",\n        \"transaction_id\": \"<string>\",\n        \"status\": \"CONFIRMED\",\n        \"value\": {\n          \"amount\": \"<string>\",\n          \"currency\": \"<string>\"\n        },\n        \"block\": {\n          \"height\": \"<integer>\",\n          \"hash\": \"<string>\",\n          \"confirmations_required\": \"<integer>\",\n          \"confirmations\": \"<integer>\"\n        }\n      },\n      {\n        \"network\": \"<string>\",\n        \"transaction_id\": \"<string>\",\n        \"status\": \"CONFIRMED\",\n        \"value\": {\n          \"amount\": \"<string>\",\n          \"currency\": \"<string>\"\n        },\n        \"block\": {\n          \"height\": \"<integer>\",\n          \"hash\": \"<string>\",\n          \"confirmations_required\": \"<integer>\",\n          \"confirmations\": \"<integer>\"\n        }\n      }\n    ],\n    \"timeline\": [\n      {\n        \"time\": \"<dateTime>\",\n        \"status\": \"<string>\"\n      },\n      {\n        \"time\": \"<dateTime>\",\n        \"status\": \"<string>\"\n      }\n    ],\n    \"metadata\": {\n      \"ametc9_\": \"<string>\"\n    }\n  }\n}",
+              "createdAt": "2026-07-28T01:24:36.000Z",
+              "updatedAt": "2026-07-28T01:24:36.000Z",
+              "uid": "35240-0fa88162-cc69-4f8f-9b50-86a5e86752f5"
+            },
+            {
+              "id": "05295559-b917-4f0a-8c39-9eb22be10119",
+              "name": "Bad request - Invalid parameters",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"pricing_type\": \"no_price\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"metadata\": {\n    \"ullamco_241\": \"<string>\",\n    \"non_7\": \"<string>\",\n    \"et6e\": \"<string>\",\n    \"aliqua385\": \"<string>\"\n  },\n  \"redirect_url\": \"<uri>\",\n  \"cancel_url\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/charges",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "charges"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:36.000Z",
+              "updatedAt": "2026-07-28T01:24:36.000Z",
+              "uid": "35240-05295559-b917-4f0a-8c39-9eb22be10119"
+            },
+            {
+              "id": "50f4ae00-ad82-4ed5-9d3d-9d3087b0bd79",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"pricing_type\": \"no_price\",\n  \"local_price\": {\n    \"amount\": \"<string>\",\n    \"currency\": \"<string>\"\n  },\n  \"metadata\": {\n    \"ullamco_241\": \"<string>\",\n    \"non_7\": \"<string>\",\n    \"et6e\": \"<string>\",\n    \"aliqua385\": \"<string>\"\n  },\n  \"redirect_url\": \"<uri>\",\n  \"cancel_url\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/charges",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "charges"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:36.000Z",
+              "updatedAt": "2026-07-28T01:24:36.000Z",
+              "uid": "35240-50f4ae00-ad82-4ed5-9d3d-9d3087b0bd79"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:36.000Z",
+          "updatedAt": "2026-07-28T01:24:36.000Z",
+          "uid": "35240-8199bab8-f8b4-49d8-be48-f3942f6b025d"
+        }
+      ],
+      "id": "698e89ca-535b-4033-98c2-4d1bedc845b2",
+      "createdAt": "2026-07-28T01:24:36.000Z",
+      "updatedAt": "2026-07-28T01:24:36.000Z",
+      "uid": "35240-698e89ca-535b-4033-98c2-4d1bedc845b2"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

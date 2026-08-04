@@ -1,0 +1,504 @@
+{
+  "info": {
+    "_postman_id": "66ccfae1-aa08-49af-b379-4b469ae97342",
+    "name": "Coinbase Advanced Trade Accounts Transactions API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:25:07.000Z",
+    "updatedAt": "2026-07-28T01:25:08.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-66ccfae1-aa08-49af-b379-4b469ae97342"
+  },
+  "item": [
+    {
+      "name": "portfolios",
+      "item": [
+        {
+          "name": "{portfolio_id}",
+          "item": [
+            {
+              "name": "transactions",
+              "item": [
+                {
+                  "name": "{transaction_id}",
+                  "item": [
+                    {
+                      "name": "Get transaction",
+                      "id": "1ed7914e-0e1e-4d05-91cf-d1cdbbd3e23c",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/portfolios/:portfolio_id/transactions/:transaction_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "portfolios",
+                            ":portfolio_id",
+                            "transactions",
+                            ":transaction_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "bf012013-ffaa-4350-a56a-6d96ef44f433",
+                              "key": "portfolio_id",
+                              "value": "<string>",
+                              "description": "(Required) Portfolio identifier"
+                            },
+                            {
+                              "id": "ec37e58d-1b02-4784-ba9b-c7b8de6b3d6a",
+                              "key": "transaction_id",
+                              "value": "<string>",
+                              "description": "(Required) Transaction identifier"
+                            }
+                          ]
+                        },
+                        "description": "Retrieves details of a specific transaction by its transaction ID."
+                      },
+                      "response": [
+                        {
+                          "id": "97ee65f6-b2c2-4c9b-ab0a-aa7ffa07ec23",
+                          "name": "Successfully retrieved transaction",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "CB-ACCESS-KEY",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/portfolios/:portfolio_id/transactions/:transaction_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "portfolios",
+                                ":portfolio_id",
+                                "transactions",
+                                ":transaction_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "portfolio_id"
+                                },
+                                {
+                                  "key": "transaction_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"transaction\": {\n    \"id\": \"<string>\",\n    \"wallet_id\": \"<string>\",\n    \"portfolio_id\": \"<string>\",\n    \"type\": \"INTERNAL_DEPOSIT\",\n    \"status\": \"<string>\",\n    \"symbol\": \"<string>\",\n    \"amount\": \"<string>\",\n    \"fee\": \"<string>\",\n    \"created_at\": \"<dateTime>\",\n    \"completed_at\": \"<dateTime>\",\n    \"blockchain_ids\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+                          "createdAt": "2026-07-28T01:25:08.000Z",
+                          "updatedAt": "2026-07-28T01:25:08.000Z",
+                          "uid": "35240-97ee65f6-b2c2-4c9b-ab0a-aa7ffa07ec23"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:25:08.000Z",
+                      "updatedAt": "2026-07-28T01:25:08.000Z",
+                      "uid": "35240-1ed7914e-0e1e-4d05-91cf-d1cdbbd3e23c"
+                    }
+                  ],
+                  "id": "860cb58f-9743-4712-893e-469935c98327",
+                  "createdAt": "2026-07-28T01:25:08.000Z",
+                  "updatedAt": "2026-07-28T01:25:08.000Z",
+                  "uid": "35240-860cb58f-9743-4712-893e-469935c98327"
+                },
+                {
+                  "name": "List transactions",
+                  "id": "40c19f1e-975b-46d6-a272-98d6b6a93bbd",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id/transactions?symbols=<string>&types=INTERNAL_WITHDRAWAL&types=INTERNAL_WITHDRAWAL&start_time=<dateTime>&end_time=<dateTime>&cursor=<string>&limit=100&sort_direction=DESC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id",
+                        "transactions"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter by currency symbols",
+                          "key": "symbols",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter by transaction types",
+                          "key": "types",
+                          "value": "INTERNAL_WITHDRAWAL"
+                        },
+                        {
+                          "description": "Filter by transaction types",
+                          "key": "types",
+                          "value": "INTERNAL_WITHDRAWAL"
+                        },
+                        {
+                          "description": "Start time filter",
+                          "key": "start_time",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "End time filter",
+                          "key": "end_time",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Cursor for pagination",
+                          "key": "cursor",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return",
+                          "key": "limit",
+                          "value": "100"
+                        },
+                        {
+                          "description": "Sort direction for results",
+                          "key": "sort_direction",
+                          "value": "DESC"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "0c60e2e6-d0e6-48e1-80ea-a243bddbbc63",
+                          "key": "portfolio_id",
+                          "value": "<string>",
+                          "description": "(Required) Portfolio identifier"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves a list of transactions for a portfolio including deposits, withdrawals, and internal transfers."
+                  },
+                  "response": [
+                    {
+                      "id": "5483fd3e-dfa5-423c-9fe7-6db9671a7af1",
+                      "name": "Successfully retrieved transactions",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/portfolios/:portfolio_id/transactions?symbols=<string>&types=INTERNAL_WITHDRAWAL&start_time=<dateTime>&end_time=<dateTime>&cursor=<string>&limit=100&sort_direction=DESC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "portfolios",
+                            ":portfolio_id",
+                            "transactions"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter by currency symbols",
+                              "key": "symbols",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Filter by transaction types",
+                              "key": "types",
+                              "value": "INTERNAL_WITHDRAWAL"
+                            },
+                            {
+                              "description": "Start time filter",
+                              "key": "start_time",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "End time filter",
+                              "key": "end_time",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Cursor for pagination",
+                              "key": "cursor",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return",
+                              "key": "limit",
+                              "value": "100"
+                            },
+                            {
+                              "description": "Sort direction for results",
+                              "key": "sort_direction",
+                              "value": "DESC"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "portfolio_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"transactions\": [\n    {\n      \"id\": \"<string>\",\n      \"wallet_id\": \"<string>\",\n      \"portfolio_id\": \"<string>\",\n      \"type\": \"DEPOSIT\",\n      \"status\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"fee\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"completed_at\": \"<dateTime>\",\n      \"blockchain_ids\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"id\": \"<string>\",\n      \"wallet_id\": \"<string>\",\n      \"portfolio_id\": \"<string>\",\n      \"type\": \"INTERNAL_WITHDRAWAL\",\n      \"status\": \"<string>\",\n      \"symbol\": \"<string>\",\n      \"amount\": \"<string>\",\n      \"fee\": \"<string>\",\n      \"created_at\": \"<dateTime>\",\n      \"completed_at\": \"<dateTime>\",\n      \"blockchain_ids\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"pagination\": {\n    \"next_cursor\": \"<string>\",\n    \"sort_direction\": \"<string>\",\n    \"has_next\": \"<boolean>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:25:08.000Z",
+                      "updatedAt": "2026-07-28T01:25:08.000Z",
+                      "uid": "35240-5483fd3e-dfa5-423c-9fe7-6db9671a7af1"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:25:08.000Z",
+                  "updatedAt": "2026-07-28T01:25:08.000Z",
+                  "uid": "35240-40c19f1e-975b-46d6-a272-98d6b6a93bbd"
+                }
+              ],
+              "id": "3a84dbcf-502b-4b5d-bd0a-5c1b2e2a66b7",
+              "createdAt": "2026-07-28T01:25:08.000Z",
+              "updatedAt": "2026-07-28T01:25:08.000Z",
+              "uid": "35240-3a84dbcf-502b-4b5d-bd0a-5c1b2e2a66b7"
+            },
+            {
+              "name": "wallets",
+              "item": [
+                {
+                  "name": "{wallet_id}",
+                  "item": [
+                    {
+                      "name": "transactions",
+                      "item": [
+                        {
+                          "name": "Create withdrawal",
+                          "id": "b4dff026-ba5a-4763-8f97-4acec77ff2ea",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"amount\": \"<string>\",\n  \"destination_type\": \"ADDRESS_BOOK\",\n  \"idempotency_key\": \"<string>\",\n  \"currency_symbol\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/portfolios/:portfolio_id/wallets/:wallet_id/transactions",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "portfolios",
+                                ":portfolio_id",
+                                "wallets",
+                                ":wallet_id",
+                                "transactions"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "ec759e90-2dfc-4628-8746-96eb39493f12",
+                                  "key": "portfolio_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Portfolio identifier"
+                                },
+                                {
+                                  "id": "0b039202-48e5-418a-b747-e2d175eb3c98",
+                                  "key": "wallet_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Wallet identifier"
+                                }
+                              ]
+                            },
+                            "description": "Creates a withdrawal from a specific wallet to an approved address in the address book."
+                          },
+                          "response": [
+                            {
+                              "id": "637708bd-bb44-4113-89cf-5e60f71b6181",
+                              "name": "Withdrawal created",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "CB-ACCESS-KEY",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"amount\": \"<string>\",\n  \"destination_type\": \"ADDRESS_BOOK\",\n  \"idempotency_key\": \"<string>\",\n  \"currency_symbol\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/portfolios/:portfolio_id/wallets/:wallet_id/transactions",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "portfolios",
+                                    ":portfolio_id",
+                                    "wallets",
+                                    ":wallet_id",
+                                    "transactions"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "portfolio_id"
+                                    },
+                                    {
+                                      "key": "wallet_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"activity_id\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:25:08.000Z",
+                              "updatedAt": "2026-07-28T01:25:08.000Z",
+                              "uid": "35240-637708bd-bb44-4113-89cf-5e60f71b6181"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:25:08.000Z",
+                          "updatedAt": "2026-07-28T01:25:08.000Z",
+                          "uid": "35240-b4dff026-ba5a-4763-8f97-4acec77ff2ea"
+                        }
+                      ],
+                      "id": "0f70c330-f84b-4f91-95a6-0207fc7c276d",
+                      "createdAt": "2026-07-28T01:25:08.000Z",
+                      "updatedAt": "2026-07-28T01:25:08.000Z",
+                      "uid": "35240-0f70c330-f84b-4f91-95a6-0207fc7c276d"
+                    }
+                  ],
+                  "id": "4be2557c-b8e0-46a0-a94d-c67873e7fc69",
+                  "createdAt": "2026-07-28T01:25:08.000Z",
+                  "updatedAt": "2026-07-28T01:25:08.000Z",
+                  "uid": "35240-4be2557c-b8e0-46a0-a94d-c67873e7fc69"
+                }
+              ],
+              "id": "e1dce492-633a-4442-abe3-86e18d1aec0d",
+              "createdAt": "2026-07-28T01:25:08.000Z",
+              "updatedAt": "2026-07-28T01:25:08.000Z",
+              "uid": "35240-e1dce492-633a-4442-abe3-86e18d1aec0d"
+            }
+          ],
+          "id": "767951cb-ee2e-4099-bb9b-b5a16f18b27c",
+          "createdAt": "2026-07-28T01:25:08.000Z",
+          "updatedAt": "2026-07-28T01:25:08.000Z",
+          "uid": "35240-767951cb-ee2e-4099-bb9b-b5a16f18b27c"
+        }
+      ],
+      "id": "45ceb2be-cefc-43b9-9656-65d09d371bea",
+      "createdAt": "2026-07-28T01:25:08.000Z",
+      "updatedAt": "2026-07-28T01:25:08.000Z",
+      "uid": "35240-45ceb2be-cefc-43b9-9656-65d09d371bea"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

@@ -1,0 +1,883 @@
+{
+  "info": {
+    "_postman_id": "af3e5f6e-c51c-4535-bc78-6ee76c4e9ac6",
+    "name": "Coinbase Advanced Trade Accounts Products API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:50.000Z",
+    "updatedAt": "2026-07-28T01:24:50.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-af3e5f6e-c51c-4535-bc78-6ee76c4e9ac6"
+  },
+  "item": [
+    {
+      "name": "products",
+      "item": [
+        {
+          "name": "{product_id}",
+          "item": [
+            {
+              "name": "candles",
+              "item": [
+                {
+                  "name": "Get product candles",
+                  "id": "2865bce0-7bef-4114-a729-9103a8454790",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/products/:product_id/candles?start=<string>&end=<string>&granularity=FIVE_MINUTE",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "products",
+                        ":product_id",
+                        "candles"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Start time in UNIX timestamp format",
+                          "key": "start",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) End time in UNIX timestamp format",
+                          "key": "end",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) Time granularity for each candle",
+                          "key": "granularity",
+                          "value": "FIVE_MINUTE"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "e1eccee1-71ed-4b8a-93bf-80ede3004fdc",
+                          "key": "product_id",
+                          "value": "<string>",
+                          "description": "(Required) Trading pair identifier such as BTC-USD"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves historical candle data for a specific product. Returns OHLCV data at the specified granularity. This endpoint is publicly accessible."
+                  },
+                  "response": [
+                    {
+                      "id": "ef570deb-ae96-4644-a6de-680522383b17",
+                      "name": "Successfully retrieved candle data",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/products/:product_id/candles?start=<string>&end=<string>&granularity=FIVE_MINUTE",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "products",
+                            ":product_id",
+                            "candles"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Start time in UNIX timestamp format",
+                              "key": "start",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) End time in UNIX timestamp format",
+                              "key": "end",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) Time granularity for each candle",
+                              "key": "granularity",
+                              "value": "FIVE_MINUTE"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "product_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"candles\": [\n    {\n      \"start\": \"<string>\",\n      \"low\": \"<string>\",\n      \"high\": \"<string>\",\n      \"open\": \"<string>\",\n      \"close\": \"<string>\",\n      \"volume\": \"<string>\"\n    },\n    {\n      \"start\": \"<string>\",\n      \"low\": \"<string>\",\n      \"high\": \"<string>\",\n      \"open\": \"<string>\",\n      \"close\": \"<string>\",\n      \"volume\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-07-28T01:24:50.000Z",
+                      "updatedAt": "2026-07-28T01:24:50.000Z",
+                      "uid": "35240-ef570deb-ae96-4644-a6de-680522383b17"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:50.000Z",
+                  "updatedAt": "2026-07-28T01:24:50.000Z",
+                  "uid": "35240-2865bce0-7bef-4114-a729-9103a8454790"
+                }
+              ],
+              "id": "e0b91906-1023-42ab-875d-00dcc27179e1",
+              "createdAt": "2026-07-28T01:24:50.000Z",
+              "updatedAt": "2026-07-28T01:24:50.000Z",
+              "uid": "35240-e0b91906-1023-42ab-875d-00dcc27179e1"
+            },
+            {
+              "name": "ticker",
+              "item": [
+                {
+                  "name": "Get market trades",
+                  "id": "2487e23b-a81e-41e9-bb7a-25654b020ffe",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/products/:product_id/ticker?limit=49",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "products",
+                        ":product_id",
+                        "ticker"
+                      ],
+                      "query": [
+                        {
+                          "description": "Maximum number of results to return",
+                          "key": "limit",
+                          "value": "49"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "92ab96fb-19ca-4bc7-b37b-2a9039c63f93",
+                          "key": "product_id",
+                          "value": "<string>",
+                          "description": "(Required) Trading pair identifier such as BTC-USD"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves the latest trades for a specific product. Returns trade details including price, size, and time. This endpoint is publicly accessible."
+                  },
+                  "response": [
+                    {
+                      "id": "effb54b6-e7bb-47ef-849f-ed6688220d9e",
+                      "name": "Successfully retrieved market trades",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/products/:product_id/ticker?limit=49",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "products",
+                            ":product_id",
+                            "ticker"
+                          ],
+                          "query": [
+                            {
+                              "description": "Maximum number of results to return",
+                              "key": "limit",
+                              "value": "49"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "product_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"trades\": [\n    {\n      \"trade_id\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"price\": \"<string>\",\n      \"size\": \"<string>\",\n      \"time\": \"<dateTime>\",\n      \"side\": \"SELL\"\n    },\n    {\n      \"trade_id\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"price\": \"<string>\",\n      \"size\": \"<string>\",\n      \"time\": \"<dateTime>\",\n      \"side\": \"BUY\"\n    }\n  ],\n  \"best_bid\": \"<string>\",\n  \"best_ask\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:24:50.000Z",
+                      "updatedAt": "2026-07-28T01:24:50.000Z",
+                      "uid": "35240-effb54b6-e7bb-47ef-849f-ed6688220d9e"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:50.000Z",
+                  "updatedAt": "2026-07-28T01:24:50.000Z",
+                  "uid": "35240-2487e23b-a81e-41e9-bb7a-25654b020ffe"
+                }
+              ],
+              "id": "c7e1943b-a3f6-4b65-985e-bfa9323dd048",
+              "createdAt": "2026-07-28T01:24:50.000Z",
+              "updatedAt": "2026-07-28T01:24:50.000Z",
+              "uid": "35240-c7e1943b-a3f6-4b65-985e-bfa9323dd048"
+            },
+            {
+              "name": "book",
+              "item": [
+                {
+                  "name": "Get product order book",
+                  "id": "d6cae5db-18e0-4fa3-9327-11d77dea646e",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/products/:product_id/book?level=1",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "products",
+                        ":product_id",
+                        "book"
+                      ],
+                      "query": [
+                        {
+                          "description": "Order book detail level (1, 2, or 3)",
+                          "key": "level",
+                          "value": "1"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "1b89113e-7c9b-4f61-b0fa-02aad7d49978",
+                          "key": "product_id",
+                          "value": "<string>",
+                          "description": "(Required) Trading pair identifier such as BTC-USD"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves the order book for a product. The default level is 1 which returns the best bid and ask. Level 2 returns the top 50 bids and asks. Level 3 is not recommended for polling."
+                  },
+                  "response": [
+                    {
+                      "id": "ff782331-0e8c-4ea0-a1eb-e4c363fc49c0",
+                      "name": "Successfully retrieved order book",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/products/:product_id/book?level=1",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "products",
+                            ":product_id",
+                            "book"
+                          ],
+                          "query": [
+                            {
+                              "description": "Order book detail level (1, 2, or 3)",
+                              "key": "level",
+                              "value": "1"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "product_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"sequence\": \"<integer>\",\n  \"bids\": [\n    [\n      \"<string>\",\n      \"<string>\"\n    ],\n    [\n      \"<string>\",\n      \"<string>\"\n    ]\n  ],\n  \"asks\": [\n    [\n      \"<string>\",\n      \"<string>\"\n    ],\n    [\n      \"<string>\",\n      \"<string>\"\n    ]\n  ]\n}",
+                      "createdAt": "2026-07-28T01:24:50.000Z",
+                      "updatedAt": "2026-07-28T01:24:50.000Z",
+                      "uid": "35240-ff782331-0e8c-4ea0-a1eb-e4c363fc49c0"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:50.000Z",
+                  "updatedAt": "2026-07-28T01:24:50.000Z",
+                  "uid": "35240-d6cae5db-18e0-4fa3-9327-11d77dea646e"
+                }
+              ],
+              "id": "8d6aa8d6-d390-42ee-a79c-881f3bb679ee",
+              "createdAt": "2026-07-28T01:24:50.000Z",
+              "updatedAt": "2026-07-28T01:24:50.000Z",
+              "uid": "35240-8d6aa8d6-d390-42ee-a79c-881f3bb679ee"
+            },
+            {
+              "name": "trades",
+              "item": [
+                {
+                  "name": "Get product trades",
+                  "id": "6afd551b-73bd-497e-a3a8-6e4b06630b2d",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/products/:product_id/trades?before=<string>&after=<string>&limit=100",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "products",
+                        ":product_id",
+                        "trades"
+                      ],
+                      "query": [
+                        {
+                          "description": "Cursor for pagination (newer items)",
+                          "key": "before",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Cursor for pagination (older items)",
+                          "key": "after",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Number of results per request (max 100)",
+                          "key": "limit",
+                          "value": "100"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "3249bd73-837b-476d-98d9-feb3d2eee6f7",
+                          "key": "product_id",
+                          "value": "<string>",
+                          "description": "(Required) Trading pair identifier such as BTC-USD"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves a list of the latest trades for a product. Returns the trade ID, price, size, and time for each trade."
+                  },
+                  "response": [
+                    {
+                      "id": "db282bee-f0fe-4e63-8716-6229f2ece0b8",
+                      "name": "Successfully retrieved trades",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/products/:product_id/trades?before=<string>&after=<string>&limit=100",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "products",
+                            ":product_id",
+                            "trades"
+                          ],
+                          "query": [
+                            {
+                              "description": "Cursor for pagination (newer items)",
+                              "key": "before",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Cursor for pagination (older items)",
+                              "key": "after",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Number of results per request (max 100)",
+                              "key": "limit",
+                              "value": "100"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "product_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"time\": \"<dateTime>\",\n    \"trade_id\": \"<integer>\",\n    \"price\": \"<string>\",\n    \"size\": \"<string>\",\n    \"side\": \"buy\"\n  },\n  {\n    \"time\": \"<dateTime>\",\n    \"trade_id\": \"<integer>\",\n    \"price\": \"<string>\",\n    \"size\": \"<string>\",\n    \"side\": \"sell\"\n  }\n]",
+                      "createdAt": "2026-07-28T01:24:50.000Z",
+                      "updatedAt": "2026-07-28T01:24:50.000Z",
+                      "uid": "35240-db282bee-f0fe-4e63-8716-6229f2ece0b8"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:50.000Z",
+                  "updatedAt": "2026-07-28T01:24:50.000Z",
+                  "uid": "35240-6afd551b-73bd-497e-a3a8-6e4b06630b2d"
+                }
+              ],
+              "id": "9f060b6b-e50e-471b-84c6-ae677b31bd69",
+              "createdAt": "2026-07-28T01:24:50.000Z",
+              "updatedAt": "2026-07-28T01:24:50.000Z",
+              "uid": "35240-9f060b6b-e50e-471b-84c6-ae677b31bd69"
+            },
+            {
+              "name": "stats",
+              "item": [
+                {
+                  "name": "Get product 24hr stats",
+                  "id": "c41cda57-77f1-4cb8-9857-5afa512c06a3",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/products/:product_id/stats",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "products",
+                        ":product_id",
+                        "stats"
+                      ],
+                      "variable": [
+                        {
+                          "id": "a4252847-afc9-4898-8ee4-09cbd3d541f3",
+                          "key": "product_id",
+                          "value": "<string>",
+                          "description": "(Required) Trading pair identifier such as BTC-USD"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves 24-hour statistics for a product including open, high, low, and volume."
+                  },
+                  "response": [
+                    {
+                      "id": "2034888c-22a6-4b9f-8818-c6f64cd3bc13",
+                      "name": "Successfully retrieved 24hr stats",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/products/:product_id/stats",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "products",
+                            ":product_id",
+                            "stats"
+                          ],
+                          "variable": [
+                            {
+                              "key": "product_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"open\": \"<string>\",\n  \"high\": \"<string>\",\n  \"low\": \"<string>\",\n  \"volume\": \"<string>\",\n  \"last\": \"<string>\",\n  \"volume_30day\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:24:50.000Z",
+                      "updatedAt": "2026-07-28T01:24:50.000Z",
+                      "uid": "35240-2034888c-22a6-4b9f-8818-c6f64cd3bc13"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:50.000Z",
+                  "updatedAt": "2026-07-28T01:24:50.000Z",
+                  "uid": "35240-c41cda57-77f1-4cb8-9857-5afa512c06a3"
+                }
+              ],
+              "id": "4fedcc61-a1e6-4812-84b0-32f733874bd4",
+              "createdAt": "2026-07-28T01:24:50.000Z",
+              "updatedAt": "2026-07-28T01:24:50.000Z",
+              "uid": "35240-4fedcc61-a1e6-4812-84b0-32f733874bd4"
+            },
+            {
+              "name": "Get product",
+              "id": "3a9c58b8-5846-43bc-91d3-7cdbde96537a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/products/:product_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "products",
+                    ":product_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "26193739-143d-4f8e-b821-017f8b892e59",
+                      "key": "product_id",
+                      "value": "<string>",
+                      "description": "(Required) Trading pair identifier such as BTC-USD"
+                    }
+                  ]
+                },
+                "description": "Retrieves information about a single trading product by its product ID. Returns detailed product information including current price, volume, and trading parameters. This endpoint is publicly accessible."
+              },
+              "response": [
+                {
+                  "id": "28ed53bc-208e-445a-ab19-70eeb065d3da",
+                  "name": "Successfully retrieved product details",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/products/:product_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "products",
+                        ":product_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "product_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"product_id\": \"<string>\",\n  \"price\": \"<string>\",\n  \"price_percentage_change_24h\": \"<string>\",\n  \"volume_24h\": \"<string>\",\n  \"volume_percentage_change_24h\": \"<string>\",\n  \"base_increment\": \"<string>\",\n  \"quote_increment\": \"<string>\",\n  \"quote_min_size\": \"<string>\",\n  \"quote_max_size\": \"<string>\",\n  \"base_min_size\": \"<string>\",\n  \"base_max_size\": \"<string>\",\n  \"base_name\": \"<string>\",\n  \"quote_name\": \"<string>\",\n  \"status\": \"<string>\",\n  \"product_type\": \"SPOT\"\n}",
+                  "createdAt": "2026-07-28T01:24:50.000Z",
+                  "updatedAt": "2026-07-28T01:24:50.000Z",
+                  "uid": "35240-28ed53bc-208e-445a-ab19-70eeb065d3da"
+                },
+                {
+                  "id": "d6a31731-f3e2-4ede-9b78-6f033e066d3f",
+                  "name": "Product not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "CB-ACCESS-KEY",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/products/:product_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "products",
+                        ":product_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "product_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:24:50.000Z",
+                  "updatedAt": "2026-07-28T01:24:50.000Z",
+                  "uid": "35240-d6a31731-f3e2-4ede-9b78-6f033e066d3f"
+                }
+              ],
+              "createdAt": "2026-07-28T01:24:50.000Z",
+              "updatedAt": "2026-07-28T01:24:50.000Z",
+              "uid": "35240-3a9c58b8-5846-43bc-91d3-7cdbde96537a"
+            }
+          ],
+          "id": "8ec3ab42-2172-49c9-8e2d-8b1683b48888",
+          "createdAt": "2026-07-28T01:24:50.000Z",
+          "updatedAt": "2026-07-28T01:24:50.000Z",
+          "uid": "35240-8ec3ab42-2172-49c9-8e2d-8b1683b48888"
+        },
+        {
+          "name": "List products",
+          "id": "6f887f76-6b60-4b7f-b08c-9b3e5d948e79",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/products?product_type=FUTURE&limit=49&offset=<integer>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ],
+              "query": [
+                {
+                  "description": "Filter by product type",
+                  "key": "product_type",
+                  "value": "FUTURE"
+                },
+                {
+                  "description": "Maximum number of results to return",
+                  "key": "limit",
+                  "value": "49"
+                },
+                {
+                  "description": "Number of products to offset before returning",
+                  "key": "offset",
+                  "value": "<integer>"
+                }
+              ]
+            },
+            "description": "Retrieves a list of available trading products. Returns product details including trading pair, status, and price information. This endpoint is publicly accessible without authentication."
+          },
+          "response": [
+            {
+              "id": "388baee2-291f-4d3a-b223-6ee487bad606",
+              "name": "Successfully retrieved list of products",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/products?product_type=FUTURE&limit=49&offset=<integer>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter by product type",
+                      "key": "product_type",
+                      "value": "FUTURE"
+                    },
+                    {
+                      "description": "Maximum number of results to return",
+                      "key": "limit",
+                      "value": "49"
+                    },
+                    {
+                      "description": "Number of products to offset before returning",
+                      "key": "offset",
+                      "value": "<integer>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"products\": [\n    {\n      \"product_id\": \"<string>\",\n      \"price\": \"<string>\",\n      \"price_percentage_change_24h\": \"<string>\",\n      \"volume_24h\": \"<string>\",\n      \"volume_percentage_change_24h\": \"<string>\",\n      \"base_increment\": \"<string>\",\n      \"quote_increment\": \"<string>\",\n      \"quote_min_size\": \"<string>\",\n      \"quote_max_size\": \"<string>\",\n      \"base_min_size\": \"<string>\",\n      \"base_max_size\": \"<string>\",\n      \"base_name\": \"<string>\",\n      \"quote_name\": \"<string>\",\n      \"status\": \"<string>\",\n      \"product_type\": \"FUTURE\"\n    },\n    {\n      \"product_id\": \"<string>\",\n      \"price\": \"<string>\",\n      \"price_percentage_change_24h\": \"<string>\",\n      \"volume_24h\": \"<string>\",\n      \"volume_percentage_change_24h\": \"<string>\",\n      \"base_increment\": \"<string>\",\n      \"quote_increment\": \"<string>\",\n      \"quote_min_size\": \"<string>\",\n      \"quote_max_size\": \"<string>\",\n      \"base_min_size\": \"<string>\",\n      \"base_max_size\": \"<string>\",\n      \"base_name\": \"<string>\",\n      \"quote_name\": \"<string>\",\n      \"status\": \"<string>\",\n      \"product_type\": \"SPOT\"\n    }\n  ],\n  \"num_products\": \"<integer>\"\n}",
+              "createdAt": "2026-07-28T01:24:50.000Z",
+              "updatedAt": "2026-07-28T01:24:50.000Z",
+              "uid": "35240-388baee2-291f-4d3a-b223-6ee487bad606"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:50.000Z",
+          "updatedAt": "2026-07-28T01:24:50.000Z",
+          "uid": "35240-6f887f76-6b60-4b7f-b08c-9b3e5d948e79"
+        }
+      ],
+      "id": "7d762ca5-8360-46a0-93a3-9422bd67e525",
+      "createdAt": "2026-07-28T01:24:50.000Z",
+      "updatedAt": "2026-07-28T01:24:50.000Z",
+      "uid": "35240-7d762ca5-8360-46a0-93a3-9422bd67e525"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

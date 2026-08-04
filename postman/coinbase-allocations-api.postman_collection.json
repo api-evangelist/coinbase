@@ -1,0 +1,201 @@
+{
+  "info": {
+    "_postman_id": "63f89cf0-58d3-4b1c-856b-6ec72ed405f1",
+    "name": "Coinbase Advanced Trade Accounts Allocations API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:32.000Z",
+    "updatedAt": "2026-07-28T01:24:32.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-63f89cf0-58d3-4b1c-856b-6ec72ed405f1"
+  },
+  "item": [
+    {
+      "name": "portfolios",
+      "item": [
+        {
+          "name": "{portfolio_id}",
+          "item": [
+            {
+              "name": "allocations",
+              "item": [
+                {
+                  "name": "List portfolio allocations",
+                  "id": "13d68397-9d2b-47fa-a78d-4b6fa00a3a92",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/portfolios/:portfolio_id/allocations?product_ids=<string>&cursor=<string>&limit=100&sort_direction=DESC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "portfolios",
+                        ":portfolio_id",
+                        "allocations"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter by product IDs",
+                          "key": "product_ids",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Cursor for pagination",
+                          "key": "cursor",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return",
+                          "key": "limit",
+                          "value": "100"
+                        },
+                        {
+                          "description": "Sort direction for results",
+                          "key": "sort_direction",
+                          "value": "DESC"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "8c986a87-bfba-47b2-a38e-4d39f9f26998",
+                          "key": "portfolio_id",
+                          "value": "<string>",
+                          "description": "(Required) Portfolio identifier"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves a list of order allocations for the given portfolio. Allocations represent the distribution of fills across sub-portfolios."
+                  },
+                  "response": [
+                    {
+                      "id": "ef6f616c-07d0-4882-8f39-a4a16572f1a9",
+                      "name": "Successfully retrieved allocations",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "CB-ACCESS-KEY",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/portfolios/:portfolio_id/allocations?product_ids=<string>&cursor=<string>&limit=100&sort_direction=DESC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "portfolios",
+                            ":portfolio_id",
+                            "allocations"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter by product IDs",
+                              "key": "product_ids",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Cursor for pagination",
+                              "key": "cursor",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return",
+                              "key": "limit",
+                              "value": "100"
+                            },
+                            {
+                              "description": "Sort direction for results",
+                              "key": "sort_direction",
+                              "value": "DESC"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "portfolio_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"allocations\": [\n    {\n      \"allocation_id\": \"<string>\",\n      \"order_id\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"side\": \"<string>\",\n      \"avg_price\": \"<string>\",\n      \"base_quantity\": \"<string>\",\n      \"quote_value\": \"<string>\",\n      \"fees_allocated\": \"<string>\",\n      \"status\": \"<string>\",\n      \"created_at\": \"<dateTime>\"\n    },\n    {\n      \"allocation_id\": \"<string>\",\n      \"order_id\": \"<string>\",\n      \"product_id\": \"<string>\",\n      \"side\": \"<string>\",\n      \"avg_price\": \"<string>\",\n      \"base_quantity\": \"<string>\",\n      \"quote_value\": \"<string>\",\n      \"fees_allocated\": \"<string>\",\n      \"status\": \"<string>\",\n      \"created_at\": \"<dateTime>\"\n    }\n  ],\n  \"pagination\": {\n    \"next_cursor\": \"<string>\",\n    \"sort_direction\": \"<string>\",\n    \"has_next\": \"<boolean>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:24:32.000Z",
+                      "updatedAt": "2026-07-28T01:24:32.000Z",
+                      "uid": "35240-ef6f616c-07d0-4882-8f39-a4a16572f1a9"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:32.000Z",
+                  "updatedAt": "2026-07-28T01:24:32.000Z",
+                  "uid": "35240-13d68397-9d2b-47fa-a78d-4b6fa00a3a92"
+                }
+              ],
+              "id": "782fe2f8-afce-4df0-9164-bbbf8564c921",
+              "createdAt": "2026-07-28T01:24:32.000Z",
+              "updatedAt": "2026-07-28T01:24:32.000Z",
+              "uid": "35240-782fe2f8-afce-4df0-9164-bbbf8564c921"
+            }
+          ],
+          "id": "420927b3-c458-4bde-af4c-4d88a236bb52",
+          "createdAt": "2026-07-28T01:24:32.000Z",
+          "updatedAt": "2026-07-28T01:24:32.000Z",
+          "uid": "35240-420927b3-c458-4bde-af4c-4d88a236bb52"
+        }
+      ],
+      "id": "c7584aa2-fb3e-4df9-8b31-01c53ddd9341",
+      "createdAt": "2026-07-28T01:24:32.000Z",
+      "updatedAt": "2026-07-28T01:24:32.000Z",
+      "uid": "35240-c7584aa2-fb3e-4df9-8b31-01c53ddd9341"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}

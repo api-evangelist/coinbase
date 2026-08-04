@@ -1,0 +1,258 @@
+{
+  "info": {
+    "_postman_id": "46ef03ba-fafe-48cb-bd1c-ee343a3d54a3",
+    "name": "Coinbase Advanced Trade Accounts Fees API",
+    "description": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:45.000Z",
+    "updatedAt": "2026-07-28T01:24:45.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-46ef03ba-fafe-48cb-bd1c-ee343a3d54a3"
+  },
+  "item": [
+    {
+      "name": "transaction_summary",
+      "item": [
+        {
+          "name": "Get transaction summary",
+          "id": "4c4ea2aa-4515-4772-9156-baa055490633",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/transaction_summary?product_type=SPOT",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "transaction_summary"
+              ],
+              "query": [
+                {
+                  "description": "Filter by product type",
+                  "key": "product_type",
+                  "value": "SPOT"
+                }
+              ]
+            },
+            "description": "Retrieves the transaction summary for the authenticated user, including fee tier information, total volume, and maker/taker fee rates."
+          },
+          "response": [
+            {
+              "id": "3591d101-5ae9-4d2c-80fd-743ff465dd50",
+              "name": "Successfully retrieved transaction summary",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transaction_summary?product_type=SPOT",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "transaction_summary"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter by product type",
+                      "key": "product_type",
+                      "value": "SPOT"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"total_volume\": \"<number>\",\n  \"total_fees\": \"<number>\",\n  \"fee_tier\": {\n    \"pricing_tier\": \"<string>\",\n    \"usd_from\": \"<string>\",\n    \"usd_to\": \"<string>\",\n    \"taker_fee_rate\": \"<string>\",\n    \"maker_fee_rate\": \"<string>\"\n  },\n  \"advanced_trade_only_volume\": \"<number>\",\n  \"advanced_trade_only_fees\": \"<number>\"\n}",
+              "createdAt": "2026-07-28T01:24:45.000Z",
+              "updatedAt": "2026-07-28T01:24:45.000Z",
+              "uid": "35240-3591d101-5ae9-4d2c-80fd-743ff465dd50"
+            },
+            {
+              "id": "3bb1e8f9-04ec-42b1-b629-6f07fb6d9d66",
+              "name": "Unauthorized - Invalid or missing authentication",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transaction_summary?product_type=SPOT",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "transaction_summary"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter by product type",
+                      "key": "product_type",
+                      "value": "SPOT"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:24:45.000Z",
+              "updatedAt": "2026-07-28T01:24:45.000Z",
+              "uid": "35240-3bb1e8f9-04ec-42b1-b629-6f07fb6d9d66"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:45.000Z",
+          "updatedAt": "2026-07-28T01:24:45.000Z",
+          "uid": "35240-4c4ea2aa-4515-4772-9156-baa055490633"
+        }
+      ],
+      "id": "1e4f9f0b-6a64-4315-94d0-a05642153982",
+      "createdAt": "2026-07-28T01:24:45.000Z",
+      "updatedAt": "2026-07-28T01:24:45.000Z",
+      "uid": "35240-1e4f9f0b-6a64-4315-94d0-a05642153982"
+    },
+    {
+      "name": "fees",
+      "item": [
+        {
+          "name": "Get fees",
+          "id": "9524af72-c39e-43e0-928f-43bdaf7ea804",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/fees",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fees"
+              ]
+            },
+            "description": "Retrieves the current maker and taker fee rates for the authenticated user based on their trading volume."
+          },
+          "response": [
+            {
+              "id": "c3ef8a2f-da82-4334-8e31-cbfb73a66243",
+              "name": "Successfully retrieved fees",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fees",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "fees"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"maker_fee_rate\": \"<string>\",\n  \"taker_fee_rate\": \"<string>\",\n  \"usd_volume\": \"<string>\"\n}",
+              "createdAt": "2026-07-28T01:24:45.000Z",
+              "updatedAt": "2026-07-28T01:24:45.000Z",
+              "uid": "35240-c3ef8a2f-da82-4334-8e31-cbfb73a66243"
+            }
+          ],
+          "createdAt": "2026-07-28T01:24:45.000Z",
+          "updatedAt": "2026-07-28T01:24:45.000Z",
+          "uid": "35240-9524af72-c39e-43e0-928f-43bdaf7ea804"
+        }
+      ],
+      "id": "8a96711f-8b73-4b42-ac91-89fb839bcb4b",
+      "createdAt": "2026-07-28T01:24:45.000Z",
+      "updatedAt": "2026-07-28T01:24:45.000Z",
+      "uid": "35240-8a96711f-8b73-4b42-ac91-89fb839bcb4b"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.coinbase.com/api/v3/brokerage"
+    }
+  ]
+}
