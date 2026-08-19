@@ -1,0 +1,123 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade Accounts Invoices API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Invoices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/invoices",
+            "params": [
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination to fetch the next page of results"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for results"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of all invoices. Invoices are used to bill customers with specific payment terms and due dates."
+        },
+        {
+          "info": {
+            "name": "Create invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/invoices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new invoice for billing a customer. The invoice specifies payment terms, due date, and line items."
+        },
+        {
+          "info": {
+            "name": "Get invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/invoices/:invoice_id",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "Invoice identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific invoice by its ID."
+        },
+        {
+          "info": {
+            "name": "Void invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.coinbase.com/api/v3/brokerage/invoices/:invoice_id/void",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "Invoice identifier"
+              }
+            ]
+          },
+          "docs": "Voids an unpaid invoice. Once voided, the invoice can no longer accept payments."
+        },
+        {
+          "info": {
+            "name": "Resolve invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.coinbase.com/api/v3/brokerage/invoices/:invoice_id/resolve",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "Invoice identifier"
+              }
+            ]
+          },
+          "docs": "Resolves an unresolved invoice that requires manual review."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

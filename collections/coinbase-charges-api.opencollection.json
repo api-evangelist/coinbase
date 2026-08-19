@@ -1,0 +1,123 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade Accounts Charges API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Charges",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List charges",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/charges",
+            "params": [
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination to fetch the next page of results"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for results"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of all charges. Charges represent individual payment requests that have been created for customers."
+        },
+        {
+          "info": {
+            "name": "Create charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/charges",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new charge for accepting cryptocurrency payment. A charge generates blockchain addresses where customers can send payment. The charge tracks payment status through its lifecycle."
+        },
+        {
+          "info": {
+            "name": "Get charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/charges/:charge_id",
+            "params": [
+              {
+                "name": "charge_id",
+                "value": "",
+                "type": "path",
+                "description": "Charge ID or code"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific charge by its ID or code. Returns the full charge details including payment addresses, amounts, and current status."
+        },
+        {
+          "info": {
+            "name": "Cancel charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/charges/:charge_id/cancel",
+            "params": [
+              {
+                "name": "charge_id",
+                "value": "",
+                "type": "path",
+                "description": "Charge ID or code"
+              }
+            ]
+          },
+          "docs": "Cancels a charge that has not yet received a payment. Once cancelled, the charge can no longer receive payments."
+        },
+        {
+          "info": {
+            "name": "Resolve charge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/charges/:charge_id/resolve",
+            "params": [
+              {
+                "name": "charge_id",
+                "value": "",
+                "type": "path",
+                "description": "Charge ID or code"
+              }
+            ]
+          },
+          "docs": "Resolves a charge that has been marked as unresolved. This is used to handle cases where payment was received but requires manual review."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

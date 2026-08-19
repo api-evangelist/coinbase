@@ -1,0 +1,60 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade Accounts Conversions API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Conversions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create conversion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/conversions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Converts funds from one stablecoin currency to another within the exchange account."
+        },
+        {
+          "info": {
+            "name": "Get conversion",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/conversions/:conversion_id",
+            "params": [
+              {
+                "name": "conversion_id",
+                "value": "",
+                "type": "path",
+                "description": "Conversion ID"
+              }
+            ]
+          },
+          "docs": "Retrieves the details of a specific conversion by its conversion ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

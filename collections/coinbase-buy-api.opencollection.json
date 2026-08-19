@@ -1,0 +1,85 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade Accounts Buy API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Buy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get buy options",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/buy/options",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-1 alpha-2 country code"
+              },
+              {
+                "name": "subdivision",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-2 subdivision code"
+              }
+            ]
+          },
+          "docs": "Provides clients with a way to discover the available options for buying cryptocurrency with Coinbase Onramp. Returns supported fiat currencies and available crypto assets that can be passed into the Buy Quote API. Clients should call this API periodically for each country they support and cache the response."
+        },
+        {
+          "info": {
+            "name": "Create buy quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/buy/quote",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a price quote for buying cryptocurrency. Returns the estimated amount of crypto that will be received for a given fiat amount. Rate limited to 10 requests per second per app ID."
+        },
+        {
+          "info": {
+            "name": "Get buy config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/buy/config",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-1 alpha-2 country code"
+              }
+            ]
+          },
+          "docs": "Retrieves the buy configuration for the onramp widget, including supported countries, payment methods, and available assets."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

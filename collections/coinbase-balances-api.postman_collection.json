@@ -1,0 +1,189 @@
+{
+  "item": [
+    {
+      "id": "6121f77e-a0b2-4a96-b4cf-f1761ef554f0",
+      "name": "Balances",
+      "description": {
+        "content": "Retrieve portfolio balance information across all assets.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "afd26066-7fd4-4232-ba5b-fe155ea5bf40",
+          "name": "List portfolio balances",
+          "request": {
+            "name": "List portfolio balances",
+            "description": {
+              "content": "Retrieves all asset balances for a specific portfolio, including available, held, and total amounts for each currency.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "portfolios",
+                ":portfolio_id",
+                "balances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "symbols",
+                  "value": "<string>",
+                  "description": "Filter by currency symbols"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Cursor for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Maximum number of results to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_direction",
+                  "value": "DESC",
+                  "description": "Sort direction for results"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "portfolio_id",
+                  "description": "(Required) Portfolio identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "14881f7d-43a5-4245-acf1-53d43a4eda3a",
+              "name": "Successfully retrieved balances",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "portfolios",
+                    ":portfolio_id",
+                    "balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "symbols",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "DESC"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "portfolio_id",
+                      "description": "(Required) Portfolio identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"balances\": [\n    {\n      \"symbol\": \"string\",\n      \"amount\": \"string\",\n      \"holds\": \"string\",\n      \"bonded_amount\": \"string\",\n      \"reserved_amount\": \"string\",\n      \"unbonding_amount\": \"string\",\n      \"unvested_amount\": \"string\",\n      \"pending_rewards_amount\": \"string\",\n      \"past_rewards_amount\": \"string\",\n      \"bondable_amount\": \"string\",\n      \"withdrawable_amount\": \"string\",\n      \"fiat_amount\": \"string\"\n    },\n    {\n      \"symbol\": \"string\",\n      \"amount\": \"string\",\n      \"holds\": \"string\",\n      \"bonded_amount\": \"string\",\n      \"reserved_amount\": \"string\",\n      \"unbonding_amount\": \"string\",\n      \"unvested_amount\": \"string\",\n      \"pending_rewards_amount\": \"string\",\n      \"past_rewards_amount\": \"string\",\n      \"bondable_amount\": \"string\",\n      \"withdrawable_amount\": \"string\",\n      \"fiat_amount\": \"string\"\n    }\n  ],\n  \"pagination\": {\n    \"next_cursor\": \"string\",\n    \"sort_direction\": \"string\",\n    \"has_next\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.coinbase.com/api/v3/brokerage",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f9916486-e030-4752-974c-29cae978fb8c",
+    "name": "Coinbase Advanced Trade Accounts Balances API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

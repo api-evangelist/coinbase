@@ -1,0 +1,219 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade Accounts Products API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/products",
+            "params": [
+              {
+                "name": "product_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by product type"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of products to offset before returning"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of available trading products. Returns product details including trading pair, status, and price information. This endpoint is publicly accessible without authentication."
+        },
+        {
+          "info": {
+            "name": "Get product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/products/:product_id",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "Trading pair identifier such as BTC-USD"
+              }
+            ]
+          },
+          "docs": "Retrieves information about a single trading product by its product ID. Returns detailed product information including current price, volume, and trading parameters. This endpoint is publicly accessible."
+        },
+        {
+          "info": {
+            "name": "Get product candles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/products/:product_id/candles",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "Trading pair identifier such as BTC-USD"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "Start time in UNIX timestamp format"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "End time in UNIX timestamp format"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Time granularity for each candle"
+              }
+            ]
+          },
+          "docs": "Retrieves historical candle data for a specific product. Returns OHLCV data at the specified granularity. This endpoint is publicly accessible."
+        },
+        {
+          "info": {
+            "name": "Get market trades",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/products/:product_id/ticker",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "Trading pair identifier such as BTC-USD"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Retrieves the latest trades for a specific product. Returns trade details including price, size, and time. This endpoint is publicly accessible."
+        },
+        {
+          "info": {
+            "name": "Get product order book",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/products/:product_id/book",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "Trading pair identifier such as BTC-USD"
+              },
+              {
+                "name": "level",
+                "value": "",
+                "type": "query",
+                "description": "Order book detail level (1, 2, or 3)"
+              }
+            ]
+          },
+          "docs": "Retrieves the order book for a product. The default level is 1 which returns the best bid and ask. Level 2 returns the top 50 bids and asks. Level 3 is not recommended for polling."
+        },
+        {
+          "info": {
+            "name": "Get product trades",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/products/:product_id/trades",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "Trading pair identifier such as BTC-USD"
+              },
+              {
+                "name": "before",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination (newer items)"
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination (older items)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per request (max 100)"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of the latest trades for a product. Returns the trade ID, price, size, and time for each trade."
+        },
+        {
+          "info": {
+            "name": "Get product 24hr stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/products/:product_id/stats",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "path",
+                "description": "Trading pair identifier such as BTC-USD"
+              }
+            ]
+          },
+          "docs": "Retrieves 24-hour statistics for a product including open, high, low, and volume."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

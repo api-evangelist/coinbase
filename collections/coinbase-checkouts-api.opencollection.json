@@ -1,0 +1,127 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade Accounts Checkouts API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checkouts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List checkouts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/checkouts",
+            "params": [
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination to fetch the next page of results"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for results"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of all checkouts. Checkouts are reusable payment pages that can be shared with customers."
+        },
+        {
+          "info": {
+            "name": "Create checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/checkouts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new checkout page for accepting payments. Checkouts are reusable and generate a unique URL that can be shared with customers."
+        },
+        {
+          "info": {
+            "name": "Get checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/checkouts/:checkout_id",
+            "params": [
+              {
+                "name": "checkout_id",
+                "value": "",
+                "type": "path",
+                "description": "Checkout identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific checkout by its ID."
+        },
+        {
+          "info": {
+            "name": "Update checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.coinbase.com/api/v3/brokerage/checkouts/:checkout_id",
+            "params": [
+              {
+                "name": "checkout_id",
+                "value": "",
+                "type": "path",
+                "description": "Checkout identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing checkout page with new details."
+        },
+        {
+          "info": {
+            "name": "Delete checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.coinbase.com/api/v3/brokerage/checkouts/:checkout_id",
+            "params": [
+              {
+                "name": "checkout_id",
+                "value": "",
+                "type": "path",
+                "description": "Checkout identifier"
+              }
+            ]
+          },
+          "docs": "Deletes a checkout page by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

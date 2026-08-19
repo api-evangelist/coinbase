@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade Accounts Currencies API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Currencies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List currencies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/currencies"
+          },
+          "docs": "Retrieves a list of all known currencies on the exchange, including their names, minimum sizes, and status."
+        },
+        {
+          "info": {
+            "name": "Get currency",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/currencies/:currency_id",
+            "params": [
+              {
+                "name": "currency_id",
+                "value": "",
+                "type": "path",
+                "description": "Currency identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves information about a single currency by its currency ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

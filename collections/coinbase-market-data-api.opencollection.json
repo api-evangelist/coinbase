@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade Accounts Market Data API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Market Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get best bid and ask",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/best_bid_ask",
+            "params": [
+              {
+                "name": "product_ids",
+                "value": "",
+                "type": "query",
+                "description": "List of product IDs to get bid/ask for"
+              }
+            ]
+          },
+          "docs": "Retrieves the best bid and ask prices for the specified products. This endpoint is publicly accessible."
+        },
+        {
+          "info": {
+            "name": "Get product book",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/product_book",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "query",
+                "description": "Product ID to get the order book for"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Retrieves the order book for a specific product. Returns bids and asks at various price levels. This endpoint is publicly accessible."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

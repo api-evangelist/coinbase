@@ -1,0 +1,249 @@
+{
+  "item": [
+    {
+      "id": "17ac562c-1c55-467d-a237-96911bc93669",
+      "name": "Market Data",
+      "description": {
+        "content": "Access public market data including products, order books, trades, and candles without authentication.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "be3bd481-485b-4244-9d38-1b1786a5383b",
+          "name": "Get best bid and ask",
+          "request": {
+            "name": "Get best bid and ask",
+            "description": {
+              "content": "Retrieves the best bid and ask prices for the specified products. This endpoint is publicly accessible.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "best_bid_ask"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "product_ids",
+                  "value": "<string>",
+                  "description": "List of product IDs to get bid/ask for"
+                },
+                {
+                  "disabled": false,
+                  "key": "product_ids",
+                  "value": "<string>",
+                  "description": "List of product IDs to get bid/ask for"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b4551cef-3cc1-4fa8-b90a-11216ae46f24",
+              "name": "Successfully retrieved best bid and ask",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "best_bid_ask"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "product_ids",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pricebooks\": [\n    {\n      \"product_id\": \"string\",\n      \"bids\": [\n        {\n          \"price\": \"string\",\n          \"size\": \"string\"\n        },\n        {\n          \"price\": \"string\",\n          \"size\": \"string\"\n        }\n      ],\n      \"asks\": [\n        {\n          \"price\": \"string\",\n          \"size\": \"string\"\n        },\n        {\n          \"price\": \"string\",\n          \"size\": \"string\"\n        }\n      ],\n      \"time\": \"1980-12-18T11:31:02.688Z\"\n    },\n    {\n      \"product_id\": \"string\",\n      \"bids\": [\n        {\n          \"price\": \"string\",\n          \"size\": \"string\"\n        },\n        {\n          \"price\": \"string\",\n          \"size\": \"string\"\n        }\n      ],\n      \"asks\": [\n        {\n          \"price\": \"string\",\n          \"size\": \"string\"\n        },\n        {\n          \"price\": \"string\",\n          \"size\": \"string\"\n        }\n      ],\n      \"time\": \"2013-01-18T10:01:44.472Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cf965dd4-0fd4-4e18-afd5-3119b1a215b9",
+          "name": "Get product book",
+          "request": {
+            "name": "Get product book",
+            "description": {
+              "content": "Retrieves the order book for a specific product. Returns bids and asks at various price levels. This endpoint is publicly accessible.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "product_book"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "product_id",
+                  "value": "<string>",
+                  "description": "(Required) Product ID to get the order book for"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "49",
+                  "description": "Maximum number of results to return"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ba7200c2-4601-4a73-a071-7aea955ed975",
+              "name": "Successfully retrieved product book",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "product_book"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "49"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pricebook\": {\n    \"product_id\": \"string\",\n    \"bids\": [\n      {\n        \"price\": \"string\",\n        \"size\": \"string\"\n      },\n      {\n        \"price\": \"string\",\n        \"size\": \"string\"\n      }\n    ],\n    \"asks\": [\n      {\n        \"price\": \"string\",\n        \"size\": \"string\"\n      },\n      {\n        \"price\": \"string\",\n        \"size\": \"string\"\n      }\n    ],\n    \"time\": \"1970-01-19T23:26:13.451Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.coinbase.com/api/v3/brokerage",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "fdcd99ef-62c5-4588-88a2-8ef8d9b8ecd4",
+    "name": "Coinbase Advanced Trade Accounts Market Data API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

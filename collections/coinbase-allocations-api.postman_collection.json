@@ -1,0 +1,189 @@
+{
+  "item": [
+    {
+      "id": "da063aa8-34ac-4ca6-8141-c3d6f9c490f0",
+      "name": "Allocations",
+      "description": {
+        "content": "View and manage order allocations across sub-portfolios.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d279b738-a375-4e12-bc6c-b8a5edbe8758",
+          "name": "List portfolio allocations",
+          "request": {
+            "name": "List portfolio allocations",
+            "description": {
+              "content": "Retrieves a list of order allocations for the given portfolio. Allocations represent the distribution of fills across sub-portfolios.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "portfolios",
+                ":portfolio_id",
+                "allocations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "product_ids",
+                  "value": "<string>",
+                  "description": "Filter by product IDs"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "Cursor for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Maximum number of results to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_direction",
+                  "value": "DESC",
+                  "description": "Sort direction for results"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "portfolio_id",
+                  "description": "(Required) Portfolio identifier"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "839bf406-35da-47cb-a04f-e78f018f0fbe",
+              "name": "Successfully retrieved allocations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "portfolios",
+                    ":portfolio_id",
+                    "allocations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "product_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "DESC"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "portfolio_id",
+                      "description": "(Required) Portfolio identifier"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"allocations\": [\n    {\n      \"allocation_id\": \"string\",\n      \"order_id\": \"string\",\n      \"product_id\": \"string\",\n      \"side\": \"string\",\n      \"avg_price\": \"string\",\n      \"base_quantity\": \"string\",\n      \"quote_value\": \"string\",\n      \"fees_allocated\": \"string\",\n      \"status\": \"string\",\n      \"created_at\": \"1974-07-17T19:15:44.822Z\"\n    },\n    {\n      \"allocation_id\": \"string\",\n      \"order_id\": \"string\",\n      \"product_id\": \"string\",\n      \"side\": \"string\",\n      \"avg_price\": \"string\",\n      \"base_quantity\": \"string\",\n      \"quote_value\": \"string\",\n      \"fees_allocated\": \"string\",\n      \"status\": \"string\",\n      \"created_at\": \"1968-04-18T17:54:26.629Z\"\n    }\n  ],\n  \"pagination\": {\n    \"next_cursor\": \"string\",\n    \"sort_direction\": \"string\",\n    \"has_next\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.coinbase.com/api/v3/brokerage",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5e737ce2-87f0-4cbf-bbb6-d5b5aeeceedd",
+    "name": "Coinbase Advanced Trade Accounts Allocations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

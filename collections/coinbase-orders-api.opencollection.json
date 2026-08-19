@@ -1,0 +1,466 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade Accounts Orders API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter orders by product ID"
+              },
+              {
+                "name": "order_status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order status"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date for filtering orders"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date for filtering orders"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "order_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order type"
+              },
+              {
+                "name": "order_side",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order side"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of orders for the authenticated user. Supports filtering by product ID, order status, and time range. Returns orders sorted by creation time."
+        },
+        {
+          "info": {
+            "name": "Create order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new order for the authenticated user. Supports market, limit, stop, and stop-limit order types. The order configuration varies based on the order type selected."
+        },
+        {
+          "info": {
+            "name": "Cancel all orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders",
+            "params": [
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "query",
+                "description": "Only cancel orders for this product"
+              }
+            ]
+          },
+          "docs": "Cancels all open orders on the exchange. Optionally filter by product ID to cancel orders for a specific trading pair only."
+        },
+        {
+          "info": {
+            "name": "Get order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders/:order_id",
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the order"
+              }
+            ]
+          },
+          "docs": "Retrieves a single order by order ID. Returns the full order details including status, fills, and configuration."
+        },
+        {
+          "info": {
+            "name": "Cancel order",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders/:order_id",
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "Order ID to cancel"
+              }
+            ]
+          },
+          "docs": "Cancels a previously placed order by its ID. The order must still be in an open or pending state."
+        },
+        {
+          "info": {
+            "name": "Cancel orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders/batch_cancel",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancels one or more open orders by order ID. Accepts an array of order IDs to cancel in a single request."
+        },
+        {
+          "info": {
+            "name": "Edit order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders/:order_id/edit",
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the order to edit"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edits an existing open order. Only the price and size of the order can be modified."
+        },
+        {
+          "info": {
+            "name": "List fills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/orders/historical/fills",
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter fills by order ID"
+              },
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter fills by product ID"
+              },
+              {
+                "name": "start_sequence_timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Start time for filtering fills"
+              },
+              {
+                "name": "end_sequence_timestamp",
+                "value": "",
+                "type": "query",
+                "description": "End time for filtering fills"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of fills (completed trades) for the authenticated user. Supports filtering by order ID, product ID, and time range."
+        },
+        {
+          "info": {
+            "name": "List fills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/fills",
+            "params": [
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter fills by order ID"
+              },
+              {
+                "name": "product_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter fills by product ID"
+              },
+              {
+                "name": "before",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination (newer items)"
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination (older items)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per request (max 100)"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of recent fills for the authenticated user. Fills represent the settlement of an order at a specific price and quantity."
+        },
+        {
+          "info": {
+            "name": "List portfolio orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id/orders",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "product_ids",
+                "value": "",
+                "type": "query",
+                "description": "Filter by product IDs"
+              },
+              {
+                "name": "order_statuses",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order statuses"
+              },
+              {
+                "name": "order_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order type"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date for filtering"
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date for filtering"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "sort_direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for results"
+              }
+            ]
+          },
+          "docs": "Retrieves historical orders for a given portfolio. Returns a default limit of 100 results with a maximum allowed limit of 3000. Supports filtering by product, status, and date range."
+        },
+        {
+          "info": {
+            "name": "Create order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id/orders",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new order within the specified portfolio. Supports market, limit, TWAP, and block order types for institutional trading."
+        },
+        {
+          "info": {
+            "name": "Get order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id/orders/:order_id",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "Order identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific order by its order ID within a portfolio."
+        },
+        {
+          "info": {
+            "name": "Cancel order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id/orders/:order_id/cancel",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "Order identifier"
+              }
+            ]
+          },
+          "docs": "Cancels an open order by its order ID within a portfolio."
+        },
+        {
+          "info": {
+            "name": "List order fills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id/orders/:order_id/fills",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              },
+              {
+                "name": "order_id",
+                "value": "",
+                "type": "path",
+                "description": "Order identifier"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Cursor for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Retrieves all fills associated with a specific order in a portfolio."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

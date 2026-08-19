@@ -1,0 +1,445 @@
+{
+  "item": [
+    {
+      "id": "2fb391f8-dad2-4703-9697-7aab8e0e244d",
+      "name": "Sell",
+      "description": {
+        "content": "Endpoints for discovering sell options and generating sell quotes for crypto-to-fiat transactions.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d14833ee-3d03-4ec4-8f10-7ec6cb43ac7b",
+          "name": "Get sell options",
+          "request": {
+            "name": "Get sell options",
+            "description": {
+              "content": "Provides clients with a way to discover the available options for selling cryptocurrency. Returns supported fiat deposit currencies and available crypto assets.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sell",
+                "options"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "(Required) ISO 3166-1 alpha-2 country code"
+                },
+                {
+                  "disabled": false,
+                  "key": "subdivision",
+                  "value": "<string>",
+                  "description": "ISO 3166-2 subdivision code"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cf2fdb4e-b557-4f14-97cc-e314b2615fd9",
+              "name": "Successfully retrieved sell options",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "options"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subdivision",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sell_currencies\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"icon_url\": \"http://UHxY.gwZ3yupNK1.XchccgN2FnUQwxLLSKNi2-mnPtb6xOIrD7JZ5iplmwThxZ.9awBD\",\n      \"networks\": [\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        }\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"icon_url\": \"http://DQekJBpsVcazBkhGypmpkVpyZ.efqVsn+zl4fj9NRBy4\",\n      \"networks\": [\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"cash_out_currencies\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"min_amount\": \"string\",\n      \"max_amount\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"min_amount\": \"string\",\n      \"max_amount\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6eb5966f-82b2-4dea-9839-9f48709326bc",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "options"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subdivision",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44127111-6ec2-4934-9df9-b0035a284916",
+          "name": "Create sell quote",
+          "request": {
+            "name": "Create sell quote",
+            "description": {
+              "content": "Generates a price quote for selling cryptocurrency. Returns the estimated fiat amount that will be received for a given crypto amount. Rate limited to 10 requests per second per app ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sell",
+                "quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c3e0abb0-4c32-42aa-86cd-c1ba999f3f31",
+              "name": "Successfully generated sell quote",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"coinbase_fee\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"cash_out_subtotal\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"cash_out_total\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"quote_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f6f720c-b06c-4925-875c-cfbd2a03e7d9",
+              "name": "Bad request - Invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bc1cc99a-eba2-47f4-bcf8-a5ed6de8356b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3a09da5e-0c24-495d-8aa9-bf6a69fac601",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sell",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sell_currency\": \"<string>\",\n  \"sell_amount\": \"<string>\",\n  \"cash_out_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.coinbase.com/api/v3/brokerage",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d2acc223-073d-4f3e-aab2-060cfe068f27",
+    "name": "Coinbase Advanced Trade Accounts Sell API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

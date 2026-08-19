@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade Accounts Sell API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sell",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get sell options",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/sell/options",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-1 alpha-2 country code"
+              },
+              {
+                "name": "subdivision",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-2 subdivision code"
+              }
+            ]
+          },
+          "docs": "Provides clients with a way to discover the available options for selling cryptocurrency. Returns supported fiat deposit currencies and available crypto assets."
+        },
+        {
+          "info": {
+            "name": "Create sell quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/sell/quote",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a price quote for selling cryptocurrency. Returns the estimated fiat amount that will be received for a given crypto amount. Rate limited to 10 requests per second per app ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,195 @@
+{
+  "item": [
+    {
+      "id": "056cc6da-0df5-4c32-b7b5-daa5a321e689",
+      "name": "Session",
+      "description": {
+        "content": "Manage session tokens for embedded onramp widget authentication.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fc1f9e16-0281-4f03-983b-23267a1c1d5e",
+          "name": "Create session token",
+          "request": {
+            "name": "Create session token",
+            "description": {
+              "content": "Creates a session token for authenticating the embedded onramp widget. The token is used to initialize the Coinbase Onramp widget within a third-party application.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destination_wallets\": [\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6e0c1427-ac4e-4eb2-aeda-3023bce9bd6d",
+              "name": "Session token created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"destination_wallets\": [\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2cba4e68-6446-459d-b18d-0ff78bd98899",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"destination_wallets\": [\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"address\": \"<string>\",\n      \"blockchains\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"assets\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"supported_networks\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.coinbase.com/api/v3/brokerage",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "528322a6-8618-465a-8535-3b8030260a74",
+    "name": "Coinbase Advanced Trade Accounts Session API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,582 @@
+{
+  "item": [
+    {
+      "id": "f80df952-511e-4e04-8d1f-2a8ee0e36a1c",
+      "name": "Buy",
+      "description": {
+        "content": "Endpoints for discovering buy options, generating buy quotes, and retrieving buy configuration for fiat-to-crypto purchases.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ac2f8561-95c2-4712-aecc-ce3673825e21",
+          "name": "Get buy options",
+          "request": {
+            "name": "Get buy options",
+            "description": {
+              "content": "Provides clients with a way to discover the available options for buying cryptocurrency with Coinbase Onramp. Returns supported fiat currencies and available crypto assets that can be passed into the Buy Quote API. Clients should call this API periodically for each country they support and cache the response.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buy",
+                "options"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "(Required) ISO 3166-1 alpha-2 country code"
+                },
+                {
+                  "disabled": false,
+                  "key": "subdivision",
+                  "value": "<string>",
+                  "description": "ISO 3166-2 subdivision code"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1952364e-ef03-4c61-b0ae-7377b3172d00",
+              "name": "Successfully retrieved buy options",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "options"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subdivision",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"payment_currencies\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"min_amount\": \"string\",\n      \"max_amount\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"min_amount\": \"string\",\n      \"max_amount\": \"string\"\n    }\n  ],\n  \"purchase_currencies\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"icon_url\": \"https://E.arpqnc-XZ5iZtkhVsOq5,6gKTIkLp5+Ong\",\n      \"networks\": [\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        }\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"icon_url\": \"https://xr.syrmi9.HdDyCb-xJDl3rHomoB8GxwFIb\",\n      \"networks\": [\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"display_name\": \"string\",\n          \"chain_id\": \"string\",\n          \"contract_address\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e1265d29-98d8-4d8c-aa39-6367b75ccbc7",
+              "name": "Unauthorized - Invalid or missing authentication",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "options"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subdivision",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "876229f3-c105-45c8-be38-8a1a30e3d055",
+          "name": "Create buy quote",
+          "request": {
+            "name": "Create buy quote",
+            "description": {
+              "content": "Generates a price quote for buying cryptocurrency. Returns the estimated amount of crypto that will be received for a given fiat amount. Rate limited to 10 requests per second per app ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buy",
+                "quote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"purchase_currency\": \"<string>\",\n  \"payment_amount\": \"<string>\",\n  \"payment_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"payment_method\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3d287cf6-6cea-4ee3-8996-3ea698f11906",
+              "name": "Successfully generated buy quote",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"purchase_currency\": \"<string>\",\n  \"payment_amount\": \"<string>\",\n  \"payment_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"payment_method\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"coinbase_fee\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"network_fee\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"payment_subtotal\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"payment_total\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"purchase_amount\": {\n    \"amount\": \"string\",\n    \"currency\": \"string\"\n  },\n  \"quote_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ba5583b-4aee-4ff5-8c55-5def665a810b",
+              "name": "Bad request - Invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"purchase_currency\": \"<string>\",\n  \"payment_amount\": \"<string>\",\n  \"payment_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"payment_method\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5fce7c9c-747a-4eb4-91b9-67d31a75a579",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"purchase_currency\": \"<string>\",\n  \"payment_amount\": \"<string>\",\n  \"payment_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"payment_method\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a3ec977e-1579-4765-aa09-b4f76f19b232",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "quote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"purchase_currency\": \"<string>\",\n  \"payment_amount\": \"<string>\",\n  \"payment_currency\": \"<string>\",\n  \"country\": \"<string>\",\n  \"payment_method\": \"<string>\",\n  \"subdivision\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a212c3f-690e-4680-a8aa-c5886a0d417e",
+          "name": "Get buy config",
+          "request": {
+            "name": "Get buy config",
+            "description": {
+              "content": "Retrieves the buy configuration for the onramp widget, including supported countries, payment methods, and available assets.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buy",
+                "config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>",
+                  "description": "(Required) ISO 3166-1 alpha-2 country code"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3dca8377-dc5e-4c20-95b5-bac23ed00734",
+              "name": "Successfully retrieved buy config",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"countries\": [\n    {\n      \"id\": \"string\",\n      \"subdivisions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"payment_methods\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"subdivisions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"payment_methods\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4fe2f20c-21c7-470a-955a-8a7972b6d0f9",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buy",
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "CB-ACCESS-KEY",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.coinbase.com/api/v3/brokerage",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "CB-ACCESS-KEY"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4d039da5-37e6-4326-9bb8-88c9cb9161f6",
+    "name": "Coinbase Advanced Trade Accounts Buy API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.\n\nContact Support:\n Name: Coinbase Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

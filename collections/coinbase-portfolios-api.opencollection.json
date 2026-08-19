@@ -1,0 +1,155 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Coinbase Advanced Trade Accounts Portfolios API",
+    "version": "3.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "CB-ACCESS-KEY",
+      "value": "{{CB-ACCESS-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Portfolios",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List portfolios",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios",
+            "params": [
+              {
+                "name": "portfolio_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by portfolio type"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all portfolios associated with the authenticated user. Returns portfolio details including name, UUID, and type."
+        },
+        {
+          "info": {
+            "name": "Create portfolio",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new portfolio for the authenticated user. Each portfolio provides an isolated trading environment with its own balances."
+        },
+        {
+          "info": {
+            "name": "Get portfolio breakdown",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the portfolio"
+              }
+            ]
+          },
+          "docs": "Retrieves a breakdown of a single portfolio by its ID. Returns detailed information about the portfolio including its balances and positions."
+        },
+        {
+          "info": {
+            "name": "Edit portfolio",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the portfolio"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the name of an existing portfolio. Only the portfolio name can be modified."
+        },
+        {
+          "info": {
+            "name": "Delete portfolio",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the portfolio"
+              }
+            ]
+          },
+          "docs": "Deletes a portfolio by its ID. The portfolio must have zero balances before it can be deleted."
+        },
+        {
+          "info": {
+            "name": "Move portfolio funds",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/move_funds",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Moves funds between portfolios owned by the authenticated user. Both the source and target portfolio must belong to the same user."
+        },
+        {
+          "info": {
+            "name": "Get portfolio commission",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.coinbase.com/api/v3/brokerage/portfolios/:portfolio_id/commission",
+            "params": [
+              {
+                "name": "portfolio_id",
+                "value": "",
+                "type": "path",
+                "description": "Portfolio identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves the commission and fee rate structure for a portfolio."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
