@@ -6,6 +6,16 @@ tags:
 - Cryptocurrency
 - Custody
 - Exchange
+- On-Ramp
+- Payments
+- Trading
+- Wallets
+- Web3
+tags_raw:
+- Blockchain
+- Cryptocurrency
+- Custody
+- Exchange
 - Onramp
 - Payments
 - Trading
@@ -44,6 +54,12 @@ apis:
 - aid: coinbase:wallet-sdk
   name: Coinbase Wallet SDK
   tags:
+  - Cryptocurrency
+  - DApps
+  - SDK
+  - Wallets
+  - Web3
+  tags_raw:
   - Cryptocurrency
   - DApps
   - SDK
@@ -98,6 +114,12 @@ apis:
   name: Coinbase AgentKit
   tags:
   - Agents
+  - Artificial Intelligence
+  - Blockchain
+  - SDK
+  - Wallets
+  tags_raw:
+  - Agents
   - AI
   - Blockchain
   - SDK
@@ -126,6 +148,8 @@ apis:
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -411,6 +435,8 @@ apis:
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
+  - Currency
+  tags_raw:
   - Currencies
   properties:
   - type: OpenAPI
@@ -467,6 +493,8 @@ apis:
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -581,6 +609,8 @@ apis:
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -609,6 +639,8 @@ apis:
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
+  - Portfolio
+  tags_raw:
   - Portfolios
   properties:
   - type: OpenAPI
@@ -638,6 +670,8 @@ apis:
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
@@ -751,6 +785,8 @@ apis:
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
@@ -779,6 +815,8 @@ apis:
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
