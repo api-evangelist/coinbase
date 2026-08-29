@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Coinbase Advanced Trade Accounts Charges API
-  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
-  version: '3.0'
+  title: Coinbase Commerce Charges API
+  description: The Coinbase Commerce API enables merchants and developers to accept cryptocurrency payments globally. It supports creating charges, managing checkouts, handling invoices, and receiving webhook notifications for payment events. The API provides endpoints for creating payment requests, tracking payment status, and automating financial workflows for businesses accepting crypto as a payment method.
+  version: '2.0'
   contact:
-    name: Coinbase Developer Support
-    url: https://help.coinbase.com
+    name: Coinbase Commerce Support
+    url: https://help.coinbase.com/en/commerce
   termsOfService: https://www.coinbase.com/legal/user-agreement
 servers:
-- url: https://api.coinbase.com/api/v3/brokerage
+- url: https://api.commerce.coinbase.com
   description: Production Server
 security:
 - apiKeyAuth: []
@@ -146,89 +146,6 @@ paths:
                     $ref: '#/components/schemas/Charge'
 components:
   schemas:
-    Charge:
-      type: object
-      description: A payment charge representing a request for cryptocurrency payment
-      properties:
-        id:
-          type: string
-          description: Unique charge identifier
-        resource:
-          type: string
-          description: Resource type
-          enum:
-          - charge
-        code:
-          type: string
-          description: Unique charge code
-        name:
-          type: string
-          description: Name of the charge
-        description:
-          type: string
-          description: Description of the charge
-        hosted_url:
-          type: string
-          format: uri
-          description: URL for the hosted payment page
-        created_at:
-          type: string
-          format: date-time
-          description: When the charge was created
-        confirmed_at:
-          type: string
-          format: date-time
-          description: When payment was confirmed
-        expires_at:
-          type: string
-          format: date-time
-          description: When the charge expires
-        pricing:
-          type: object
-          description: Pricing in different currencies
-          additionalProperties:
-            type: object
-            properties:
-              amount:
-                type: string
-                description: Amount in this currency
-              currency:
-                type: string
-                description: Currency code
-        pricing_type:
-          type: string
-          description: Pricing model type
-          enum:
-          - no_price
-          - fixed_price
-        addresses:
-          type: object
-          description: Blockchain addresses for payment
-          additionalProperties:
-            type: string
-        payments:
-          type: array
-          description: Payments received for this charge
-          items:
-            $ref: '#/components/schemas/Payment'
-        timeline:
-          type: array
-          description: Status change timeline
-          items:
-            type: object
-            properties:
-              time:
-                type: string
-                format: date-time
-                description: Time of the status change
-              status:
-                type: string
-                description: Status at this point
-        metadata:
-          type: object
-          description: Custom metadata attached to the charge
-          additionalProperties:
-            type: string
     Payment:
       type: object
       description: A payment received for a charge
@@ -315,6 +232,89 @@ components:
           type: string
           format: uri
           description: URL to redirect if payment is cancelled
+    Charge:
+      type: object
+      description: A payment charge representing a request for cryptocurrency payment
+      properties:
+        id:
+          type: string
+          description: Unique charge identifier
+        resource:
+          type: string
+          description: Resource type
+          enum:
+          - charge
+        code:
+          type: string
+          description: Unique charge code
+        name:
+          type: string
+          description: Name of the charge
+        description:
+          type: string
+          description: Description of the charge
+        hosted_url:
+          type: string
+          format: uri
+          description: URL for the hosted payment page
+        created_at:
+          type: string
+          format: date-time
+          description: When the charge was created
+        confirmed_at:
+          type: string
+          format: date-time
+          description: When payment was confirmed
+        expires_at:
+          type: string
+          format: date-time
+          description: When the charge expires
+        pricing:
+          type: object
+          description: Pricing in different currencies
+          additionalProperties:
+            type: object
+            properties:
+              amount:
+                type: string
+                description: Amount in this currency
+              currency:
+                type: string
+                description: Currency code
+        pricing_type:
+          type: string
+          description: Pricing model type
+          enum:
+          - no_price
+          - fixed_price
+        addresses:
+          type: object
+          description: Blockchain addresses for payment
+          additionalProperties:
+            type: string
+        payments:
+          type: array
+          description: Payments received for this charge
+          items:
+            $ref: '#/components/schemas/Payment'
+        timeline:
+          type: array
+          description: Status change timeline
+          items:
+            type: object
+            properties:
+              time:
+                type: string
+                format: date-time
+                description: Time of the status change
+              status:
+                type: string
+                description: Status at this point
+        metadata:
+          type: object
+          description: Custom metadata attached to the charge
+          additionalProperties:
+            type: string
     Pagination:
       type: object
       description: Pagination cursor information
@@ -340,6 +340,12 @@ components:
           items:
             type: string
   parameters:
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
     OrderParam:
       name: order
       in: query
@@ -350,18 +356,12 @@ components:
         - asc
         - desc
         default: desc
-    PaginationParam:
-      name: starting_after
-      in: query
-      description: Cursor for pagination to fetch the next page of results
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
-      name: CB-ACCESS-KEY
-      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+      name: X-CC-Api-Key
+      description: Coinbase Commerce API key for authentication. Include the key in the X-CC-Api-Key header.
 externalDocs:
-  description: Coinbase Advanced Trade API Documentation
-  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  description: Coinbase Commerce API Documentation
+  url: https://commerce.coinbase.com/docs/api

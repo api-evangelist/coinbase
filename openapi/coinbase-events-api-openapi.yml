@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Coinbase Advanced Trade Accounts Events API
-  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
-  version: '3.0'
+  title: Coinbase Commerce Events API
+  description: The Coinbase Commerce API enables merchants and developers to accept cryptocurrency payments globally. It supports creating charges, managing checkouts, handling invoices, and receiving webhook notifications for payment events. The API provides endpoints for creating payment requests, tracking payment status, and automating financial workflows for businesses accepting crypto as a payment method.
+  version: '2.0'
   contact:
-    name: Coinbase Developer Support
-    url: https://help.coinbase.com
+    name: Coinbase Commerce Support
+    url: https://help.coinbase.com/en/commerce
   termsOfService: https://www.coinbase.com/legal/user-agreement
 servers:
-- url: https://api.coinbase.com/api/v3/brokerage
+- url: https://api.commerce.coinbase.com
   description: Production Server
 security:
 - apiKeyAuth: []
@@ -67,23 +67,6 @@ paths:
         '404':
           description: Event not found
 components:
-  parameters:
-    OrderParam:
-      name: order
-      in: query
-      description: Sort order for results
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-        default: desc
-    PaginationParam:
-      name: starting_after
-      in: query
-      description: Cursor for pagination to fetch the next page of results
-      schema:
-        type: string
   schemas:
     Event:
       type: object
@@ -141,12 +124,29 @@ components:
           description: Range of cursors in this page
           items:
             type: string
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      description: Sort order for results
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
-      name: CB-ACCESS-KEY
-      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+      name: X-CC-Api-Key
+      description: Coinbase Commerce API key for authentication. Include the key in the X-CC-Api-Key header.
 externalDocs:
-  description: Coinbase Advanced Trade API Documentation
-  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  description: Coinbase Commerce API Documentation
+  url: https://commerce.coinbase.com/docs/api

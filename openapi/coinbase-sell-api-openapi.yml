@@ -1,17 +1,17 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Coinbase Advanced Trade Accounts Sell API
-  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
-  version: '3.0'
+  title: Coinbase Onramp Sell API
+  description: The Coinbase Onramp API allows developers to integrate fiat-to-crypto purchasing and crypto-to-fiat selling directly into their applications. It provides REST APIs to discover available buy and sell options, generate price quotes, create one-click-buy URLs, and manage session tokens for embedded onramp experiences. The API supports multiple fiat currencies and payment methods.
+  version: '1.0'
   contact:
     name: Coinbase Developer Support
     url: https://help.coinbase.com
   termsOfService: https://www.coinbase.com/legal/user-agreement
 servers:
-- url: https://api.coinbase.com/api/v3/brokerage
+- url: https://api.developer.coinbase.com/onramp/v1
   description: Production Server
 security:
-- apiKeyAuth: []
+- bearerAuth: []
 tags:
 - name: Sell
   description: Endpoints for discovering sell options and generating sell quotes for crypto-to-fiat transactions.
@@ -85,25 +85,41 @@ paths:
           description: Rate limit exceeded
 components:
   schemas:
-    PaymentCurrency:
+    PurchaseCurrency:
       type: object
-      description: A fiat currency available for payments
+      description: A cryptocurrency available for purchase
       properties:
         id:
           type: string
-          description: Currency identifier
+          description: Asset identifier
         name:
           type: string
-          description: Currency name
+          description: Asset name
         symbol:
           type: string
-          description: Currency symbol
-        min_amount:
+          description: Asset symbol
+        icon_url:
           type: string
-          description: Minimum transaction amount
-        max_amount:
-          type: string
-          description: Maximum transaction amount
+          format: uri
+          description: URL for the asset icon
+        networks:
+          type: array
+          description: Supported blockchain networks
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Network name
+              display_name:
+                type: string
+                description: Network display name
+              chain_id:
+                type: string
+                description: Blockchain chain ID
+              contract_address:
+                type: string
+                description: Token contract address on this network
     SellQuote:
       type: object
       description: A price quote for selling cryptocurrency
@@ -141,6 +157,25 @@ components:
         quote_id:
           type: string
           description: Unique quote identifier
+    PaymentCurrency:
+      type: object
+      description: A fiat currency available for payments
+      properties:
+        id:
+          type: string
+          description: Currency identifier
+        name:
+          type: string
+          description: Currency name
+        symbol:
+          type: string
+          description: Currency symbol
+        min_amount:
+          type: string
+          description: Minimum transaction amount
+        max_amount:
+          type: string
+          description: Maximum transaction amount
     SellQuoteRequest:
       type: object
       description: Request body for generating a sell quote
@@ -165,47 +200,11 @@ components:
         subdivision:
           type: string
           description: ISO 3166-2 subdivision code
-    PurchaseCurrency:
-      type: object
-      description: A cryptocurrency available for purchase
-      properties:
-        id:
-          type: string
-          description: Asset identifier
-        name:
-          type: string
-          description: Asset name
-        symbol:
-          type: string
-          description: Asset symbol
-        icon_url:
-          type: string
-          format: uri
-          description: URL for the asset icon
-        networks:
-          type: array
-          description: Supported blockchain networks
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: Network name
-              display_name:
-                type: string
-                description: Network display name
-              chain_id:
-                type: string
-                description: Blockchain chain ID
-              contract_address:
-                type: string
-                description: Token contract address on this network
   securitySchemes:
-    apiKeyAuth:
-      type: apiKey
-      in: header
-      name: CB-ACCESS-KEY
-      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication using a CDP API key.
 externalDocs:
-  description: Coinbase Advanced Trade API Documentation
-  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  description: Coinbase Onramp Documentation
+  url: https://docs.cdp.coinbase.com/onramp/docs/welcome

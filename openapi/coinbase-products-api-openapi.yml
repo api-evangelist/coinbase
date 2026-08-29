@@ -1,14 +1,16 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Coinbase Advanced Trade Accounts Products API
-  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
-  version: '3.0'
+  title: Coinbase Products API
   contact:
     name: Coinbase Developer Support
     url: https://help.coinbase.com
   termsOfService: https://www.coinbase.com/legal/user-agreement
+  version: '1.0'
+  description: 'Operations tagged Products across 2 of this provider''s published API definitions: coinbase-advanced-trade-openapi.yml, coinbase-exchange-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+- url: https://api.exchange.coinbase.com
   description: Production Server
 security:
 - apiKeyAuth: []
@@ -54,6 +56,9 @@ paths:
                   num_products:
                     type: integer
                     description: Total number of products
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
   /products/{product_id}:
     get:
       operationId: getProduct
@@ -73,6 +78,9 @@ paths:
                 $ref: '#/components/schemas/Product'
         '404':
           description: Product not found
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
   /products/{product_id}/candles:
     get:
       operationId: getProductCandles
@@ -122,6 +130,9 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Candle'
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
   /products/{product_id}/ticker:
     get:
       operationId: getMarketTrades
@@ -151,6 +162,9 @@ paths:
                   best_ask:
                     type: string
                     description: Best current ask price
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
   /products/{product_id}/book:
     get:
       operationId: getProductOrderBook
@@ -178,6 +192,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderBook'
+    servers:
+    - url: https://api.exchange.coinbase.com
+      description: Production Server
   /products/{product_id}/trades:
     get:
       operationId: getProductTrades
@@ -200,6 +217,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Trade_2'
+    servers:
+    - url: https://api.exchange.coinbase.com
+      description: Production Server
   /products/{product_id}/stats:
     get:
       operationId: getProductStats
@@ -236,23 +256,11 @@ paths:
                   volume_30day:
                     type: string
                     description: Total volume in the last 30 days
+    servers:
+    - url: https://api.exchange.coinbase.com
+      description: Production Server
 components:
   parameters:
-    LimitParam_2:
-      name: limit
-      in: query
-      description: Number of results per request (max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
     LimitParam:
       name: limit
       in: query
@@ -269,6 +277,21 @@ components:
       description: Trading pair identifier such as BTC-USD
       schema:
         type: string
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
     BeforeParam:
       name: before
       in: query
@@ -276,29 +299,6 @@ components:
       schema:
         type: string
   schemas:
-    Trade_2:
-      type: object
-      description: A market trade
-      properties:
-        time:
-          type: string
-          format: date-time
-          description: Trade time
-        trade_id:
-          type: integer
-          description: Trade identifier
-        price:
-          type: string
-          description: Trade price
-        size:
-          type: string
-          description: Trade size
-        side:
-          type: string
-          description: Maker side
-          enum:
-          - buy
-          - sell
     Trade:
       type: object
       description: A market trade
@@ -325,6 +325,28 @@ components:
           enum:
           - BUY
           - SELL
+    Candle:
+      type: object
+      description: OHLCV candle data point
+      properties:
+        start:
+          type: string
+          description: UNIX timestamp for the start of the candle
+        low:
+          type: string
+          description: Lowest price during the interval
+        high:
+          type: string
+          description: Highest price during the interval
+        open:
+          type: string
+          description: Opening price of the interval
+        close:
+          type: string
+          description: Closing price of the interval
+        volume:
+          type: string
+          description: Volume traded during the interval
     Product:
       type: object
       description: A trading product representing a currency pair
@@ -377,6 +399,32 @@ components:
           enum:
           - SPOT
           - FUTURE
+    Ticker:
+      type: object
+      description: Product ticker with latest trade and 24h stats
+      properties:
+        trade_id:
+          type: integer
+          description: Latest trade ID
+        price:
+          type: string
+          description: Latest trade price
+        size:
+          type: string
+          description: Latest trade size
+        bid:
+          type: string
+          description: Best bid price
+        ask:
+          type: string
+          description: Best ask price
+        volume:
+          type: string
+          description: 24-hour volume
+        time:
+          type: string
+          format: date-time
+          description: Timestamp of the ticker
     OrderBook:
       type: object
       description: Product order book at a specific level of detail
@@ -398,34 +446,81 @@ components:
             type: array
             items:
               type: string
-    Candle:
+    Trade_2:
       type: object
-      description: OHLCV candle data point
+      description: A market trade
       properties:
-        start:
+        time:
           type: string
-          description: UNIX timestamp for the start of the candle
-        low:
+          format: date-time
+          description: Trade time
+        trade_id:
+          type: integer
+          description: Trade identifier
+        price:
           type: string
-          description: Lowest price during the interval
-        high:
+          description: Trade price
+        size:
           type: string
-          description: Highest price during the interval
-        open:
+          description: Trade size
+        side:
           type: string
-          description: Opening price of the interval
-        close:
+          description: Maker side
+          enum:
+          - buy
+          - sell
+    Product_2:
+      type: object
+      description: A trading product on the exchange
+      properties:
+        id:
           type: string
-          description: Closing price of the interval
-        volume:
+          description: Product identifier
+        base_currency:
           type: string
-          description: Volume traded during the interval
+          description: Base currency code
+        quote_currency:
+          type: string
+          description: Quote currency code
+        base_min_size:
+          type: string
+          description: Minimum order size
+        base_max_size:
+          type: string
+          description: Maximum order size
+        quote_increment:
+          type: string
+          description: Minimum price increment
+        base_increment:
+          type: string
+          description: Minimum size increment
+        display_name:
+          type: string
+          description: Display name for the product
+        status:
+          type: string
+          description: Product trading status
+        margin_enabled:
+          type: boolean
+          description: Whether margin trading is enabled
+        post_only:
+          type: boolean
+          description: Whether product is in post-only mode
+        limit_only:
+          type: boolean
+          description: Whether only limit orders are allowed
+        cancel_only:
+          type: boolean
+          description: Whether only cancellations are allowed
+        trading_disabled:
+          type: boolean
+          description: Whether trading is disabled
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: CB-ACCESS-KEY
       description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
-externalDocs:
-  description: Coinbase Advanced Trade API Documentation
-  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+x-refined-from:
+- coinbase-advanced-trade-openapi.yml
+- coinbase-exchange-openapi.yml

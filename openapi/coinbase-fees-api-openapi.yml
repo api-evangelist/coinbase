@@ -1,14 +1,16 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Coinbase Advanced Trade Accounts Fees API
-  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
-  version: '3.0'
+  title: Coinbase Fees API
   contact:
     name: Coinbase Developer Support
     url: https://help.coinbase.com
   termsOfService: https://www.coinbase.com/legal/user-agreement
+  version: '1.0'
+  description: 'Operations tagged Fees across 2 of this provider''s published API definitions: coinbase-advanced-trade-openapi.yml, coinbase-exchange-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+- url: https://api.exchange.coinbase.com
   description: Production Server
 security:
 - apiKeyAuth: []
@@ -41,6 +43,9 @@ paths:
                 $ref: '#/components/schemas/TransactionSummary'
         '401':
           description: Unauthorized - Invalid or missing authentication
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
   /fees:
     get:
       operationId: getFees
@@ -65,6 +70,9 @@ paths:
                   usd_volume:
                     type: string
                     description: USD trading volume
+    servers:
+    - url: https://api.exchange.coinbase.com
+      description: Production Server
 components:
   schemas:
     TransactionSummary:
@@ -108,6 +116,6 @@ components:
       in: header
       name: CB-ACCESS-KEY
       description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
-externalDocs:
-  description: Coinbase Advanced Trade API Documentation
-  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+x-refined-from:
+- coinbase-advanced-trade-openapi.yml
+- coinbase-exchange-openapi.yml

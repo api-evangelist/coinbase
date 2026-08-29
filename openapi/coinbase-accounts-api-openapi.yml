@@ -1,14 +1,16 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Coinbase Advanced Trade Accounts API
-  description: The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures. Public market data endpoints do not require authentication.
-  version: '3.0'
+  title: Coinbase Accounts API
   contact:
     name: Coinbase Developer Support
     url: https://help.coinbase.com
   termsOfService: https://www.coinbase.com/legal/user-agreement
+  version: '1.0'
+  description: 'Operations tagged Accounts across 2 of this provider''s published API definitions: coinbase-advanced-trade-openapi.yml, coinbase-exchange-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.coinbase.com/api/v3/brokerage
+  description: Production Server
+- url: https://api.exchange.coinbase.com
   description: Production Server
 security:
 - apiKeyAuth: []
@@ -46,6 +48,9 @@ paths:
                     description: Cursor for pagination
         '401':
           description: Unauthorized - Invalid or missing authentication
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
   /accounts/{account_id}:
     get:
       operationId: getAccount
@@ -69,6 +74,9 @@ paths:
           description: Unauthorized - Invalid or missing authentication
         '404':
           description: Account not found
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
   /accounts/{account_id}/ledger:
     get:
       operationId: getAccountLedger
@@ -90,6 +98,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/LedgerEntry'
+    servers:
+    - url: https://api.exchange.coinbase.com
+      description: Production Server
   /accounts/{account_id}/holds:
     get:
       operationId: getAccountHolds
@@ -111,6 +122,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Hold'
+    servers:
+    - url: https://api.exchange.coinbase.com
+      description: Production Server
   /accounts/{account_id}/transfers:
     get:
       operationId: getAccountTransfers
@@ -132,60 +146,62 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Transfer'
+    servers:
+    - url: https://api.exchange.coinbase.com
+      description: Production Server
 components:
-  parameters:
-    LimitParam_2:
-      name: limit
-      in: query
-      description: Number of results per request (max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-    AccountIdParam:
-      name: account_id
-      in: path
-      required: true
-      description: Unique identifier for the account
-      schema:
-        type: string
-        format: uuid
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
-    AccountIdParam_2:
-      name: account_id
-      in: path
-      required: true
-      description: Account identifier
-      schema:
-        type: string
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 49
-    BeforeParam:
-      name: before
-      in: query
-      description: Cursor for pagination (newer items)
-      schema:
-        type: string
   schemas:
+    Balance:
+      type: object
+      description: A monetary value with currency
+      properties:
+        value:
+          type: string
+          description: Amount as a string to preserve precision
+        currency:
+          type: string
+          description: Currency code
+    Account:
+      type: object
+      description: A user account holding a specific currency
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for the account
+        name:
+          type: string
+          description: Name of the account
+        currency:
+          type: string
+          description: Currency code for the account
+        available_balance:
+          $ref: '#/components/schemas/Balance'
+        default:
+          type: boolean
+          description: Whether this is the default account
+        active:
+          type: boolean
+          description: Whether the account is active
+        created_at:
+          type: string
+          format: date-time
+          description: When the account was created
+        updated_at:
+          type: string
+          format: date-time
+          description: When the account was last updated
+        type:
+          type: string
+          description: Account type
+          enum:
+          - ACCOUNT_TYPE_CRYPTO
+          - ACCOUNT_TYPE_FIAT
+        ready:
+          type: boolean
+          description: Whether the account is ready for trading
+        hold:
+          $ref: '#/components/schemas/Balance'
     Transfer:
       type: object
       description: A deposit or withdrawal transfer
@@ -213,16 +229,31 @@ components:
         details:
           type: object
           description: Additional transfer details
-    Balance:
+    Account_2:
       type: object
-      description: A monetary value with currency
+      description: An exchange trading account for a specific currency
       properties:
-        value:
+        id:
           type: string
-          description: Amount as a string to preserve precision
+          description: Unique account identifier
         currency:
           type: string
           description: Currency code
+        balance:
+          type: string
+          description: Total balance
+        available:
+          type: string
+          description: Available balance for trading
+        hold:
+          type: string
+          description: Funds on hold
+        profile_id:
+          type: string
+          description: Profile the account belongs to
+        trading_enabled:
+          type: boolean
+          description: Whether trading is enabled
     LedgerEntry:
       type: object
       description: A ledger entry recording account activity
@@ -275,53 +306,64 @@ components:
         ref:
           type: string
           description: Reference ID for the hold source
-    Account:
-      type: object
-      description: A user account holding a specific currency
-      properties:
-        uuid:
-          type: string
-          format: uuid
-          description: Unique identifier for the account
-        name:
-          type: string
-          description: Name of the account
-        currency:
-          type: string
-          description: Currency code for the account
-        available_balance:
-          $ref: '#/components/schemas/Balance'
-        default:
-          type: boolean
-          description: Whether this is the default account
-        active:
-          type: boolean
-          description: Whether the account is active
-        created_at:
-          type: string
-          format: date-time
-          description: When the account was created
-        updated_at:
-          type: string
-          format: date-time
-          description: When the account was last updated
-        type:
-          type: string
-          description: Account type
-          enum:
-          - ACCOUNT_TYPE_CRYPTO
-          - ACCOUNT_TYPE_FIAT
-        ready:
-          type: boolean
-          description: Whether the account is ready for trading
-        hold:
-          $ref: '#/components/schemas/Balance'
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    AccountIdParam:
+      name: account_id
+      in: path
+      required: true
+      description: Unique identifier for the account
+      schema:
+        type: string
+        format: uuid
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
+    AccountIdParam_2:
+      name: account_id
+      in: path
+      required: true
+      description: Account identifier
+      schema:
+        type: string
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: CB-ACCESS-KEY
       description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
-externalDocs:
-  description: Coinbase Advanced Trade API Documentation
-  url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+x-refined-from:
+- coinbase-advanced-trade-openapi.yml
+- coinbase-exchange-openapi.yml
