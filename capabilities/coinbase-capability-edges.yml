@@ -1,0 +1,56 @@
+slug: coinbase
+provider: Coinbase
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Orders
+  spec_file: coinbase-orders-api-openapi.yml
+  capability_id: BC-1370.30
+  capability_id_l1: BC-1370
+  capability_name: Trading Order Management
+  confidence: 0.92
+  evidence: POST /orders createOrder Create order; DELETE /orders cancelAllOrders; POST /orders/{order_id}/edit
+    editOrder; GET /orders/historical/fills listFills
+  reason: Order capture, amendment, cancellation and fill retrieval across Advanced Trade, Exchange and
+    Prime — textbook trading order management.
+- tag: Charges
+  spec_file: coinbase-charges-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.8
+  evidence: POST /charges  createCharge  Create charge; POST /charges/{charge_id}/cancel; schemas Payment,
+    CreateChargeRequest
+  reason: 'Coinbase Commerce charges are merchant payment requests: create, track, cancel, resolve payment
+    instructions. This is payment initiation/instruction capture and status tracking.'
+- tag: Checkouts
+  spec_file: coinbase-checkouts-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: 'POST /checkouts  createCheckout  Create checkout; description: ''enables merchants and developers
+    to accept cryptocurrency payments globally'''
+  reason: Checkout objects are reusable merchant payment-acceptance configurations that generate payment
+    requests — payment initiation capture. Slightly more configuration-oriented than a single payment
+    instruction, so 0.7.
+- tag: Withdrawals
+  spec_file: coinbase-withdrawals-api-openapi.yml
+  capability_id: BC-1340.10
+  capability_id_l1: BC-1340
+  capability_name: Payment Initiation Management
+  confidence: 0.7
+  evidence: POST /withdrawals/payment-method withdrawToPaymentMethod; POST /withdrawals/crypto withdrawToCryptoAddress;
+    schema Transfer
+  reason: Instructs outbound transfers of funds to a payment method, internal account or blockchain address
+    — payment/transfer instruction capture and authorisation.

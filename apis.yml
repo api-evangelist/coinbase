@@ -909,6 +909,9 @@ apis:
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/coinbase-capability-edges.yml
+  name: Coinbase Business Capability Map
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/coinbase/overview
 - type: AgenticAccess
