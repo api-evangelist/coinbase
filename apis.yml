@@ -37,22 +37,23 @@ deliveryModel:
   method: derived
 accessModel:
   pricing: paid
-  onboarding: self-serve
+  onboarding: unknown
   trial: false
   try_now: false
   public: false
-  label: Paid · Self-serve signup
-  confidence: high
+  label: Paid
+  confidence: medium
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
+  - security
+  generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/coinbase.png
 access: 3rd-Party
 created: '2026-03-20'
 modified: '2026-05-19'
-position: Consumer
+position: Consuming
 description: Coinbase is a leading cryptocurrency platform providing trading, custody,
   and payment infrastructure for individuals, businesses, and institutions. The Coinbase
   Developer Platform (CDP) exposes a wide product surface across retail trading (Advanced
