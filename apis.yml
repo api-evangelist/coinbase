@@ -392,6 +392,8 @@ apis:
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
+  - Checkout
+  tags_raw:
   - Checkouts
   properties:
   - type: OpenAPI
@@ -420,6 +422,8 @@ apis:
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
+  - Conversion
+  tags_raw:
   - Conversions
   properties:
   - type: OpenAPI
@@ -770,6 +774,8 @@ apis:
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
+  - Sessions
+  tags_raw:
   - Session
   properties:
   - type: OpenAPI
