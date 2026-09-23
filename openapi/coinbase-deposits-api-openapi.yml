@@ -102,6 +102,33 @@ paths:
                   $ref: '#/components/schemas/PaymentMethod'
 components:
   schemas:
+    Transfer:
+      type: object
+      description: A deposit or withdrawal transfer
+      properties:
+        id:
+          type: string
+          description: Transfer identifier
+        type:
+          type: string
+          description: Transfer type
+          enum:
+          - deposit
+          - withdraw
+        created_at:
+          type: string
+          format: date-time
+          description: When the transfer was created
+        completed_at:
+          type: string
+          format: date-time
+          description: When the transfer completed
+        amount:
+          type: string
+          description: Transfer amount
+        details:
+          type: object
+          description: Additional transfer details
     PaymentMethod:
       type: object
       description: A linked payment method
@@ -130,33 +157,6 @@ components:
         allow_withdraw:
           type: boolean
           description: Whether withdrawals are allowed
-    Transfer:
-      type: object
-      description: A deposit or withdrawal transfer
-      properties:
-        id:
-          type: string
-          description: Transfer identifier
-        type:
-          type: string
-          description: Transfer type
-          enum:
-          - deposit
-          - withdraw
-        created_at:
-          type: string
-          format: date-time
-          description: When the transfer was created
-        completed_at:
-          type: string
-          format: date-time
-          description: When the transfer completed
-        amount:
-          type: string
-          description: Transfer amount
-        details:
-          type: object
-          description: Additional transfer details
   securitySchemes:
     apiKeyAuth:
       type: apiKey

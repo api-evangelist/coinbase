@@ -261,6 +261,13 @@ paths:
       description: Production Server
 components:
   parameters:
+    ProductIdParam:
+      name: product_id
+      in: path
+      required: true
+      description: Trading pair identifier such as BTC-USD
+      schema:
+        type: string
     LimitParam:
       name: limit
       in: query
@@ -270,13 +277,6 @@ components:
         minimum: 1
         maximum: 250
         default: 49
-    ProductIdParam:
-      name: product_id
-      in: path
-      required: true
-      description: Trading pair identifier such as BTC-USD
-      schema:
-        type: string
     LimitParam_2:
       name: limit
       in: query
@@ -286,16 +286,16 @@ components:
         minimum: 1
         maximum: 100
         default: 100
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
     BeforeParam:
       name: before
       in: query
       description: Cursor for pagination (newer items)
+      schema:
+        type: string
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
       schema:
         type: string
   schemas:
@@ -399,32 +399,6 @@ components:
           enum:
           - SPOT
           - FUTURE
-    Ticker:
-      type: object
-      description: Product ticker with latest trade and 24h stats
-      properties:
-        trade_id:
-          type: integer
-          description: Latest trade ID
-        price:
-          type: string
-          description: Latest trade price
-        size:
-          type: string
-          description: Latest trade size
-        bid:
-          type: string
-          description: Best bid price
-        ask:
-          type: string
-          description: Best ask price
-        volume:
-          type: string
-          description: 24-hour volume
-        time:
-          type: string
-          format: date-time
-          description: Timestamp of the ticker
     OrderBook:
       type: object
       description: Product order book at a specific level of detail
@@ -515,6 +489,32 @@ components:
         trading_disabled:
           type: boolean
           description: Whether trading is disabled
+    Ticker:
+      type: object
+      description: Product ticker with latest trade and 24h stats
+      properties:
+        trade_id:
+          type: integer
+          description: Latest trade ID
+        price:
+          type: string
+          description: Latest trade price
+        size:
+          type: string
+          description: Latest trade size
+        bid:
+          type: string
+          description: Best bid price
+        ask:
+          type: string
+          description: Best ask price
+        volume:
+          type: string
+          description: 24-hour volume
+        time:
+          type: string
+          format: date-time
+          description: Timestamp of the ticker
   securitySchemes:
     apiKeyAuth:
       type: apiKey

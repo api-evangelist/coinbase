@@ -71,16 +71,6 @@ paths:
                   pricebook:
                     $ref: '#/components/schemas/PriceBook'
 components:
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 49
   schemas:
     PriceBook:
       type: object
@@ -117,6 +107,16 @@ components:
           type: string
           format: date-time
           description: Timestamp of the price book
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
   securitySchemes:
     apiKeyAuth:
       type: apiKey

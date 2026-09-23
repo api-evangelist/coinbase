@@ -234,6 +234,27 @@ paths:
       description: Production Server
 components:
   schemas:
+    Portfolio:
+      type: object
+      description: A user portfolio for organizing trading activity
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Unique identifier for the portfolio
+        name:
+          type: string
+          description: Name of the portfolio
+        type:
+          type: string
+          description: Portfolio type
+          enum:
+          - DEFAULT
+          - CONSUMER
+          - INTX
+        deleted:
+          type: boolean
+          description: Whether the portfolio has been deleted
     Balance:
       type: object
       description: A monetary value with currency
@@ -278,27 +299,6 @@ components:
               total_balance_crypto:
                 type: number
                 description: Total balance in crypto
-    Portfolio:
-      type: object
-      description: A user portfolio for organizing trading activity
-      properties:
-        uuid:
-          type: string
-          format: uuid
-          description: Unique identifier for the portfolio
-        name:
-          type: string
-          description: Name of the portfolio
-        type:
-          type: string
-          description: Portfolio type
-          enum:
-          - DEFAULT
-          - CONSUMER
-          - INTX
-        deleted:
-          type: boolean
-          description: Whether the portfolio has been deleted
     Portfolio_2:
       type: object
       description: An institutional trading portfolio

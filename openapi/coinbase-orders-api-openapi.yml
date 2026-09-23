@@ -559,7 +559,115 @@ paths:
     - url: https://api.prime.coinbase.com/v1
       description: Production Server
 components:
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
+    LimitParam_3:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 3000
+        default: 100
+    SortDirectionParam:
+      name: sort_direction
+      in: query
+      description: Sort direction for results
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+        default: DESC
+    OrderIdParam:
+      name: order_id
+      in: path
+      required: true
+      description: Order identifier
+      schema:
+        type: string
+    PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Portfolio identifier
+      schema:
+        type: string
   schemas:
+    Fill:
+      type: object
+      description: A completed trade fill
+      properties:
+        entry_id:
+          type: string
+          description: Unique identifier for the fill entry
+        trade_id:
+          type: string
+          description: Trade identifier
+        order_id:
+          type: string
+          description: Order that generated this fill
+        trade_time:
+          type: string
+          format: date-time
+          description: Time the trade occurred
+        trade_type:
+          type: string
+          description: Type of trade
+        price:
+          type: string
+          description: Price at which the trade executed
+        size:
+          type: string
+          description: Size of the trade
+        commission:
+          type: string
+          description: Commission charged for the trade
+        product_id:
+          type: string
+          description: Product traded
+        side:
+          type: string
+          description: Trade side
+          enum:
+          - BUY
+          - SELL
     Order:
       type: object
       description: A trading order
@@ -630,44 +738,6 @@ components:
         order_configuration:
           type: object
           description: Order configuration details
-    Fill:
-      type: object
-      description: A completed trade fill
-      properties:
-        entry_id:
-          type: string
-          description: Unique identifier for the fill entry
-        trade_id:
-          type: string
-          description: Trade identifier
-        order_id:
-          type: string
-          description: Order that generated this fill
-        trade_time:
-          type: string
-          format: date-time
-          description: Time the trade occurred
-        trade_type:
-          type: string
-          description: Type of trade
-        price:
-          type: string
-          description: Price at which the trade executed
-        size:
-          type: string
-          description: Size of the trade
-        commission:
-          type: string
-          description: Commission charged for the trade
-        product_id:
-          type: string
-          description: Product traded
-        side:
-          type: string
-          description: Trade side
-          enum:
-          - BUY
-          - SELL
     CreateOrderRequest:
       type: object
       description: Request body for creating a new order
@@ -692,6 +762,47 @@ components:
         order_configuration:
           type: object
           description: Configuration for the order type. Use one of market_market_ioc, limit_limit_gtc, limit_limit_gtd, stop_limit_stop_limit_gtc, or stop_limit_stop_limit_gtd.
+    Fill_2:
+      type: object
+      description: A fill representing a completed trade
+      properties:
+        trade_id:
+          type: integer
+          description: Trade identifier
+        product_id:
+          type: string
+          description: Product traded
+        price:
+          type: string
+          description: Execution price
+        size:
+          type: string
+          description: Trade size
+        order_id:
+          type: string
+          description: Order that generated this fill
+        created_at:
+          type: string
+          format: date-time
+          description: When the fill occurred
+        liquidity:
+          type: string
+          description: Whether the fill was maker or taker
+          enum:
+          - M
+          - T
+        fee:
+          type: string
+          description: Fee for this fill
+        settled:
+          type: boolean
+          description: Whether the fill has settled
+        side:
+          type: string
+          description: Trade side
+          enum:
+          - buy
+          - sell
     Order_2:
       type: object
       description: A trading order on the exchange
@@ -761,47 +872,6 @@ components:
         post_only:
           type: boolean
           description: Whether the order is post-only
-    Fill_2:
-      type: object
-      description: A fill representing a completed trade
-      properties:
-        trade_id:
-          type: integer
-          description: Trade identifier
-        product_id:
-          type: string
-          description: Product traded
-        price:
-          type: string
-          description: Execution price
-        size:
-          type: string
-          description: Trade size
-        order_id:
-          type: string
-          description: Order that generated this fill
-        created_at:
-          type: string
-          format: date-time
-          description: When the fill occurred
-        liquidity:
-          type: string
-          description: Whether the fill was maker or taker
-          enum:
-          - M
-          - T
-        fee:
-          type: string
-          description: Fee for this fill
-        settled:
-          type: boolean
-          description: Whether the fill has settled
-        side:
-          type: string
-          description: Trade side
-          enum:
-          - buy
-          - sell
     CreateOrderRequest_2:
       type: object
       description: Request body for placing a new order
@@ -855,6 +925,54 @@ components:
         post_only:
           type: boolean
           description: Post-only flag for limit orders
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
+    Fill_3:
+      type: object
+      description: An order fill
+      properties:
+        id:
+          type: string
+          description: Fill identifier
+        order_id:
+          type: string
+          description: Order that generated this fill
+        product_id:
+          type: string
+          description: Product traded
+        side:
+          type: string
+          description: Trade side
+        filled_quantity:
+          type: string
+          description: Quantity filled
+        filled_value:
+          type: string
+          description: Value filled
+        price:
+          type: string
+          description: Execution price
+        time:
+          type: string
+          format: date-time
+          description: Fill time
+        commission:
+          type: string
+          description: Commission charged
+        venue:
+          type: string
+          description: Execution venue
     Order_3:
       type: object
       description: A trading order within a portfolio
@@ -921,41 +1039,6 @@ components:
         average_filled_price:
           type: string
           description: Average execution price
-    Fill_3:
-      type: object
-      description: An order fill
-      properties:
-        id:
-          type: string
-          description: Fill identifier
-        order_id:
-          type: string
-          description: Order that generated this fill
-        product_id:
-          type: string
-          description: Product traded
-        side:
-          type: string
-          description: Trade side
-        filled_quantity:
-          type: string
-          description: Quantity filled
-        filled_value:
-          type: string
-          description: Value filled
-        price:
-          type: string
-          description: Execution price
-        time:
-          type: string
-          format: date-time
-          description: Fill time
-        commission:
-          type: string
-          description: Commission charged
-        venue:
-          type: string
-          description: Execution venue
     CreateOrderRequest_3:
       type: object
       description: Request body for creating a new order
@@ -1010,89 +1093,6 @@ components:
           - GOOD_UNTIL_CANCELLED
           - IMMEDIATE_OR_CANCEL
           - FILL_OR_KILL
-    Pagination:
-      type: object
-      description: Pagination information for list responses
-      properties:
-        next_cursor:
-          type: string
-          description: Cursor for the next page
-        sort_direction:
-          type: string
-          description: Sort direction
-        has_next:
-          type: boolean
-          description: Whether there are more results
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 49
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
-    LimitParam_2:
-      name: limit
-      in: query
-      description: Number of results per request (max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
-    BeforeParam:
-      name: before
-      in: query
-      description: Cursor for pagination (newer items)
-      schema:
-        type: string
-    LimitParam_3:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 3000
-        default: 100
-    OrderIdParam:
-      name: order_id
-      in: path
-      required: true
-      description: Order identifier
-      schema:
-        type: string
-    SortDirectionParam:
-      name: sort_direction
-      in: query
-      description: Sort direction for results
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-        default: DESC
-    PortfolioIdParam:
-      name: portfolio_id
-      in: path
-      required: true
-      description: Portfolio identifier
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

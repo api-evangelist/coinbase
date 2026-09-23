@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Coinbase Prime Wallets API
-  description: The Coinbase Prime API enables institutions to manage cryptocurrency trading and custody on behalf of their clients. It supports programmatic trading strategies, automated platform processes, portfolio management, and custodial operations. The REST API provides endpoints for order execution, account management, transaction history, and reporting, designed for institutional-grade workflows and compliance requirements. API keys are scoped to individual portfolios and require HMAC SHA-256 authentication.
+  description: The Coinbase Prime API enables institutions to manage cryptocurrency trading and custody on behalf of their clients.
   version: '1.0'
   contact:
     name: Coinbase Prime Support
@@ -81,30 +81,20 @@ paths:
                   wallet:
                     $ref: '#/components/schemas/Wallet'
 components:
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 3000
-        default: 100
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
-    PortfolioIdParam:
-      name: portfolio_id
-      in: path
-      required: true
-      description: Portfolio identifier
-      schema:
-        type: string
   schemas:
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
     Wallet:
       type: object
       description: A cryptocurrency wallet in a portfolio
@@ -129,19 +119,29 @@ components:
           type: string
           format: date-time
           description: When the wallet was created
-    Pagination:
-      type: object
-      description: Pagination information for list responses
-      properties:
-        next_cursor:
-          type: string
-          description: Cursor for the next page
-        sort_direction:
-          type: string
-          description: Sort direction
-        has_next:
-          type: boolean
-          description: Whether there are more results
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 3000
+        default: 100
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Portfolio identifier
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

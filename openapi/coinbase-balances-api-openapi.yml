@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Coinbase Prime Balances API
-  description: The Coinbase Prime API enables institutions to manage cryptocurrency trading and custody on behalf of their clients. It supports programmatic trading strategies, automated platform processes, portfolio management, and custodial operations. The REST API provides endpoints for order execution, account management, transaction history, and reporting, designed for institutional-grade workflows and compliance requirements. API keys are scoped to individual portfolios and require HMAC SHA-256 authentication.
+  description: The Coinbase Prime API enables institutions to manage cryptocurrency trading and custody on behalf of their clients.
   version: '1.0'
   contact:
     name: Coinbase Prime Support
@@ -49,6 +49,19 @@ paths:
                     $ref: '#/components/schemas/Pagination'
 components:
   schemas:
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
     Balance:
       type: object
       description: An asset balance within a portfolio
@@ -89,19 +102,6 @@ components:
         fiat_amount:
           type: string
           description: Fiat equivalent value
-    Pagination:
-      type: object
-      description: Pagination information for list responses
-      properties:
-        next_cursor:
-          type: string
-          description: Cursor for the next page
-        sort_direction:
-          type: string
-          description: Sort direction
-        has_next:
-          type: boolean
-          description: Whether there are more results
   parameters:
     LimitParam:
       name: limit
@@ -112,12 +112,6 @@ components:
         minimum: 1
         maximum: 3000
         default: 100
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
     SortDirectionParam:
       name: sort_direction
       in: query
@@ -128,6 +122,12 @@ components:
         - ASC
         - DESC
         default: DESC
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
     PortfolioIdParam:
       name: portfolio_id
       in: path

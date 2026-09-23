@@ -110,29 +110,25 @@ paths:
           description: Unauthorized
 components:
   schemas:
-    BuyConfig:
+    PaymentCurrency:
       type: object
-      description: Configuration for the onramp buy widget
+      description: A fiat currency available for payments
       properties:
-        countries:
-          type: array
-          description: Supported countries
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: Country code
-              subdivisions:
-                type: array
-                description: Available subdivisions
-                items:
-                  type: string
-              payment_methods:
-                type: array
-                description: Available payment methods
-                items:
-                  type: string
+        id:
+          type: string
+          description: Currency identifier
+        name:
+          type: string
+          description: Currency name
+        symbol:
+          type: string
+          description: Currency symbol
+        min_amount:
+          type: string
+          description: Minimum transaction amount
+        max_amount:
+          type: string
+          description: Maximum transaction amount
     BuyQuote:
       type: object
       description: A price quote for buying cryptocurrency
@@ -190,52 +186,6 @@ components:
         quote_id:
           type: string
           description: Unique quote identifier
-    PaymentCurrency:
-      type: object
-      description: A fiat currency available for payments
-      properties:
-        id:
-          type: string
-          description: Currency identifier
-        name:
-          type: string
-          description: Currency name
-        symbol:
-          type: string
-          description: Currency symbol
-        min_amount:
-          type: string
-          description: Minimum transaction amount
-        max_amount:
-          type: string
-          description: Maximum transaction amount
-    BuyQuoteRequest:
-      type: object
-      description: Request body for generating a buy quote
-      required:
-      - purchase_currency
-      - payment_amount
-      - payment_currency
-      - country
-      properties:
-        purchase_currency:
-          type: string
-          description: Cryptocurrency to purchase
-        payment_amount:
-          type: string
-          description: Amount in fiat currency
-        payment_currency:
-          type: string
-          description: Fiat currency for payment
-        payment_method:
-          type: string
-          description: Payment method type
-        country:
-          type: string
-          description: ISO 3166-1 alpha-2 country code
-        subdivision:
-          type: string
-          description: ISO 3166-2 subdivision code
     PurchaseCurrency:
       type: object
       description: A cryptocurrency available for purchase
@@ -271,6 +221,56 @@ components:
               contract_address:
                 type: string
                 description: Token contract address on this network
+    BuyConfig:
+      type: object
+      description: Configuration for the onramp buy widget
+      properties:
+        countries:
+          type: array
+          description: Supported countries
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Country code
+              subdivisions:
+                type: array
+                description: Available subdivisions
+                items:
+                  type: string
+              payment_methods:
+                type: array
+                description: Available payment methods
+                items:
+                  type: string
+    BuyQuoteRequest:
+      type: object
+      description: Request body for generating a buy quote
+      required:
+      - purchase_currency
+      - payment_amount
+      - payment_currency
+      - country
+      properties:
+        purchase_currency:
+          type: string
+          description: Cryptocurrency to purchase
+        payment_amount:
+          type: string
+          description: Amount in fiat currency
+        payment_currency:
+          type: string
+          description: Fiat currency for payment
+        payment_method:
+          type: string
+          description: Payment method type
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+        subdivision:
+          type: string
+          description: ISO 3166-2 subdivision code
   securitySchemes:
     bearerAuth:
       type: http

@@ -150,6 +150,58 @@ paths:
     - url: https://api.exchange.coinbase.com
       description: Production Server
 components:
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+    AccountIdParam:
+      name: account_id
+      in: path
+      required: true
+      description: Unique identifier for the account
+      schema:
+        type: string
+        format: uuid
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    AccountIdParam_2:
+      name: account_id
+      in: path
+      required: true
+      description: Account identifier
+      schema:
+        type: string
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
   schemas:
     Balance:
       type: object
@@ -202,6 +254,35 @@ components:
           description: Whether the account is ready for trading
         hold:
           $ref: '#/components/schemas/Balance'
+    LedgerEntry:
+      type: object
+      description: A ledger entry recording account activity
+      properties:
+        id:
+          type: string
+          description: Entry identifier
+        created_at:
+          type: string
+          format: date-time
+          description: When the entry was created
+        amount:
+          type: string
+          description: Amount of the entry
+        balance:
+          type: string
+          description: Account balance after the entry
+        type:
+          type: string
+          description: Type of ledger entry
+          enum:
+          - transfer
+          - match
+          - fee
+          - rebate
+          - conversion
+        details:
+          type: object
+          description: Additional details about the entry
     Transfer:
       type: object
       description: A deposit or withdrawal transfer
@@ -254,35 +335,6 @@ components:
         trading_enabled:
           type: boolean
           description: Whether trading is enabled
-    LedgerEntry:
-      type: object
-      description: A ledger entry recording account activity
-      properties:
-        id:
-          type: string
-          description: Entry identifier
-        created_at:
-          type: string
-          format: date-time
-          description: When the entry was created
-        amount:
-          type: string
-          description: Amount of the entry
-        balance:
-          type: string
-          description: Account balance after the entry
-        type:
-          type: string
-          description: Type of ledger entry
-          enum:
-          - transfer
-          - match
-          - fee
-          - rebate
-          - conversion
-        details:
-          type: object
-          description: Additional details about the entry
     Hold:
       type: object
       description: A hold on account funds
@@ -306,58 +358,6 @@ components:
         ref:
           type: string
           description: Reference ID for the hold source
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 49
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
-    AccountIdParam:
-      name: account_id
-      in: path
-      required: true
-      description: Unique identifier for the account
-      schema:
-        type: string
-        format: uuid
-    LimitParam_2:
-      name: limit
-      in: query
-      description: Number of results per request (max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
-    AccountIdParam_2:
-      name: account_id
-      in: path
-      required: true
-      description: Account identifier
-      schema:
-        type: string
-    BeforeParam:
-      name: before
-      in: query
-      description: Cursor for pagination (newer items)
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

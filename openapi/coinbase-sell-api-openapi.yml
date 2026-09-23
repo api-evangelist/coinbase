@@ -85,41 +85,6 @@ paths:
           description: Rate limit exceeded
 components:
   schemas:
-    PurchaseCurrency:
-      type: object
-      description: A cryptocurrency available for purchase
-      properties:
-        id:
-          type: string
-          description: Asset identifier
-        name:
-          type: string
-          description: Asset name
-        symbol:
-          type: string
-          description: Asset symbol
-        icon_url:
-          type: string
-          format: uri
-          description: URL for the asset icon
-        networks:
-          type: array
-          description: Supported blockchain networks
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: Network name
-              display_name:
-                type: string
-                description: Network display name
-              chain_id:
-                type: string
-                description: Blockchain chain ID
-              contract_address:
-                type: string
-                description: Token contract address on this network
     SellQuote:
       type: object
       description: A price quote for selling cryptocurrency
@@ -157,25 +122,6 @@ components:
         quote_id:
           type: string
           description: Unique quote identifier
-    PaymentCurrency:
-      type: object
-      description: A fiat currency available for payments
-      properties:
-        id:
-          type: string
-          description: Currency identifier
-        name:
-          type: string
-          description: Currency name
-        symbol:
-          type: string
-          description: Currency symbol
-        min_amount:
-          type: string
-          description: Minimum transaction amount
-        max_amount:
-          type: string
-          description: Maximum transaction amount
     SellQuoteRequest:
       type: object
       description: Request body for generating a sell quote
@@ -200,6 +146,60 @@ components:
         subdivision:
           type: string
           description: ISO 3166-2 subdivision code
+    PurchaseCurrency:
+      type: object
+      description: A cryptocurrency available for purchase
+      properties:
+        id:
+          type: string
+          description: Asset identifier
+        name:
+          type: string
+          description: Asset name
+        symbol:
+          type: string
+          description: Asset symbol
+        icon_url:
+          type: string
+          format: uri
+          description: URL for the asset icon
+        networks:
+          type: array
+          description: Supported blockchain networks
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Network name
+              display_name:
+                type: string
+                description: Network display name
+              chain_id:
+                type: string
+                description: Blockchain chain ID
+              contract_address:
+                type: string
+                description: Token contract address on this network
+    PaymentCurrency:
+      type: object
+      description: A fiat currency available for payments
+      properties:
+        id:
+          type: string
+          description: Currency identifier
+        name:
+          type: string
+          description: Currency name
+        symbol:
+          type: string
+          description: Currency symbol
+        min_amount:
+          type: string
+          description: Minimum transaction amount
+        max_amount:
+          type: string
+          description: Maximum transaction amount
   securitySchemes:
     bearerAuth:
       type: http

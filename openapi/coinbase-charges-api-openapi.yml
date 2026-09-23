@@ -145,50 +145,24 @@ paths:
                   data:
                     $ref: '#/components/schemas/Charge'
 components:
+  parameters:
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
+    OrderParam:
+      name: order
+      in: query
+      description: Sort order for results
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
   schemas:
-    Payment:
-      type: object
-      description: A payment received for a charge
-      properties:
-        network:
-          type: string
-          description: Blockchain network
-        transaction_id:
-          type: string
-          description: Blockchain transaction ID
-        status:
-          type: string
-          description: Payment status
-          enum:
-          - PENDING
-          - CONFIRMED
-          - FAILED
-        value:
-          type: object
-          description: Payment value
-          properties:
-            amount:
-              type: string
-              description: Payment amount
-            currency:
-              type: string
-              description: Currency
-        block:
-          type: object
-          description: Block information
-          properties:
-            height:
-              type: integer
-              description: Block height
-            hash:
-              type: string
-              description: Block hash
-            confirmations_required:
-              type: integer
-              description: Required confirmations
-            confirmations:
-              type: integer
-              description: Current confirmations
     CreateChargeRequest:
       type: object
       description: Request body for creating a new charge
@@ -315,6 +289,49 @@ components:
           description: Custom metadata attached to the charge
           additionalProperties:
             type: string
+    Payment:
+      type: object
+      description: A payment received for a charge
+      properties:
+        network:
+          type: string
+          description: Blockchain network
+        transaction_id:
+          type: string
+          description: Blockchain transaction ID
+        status:
+          type: string
+          description: Payment status
+          enum:
+          - PENDING
+          - CONFIRMED
+          - FAILED
+        value:
+          type: object
+          description: Payment value
+          properties:
+            amount:
+              type: string
+              description: Payment amount
+            currency:
+              type: string
+              description: Currency
+        block:
+          type: object
+          description: Block information
+          properties:
+            height:
+              type: integer
+              description: Block height
+            hash:
+              type: string
+              description: Block hash
+            confirmations_required:
+              type: integer
+              description: Required confirmations
+            confirmations:
+              type: integer
+              description: Current confirmations
     Pagination:
       type: object
       description: Pagination cursor information
@@ -339,23 +356,6 @@ components:
           description: Range of cursors in this page
           items:
             type: string
-  parameters:
-    PaginationParam:
-      name: starting_after
-      in: query
-      description: Cursor for pagination to fetch the next page of results
-      schema:
-        type: string
-    OrderParam:
-      name: order
-      in: query
-      description: Sort order for results
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-        default: desc
   securitySchemes:
     apiKeyAuth:
       type: apiKey

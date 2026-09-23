@@ -49,7 +49,8 @@
     "tag 'Fees' spans 2 source specs (coinbase-advanced-trade-openapi.yml, coinbase-exchange-openapi.yml): per-path servers applied",
     "tag 'Orders' spans 3 source specs (coinbase-advanced-trade-openapi.yml, coinbase-exchange-openapi.yml, coinbase-prime-openapi.yml): per-path servers applied",
     "tag 'Portfolios' spans 2 source specs (coinbase-advanced-trade-openapi.yml, coinbase-prime-openapi.yml): per-path servers applied",
-    "tag 'Products' spans 2 source specs (coinbase-advanced-trade-openapi.yml, coinbase-exchange-openapi.yml): per-path servers applied"
+    "tag 'Products' spans 2 source specs (coinbase-advanced-trade-openapi.yml, coinbase-exchange-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "coinbase-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
