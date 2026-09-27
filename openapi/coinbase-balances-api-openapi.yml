@@ -49,19 +49,6 @@ paths:
                     $ref: '#/components/schemas/Pagination'
 components:
   schemas:
-    Pagination:
-      type: object
-      description: Pagination information for list responses
-      properties:
-        next_cursor:
-          type: string
-          description: Cursor for the next page
-        sort_direction:
-          type: string
-          description: Sort direction
-        has_next:
-          type: boolean
-          description: Whether there are more results
     Balance:
       type: object
       description: An asset balance within a portfolio
@@ -102,7 +89,26 @@ components:
         fiat_amount:
           type: string
           description: Fiat equivalent value
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
   parameters:
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
     LimitParam:
       name: limit
       in: query
@@ -122,12 +128,6 @@ components:
         - ASC
         - DESC
         default: DESC
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
     PortfolioIdParam:
       name: portfolio_id
       in: path

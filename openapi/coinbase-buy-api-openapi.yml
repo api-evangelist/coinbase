@@ -110,25 +110,33 @@ paths:
           description: Unauthorized
 components:
   schemas:
-    PaymentCurrency:
+    BuyQuoteRequest:
       type: object
-      description: A fiat currency available for payments
+      description: Request body for generating a buy quote
+      required:
+      - purchase_currency
+      - payment_amount
+      - payment_currency
+      - country
       properties:
-        id:
+        purchase_currency:
           type: string
-          description: Currency identifier
-        name:
+          description: Cryptocurrency to purchase
+        payment_amount:
           type: string
-          description: Currency name
-        symbol:
+          description: Amount in fiat currency
+        payment_currency:
           type: string
-          description: Currency symbol
-        min_amount:
+          description: Fiat currency for payment
+        payment_method:
           type: string
-          description: Minimum transaction amount
-        max_amount:
+          description: Payment method type
+        country:
           type: string
-          description: Maximum transaction amount
+          description: ISO 3166-1 alpha-2 country code
+        subdivision:
+          type: string
+          description: ISO 3166-2 subdivision code
     BuyQuote:
       type: object
       description: A price quote for buying cryptocurrency
@@ -244,33 +252,25 @@ components:
                 description: Available payment methods
                 items:
                   type: string
-    BuyQuoteRequest:
+    PaymentCurrency:
       type: object
-      description: Request body for generating a buy quote
-      required:
-      - purchase_currency
-      - payment_amount
-      - payment_currency
-      - country
+      description: A fiat currency available for payments
       properties:
-        purchase_currency:
+        id:
           type: string
-          description: Cryptocurrency to purchase
-        payment_amount:
+          description: Currency identifier
+        name:
           type: string
-          description: Amount in fiat currency
-        payment_currency:
+          description: Currency name
+        symbol:
           type: string
-          description: Fiat currency for payment
-        payment_method:
+          description: Currency symbol
+        min_amount:
           type: string
-          description: Payment method type
-        country:
+          description: Minimum transaction amount
+        max_amount:
           type: string
-          description: ISO 3166-1 alpha-2 country code
-        subdivision:
-          type: string
-          description: ISO 3166-2 subdivision code
+          description: Maximum transaction amount
   securitySchemes:
     bearerAuth:
       type: http

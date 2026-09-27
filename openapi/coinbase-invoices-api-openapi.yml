@@ -139,7 +139,82 @@ paths:
                   data:
                     $ref: '#/components/schemas/Invoice'
 components:
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      description: Sort order for results
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
   schemas:
+    Pagination:
+      type: object
+      description: Pagination cursor information
+      properties:
+        order:
+          type: string
+          description: Sort order
+        starting_after:
+          type: string
+          description: Cursor for next page
+        ending_before:
+          type: string
+          description: Cursor for previous page
+        total:
+          type: integer
+          description: Total number of results
+        yielded:
+          type: integer
+          description: Number of results in this page
+        cursor_range:
+          type: array
+          description: Range of cursors in this page
+          items:
+            type: string
+    CreateInvoiceRequest:
+      type: object
+      description: Request body for creating a new invoice
+      required:
+      - business_name
+      - customer_email
+      - local_price
+      properties:
+        business_name:
+          type: string
+          description: Business name
+        customer_name:
+          type: string
+          description: Customer name
+        customer_email:
+          type: string
+          format: email
+          description: Customer email address
+        memo:
+          type: string
+          description: Invoice memo or notes
+        local_price:
+          type: object
+          description: Invoice amount
+          required:
+          - amount
+          - currency
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
     Invoice:
       type: object
       description: An invoice for billing customers
@@ -195,81 +270,6 @@ components:
           type: string
           format: date-time
           description: When the invoice was created
-    CreateInvoiceRequest:
-      type: object
-      description: Request body for creating a new invoice
-      required:
-      - business_name
-      - customer_email
-      - local_price
-      properties:
-        business_name:
-          type: string
-          description: Business name
-        customer_name:
-          type: string
-          description: Customer name
-        customer_email:
-          type: string
-          format: email
-          description: Customer email address
-        memo:
-          type: string
-          description: Invoice memo or notes
-        local_price:
-          type: object
-          description: Invoice amount
-          required:
-          - amount
-          - currency
-          properties:
-            amount:
-              type: string
-              description: Amount
-            currency:
-              type: string
-              description: Currency code
-    Pagination:
-      type: object
-      description: Pagination cursor information
-      properties:
-        order:
-          type: string
-          description: Sort order
-        starting_after:
-          type: string
-          description: Cursor for next page
-        ending_before:
-          type: string
-          description: Cursor for previous page
-        total:
-          type: integer
-          description: Total number of results
-        yielded:
-          type: integer
-          description: Number of results in this page
-        cursor_range:
-          type: array
-          description: Range of cursors in this page
-          items:
-            type: string
-  parameters:
-    OrderParam:
-      name: order
-      in: query
-      description: Sort order for results
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-        default: desc
-    PaginationParam:
-      name: starting_after
-      in: query
-      description: Cursor for pagination to fetch the next page of results
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

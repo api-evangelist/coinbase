@@ -82,19 +82,6 @@ paths:
                     $ref: '#/components/schemas/Wallet'
 components:
   schemas:
-    Pagination:
-      type: object
-      description: Pagination information for list responses
-      properties:
-        next_cursor:
-          type: string
-          description: Cursor for the next page
-        sort_direction:
-          type: string
-          description: Sort direction
-        has_next:
-          type: boolean
-          description: Whether there are more results
     Wallet:
       type: object
       description: A cryptocurrency wallet in a portfolio
@@ -119,7 +106,26 @@ components:
           type: string
           format: date-time
           description: When the wallet was created
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
   parameters:
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
     LimitParam:
       name: limit
       in: query
@@ -129,12 +135,6 @@ components:
         minimum: 1
         maximum: 3000
         default: 100
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
     PortfolioIdParam:
       name: portfolio_id
       in: path

@@ -136,6 +136,23 @@ paths:
         '200':
           description: Checkout deleted
 components:
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      description: Sort order for results
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
   schemas:
     Checkout:
       type: object
@@ -240,23 +257,6 @@ components:
           description: Range of cursors in this page
           items:
             type: string
-  parameters:
-    OrderParam:
-      name: order
-      in: query
-      description: Sort order for results
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-        default: desc
-    PaginationParam:
-      name: starting_after
-      in: query
-      description: Cursor for pagination to fetch the next page of results
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

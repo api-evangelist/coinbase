@@ -260,44 +260,6 @@ paths:
     - url: https://api.exchange.coinbase.com
       description: Production Server
 components:
-  parameters:
-    ProductIdParam:
-      name: product_id
-      in: path
-      required: true
-      description: Trading pair identifier such as BTC-USD
-      schema:
-        type: string
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 49
-    LimitParam_2:
-      name: limit
-      in: query
-      description: Number of results per request (max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-    BeforeParam:
-      name: before
-      in: query
-      description: Cursor for pagination (newer items)
-      schema:
-        type: string
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
   schemas:
     Trade:
       type: object
@@ -399,27 +361,6 @@ components:
           enum:
           - SPOT
           - FUTURE
-    OrderBook:
-      type: object
-      description: Product order book at a specific level of detail
-      properties:
-        sequence:
-          type: integer
-          description: Sequence number of the order book
-        bids:
-          type: array
-          description: Bid price levels
-          items:
-            type: array
-            items:
-              type: string
-        asks:
-          type: array
-          description: Ask price levels
-          items:
-            type: array
-            items:
-              type: string
     Trade_2:
       type: object
       description: A market trade
@@ -443,6 +384,53 @@ components:
           enum:
           - buy
           - sell
+    Ticker:
+      type: object
+      description: Product ticker with latest trade and 24h stats
+      properties:
+        trade_id:
+          type: integer
+          description: Latest trade ID
+        price:
+          type: string
+          description: Latest trade price
+        size:
+          type: string
+          description: Latest trade size
+        bid:
+          type: string
+          description: Best bid price
+        ask:
+          type: string
+          description: Best ask price
+        volume:
+          type: string
+          description: 24-hour volume
+        time:
+          type: string
+          format: date-time
+          description: Timestamp of the ticker
+    OrderBook:
+      type: object
+      description: Product order book at a specific level of detail
+      properties:
+        sequence:
+          type: integer
+          description: Sequence number of the order book
+        bids:
+          type: array
+          description: Bid price levels
+          items:
+            type: array
+            items:
+              type: string
+        asks:
+          type: array
+          description: Ask price levels
+          items:
+            type: array
+            items:
+              type: string
     Product_2:
       type: object
       description: A trading product on the exchange
@@ -489,32 +477,44 @@ components:
         trading_disabled:
           type: boolean
           description: Whether trading is disabled
-    Ticker:
-      type: object
-      description: Product ticker with latest trade and 24h stats
-      properties:
-        trade_id:
-          type: integer
-          description: Latest trade ID
-        price:
-          type: string
-          description: Latest trade price
-        size:
-          type: string
-          description: Latest trade size
-        bid:
-          type: string
-          description: Best bid price
-        ask:
-          type: string
-          description: Best ask price
-        volume:
-          type: string
-          description: 24-hour volume
-        time:
-          type: string
-          format: date-time
-          description: Timestamp of the ticker
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+    ProductIdParam:
+      name: product_id
+      in: path
+      required: true
+      description: Trading pair identifier such as BTC-USD
+      schema:
+        type: string
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

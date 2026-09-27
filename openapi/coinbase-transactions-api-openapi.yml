@@ -150,19 +150,6 @@ paths:
                     description: Activity ID for tracking
 components:
   schemas:
-    Pagination:
-      type: object
-      description: Pagination information for list responses
-      properties:
-        next_cursor:
-          type: string
-          description: Cursor for the next page
-        sort_direction:
-          type: string
-          description: Sort direction
-        has_next:
-          type: boolean
-          description: Whether there are more results
     Transaction:
       type: object
       description: A deposit, withdrawal, or transfer transaction
@@ -209,7 +196,26 @@ components:
           description: Associated blockchain transaction IDs
           items:
             type: string
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
   parameters:
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
     LimitParam:
       name: limit
       in: query
@@ -229,12 +235,6 @@ components:
         - ASC
         - DESC
         default: DESC
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
     PortfolioIdParam:
       name: portfolio_id
       in: path
