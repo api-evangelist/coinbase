@@ -287,28 +287,6 @@ components:
           enum:
           - BUY
           - SELL
-    Candle:
-      type: object
-      description: OHLCV candle data point
-      properties:
-        start:
-          type: string
-          description: UNIX timestamp for the start of the candle
-        low:
-          type: string
-          description: Lowest price during the interval
-        high:
-          type: string
-          description: Highest price during the interval
-        open:
-          type: string
-          description: Opening price of the interval
-        close:
-          type: string
-          description: Closing price of the interval
-        volume:
-          type: string
-          description: Volume traded during the interval
     Product:
       type: object
       description: A trading product representing a currency pair
@@ -361,6 +339,28 @@ components:
           enum:
           - SPOT
           - FUTURE
+    Candle:
+      type: object
+      description: OHLCV candle data point
+      properties:
+        start:
+          type: string
+          description: UNIX timestamp for the start of the candle
+        low:
+          type: string
+          description: Lowest price during the interval
+        high:
+          type: string
+          description: Highest price during the interval
+        open:
+          type: string
+          description: Opening price of the interval
+        close:
+          type: string
+          description: Closing price of the interval
+        volume:
+          type: string
+          description: Volume traded during the interval
     Trade_2:
       type: object
       description: A market trade
@@ -384,6 +384,52 @@ components:
           enum:
           - buy
           - sell
+    Product_2:
+      type: object
+      description: A trading product on the exchange
+      properties:
+        id:
+          type: string
+          description: Product identifier
+        base_currency:
+          type: string
+          description: Base currency code
+        quote_currency:
+          type: string
+          description: Quote currency code
+        base_min_size:
+          type: string
+          description: Minimum order size
+        base_max_size:
+          type: string
+          description: Maximum order size
+        quote_increment:
+          type: string
+          description: Minimum price increment
+        base_increment:
+          type: string
+          description: Minimum size increment
+        display_name:
+          type: string
+          description: Display name for the product
+        status:
+          type: string
+          description: Product trading status
+        margin_enabled:
+          type: boolean
+          description: Whether margin trading is enabled
+        post_only:
+          type: boolean
+          description: Whether product is in post-only mode
+        limit_only:
+          type: boolean
+          description: Whether only limit orders are allowed
+        cancel_only:
+          type: boolean
+          description: Whether only cancellations are allowed
+        trading_disabled:
+          type: boolean
+          description: Whether trading is disabled
     Ticker:
       type: object
       description: Product ticker with latest trade and 24h stats
@@ -431,52 +477,6 @@ components:
             type: array
             items:
               type: string
-    Product_2:
-      type: object
-      description: A trading product on the exchange
-      properties:
-        id:
-          type: string
-          description: Product identifier
-        base_currency:
-          type: string
-          description: Base currency code
-        quote_currency:
-          type: string
-          description: Quote currency code
-        base_min_size:
-          type: string
-          description: Minimum order size
-        base_max_size:
-          type: string
-          description: Maximum order size
-        quote_increment:
-          type: string
-          description: Minimum price increment
-        base_increment:
-          type: string
-          description: Minimum size increment
-        display_name:
-          type: string
-          description: Display name for the product
-        status:
-          type: string
-          description: Product trading status
-        margin_enabled:
-          type: boolean
-          description: Whether margin trading is enabled
-        post_only:
-          type: boolean
-          description: Whether product is in post-only mode
-        limit_only:
-          type: boolean
-          description: Whether only limit orders are allowed
-        cancel_only:
-          type: boolean
-          description: Whether only cancellations are allowed
-        trading_disabled:
-          type: boolean
-          description: Whether trading is disabled
   parameters:
     LimitParam:
       name: limit

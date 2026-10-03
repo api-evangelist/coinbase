@@ -150,17 +150,59 @@ paths:
     - url: https://api.exchange.coinbase.com
       description: Production Server
 components:
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+    AccountIdParam:
+      name: account_id
+      in: path
+      required: true
+      description: Unique identifier for the account
+      schema:
+        type: string
+        format: uuid
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    AccountIdParam_2:
+      name: account_id
+      in: path
+      required: true
+      description: Account identifier
+      schema:
+        type: string
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
   schemas:
-    Balance:
-      type: object
-      description: A monetary value with currency
-      properties:
-        value:
-          type: string
-          description: Amount as a string to preserve precision
-        currency:
-          type: string
-          description: Currency code
     Account:
       type: object
       description: A user account holding a specific currency
@@ -202,29 +244,16 @@ components:
           description: Whether the account is ready for trading
         hold:
           $ref: '#/components/schemas/Balance'
-    Hold:
+    Balance:
       type: object
-      description: A hold on account funds
+      description: A monetary value with currency
       properties:
-        id:
+        value:
           type: string
-          description: Hold identifier
-        created_at:
+          description: Amount as a string to preserve precision
+        currency:
           type: string
-          format: date-time
-          description: When the hold was created
-        amount:
-          type: string
-          description: Amount on hold
-        type:
-          type: string
-          description: Type of hold
-          enum:
-          - order
-          - transfer
-        ref:
-          type: string
-          description: Reference ID for the hold source
+          description: Currency code
     LedgerEntry:
       type: object
       description: A ledger entry recording account activity
@@ -254,6 +283,29 @@ components:
         details:
           type: object
           description: Additional details about the entry
+    Hold:
+      type: object
+      description: A hold on account funds
+      properties:
+        id:
+          type: string
+          description: Hold identifier
+        created_at:
+          type: string
+          format: date-time
+          description: When the hold was created
+        amount:
+          type: string
+          description: Amount on hold
+        type:
+          type: string
+          description: Type of hold
+          enum:
+          - order
+          - transfer
+        ref:
+          type: string
+          description: Reference ID for the hold source
     Account_2:
       type: object
       description: An exchange trading account for a specific currency
@@ -306,58 +358,6 @@ components:
         details:
           type: object
           description: Additional transfer details
-  parameters:
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 49
-    AccountIdParam:
-      name: account_id
-      in: path
-      required: true
-      description: Unique identifier for the account
-      schema:
-        type: string
-        format: uuid
-    BeforeParam:
-      name: before
-      in: query
-      description: Cursor for pagination (newer items)
-      schema:
-        type: string
-    AccountIdParam_2:
-      name: account_id
-      in: path
-      required: true
-      description: Account identifier
-      schema:
-        type: string
-    LimitParam_2:
-      name: limit
-      in: query
-      description: Number of results per request (max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

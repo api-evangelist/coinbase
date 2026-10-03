@@ -210,12 +210,6 @@ components:
           type: boolean
           description: Whether there are more results
   parameters:
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
     LimitParam:
       name: limit
       in: query
@@ -240,6 +234,12 @@ components:
       in: path
       required: true
       description: Portfolio identifier
+      schema:
+        type: string
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
       schema:
         type: string
   securitySchemes:

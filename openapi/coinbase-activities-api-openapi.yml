@@ -75,12 +75,6 @@ paths:
                     $ref: '#/components/schemas/Pagination'
 components:
   parameters:
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
     LimitParam:
       name: limit
       in: query
@@ -107,20 +101,13 @@ components:
       description: Portfolio identifier
       schema:
         type: string
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
   schemas:
-    Pagination:
-      type: object
-      description: Pagination information for list responses
-      properties:
-        next_cursor:
-          type: string
-          description: Cursor for the next page
-        sort_direction:
-          type: string
-          description: Sort direction
-        has_next:
-          type: boolean
-          description: Whether there are more results
     Activity:
       type: object
       description: A portfolio activity event
@@ -151,6 +138,19 @@ components:
         category:
           type: string
           description: Activity category
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
   securitySchemes:
     apiKeyAuth:
       type: apiKey

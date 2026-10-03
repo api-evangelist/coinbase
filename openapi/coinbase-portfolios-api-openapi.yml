@@ -255,6 +255,16 @@ components:
         deleted:
           type: boolean
           description: Whether the portfolio has been deleted
+    Balance:
+      type: object
+      description: A monetary value with currency
+      properties:
+        value:
+          type: string
+          description: Amount as a string to preserve precision
+        currency:
+          type: string
+          description: Currency code
     PortfolioBreakdown:
       type: object
       description: Detailed breakdown of a portfolio
@@ -289,16 +299,6 @@ components:
               total_balance_crypto:
                 type: number
                 description: Total balance in crypto
-    Balance:
-      type: object
-      description: A monetary value with currency
-      properties:
-        value:
-          type: string
-          description: Amount as a string to preserve precision
-        currency:
-          type: string
-          description: Currency code
     Portfolio_2:
       type: object
       description: An institutional trading portfolio
