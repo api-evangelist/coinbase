@@ -43,15 +43,6 @@ paths:
                     $ref: '#/components/schemas/Pagination'
 components:
   parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 3000
-        default: 100
     PortfolioIdParam:
       name: portfolio_id
       in: path
@@ -65,7 +56,29 @@ components:
       description: Cursor for pagination
       schema:
         type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 3000
+        default: 100
   schemas:
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
     User:
       type: object
       description: A user with portfolio access
@@ -82,19 +95,6 @@ components:
         role:
           type: string
           description: User role in the portfolio
-    Pagination:
-      type: object
-      description: Pagination information for list responses
-      properties:
-        next_cursor:
-          type: string
-          description: Cursor for the next page
-        sort_direction:
-          type: string
-          description: Sort direction
-        has_next:
-          type: boolean
-          description: Whether there are more results
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -150,58 +150,6 @@ paths:
     - url: https://api.exchange.coinbase.com
       description: Production Server
 components:
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 49
-    AccountIdParam:
-      name: account_id
-      in: path
-      required: true
-      description: Unique identifier for the account
-      schema:
-        type: string
-        format: uuid
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
-    BeforeParam:
-      name: before
-      in: query
-      description: Cursor for pagination (newer items)
-      schema:
-        type: string
-    LimitParam_2:
-      name: limit
-      in: query
-      description: Number of results per request (max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-    AccountIdParam_2:
-      name: account_id
-      in: path
-      required: true
-      description: Account identifier
-      schema:
-        type: string
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
   schemas:
     Account:
       type: object
@@ -254,35 +202,33 @@ components:
         currency:
           type: string
           description: Currency code
-    LedgerEntry:
+    Transfer:
       type: object
-      description: A ledger entry recording account activity
+      description: A deposit or withdrawal transfer
       properties:
         id:
           type: string
-          description: Entry identifier
+          description: Transfer identifier
+        type:
+          type: string
+          description: Transfer type
+          enum:
+          - deposit
+          - withdraw
         created_at:
           type: string
           format: date-time
-          description: When the entry was created
+          description: When the transfer was created
+        completed_at:
+          type: string
+          format: date-time
+          description: When the transfer completed
         amount:
           type: string
-          description: Amount of the entry
-        balance:
-          type: string
-          description: Account balance after the entry
-        type:
-          type: string
-          description: Type of ledger entry
-          enum:
-          - transfer
-          - match
-          - fee
-          - rebate
-          - conversion
+          description: Transfer amount
         details:
           type: object
-          description: Additional details about the entry
+          description: Additional transfer details
     Hold:
       type: object
       description: A hold on account funds
@@ -331,33 +277,87 @@ components:
         trading_enabled:
           type: boolean
           description: Whether trading is enabled
-    Transfer:
+    LedgerEntry:
       type: object
-      description: A deposit or withdrawal transfer
+      description: A ledger entry recording account activity
       properties:
         id:
           type: string
-          description: Transfer identifier
-        type:
-          type: string
-          description: Transfer type
-          enum:
-          - deposit
-          - withdraw
+          description: Entry identifier
         created_at:
           type: string
           format: date-time
-          description: When the transfer was created
-        completed_at:
-          type: string
-          format: date-time
-          description: When the transfer completed
+          description: When the entry was created
         amount:
           type: string
-          description: Transfer amount
+          description: Amount of the entry
+        balance:
+          type: string
+          description: Account balance after the entry
+        type:
+          type: string
+          description: Type of ledger entry
+          enum:
+          - transfer
+          - match
+          - fee
+          - rebate
+          - conversion
         details:
           type: object
-          description: Additional transfer details
+          description: Additional details about the entry
+  parameters:
+    AccountIdParam:
+      name: account_id
+      in: path
+      required: true
+      description: Unique identifier for the account
+      schema:
+        type: string
+        format: uuid
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
+    AccountIdParam_2:
+      name: account_id
+      in: path
+      required: true
+      description: Account identifier
+      schema:
+        type: string
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
   securitySchemes:
     apiKeyAuth:
       type: apiKey

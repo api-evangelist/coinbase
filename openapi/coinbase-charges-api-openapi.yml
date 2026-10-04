@@ -145,23 +145,6 @@ paths:
                   data:
                     $ref: '#/components/schemas/Charge'
 components:
-  parameters:
-    OrderParam:
-      name: order
-      in: query
-      description: Sort order for results
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-        default: desc
-    PaginationParam:
-      name: starting_after
-      in: query
-      description: Cursor for pagination to fetch the next page of results
-      schema:
-        type: string
   schemas:
     CreateChargeRequest:
       type: object
@@ -206,49 +189,6 @@ components:
           type: string
           format: uri
           description: URL to redirect if payment is cancelled
-    Payment:
-      type: object
-      description: A payment received for a charge
-      properties:
-        network:
-          type: string
-          description: Blockchain network
-        transaction_id:
-          type: string
-          description: Blockchain transaction ID
-        status:
-          type: string
-          description: Payment status
-          enum:
-          - PENDING
-          - CONFIRMED
-          - FAILED
-        value:
-          type: object
-          description: Payment value
-          properties:
-            amount:
-              type: string
-              description: Payment amount
-            currency:
-              type: string
-              description: Currency
-        block:
-          type: object
-          description: Block information
-          properties:
-            height:
-              type: integer
-              description: Block height
-            hash:
-              type: string
-              description: Block hash
-            confirmations_required:
-              type: integer
-              description: Required confirmations
-            confirmations:
-              type: integer
-              description: Current confirmations
     Charge:
       type: object
       description: A payment charge representing a request for cryptocurrency payment
@@ -332,6 +272,49 @@ components:
           description: Custom metadata attached to the charge
           additionalProperties:
             type: string
+    Payment:
+      type: object
+      description: A payment received for a charge
+      properties:
+        network:
+          type: string
+          description: Blockchain network
+        transaction_id:
+          type: string
+          description: Blockchain transaction ID
+        status:
+          type: string
+          description: Payment status
+          enum:
+          - PENDING
+          - CONFIRMED
+          - FAILED
+        value:
+          type: object
+          description: Payment value
+          properties:
+            amount:
+              type: string
+              description: Payment amount
+            currency:
+              type: string
+              description: Currency
+        block:
+          type: object
+          description: Block information
+          properties:
+            height:
+              type: integer
+              description: Block height
+            hash:
+              type: string
+              description: Block hash
+            confirmations_required:
+              type: integer
+              description: Required confirmations
+            confirmations:
+              type: integer
+              description: Current confirmations
     Pagination:
       type: object
       description: Pagination cursor information
@@ -356,6 +339,23 @@ components:
           description: Range of cursors in this page
           items:
             type: string
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      description: Sort order for results
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

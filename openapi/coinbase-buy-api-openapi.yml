@@ -110,6 +110,25 @@ paths:
           description: Unauthorized
 components:
   schemas:
+    PaymentCurrency:
+      type: object
+      description: A fiat currency available for payments
+      properties:
+        id:
+          type: string
+          description: Currency identifier
+        name:
+          type: string
+          description: Currency name
+        symbol:
+          type: string
+          description: Currency symbol
+        min_amount:
+          type: string
+          description: Minimum transaction amount
+        max_amount:
+          type: string
+          description: Maximum transaction amount
     PurchaseCurrency:
       type: object
       description: A cryptocurrency available for purchase
@@ -145,33 +164,6 @@ components:
               contract_address:
                 type: string
                 description: Token contract address on this network
-    BuyQuoteRequest:
-      type: object
-      description: Request body for generating a buy quote
-      required:
-      - purchase_currency
-      - payment_amount
-      - payment_currency
-      - country
-      properties:
-        purchase_currency:
-          type: string
-          description: Cryptocurrency to purchase
-        payment_amount:
-          type: string
-          description: Amount in fiat currency
-        payment_currency:
-          type: string
-          description: Fiat currency for payment
-        payment_method:
-          type: string
-          description: Payment method type
-        country:
-          type: string
-          description: ISO 3166-1 alpha-2 country code
-        subdivision:
-          type: string
-          description: ISO 3166-2 subdivision code
     BuyQuote:
       type: object
       description: A price quote for buying cryptocurrency
@@ -229,25 +221,33 @@ components:
         quote_id:
           type: string
           description: Unique quote identifier
-    PaymentCurrency:
+    BuyQuoteRequest:
       type: object
-      description: A fiat currency available for payments
+      description: Request body for generating a buy quote
+      required:
+      - purchase_currency
+      - payment_amount
+      - payment_currency
+      - country
       properties:
-        id:
+        purchase_currency:
           type: string
-          description: Currency identifier
-        name:
+          description: Cryptocurrency to purchase
+        payment_amount:
           type: string
-          description: Currency name
-        symbol:
+          description: Amount in fiat currency
+        payment_currency:
           type: string
-          description: Currency symbol
-        min_amount:
+          description: Fiat currency for payment
+        payment_method:
           type: string
-          description: Minimum transaction amount
-        max_amount:
+          description: Payment method type
+        country:
           type: string
-          description: Maximum transaction amount
+          description: ISO 3166-1 alpha-2 country code
+        subdivision:
+          type: string
+          description: ISO 3166-2 subdivision code
     BuyConfig:
       type: object
       description: Configuration for the onramp buy widget

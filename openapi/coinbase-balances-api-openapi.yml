@@ -49,15 +49,13 @@ paths:
                     $ref: '#/components/schemas/Pagination'
 components:
   parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
+    PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Portfolio identifier
       schema:
-        type: integer
-        minimum: 1
-        maximum: 3000
-        default: 100
+        type: string
     SortDirectionParam:
       name: sort_direction
       in: query
@@ -68,20 +66,35 @@ components:
         - ASC
         - DESC
         default: DESC
-    PortfolioIdParam:
-      name: portfolio_id
-      in: path
-      required: true
-      description: Portfolio identifier
-      schema:
-        type: string
     CursorParam:
       name: cursor
       in: query
       description: Cursor for pagination
       schema:
         type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 3000
+        default: 100
   schemas:
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
     Balance:
       type: object
       description: An asset balance within a portfolio
@@ -122,19 +135,6 @@ components:
         fiat_amount:
           type: string
           description: Fiat equivalent value
-    Pagination:
-      type: object
-      description: Pagination information for list responses
-      properties:
-        next_cursor:
-          type: string
-          description: Cursor for the next page
-        sort_direction:
-          type: string
-          description: Sort direction
-        has_next:
-          type: boolean
-          description: Whether there are more results
   securitySchemes:
     apiKeyAuth:
       type: apiKey

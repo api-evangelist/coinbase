@@ -260,6 +260,44 @@ paths:
     - url: https://api.exchange.coinbase.com
       description: Production Server
 components:
+  parameters:
+    ProductIdParam:
+      name: product_id
+      in: path
+      required: true
+      description: Trading pair identifier such as BTC-USD
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
   schemas:
     Trade:
       type: object
@@ -287,6 +325,28 @@ components:
           enum:
           - BUY
           - SELL
+    Candle:
+      type: object
+      description: OHLCV candle data point
+      properties:
+        start:
+          type: string
+          description: UNIX timestamp for the start of the candle
+        low:
+          type: string
+          description: Lowest price during the interval
+        high:
+          type: string
+          description: Highest price during the interval
+        open:
+          type: string
+          description: Opening price of the interval
+        close:
+          type: string
+          description: Closing price of the interval
+        volume:
+          type: string
+          description: Volume traded during the interval
     Product:
       type: object
       description: A trading product representing a currency pair
@@ -339,51 +399,6 @@ components:
           enum:
           - SPOT
           - FUTURE
-    Candle:
-      type: object
-      description: OHLCV candle data point
-      properties:
-        start:
-          type: string
-          description: UNIX timestamp for the start of the candle
-        low:
-          type: string
-          description: Lowest price during the interval
-        high:
-          type: string
-          description: Highest price during the interval
-        open:
-          type: string
-          description: Opening price of the interval
-        close:
-          type: string
-          description: Closing price of the interval
-        volume:
-          type: string
-          description: Volume traded during the interval
-    Trade_2:
-      type: object
-      description: A market trade
-      properties:
-        time:
-          type: string
-          format: date-time
-          description: Trade time
-        trade_id:
-          type: integer
-          description: Trade identifier
-        price:
-          type: string
-          description: Trade price
-        size:
-          type: string
-          description: Trade size
-        side:
-          type: string
-          description: Maker side
-          enum:
-          - buy
-          - sell
     Product_2:
       type: object
       description: A trading product on the exchange
@@ -456,6 +471,29 @@ components:
           type: string
           format: date-time
           description: Timestamp of the ticker
+    Trade_2:
+      type: object
+      description: A market trade
+      properties:
+        time:
+          type: string
+          format: date-time
+          description: Trade time
+        trade_id:
+          type: integer
+          description: Trade identifier
+        price:
+          type: string
+          description: Trade price
+        size:
+          type: string
+          description: Trade size
+        side:
+          type: string
+          description: Maker side
+          enum:
+          - buy
+          - sell
     OrderBook:
       type: object
       description: Product order book at a specific level of detail
@@ -477,44 +515,6 @@ components:
             type: array
             items:
               type: string
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 49
-    ProductIdParam:
-      name: product_id
-      in: path
-      required: true
-      description: Trading pair identifier such as BTC-USD
-      schema:
-        type: string
-    BeforeParam:
-      name: before
-      in: query
-      description: Cursor for pagination (newer items)
-      schema:
-        type: string
-    LimitParam_2:
-      name: limit
-      in: query
-      description: Number of results per request (max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey
