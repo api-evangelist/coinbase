@@ -873,6 +873,12 @@ apis:
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
 common:
+- type: Plans
+  url: plans/coinbase-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/coinbase-rate-limits.yml
+- type: FinOps
+  url: finops/coinbase-finops.yml
 - type: CapabilityMap
   url: capabilities/coinbase-capability-edges.yml
   name: Coinbase Business Capability Map
