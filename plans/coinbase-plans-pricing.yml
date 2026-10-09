@@ -318,3 +318,99 @@ plans:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  units:
+  - transaction
+  plans:
+  - name: Advanced Trade — Intro 1
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - transaction
+    periods:
+    - per-use
+  - name: Advanced Trade — Intro 2
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - transaction
+    periods:
+    - per-use
+  - name: Advanced Trade — Advanced 1
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - transaction
+    periods:
+    - per-use
+  - name: Advanced Trade — Advanced 2
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - transaction
+    periods:
+    - per-use
+  - name: Advanced Trade — Advanced 3
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - transaction
+    periods:
+    - per-use
+  - name: Advanced Trade — Advanced 4
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - transaction
+    periods:
+    - per-use
+  - name: Advanced Trade — Advanced 5
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - transaction
+    periods:
+    - per-use
+  - name: Advanced Trade — Advanced 6
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - transaction
+    periods:
+    - per-use
+  - name: Advanced Trade — Advanced 7
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - transaction
+    periods:
+    - per-use
+  - name: Advanced Trade — Advanced 8
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - transaction
+    periods:
+    - per-use
+  - name: Stable Pairs
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - transaction
+    periods:
+    - per-use
