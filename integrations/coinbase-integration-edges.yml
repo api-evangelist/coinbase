@@ -1,0 +1,47 @@
+generated: '2026-10-12'
+method: searched
+source:
+- https://composio.dev/toolkits/coinbase
+checked:
+- https://composio.dev/toolkits/coinbase
+- https://monid.ai/tools/coinbase
+- https://n8n.io/integrations/coinbase/
+- https://zapier.com/apps/coinbase/integrations
+summary: null
+marketplace_apps:
+- marketplace: composio
+  channel: agent-gateway
+  app: coinbase
+  url: https://composio.dev/toolkits/coinbase
+  identity: action-prefix
+  actions:
+  - key: COINBASE_GET_ASSET_DETAILS
+  - key: COINBASE_GET_EXCHANGE_CURRENCY
+  - key: COINBASE_GET_INSTRUMENTS_FUNDING
+  - key: COINBASE_GET_INSTRUMENTS_QUOTE
+  - key: COINBASE_GET_INSTRUMENTS_VOLUMES_DAILY
+  - key: COINBASE_GET_INSTRUMENT_DETAILS
+  - key: COINBASE_GET_MARKET_PRODUCT_BOOK
+  - key: COINBASE_GET_PRODUCT
+  - key: COINBASE_GET_PRODUCTS_TICKER
+  - key: COINBASE_GET_PRODUCTS_VOLUME_SUMMARY
+  - key: COINBASE_GET_PRODUCT_BOOK
+  - key: COINBASE_GET_PUBLIC_MARKET_TRADES
+  - key: COINBASE_GET_SERVER_TIME
+  - key: COINBASE_GET_SUPPORTED_NETWORKS
+  - key: COINBASE_GET_WRAPPED_ASSET_CONVERSION_RATE
+  - key: COINBASE_LIST_ASSETS
+  - key: COINBASE_LIST_CURRENCIES
+  - key: COINBASE_LIST_EXCHANGE_PRODUCTS
+  - key: COINBASE_LIST_INSTRUMENTS
+  - key: COINBASE_LIST_INSTRUMENTS_CANDLES
+  - key: COINBASE_LIST_LOANS_ASSETS
+  - key: COINBASE_LIST_MARKET_PRODUCTS
+  - key: COINBASE_LIST_PRODUCTS_CANDLES
+  - key: COINBASE_LIST_PRODUCTS_STATS
+  - key: COINBASE_LIST_PRODUCTS_TRADES
+  - key: COINBASE_LIST_PRODUCT_CANDLES
+  - key: COINBASE_LIST_WALLETS
+  - key: COINBASE_LIST_WRAPPED_ASSETS
+edges: []
+templates: []
