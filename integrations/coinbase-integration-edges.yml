@@ -8,6 +8,7 @@ checked:
 - https://monid.ai/tools/coinbase
 - https://n8n.io/integrations/coinbase/
 - https://raw.githubusercontent.com/ccxt/ccxt/master/exchanges.json
+- https://www.dfs.ny.gov/apps_and_licensing/virtual_currency_businesses
 - https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv
 - https://zapier.com/apps/coinbase/integrations
 summary: null
@@ -102,6 +103,31 @@ edges:
     matched_domain: coinbase.com
     detected_by: sweep-crypto.py
     detected: '2026-10-13'
+  detected_by: sweep-crypto.py
+  first_seen: '2026-10-13'
+- partner_name: NYDFS (New York)
+  partner: null
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.dfs.ny.gov/apps_and_licensing/virtual_currency_businesses
+  contract_reference:
+    register: NYDFS virtual currency licensees
+    spec_file: null
+    register_snapshot: https://web.archive.org/web/20261010154817/https://www.dfs.ny.gov/apps_and_licensing/virtual_currency_businesses
+    registered_name: Coinbase Custody Trust Company, LLC
+    role: limited-purpose-trust-charter
+    granted: 2018-10
+    evidence: https://www.coinbase.com/legal/licenses
+    matched_by: verified-legal-name
+    detected_by: sweep-crypto.py
+    detected: '2026-10-13'
+    other_registrations:
+    - registered_name: Coinbase, Inc.
+      role: bitlicense+money-transmitter
+      granted: 2017-01
+      evidence: https://www.coinbase.com/legal/licenses
   detected_by: sweep-crypto.py
   first_seen: '2026-10-13'
 templates: []
