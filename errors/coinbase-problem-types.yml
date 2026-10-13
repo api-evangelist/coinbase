@@ -1,0 +1,48 @@
+generated: '2026-10-13'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/coinbase-accounts-api-openapi.yml
+- openapi/coinbase-activities-api-openapi.yml
+- openapi/coinbase-address-book-api-openapi.yml
+- openapi/coinbase-allocations-api-openapi.yml
+- openapi/coinbase-assets-api-openapi.yml
+- openapi/coinbase-balances-api-openapi.yml
+- openapi/coinbase-buy-api-openapi.yml
+- openapi/coinbase-charges-api-openapi.yml
+- openapi/coinbase-checkouts-api-openapi.yml
+- openapi/coinbase-conversions-api-openapi.yml
+- openapi/coinbase-currencies-api-openapi.yml
+- openapi/coinbase-deposits-api-openapi.yml
+format: custom
+envelope:
+  media_type: null
+  schema: null
+coverage:
+  operations: 84
+  statuses_declared: 4
+problems:
+- status: 400
+  title: Bad Request
+  description: Bad request - Invalid parameters
+  operations: 11
+  media_types: []
+  schema: null
+- status: 401
+  title: Unauthorized
+  description: Unauthorized - Invalid or missing authentication
+  operations: 23
+  media_types: []
+  schema: null
+- status: 404
+  title: Not Found
+  description: Order not found
+  operations: 13
+  media_types: []
+  schema: null
+- status: 429
+  title: Too Many Requests
+  description: Rate limit exceeded
+  operations: 2
+  media_types: []
+  schema: null

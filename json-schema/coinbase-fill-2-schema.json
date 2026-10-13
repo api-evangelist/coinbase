@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/coinbase/main/json-schema/coinbase-fill-2-schema.json",
+  "title": "Fill_2",
+  "description": "A fill representing a completed trade",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/coinbase-orders-api-openapi.yml#/components/schemas/Fill_2",
+  "type": "object",
+  "properties": {
+    "trade_id": {
+      "type": "integer",
+      "description": "Trade identifier"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "Product traded"
+    },
+    "price": {
+      "type": "string",
+      "description": "Execution price"
+    },
+    "size": {
+      "type": "string",
+      "description": "Trade size"
+    },
+    "order_id": {
+      "type": "string",
+      "description": "Order that generated this fill"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the fill occurred"
+    },
+    "liquidity": {
+      "type": "string",
+      "description": "Whether the fill was maker or taker",
+      "enum": [
+        "M",
+        "T"
+      ]
+    },
+    "fee": {
+      "type": "string",
+      "description": "Fee for this fill"
+    },
+    "settled": {
+      "type": "boolean",
+      "description": "Whether the fill has settled"
+    },
+    "side": {
+      "type": "string",
+      "description": "Trade side",
+      "enum": [
+        "buy",
+        "sell"
+      ]
+    }
+  }
+}

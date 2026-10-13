@@ -1,0 +1,19 @@
+generated: '2026-07-18'
+method: searched
+spec_type: Webhooks
+source: https://docs.cdp.coinbase.com/webhooks/overview
+docs: https://docs.cdp.coinbase.com/webhooks/overview
+verify_signatures: https://docs.cdp.coinbase.com/webhooks/verify-signatures
+description: >-
+  Coinbase Developer Platform publishes an event-driven webhook surface for
+  transaction and address monitoring. Consumers verify webhook authenticity via
+  signature verification before processing incoming events. No published
+  AsyncAPI document was found; this captures the webhook catalog surface.
+webhook_families:
+  - name: Wallet / address activity
+    description: Transaction and address monitoring events for onchain activity.
+  - name: Payment / transfer events
+    description: Event-driven notifications for payment and transfer lifecycle (Payments APIs).
+notes: >-
+  Additional webhook surfaces exist on Coinbase Commerce and Coinbase Exchange;
+  this artifact tracks the CDP webhook overview as the primary event surface.

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/coinbase/main/json-schema/coinbase-trade-2-schema.json",
+  "title": "Trade_2",
+  "description": "A market trade",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/coinbase-products-api-openapi.yml#/components/schemas/Trade_2",
+  "type": "object",
+  "properties": {
+    "time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Trade time"
+    },
+    "trade_id": {
+      "type": "integer",
+      "description": "Trade identifier"
+    },
+    "price": {
+      "type": "string",
+      "description": "Trade price"
+    },
+    "size": {
+      "type": "string",
+      "description": "Trade size"
+    },
+    "side": {
+      "type": "string",
+      "description": "Maker side",
+      "enum": [
+        "buy",
+        "sell"
+      ]
+    }
+  }
+}

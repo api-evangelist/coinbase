@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/coinbase/main/json-schema/coinbase-price-book-schema.json",
+  "title": "PriceBook",
+  "description": "Order book price levels",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/coinbase-market-data-api-openapi.yml#/components/schemas/PriceBook",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "Product identifier"
+    },
+    "bids": {
+      "type": "array",
+      "description": "Bid price levels",
+      "items": {
+        "type": "object",
+        "properties": {
+          "price": {
+            "type": "string",
+            "description": "Bid price"
+          },
+          "size": {
+            "type": "string",
+            "description": "Size at this price level"
+          }
+        }
+      }
+    },
+    "asks": {
+      "type": "array",
+      "description": "Ask price levels",
+      "items": {
+        "type": "object",
+        "properties": {
+          "price": {
+            "type": "string",
+            "description": "Ask price"
+          },
+          "size": {
+            "type": "string",
+            "description": "Size at this price level"
+          }
+        }
+      }
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the price book"
+    }
+  }
+}

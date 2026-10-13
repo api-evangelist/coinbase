@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/coinbase/main/json-schema/coinbase-create-invoice-request-schema.json",
+  "title": "CreateInvoiceRequest",
+  "description": "Request body for creating a new invoice",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/coinbase-invoices-api-openapi.yml#/components/schemas/CreateInvoiceRequest",
+  "type": "object",
+  "required": [
+    "business_name",
+    "customer_email",
+    "local_price"
+  ],
+  "properties": {
+    "business_name": {
+      "type": "string",
+      "description": "Business name"
+    },
+    "customer_name": {
+      "type": "string",
+      "description": "Customer name"
+    },
+    "customer_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Customer email address"
+    },
+    "memo": {
+      "type": "string",
+      "description": "Invoice memo or notes"
+    },
+    "local_price": {
+      "type": "object",
+      "description": "Invoice amount",
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Amount"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency code"
+        }
+      }
+    }
+  }
+}

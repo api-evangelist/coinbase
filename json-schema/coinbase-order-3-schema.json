@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/coinbase/main/json-schema/coinbase-order-3-schema.json",
+  "title": "Order_3",
+  "description": "A trading order within a portfolio",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/coinbase-orders-api-openapi.yml#/components/schemas/Order_3",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Order identifier"
+    },
+    "portfolio_id": {
+      "type": "string",
+      "description": "Portfolio that owns the order"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "Trading pair"
+    },
+    "side": {
+      "type": "string",
+      "description": "Order side",
+      "enum": [
+        "BUY",
+        "SELL"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "description": "Order type",
+      "enum": [
+        "MARKET",
+        "LIMIT",
+        "TWAP",
+        "BLOCK"
+      ]
+    },
+    "base_quantity": {
+      "type": "string",
+      "description": "Base currency quantity"
+    },
+    "quote_value": {
+      "type": "string",
+      "description": "Quote currency value"
+    },
+    "limit_price": {
+      "type": "string",
+      "description": "Limit price (for limit orders)"
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "TWAP start time"
+    },
+    "expiry_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Order expiration time"
+    },
+    "status": {
+      "type": "string",
+      "description": "Order status",
+      "enum": [
+        "OPEN",
+        "FILLED",
+        "CANCELLED",
+        "EXPIRED",
+        "FAILED"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the order was created"
+    },
+    "filled_quantity": {
+      "type": "string",
+      "description": "Amount filled"
+    },
+    "filled_value": {
+      "type": "string",
+      "description": "Value of filled portion"
+    },
+    "average_filled_price": {
+      "type": "string",
+      "description": "Average execution price"
+    }
+  }
+}

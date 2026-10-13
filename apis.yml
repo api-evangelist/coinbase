@@ -1,9 +1,15 @@
 aid: coinbase
+
 url: https://raw.githubusercontent.com/api-evangelist/coinbase/refs/heads/main/apis.yml
+
 name: Coinbase
+
 x-docs-platform: mintlify
+
 x-docs-platform-confidence: medium
+
 x-docs-platform-checked: 2026-09-24
+
 tags:
 - Blockchain
 - Cryptocurrency
@@ -17,6 +23,7 @@ tags:
 - Agentic Commerce
 - x402
 - Real-Time
+
 tags_raw:
 - Blockchain
 - Cryptocurrency
@@ -30,8 +37,11 @@ tags_raw:
 - Agentic Commerce
 - x402
 - Real-Time
+
 type: Index
+
 kind: company
+
 deliveryModel:
   model: saas
   open_source: false
@@ -44,6 +54,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: paid
   onboarding: unknown
@@ -58,20 +69,131 @@ accessModel:
   - security
   generated: '2026-09-03'
   method: derived
+
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/coinbase.png
+
 access: 3rd-Party
+
 created: '2026-03-20'
+
 modified: '2026-05-19'
+
 position: Consuming
-description: Coinbase is a leading cryptocurrency platform providing trading, custody,
-  and payment infrastructure for individuals, businesses, and institutions. The Coinbase
-  Developer Platform (CDP) exposes a wide product surface across retail trading (Advanced
-  Trade), professional and institutional trading (Exchange and Prime), merchant payments
-  (Commerce), fiat onboarding (Onramp), developer wallet integration (Wallet SDK),
-  market and on-chain data (Data API), and AI agent toolkits (AgentKit). Authentication
-  is performed using API keys with HMAC-SHA256 signatures (Advanced Trade, Exchange)
-  or JWT bearer tokens (Prime, CDP), with WebSocket and FIX feeds available for low-latency
-  market data and order management.
+
+description: Coinbase is a leading cryptocurrency platform providing trading, custody, and payment infrastructure for individuals, businesses,
+  and institutions. The Coinbase Developer Platform (CDP) exposes a wide product surface across retail trading (Advanced Trade), professional
+  and institutional trading (Exchange and Prime), merchant payments (Commerce), fiat onboarding (Onramp), developer wallet integration (Wallet
+  SDK), market and on-chain data (Data API), and AI agent toolkits (AgentKit). Authentication is performed using API keys with HMAC-SHA256 signatures
+  (Advanced Trade, Exchange) or JWT bearer tokens (Prime, CDP), with WebSocket and FIX feeds available for low-latency market data and order management.
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+
+specificationVersion: '0.23'
+
+common:
+- type: Idempotency
+  url: conventions/coinbase-conventions.yml
+- type: Conventions
+  url: conventions/coinbase-conventions.yml
+- type: Spectral
+  url: rules/coinbase-rules.yml
+- type: Spectral
+  url: rules/coinbase-jsonschema-spectral-rules.yml
+- type: Spectral
+  url: rules/coinbase-asyncapi-spectral-rules.yml
+- type: Vocabulary
+  url: vocabulary/coinbase-vocabulary.yml
+- type: Webhooks
+  url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+- type: DataModel
+  url: data-model/coinbase-data-model.yml
+- type: Security
+  url: security/coinbase-vulnerability-disclosure.yml
+- type: ErrorCatalog
+  url: errors/coinbase-problem-types.yml
+- type: Conformance
+  url: conformance/coinbase-conformance.yml
+- type: LLMsTxt
+  url: llms/coinbase-llms.txt
+- type: MCPServer
+  url: mcp/coinbase-mcp.yml
+- type: IntegrationEdges
+  url: integrations/coinbase-integration-edges.yml
+- type: Plans
+  url: plans/coinbase-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/coinbase-rate-limits.yml
+- type: FinOps
+  url: finops/coinbase-finops.yml
+- type: CapabilityMap
+  url: capabilities/coinbase-capability-edges.yml
+  name: Coinbase Business Capability Map
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/coinbase/overview
+- type: AgenticAccess
+  url: agentic-access/coinbase-agentic-access.yml
+- type: VulnerabilityDisclosure
+  url: security/coinbase-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/coinbase-domain-security.yml
+- type: Authentication
+  url: authentication/coinbase-authentication.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/coinbase
+- type: DeveloperPortal
+  url: https://www.coinbase.com/developer-platform
+- type: Documentation
+  url: https://docs.cdp.coinbase.com/
+- type: Website
+  url: https://www.coinbase.com/
+- type: Blog
+  url: https://www.coinbase.com/blog
+- type: GitHub
+  url: https://github.com/coinbase
+- type: Login
+  url: https://login.coinbase.com/
+- type: Support
+  url: https://help.coinbase.com/
+- type: PrivacyPolicy
+  url: https://www.coinbase.com/legal/privacy
+- type: TermsOfService
+  url: https://www.coinbase.com/legal/user-agreement
+- type: JSONLD
+  url: json-ld/coinbase-context.jsonld
+- type: JSONSchema
+  url: json-schema/coinbase-order-schema.json
+- type: JSONSchema
+  url: json-schema/coinbase-charge-schema.json
+- type: JSONSchema
+  url: json-schema/coinbase-product-schema.json
+- type: Spectral Ruleset
+  url: rules/coinbase-rules.yml
+- type: LlmsText
+  url: https://docs.cdp.coinbase.com/llms.txt
+- type: Packages
+  url: packages/coinbase-packages.yml
+  x-moved-from: coinbase-global (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- type: SDKs
+  url: packages/coinbase-packages.yml
+  x-moved-from: coinbase-global (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- type: CLI
+  url: cli/coinbase-cli.yml
+  x-moved-from: coinbase-global (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- type: AgentSkill
+  url: skills/_index.yml
+  x-moved-from: coinbase-global (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- type: WellKnown
+  url: well-known/coinbase-well-known.yml
+  x-moved-from: coinbase-global (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- type: SecurityTxt
+  url: well-known/coinbase-security.txt
+  x-moved-from: coinbase-global (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- type: Webhooks
+  url: asyncapi/coinbase-webhooks.yml
+  x-moved-from: coinbase-global (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+
 apis:
 - aid: coinbase:wallet-sdk
   name: Coinbase Wallet SDK
@@ -92,11 +214,9 @@ apis:
   properties:
   - url: https://docs.cdp.coinbase.com/wallet-sdk/docs/welcome
     type: Documentation
-  description: >-
-    The Coinbase Wallet SDK allows developers to integrate Coinbase Wallet connectivity into decentralized
-    applications. It provides a streamlined interface for users to connect their wallets, sign transactions,
-    and interact with smart contracts across multiple blockchain networks. The SDK supports millions of
-    Coinbase Wallet users and enables dapp developers to offer seamless wallet-based experiences for trading
+  description: The Coinbase Wallet SDK allows developers to integrate Coinbase Wallet connectivity into decentralized applications. It provides
+    a streamlined interface for users to connect their wallets, sign transactions, and interact with smart contracts across multiple blockchain
+    networks. The SDK supports millions of Coinbase Wallet users and enables dapp developers to offer seamless wallet-based experiences for trading
     assets and managing NFTs.
   x-features:
   - EIP-1193 provider compatible with web3 libraries
@@ -119,11 +239,9 @@ apis:
   properties:
   - url: https://www.coinbase.com/developer-platform/products/data-api
     type: Documentation
-  description: >-
-    The Coinbase Data API provides developers with access to cryptocurrency market data, blockchain analytics,
-    and pricing information. It delivers real-time and historical data for a wide range of digital assets,
-    enabling developers to build data-driven applications, dashboards, and research tools. The API supports
-    queries for price feeds, trading volumes, and on-chain metrics across supported networks.
+  description: The Coinbase Data API provides developers with access to cryptocurrency market data, blockchain analytics, and pricing information.
+    It delivers real-time and historical data for a wide range of digital assets, enabling developers to build data-driven applications, dashboards,
+    and research tools. The API supports queries for price feeds, trading volumes, and on-chain metrics across supported networks.
   x-features:
   - Real-time and historical price feeds
   - On-chain analytics and metrics
@@ -151,10 +269,9 @@ apis:
   properties:
   - url: https://docs.cdp.coinbase.com/agent-kit/welcome
     type: Documentation
-  description: >-
-    Coinbase AgentKit is a toolkit that enables AI agents to interact with blockchain networks through
-    secure wallet management and comprehensive onchain capabilities. Built on the Coinbase Developer Platform
-    SDK, it is framework-agnostic and wallet-agnostic, supporting EVM and Solana networks.
+  description: Coinbase AgentKit is a toolkit that enables AI agents to interact with blockchain networks through secure wallet management and
+    comprehensive onchain capabilities. Built on the Coinbase Developer Platform SDK, it is framework-agnostic and wallet-agnostic, supporting
+    EVM and Solana networks.
   x-features:
   - Framework-agnostic and wallet-agnostic agent toolkit
   - EVM and Solana network support
@@ -192,6 +309,14 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-account-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-ledger-entry-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-hold-schema.json
 - aid: coinbase:coinbase-activities-api
   name: Coinbase Activities API
   description: View activity history for portfolios including trades, transfers, and other events.
@@ -218,6 +343,10 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-activity-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-address-book-api
   name: Coinbase Address Book API
   description: Manage approved withdrawal addresses in the address book.
@@ -244,6 +373,10 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-address-book-entry-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-allocations-api
   name: Coinbase Allocations API
   description: View and manage order allocations across sub-portfolios.
@@ -270,6 +403,10 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-allocation-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-assets-api
   name: Coinbase Assets API
   description: Retrieve information about supported assets and products.
@@ -296,6 +433,10 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-balances-api
   name: Coinbase Balances API
   description: Retrieve portfolio balance information across all assets.
@@ -322,11 +463,13 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-balance-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-buy-api
   name: Coinbase Buy API
-  description: >-
-    Endpoints for discovering buy options, generating buy quotes, and retrieving buy configuration for
-    fiat-to-crypto purchases.
+  description: Endpoints for discovering buy options, generating buy quotes, and retrieving buy configuration for fiat-to-crypto purchases.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -350,11 +493,19 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-buy-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-purchase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-buy-quote-request-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-buy-config-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-currency-schema.json
 - aid: coinbase:coinbase-charges-api
   name: Coinbase Charges API
-  description: >-
-    Create and manage payment charges. A charge represents a request for cryptocurrency payment from a
-    customer.
+  description: Create and manage payment charges. A charge represents a request for cryptocurrency payment from a customer.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -378,10 +529,15 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-charge-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-create-charge-request-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-checkouts-api
   name: Coinbase Checkouts API
-  description: >-
-    Create and manage reusable checkout pages for accepting recurring or standardized payments.
+  description: Create and manage reusable checkout pages for accepting recurring or standardized payments.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -407,6 +563,12 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-checkout-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-create-checkout-request-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-conversions-api
   name: Coinbase Conversions API
   description: Convert between stablecoin currencies on the exchange.
@@ -435,6 +597,8 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
 - aid: coinbase:coinbase-currencies-api
   name: Coinbase Currencies API
   description: Retrieve information about supported currencies on the exchange.
@@ -463,6 +627,8 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
 - aid: coinbase:coinbase-deposits-api
   name: Coinbase Deposits API
   description: View deposit information and payment methods for funding exchange accounts.
@@ -489,6 +655,10 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
 - aid: coinbase:coinbase-events-api
   name: Coinbase Events API
   description: Retrieve webhook events that track the lifecycle of charges, checkouts, and invoices.
@@ -517,6 +687,10 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-event-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-fees-api
   name: Coinbase Fees API
   description: Retrieve transaction summary and fee information for the authenticated user.
@@ -543,6 +717,8 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
 - aid: coinbase:coinbase-invoices-api
   name: Coinbase Invoices API
   description: Create and manage invoices for billing customers with cryptocurrency payment options.
@@ -569,10 +745,15 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-invoice-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-create-invoice-request-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-market-data-api
   name: Coinbase Market Data API
-  description: >-
-    Access public market data including products, order books, trades, and candles without authentication.
+  description: Access public market data including products, order books, trades, and candles without authentication.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -596,10 +777,11 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
 - aid: coinbase:coinbase-orders-api
   name: Coinbase Orders API
-  description: >-
-    Create, cancel, and manage trading orders including market, limit, and stop-limit order types.
+  description: Create, cancel, and manage trading orders including market, limit, and stop-limit order types.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -625,6 +807,18 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-order-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-3-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-create-order-request-3-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-fill-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-fill-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-fill-3-schema.json
 - aid: coinbase:coinbase-portfolios-api
   name: Coinbase Portfolios API
   description: Create and manage portfolios for organizing trading activity and asset allocation.
@@ -653,10 +847,13 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-portfolio-breakdown-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-portfolio-schema.json
 - aid: coinbase:coinbase-products-api
   name: Coinbase Products API
-  description: >-
-    Retrieve product information, market trades, product books, and candle data for trading pairs.
+  description: Retrieve product information, market trades, product books, and candle data for trading pairs.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -682,6 +879,16 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
 - aid: coinbase:coinbase-profiles-api
   name: Coinbase Profiles API
   description: Manage exchange profiles and transfer funds between them.
@@ -708,10 +915,11 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
 - aid: coinbase:coinbase-sell-api
   name: Coinbase Sell API
-  description: >-
-    Endpoints for discovering sell options and generating sell quotes for crypto-to-fiat transactions.
+  description: Endpoints for discovering sell options and generating sell quotes for crypto-to-fiat transactions.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -735,6 +943,14 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-sell-quote-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-purchase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-sell-quote-request-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-currency-schema.json
 - aid: coinbase:coinbase-session-api
   name: Coinbase Session API
   description: Manage session tokens for embedded onramp widget authentication.
@@ -791,6 +1007,10 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-users-api
   name: Coinbase Users API
   description: Manage users associated with a portfolio.
@@ -819,6 +1039,10 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-user-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-wallets-api
   name: Coinbase Wallets API
   description: Manage wallets within a portfolio for different asset types.
@@ -845,10 +1069,13 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-wallet-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-withdrawals-api
   name: Coinbase Withdrawals API
-  description: >-
-    Manage crypto withdrawals from exchange accounts to external addresses or Coinbase accounts.
+  description: Manage crypto withdrawals from exchange accounts to external addresses or Coinbase accounts.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -872,59 +1099,47 @@ apis:
     url: https://commerce.coinbase.com/docs/api
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
-common:
-- type: Plans
-  url: plans/coinbase-plans-pricing.yml
-- type: RateLimits
-  url: rate-limits/coinbase-rate-limits.yml
-- type: FinOps
-  url: finops/coinbase-finops.yml
-- type: CapabilityMap
-  url: capabilities/coinbase-capability-edges.yml
-  name: Coinbase Business Capability Map
-- type: PostmanWorkspace
-  url: https://www.postman.com/kinlaneapi/coinbase/overview
-- type: AgenticAccess
-  url: agentic-access/coinbase-agentic-access.yml
-- type: VulnerabilityDisclosure
-  url: security/coinbase-vulnerability-disclosure.yml
-- type: DomainSecurity
-  url: security/coinbase-domain-security.yml
-- type: Authentication
-  url: authentication/coinbase-authentication.yml
-- type: LinkedIn
-  url: https://www.linkedin.com/company/coinbase
-- type: DeveloperPortal
-  url: https://www.coinbase.com/developer-platform
-- type: Documentation
-  url: https://docs.cdp.coinbase.com/
-- type: Website
-  url: https://www.coinbase.com/
-- type: Blog
-  url: https://www.coinbase.com/blog
-- type: GitHub
-  url: https://github.com/coinbase
-- type: Login
-  url: https://login.coinbase.com/
-- type: Support
-  url: https://help.coinbase.com/
-- type: PrivacyPolicy
-  url: https://www.coinbase.com/legal/privacy
-- type: TermsOfService
-  url: https://www.coinbase.com/legal/user-agreement
-- type: JSONLD
-  url: json-ld/coinbase-context.jsonld
-- type: JSONSchema
-  url: json-schema/coinbase-order-schema.json
-- type: JSONSchema
-  url: json-schema/coinbase-charge-schema.json
-- type: JSONSchema
-  url: json-schema/coinbase-product-schema.json
-- type: Spectral Ruleset
-  url: rules/coinbase-rules.yml
-- type: LlmsText
-  url: https://docs.cdp.coinbase.com/llms.txt
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
-specificationVersion: '0.23'
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+- aid: coinbase:coinbase-developer-platform-cdp-api
+  name: Coinbase Developer Platform (CDP) API
+  description: Core CDP API v2 for onchain wallets, payments, trading, faucets, policies, and JSON-RPC access, authenticated with short-lived
+    JWTs.
+  humanURL: https://docs.cdp.coinbase.com/api-reference
+  baseURL: https://api.cdp.coinbase.com
+  properties:
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com
+  - type: APIReference
+    url: https://docs.cdp.coinbase.com/api-reference
+  x-moved-from: coinbase-global:coinbase-developer-platform-cdp-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- aid: coinbase:coinbase-advanced-trade-api
+  name: Coinbase Advanced Trade API
+  description: Programmatic spot trading, order management, and market data for the Coinbase retail exchange (Advanced Trade).
+  humanURL: https://docs.cdp.coinbase.com/advanced-trade/docs/welcome
+  baseURL: https://api.coinbase.com
+  x-moved-from: coinbase-global:coinbase-advanced-trade-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- aid: coinbase:coinbase-app-api-sign-in-with-coinbase
+  name: Coinbase App API (Sign in with Coinbase)
+  description: Retail Coinbase App API v2 for accounts, addresses, transactions, buys/sells, with OAuth2 and API-key HMAC authentication.
+  humanURL: https://docs.cdp.coinbase.com/coinbase-app/docs/welcome
+  baseURL: https://api.coinbase.com
+  x-moved-from: coinbase-global:coinbase-app-api-sign-in-with-coinbase (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- aid: coinbase:coinbase-exchange-api
+  name: Coinbase Exchange API
+  description: Institutional/pro exchange REST and WebSocket API for order books, trading, and market data.
+  humanURL: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  baseURL: https://api.exchange.coinbase.com
+  x-moved-from: coinbase-global:coinbase-exchange-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- aid: coinbase:coinbase-prime-api
+  name: Coinbase Prime API
+  description: Institutional trading, custody, and portfolio management API for Coinbase Prime.
+  humanURL: https://docs.cdp.coinbase.com/prime/introduction/welcome
+  baseURL: https://api.prime.coinbase.com
+  x-moved-from: coinbase-global:coinbase-prime-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- aid: coinbase:coinbase-commerce-api
+  name: Coinbase Commerce API
+  description: Crypto payments/checkout API for accepting cryptocurrency payments.
+  humanURL: https://docs.cdp.coinbase.com/commerce-onchain/docs/welcome
+  baseURL: https://api.commerce.coinbase.com
+  x-moved-from: coinbase-global:coinbase-commerce-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)

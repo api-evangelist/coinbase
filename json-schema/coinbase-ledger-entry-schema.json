@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/coinbase/main/json-schema/coinbase-ledger-entry-schema.json",
+  "title": "LedgerEntry",
+  "description": "A ledger entry recording account activity",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/coinbase-accounts-api-openapi.yml#/components/schemas/LedgerEntry",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Entry identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the entry was created"
+    },
+    "amount": {
+      "type": "string",
+      "description": "Amount of the entry"
+    },
+    "balance": {
+      "type": "string",
+      "description": "Account balance after the entry"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of ledger entry",
+      "enum": [
+        "transfer",
+        "match",
+        "fee",
+        "rebate",
+        "conversion"
+      ]
+    },
+    "details": {
+      "type": "object",
+      "description": "Additional details about the entry"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/coinbase/main/json-schema/coinbase-fill-3-schema.json",
+  "title": "Fill_3",
+  "description": "An order fill",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/coinbase-orders-api-openapi.yml#/components/schemas/Fill_3",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Fill identifier"
+    },
+    "order_id": {
+      "type": "string",
+      "description": "Order that generated this fill"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "Product traded"
+    },
+    "side": {
+      "type": "string",
+      "description": "Trade side"
+    },
+    "filled_quantity": {
+      "type": "string",
+      "description": "Quantity filled"
+    },
+    "filled_value": {
+      "type": "string",
+      "description": "Value filled"
+    },
+    "price": {
+      "type": "string",
+      "description": "Execution price"
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fill time"
+    },
+    "commission": {
+      "type": "string",
+      "description": "Commission charged"
+    },
+    "venue": {
+      "type": "string",
+      "description": "Execution venue"
+    }
+  }
+}

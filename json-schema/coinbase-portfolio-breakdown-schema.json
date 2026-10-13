@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/coinbase/main/json-schema/coinbase-portfolio-breakdown-schema.json",
+  "title": "PortfolioBreakdown",
+  "description": "Detailed breakdown of a portfolio",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/coinbase-portfolios-api-openapi.yml#/components/schemas/PortfolioBreakdown",
+  "type": "object",
+  "properties": {
+    "portfolio": {
+      "$ref": "#/$defs/Portfolio"
+    },
+    "portfolio_balances": {
+      "type": "object",
+      "description": "Aggregated balance information",
+      "properties": {
+        "total_balance": {
+          "$ref": "#/$defs/Balance"
+        },
+        "total_futures_balance": {
+          "$ref": "#/$defs/Balance"
+        },
+        "total_cash_equivalent_balance": {
+          "$ref": "#/$defs/Balance"
+        }
+      }
+    },
+    "spot_positions": {
+      "type": "array",
+      "description": "Spot positions in the portfolio",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "type": "string",
+            "description": "Asset symbol"
+          },
+          "account_uuid": {
+            "type": "string",
+            "description": "Account UUID"
+          },
+          "total_balance_fiat": {
+            "type": "number",
+            "description": "Total balance in fiat"
+          },
+          "total_balance_crypto": {
+            "type": "number",
+            "description": "Total balance in crypto"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "Balance": {
+      "type": "object",
+      "description": "A monetary value with currency",
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "Amount as a string to preserve precision"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency code"
+        }
+      }
+    },
+    "Portfolio": {
+      "type": "object",
+      "description": "A user portfolio for organizing trading activity",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the portfolio"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the portfolio"
+        },
+        "type": {
+          "type": "string",
+          "description": "Portfolio type",
+          "enum": [
+            "DEFAULT",
+            "CONSUMER",
+            "INTX"
+          ]
+        },
+        "deleted": {
+          "type": "boolean",
+          "description": "Whether the portfolio has been deleted"
+        }
+      }
+    }
+  }
+}

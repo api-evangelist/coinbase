@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/coinbase/main/json-schema/coinbase-create-order-request-3-schema.json",
+  "title": "CreateOrderRequest_3",
+  "description": "Request body for creating a new order",
+  "x-generated": "2026-10-13",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/coinbase-orders-api-openapi.yml#/components/schemas/CreateOrderRequest_3",
+  "type": "object",
+  "required": [
+    "portfolio_id",
+    "product_id",
+    "side",
+    "type"
+  ],
+  "properties": {
+    "portfolio_id": {
+      "type": "string",
+      "description": "Portfolio ID"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "Trading pair"
+    },
+    "side": {
+      "type": "string",
+      "description": "Order side",
+      "enum": [
+        "BUY",
+        "SELL"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "description": "Order type",
+      "enum": [
+        "MARKET",
+        "LIMIT",
+        "TWAP",
+        "BLOCK"
+      ]
+    },
+    "base_quantity": {
+      "type": "string",
+      "description": "Base currency quantity"
+    },
+    "quote_value": {
+      "type": "string",
+      "description": "Quote currency value"
+    },
+    "limit_price": {
+      "type": "string",
+      "description": "Limit price"
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "TWAP start time"
+    },
+    "expiry_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Order expiration time"
+    },
+    "time_in_force": {
+      "type": "string",
+      "description": "Time in force",
+      "enum": [
+        "GOOD_UNTIL_TIME",
+        "GOOD_UNTIL_CANCELLED",
+        "IMMEDIATE_OR_CANCEL",
+        "FILL_OR_KILL"
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.cdp.coinbase.com/get-started/build-with-ai/cdp-cli/overview
+cli:
+  name: cdp
+  package: "@coinbase/cdp-cli"
+  binary: cdp
+  runtime: Node.js >= 22
+  install:
+    - npm i -g @coinbase/cdp-cli
+    - npx -y @coinbase/cdp-cli
+  docs: https://docs.cdp.coinbase.com/get-started/build-with-ai/cdp-cli/overview
+  quickstart: https://docs.cdp.coinbase.com/get-started/build-with-ai/cdp-cli/quickstart
+install:
+  - npm i -g @coinbase/cdp-cli
+  - npx -y @coinbase/cdp-cli
+commands:
+  - name: env
+    description: Configure and inspect CDP environment (API key file, wallet secret, live mode).
+    examples: [cdp env, "cdp env live --key-file <path>", "cdp env live --wallet-secret-file <path>"]
+  - name: evm
+    description: EVM account and transaction operations (create/list accounts, sign, send, faucet).
+    examples: ["cdp evm accounts list", "cdp evm accounts create name=test-wallet", "cdp evm faucet address=<addr> network=base-sepolia token=eth"]
+  - name: solana
+    description: Solana account and transaction operations.
+    examples: ["cdp solana faucet address=<addr> token=sol"]
+  - name: mcp
+    description: Run the CLI as a local stdio MCP server exposing every CDP API operation as a typed tool.
+    examples: [cdp mcp]
+  - name: skills
+    description: Install packaged agent skills into an agent's skills directory.
+    examples: [cdp skills add, "cdp skills add --dir <skills-directory>"]
+key_flows:
+  - Encode-sign-send transaction pipeline from the terminal.
+  - Run as an MCP server for AI agents (Claude Code, Codex, others).
+  - Faucet-fund testnet accounts (base-sepolia) with eth/usdc/eurc/cbbtc.

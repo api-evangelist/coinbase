@@ -1,0 +1,10 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.cdp.coinbase.com/cdp-cli/skill.md
+skills:
+  - file: coinbase-cdp-setup.md
+    name: cdp-setup
+    description: Provider-published skill that installs and configures the Coinbase Developer Platform CLI (API key + wallet secret) and wires the cdp MCP server for an AI agent.
+    api: https://docs.cdp.coinbase.com
+    official: true
+    operations: []

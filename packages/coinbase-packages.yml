@@ -1,0 +1,53 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.cdp.coinbase.com/sdks
+packages:
+  - language: typescript
+    registry: npm
+    name: "@coinbase/cdp-sdk"
+    url: https://www.npmjs.com/package/@coinbase/cdp-sdk
+    install: npm install @coinbase/cdp-sdk
+    official: true
+    product: Coinbase Developer Platform (CDP)
+  - language: python
+    registry: pypi
+    name: cdp-sdk
+    url: https://pypi.org/project/cdp-sdk/
+    install: pip install cdp-sdk
+    official: true
+    product: Coinbase Developer Platform (CDP)
+  - language: javascript
+    registry: npm
+    name: "@coinbase/cdp-cli"
+    url: https://www.npmjs.com/package/@coinbase/cdp-cli
+    install: npm install -g @coinbase/cdp-cli
+    official: true
+    product: CDP CLI + MCP server
+  - language: typescript
+    registry: npm
+    name: "@coinbase/cdp-hooks"
+    url: https://www.npmjs.com/package/@coinbase/cdp-hooks
+    install: npm install @coinbase/cdp-hooks
+    official: true
+    product: CDP frontend React hooks
+  - language: typescript
+    registry: npm
+    name: "@coinbase/cdp-react"
+    url: https://www.npmjs.com/package/@coinbase/cdp-react
+    install: npm install @coinbase/cdp-react
+    official: true
+    product: CDP frontend React components
+  - language: typescript
+    registry: npm
+    name: "@coinbase/agentkit"
+    url: https://www.npmjs.com/package/@coinbase/agentkit
+    install: npm install @coinbase/agentkit
+    official: true
+    product: AgentKit (AI agent framework)
+  - language: python
+    registry: pypi
+    name: coinbase-advanced-py
+    url: https://pypi.org/project/coinbase-advanced-py/
+    install: pip install coinbase-advanced-py
+    official: true
+    product: Coinbase Advanced Trade API

@@ -1,0 +1,306 @@
+generated: '2026-10-13'
+method: derived
+generator: derive-data-model.py
+source:
+- openapi/coinbase-accounts-api-openapi.yml
+- openapi/coinbase-activities-api-openapi.yml
+- openapi/coinbase-address-book-api-openapi.yml
+- openapi/coinbase-allocations-api-openapi.yml
+- openapi/coinbase-assets-api-openapi.yml
+- openapi/coinbase-balances-api-openapi.yml
+- openapi/coinbase-buy-api-openapi.yml
+- openapi/coinbase-charges-api-openapi.yml
+- openapi/coinbase-checkouts-api-openapi.yml
+- openapi/coinbase-conversions-api-openapi.yml
+- openapi/coinbase-currencies-api-openapi.yml
+- openapi/coinbase-deposits-api-openapi.yml
+notation: has_one = property $ref; has_many = array of $ref; belongs_to = <entity>_id field
+summary:
+  entities: 53
+  entities_in_spec: 53
+  relationships: 31
+entities:
+- name: Account
+  fields: 11
+  description: A user account holding a specific currency
+- name: Account_2
+  fields: 7
+  description: An exchange trading account for a specific currency
+- name: Activity
+  fields: 8
+  description: A portfolio activity event
+- name: AddressBookEntry
+  fields: 5
+  description: An approved withdrawal address
+- name: Allocation
+  fields: 10
+  description: An order allocation across sub-portfolios
+- name: Balance
+  fields: 2
+  description: A monetary value with currency
+- name: BuyConfig
+  fields: 1
+  description: Configuration for the onramp buy widget
+- name: BuyQuote
+  fields: 6
+  description: A price quote for buying cryptocurrency
+- name: BuyQuoteRequest
+  fields: 6
+  description: Request body for generating a buy quote
+- name: Candle
+  fields: 6
+  description: OHLCV candle data point
+- name: Charge
+  fields: 15
+  description: A payment charge representing a request for cryptocurrency payment
+- name: Checkout
+  fields: 7
+  description: A reusable checkout page for accepting payments
+- name: Conversion
+  fields: 6
+  description: A currency conversion between stablecoins
+- name: CreateChargeRequest
+  fields: 7
+  description: Request body for creating a new charge
+- name: CreateCheckoutRequest
+  fields: 5
+  description: Request body for creating a new checkout
+- name: CreateInvoiceRequest
+  fields: 5
+  description: Request body for creating a new invoice
+- name: CreateOrderRequest
+  fields: 4
+  description: Request body for creating a new order
+- name: CreateOrderRequest_2
+  fields: 10
+  description: Request body for placing a new order
+- name: CreateOrderRequest_3
+  fields: 10
+  description: Request body for creating a new order
+- name: Currency
+  fields: 5
+  description: A currency supported on the exchange
+- name: Event
+  fields: 6
+  description: A webhook event tracking resource lifecycle changes
+- name: Fill
+  fields: 10
+  description: A completed trade fill
+- name: Fill_2
+  fields: 10
+  description: A fill representing a completed trade
+- name: Fill_3
+  fields: 10
+  description: An order fill
+- name: Hold
+  fields: 5
+  description: A hold on account funds
+- name: Invoice
+  fields: 11
+  description: An invoice for billing customers
+- name: LedgerEntry
+  fields: 6
+  description: A ledger entry recording account activity
+- name: Order
+  fields: 15
+  description: A trading order
+- name: OrderBook
+  fields: 3
+  description: Product order book at a specific level of detail
+- name: Order_2
+  fields: 15
+  description: A trading order on the exchange
+- name: Order_3
+  fields: 15
+  description: A trading order within a portfolio
+- name: Pagination
+  fields: 3
+  description: Pagination information for list responses
+- name: Payment
+  fields: 5
+  description: A payment received for a charge
+- name: PaymentCurrency
+  fields: 5
+  description: A fiat currency available for payments
+- name: PaymentMethod
+  fields: 8
+  description: A linked payment method
+- name: Portfolio
+  fields: 4
+  description: A user portfolio for organizing trading activity
+- name: PortfolioBreakdown
+  fields: 3
+  description: Detailed breakdown of a portfolio
+- name: Portfolio_2
+  fields: 4
+  description: An institutional trading portfolio
+- name: PriceBook
+  fields: 4
+  description: Order book price levels
+- name: Product
+  fields: 7
+  description: A tradeable product
+- name: Product_2
+  fields: 14
+  description: A trading product on the exchange
+- name: Profile
+  fields: 6
+  description: A trading profile
+- name: PurchaseCurrency
+  fields: 5
+  description: A cryptocurrency available for purchase
+- name: SellQuote
+  fields: 4
+  description: A price quote for selling cryptocurrency
+- name: SellQuoteRequest
+  fields: 5
+  description: Request body for generating a sell quote
+- name: Ticker
+  fields: 7
+  description: Product ticker with latest trade and 24h stats
+- name: Trade
+  fields: 6
+  description: A market trade
+- name: Trade_2
+  fields: 5
+  description: A market trade
+- name: Transaction
+  fields: 11
+  description: A deposit, withdrawal, or transfer transaction
+- name: TransactionSummary
+  fields: 5
+  description: Summary of user transaction fees and volume
+- name: Transfer
+  fields: 6
+  description: A deposit or withdrawal transfer
+- name: User
+  fields: 4
+  description: A user with portfolio access
+- name: Wallet
+  fields: 5
+  description: A cryptocurrency wallet in a portfolio
+relationships:
+- from: Account
+  to: Balance
+  type: has_one
+  via: available_balance
+- from: Account
+  to: Balance
+  type: has_one
+  via: hold
+- from: Account_2
+  to: Profile
+  type: belongs_to
+  via: profile_id
+- from: Allocation
+  to: Order
+  type: belongs_to
+  via: order_id
+- from: Allocation
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: Charge
+  to: Payment
+  type: has_many
+  via: payments
+- from: Payment
+  to: Transaction
+  type: belongs_to
+  via: transaction_id
+- from: PriceBook
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: Fill
+  to: Trade
+  type: belongs_to
+  via: trade_id
+- from: Fill
+  to: Order
+  type: belongs_to
+  via: order_id
+- from: Fill
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: CreateOrderRequest
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: Order
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: Fill_2
+  to: Trade
+  type: belongs_to
+  via: trade_id
+- from: Fill_2
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: Fill_2
+  to: Order
+  type: belongs_to
+  via: order_id
+- from: CreateOrderRequest_2
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: Order_2
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: Fill_3
+  to: Order
+  type: belongs_to
+  via: order_id
+- from: Fill_3
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: CreateOrderRequest_3
+  to: Portfolio
+  type: belongs_to
+  via: portfolio_id
+- from: CreateOrderRequest_3
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: Order_3
+  to: Portfolio
+  type: belongs_to
+  via: portfolio_id
+- from: Order_3
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: PortfolioBreakdown
+  to: Portfolio
+  type: has_one
+  via: portfolio
+- from: Trade
+  to: Product
+  type: belongs_to
+  via: product_id
+- from: Ticker
+  to: Trade
+  type: belongs_to
+  via: trade_id
+- from: Trade_2
+  to: Trade
+  type: belongs_to
+  via: trade_id
+- from: Profile
+  to: User
+  type: belongs_to
+  via: user_id
+- from: Transaction
+  to: Wallet
+  type: belongs_to
+  via: wallet_id
+- from: Transaction
+  to: Portfolio
+  type: belongs_to
+  via: portfolio_id
