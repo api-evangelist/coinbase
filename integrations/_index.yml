@@ -51,7 +51,7 @@
     - j. providing transfer services for crypto-assets on behalf of clients
     matched_domain: coinbase.com
     detected_by: sweep-crypto.py
-    detected: '2026-10-13'
+    detected: '2026-10-14'
   status: not-a-workflow
   arazzo: null
 - slug: coinbase-nydfs-new-york
@@ -72,7 +72,7 @@
     evidence: https://www.coinbase.com/legal/licenses
     matched_by: verified-legal-name
     detected_by: sweep-crypto.py
-    detected: '2026-10-13'
+    detected: '2026-10-14'
     other_registrations:
     - registered_name: Coinbase, Inc.
       role: bitlicense+money-transmitter

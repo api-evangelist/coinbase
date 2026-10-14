@@ -62,7 +62,7 @@ edges:
   matched_by: domain+verified:coinbase.com
   partner_gap: no ccxt repo in all/* (catalog gap)
   detected_by: sweep-crypto.py
-  first_seen: '2026-10-13'
+  first_seen: '2026-10-14'
 - partner_name: CoinGecko
   partner: coingecko
   partner_match: aggregator
@@ -75,7 +75,7 @@ edges:
   coingecko_id: gdax
   trust_score: 10
   detected_by: sweep-crypto.py
-  first_seen: '2026-10-13'
+  first_seen: '2026-10-14'
 - partner_name: MiCA (EU)
   partner: null
   type: contract
@@ -102,9 +102,9 @@ edges:
     - j. providing transfer services for crypto-assets on behalf of clients
     matched_domain: coinbase.com
     detected_by: sweep-crypto.py
-    detected: '2026-10-13'
+    detected: '2026-10-14'
   detected_by: sweep-crypto.py
-  first_seen: '2026-10-13'
+  first_seen: '2026-10-14'
 - partner_name: NYDFS (New York)
   partner: null
   type: contract
@@ -122,12 +122,12 @@ edges:
     evidence: https://www.coinbase.com/legal/licenses
     matched_by: verified-legal-name
     detected_by: sweep-crypto.py
-    detected: '2026-10-13'
+    detected: '2026-10-14'
     other_registrations:
     - registered_name: Coinbase, Inc.
       role: bitlicense+money-transmitter
       granted: 2017-01
       evidence: https://www.coinbase.com/legal/licenses
   detected_by: sweep-crypto.py
-  first_seen: '2026-10-13'
+  first_seen: '2026-10-14'
 templates: []
