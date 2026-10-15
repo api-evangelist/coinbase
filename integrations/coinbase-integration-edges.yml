@@ -10,6 +10,7 @@ checked:
 - https://raw.githubusercontent.com/ccxt/ccxt/master/exchanges.json
 - https://www.dfs.ny.gov/apps_and_licensing/virtual_currency_businesses
 - https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv
+- https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
 - https://zapier.com/apps/coinbase/integrations
 summary: null
 marketplace_apps:
@@ -130,4 +131,36 @@ edges:
       evidence: https://www.coinbase.com/legal/licenses
   detected_by: sweep-crypto.py
   first_seen: '2026-10-14'
+- partner_name: ISO 10383 (MIC)
+  partner: null
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
+  source: mic
+  category: registered trading venues and market segments
+  contract_reference:
+    register: ISO 10383 Market Identifier Codes (ISO 20022 registration authority)
+    spec_file: null
+    standard: ISO 10383
+    role: venue operator
+    matched_domain: coinbase.com
+    matched_by: domain+verified:coinbase.com
+    categories:
+    - DCMS
+    operating_mics:
+    - FREX
+    mics:
+    - mic: FREX
+      operating_mic: FREX
+      segment: OPRT
+      market: COINBASE DERIVATIVES
+      category: DCMS
+      legal_name: COINBASE DERIVATIVES, LLC
+      country: US
+    detected_by: sweep-capital-markets.py
+    detected: '2026-10-15'
+  detected_by: sweep-capital-markets.py
+  first_seen: '2026-10-15'
 templates: []
