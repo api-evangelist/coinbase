@@ -568,12 +568,6 @@ paths:
       description: Production Server
 components:
   parameters:
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
     LimitParam:
       name: limit
       in: query
@@ -583,6 +577,21 @@ components:
         minimum: 1
         maximum: 250
         default: 49
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
     BeforeParam:
       name: before
       in: query
@@ -595,15 +604,25 @@ components:
       description: Cursor for pagination (older items)
       schema:
         type: string
-    LimitParam_2:
+    LimitParam_3:
       name: limit
       in: query
-      description: Number of results per request (max 100)
+      description: Maximum number of results to return
       schema:
         type: integer
         minimum: 1
-        maximum: 100
+        maximum: 3000
         default: 100
+    SortDirectionParam:
+      name: sort_direction
+      in: query
+      description: Sort direction for results
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+        default: DESC
     PortfolioIdParam:
       name: portfolio_id
       in: path
@@ -618,25 +637,6 @@ components:
       description: Order identifier
       schema:
         type: string
-    SortDirectionParam:
-      name: sort_direction
-      in: query
-      description: Sort direction for results
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-        default: DESC
-    LimitParam_3:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 3000
-        default: 100
   schemas:
     Fill:
       type: object
@@ -676,30 +676,6 @@ components:
           enum:
           - BUY
           - SELL
-    CreateOrderRequest:
-      type: object
-      description: Request body for creating a new order
-      required:
-      - client_order_id
-      - product_id
-      - side
-      - order_configuration
-      properties:
-        client_order_id:
-          type: string
-          description: Client-specified unique order ID
-        product_id:
-          type: string
-          description: Trading pair for the order
-        side:
-          type: string
-          description: Order side
-          enum:
-          - BUY
-          - SELL
-        order_configuration:
-          type: object
-          description: Configuration for the order type. Use one of market_market_ioc, limit_limit_gtc, limit_limit_gtd, stop_limit_stop_limit_gtc, or stop_limit_stop_limit_gtd.
     Order:
       type: object
       description: A trading order
@@ -770,6 +746,30 @@ components:
         order_configuration:
           type: object
           description: Order configuration details
+    CreateOrderRequest:
+      type: object
+      description: Request body for creating a new order
+      required:
+      - client_order_id
+      - product_id
+      - side
+      - order_configuration
+      properties:
+        client_order_id:
+          type: string
+          description: Client-specified unique order ID
+        product_id:
+          type: string
+          description: Trading pair for the order
+        side:
+          type: string
+          description: Order side
+          enum:
+          - BUY
+          - SELL
+        order_configuration:
+          type: object
+          description: Configuration for the order type. Use one of market_market_ioc, limit_limit_gtc, limit_limit_gtd, stop_limit_stop_limit_gtc, or stop_limit_stop_limit_gtd.
     Fill_2:
       type: object
       description: A fill representing a completed trade
@@ -811,59 +811,6 @@ components:
           enum:
           - buy
           - sell
-    CreateOrderRequest_2:
-      type: object
-      description: Request body for placing a new order
-      required:
-      - product_id
-      - side
-      - type
-      properties:
-        product_id:
-          type: string
-          description: Trading pair
-        side:
-          type: string
-          description: Order side
-          enum:
-          - buy
-          - sell
-        type:
-          type: string
-          description: Order type
-          enum:
-          - market
-          - limit
-          - stop
-        size:
-          type: string
-          description: Amount of base currency to buy or sell
-        price:
-          type: string
-          description: Price per unit (required for limit orders)
-        funds:
-          type: string
-          description: Amount of quote currency to use (market orders)
-        stop:
-          type: string
-          description: Stop price trigger type
-          enum:
-          - loss
-          - entry
-        stop_price:
-          type: string
-          description: Stop trigger price
-        time_in_force:
-          type: string
-          description: Time in force policy
-          enum:
-          - GTC
-          - GTT
-          - IOC
-          - FOK
-        post_only:
-          type: boolean
-          description: Post-only flag for limit orders
     Order_2:
       type: object
       description: A trading order on the exchange
@@ -933,6 +880,59 @@ components:
         post_only:
           type: boolean
           description: Whether the order is post-only
+    CreateOrderRequest_2:
+      type: object
+      description: Request body for placing a new order
+      required:
+      - product_id
+      - side
+      - type
+      properties:
+        product_id:
+          type: string
+          description: Trading pair
+        side:
+          type: string
+          description: Order side
+          enum:
+          - buy
+          - sell
+        type:
+          type: string
+          description: Order type
+          enum:
+          - market
+          - limit
+          - stop
+        size:
+          type: string
+          description: Amount of base currency to buy or sell
+        price:
+          type: string
+          description: Price per unit (required for limit orders)
+        funds:
+          type: string
+          description: Amount of quote currency to use (market orders)
+        stop:
+          type: string
+          description: Stop price trigger type
+          enum:
+          - loss
+          - entry
+        stop_price:
+          type: string
+          description: Stop trigger price
+        time_in_force:
+          type: string
+          description: Time in force policy
+          enum:
+          - GTC
+          - GTT
+          - IOC
+          - FOK
+        post_only:
+          type: boolean
+          description: Post-only flag for limit orders
     Pagination:
       type: object
       description: Pagination information for list responses
@@ -981,60 +981,6 @@ components:
         venue:
           type: string
           description: Execution venue
-    CreateOrderRequest_3:
-      type: object
-      description: Request body for creating a new order
-      required:
-      - portfolio_id
-      - product_id
-      - side
-      - type
-      properties:
-        portfolio_id:
-          type: string
-          description: Portfolio ID
-        product_id:
-          type: string
-          description: Trading pair
-        side:
-          type: string
-          description: Order side
-          enum:
-          - BUY
-          - SELL
-        type:
-          type: string
-          description: Order type
-          enum:
-          - MARKET
-          - LIMIT
-          - TWAP
-          - BLOCK
-        base_quantity:
-          type: string
-          description: Base currency quantity
-        quote_value:
-          type: string
-          description: Quote currency value
-        limit_price:
-          type: string
-          description: Limit price
-        start_time:
-          type: string
-          format: date-time
-          description: TWAP start time
-        expiry_time:
-          type: string
-          format: date-time
-          description: Order expiration time
-        time_in_force:
-          type: string
-          description: Time in force
-          enum:
-          - GOOD_UNTIL_TIME
-          - GOOD_UNTIL_CANCELLED
-          - IMMEDIATE_OR_CANCEL
-          - FILL_OR_KILL
     Order_3:
       type: object
       description: A trading order within a portfolio
@@ -1101,6 +1047,60 @@ components:
         average_filled_price:
           type: string
           description: Average execution price
+    CreateOrderRequest_3:
+      type: object
+      description: Request body for creating a new order
+      required:
+      - portfolio_id
+      - product_id
+      - side
+      - type
+      properties:
+        portfolio_id:
+          type: string
+          description: Portfolio ID
+        product_id:
+          type: string
+          description: Trading pair
+        side:
+          type: string
+          description: Order side
+          enum:
+          - BUY
+          - SELL
+        type:
+          type: string
+          description: Order type
+          enum:
+          - MARKET
+          - LIMIT
+          - TWAP
+          - BLOCK
+        base_quantity:
+          type: string
+          description: Base currency quantity
+        quote_value:
+          type: string
+          description: Quote currency value
+        limit_price:
+          type: string
+          description: Limit price
+        start_time:
+          type: string
+          format: date-time
+          description: TWAP start time
+        expiry_time:
+          type: string
+          format: date-time
+          description: Order expiration time
+        time_in_force:
+          type: string
+          description: Time in force
+          enum:
+          - GOOD_UNTIL_TIME
+          - GOOD_UNTIL_CANCELLED
+          - IMMEDIATE_OR_CANCEL
+          - FILL_OR_KILL
   securitySchemes:
     apiKeyAuth:
       type: apiKey

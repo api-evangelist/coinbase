@@ -150,6 +150,58 @@ paths:
     - url: https://api.exchange.coinbase.com
       description: Production Server
 components:
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    AccountIdParam:
+      name: account_id
+      in: path
+      required: true
+      description: Unique identifier for the account
+      schema:
+        type: string
+        format: uuid
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    AccountIdParam_2:
+      name: account_id
+      in: path
+      required: true
+      description: Account identifier
+      schema:
+        type: string
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
   schemas:
     Account:
       type: object
@@ -202,6 +254,31 @@ components:
         currency:
           type: string
           description: Currency code
+    Account_2:
+      type: object
+      description: An exchange trading account for a specific currency
+      properties:
+        id:
+          type: string
+          description: Unique account identifier
+        currency:
+          type: string
+          description: Currency code
+        balance:
+          type: string
+          description: Total balance
+        available:
+          type: string
+          description: Available balance for trading
+        hold:
+          type: string
+          description: Funds on hold
+        profile_id:
+          type: string
+          description: Profile the account belongs to
+        trading_enabled:
+          type: boolean
+          description: Whether trading is enabled
     Transfer:
       type: object
       description: A deposit or withdrawal transfer
@@ -252,31 +329,6 @@ components:
         ref:
           type: string
           description: Reference ID for the hold source
-    Account_2:
-      type: object
-      description: An exchange trading account for a specific currency
-      properties:
-        id:
-          type: string
-          description: Unique account identifier
-        currency:
-          type: string
-          description: Currency code
-        balance:
-          type: string
-          description: Total balance
-        available:
-          type: string
-          description: Available balance for trading
-        hold:
-          type: string
-          description: Funds on hold
-        profile_id:
-          type: string
-          description: Profile the account belongs to
-        trading_enabled:
-          type: boolean
-          description: Whether trading is enabled
     LedgerEntry:
       type: object
       description: A ledger entry recording account activity
@@ -306,58 +358,6 @@ components:
         details:
           type: object
           description: Additional details about the entry
-  parameters:
-    AccountIdParam:
-      name: account_id
-      in: path
-      required: true
-      description: Unique identifier for the account
-      schema:
-        type: string
-        format: uuid
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 49
-    BeforeParam:
-      name: before
-      in: query
-      description: Cursor for pagination (newer items)
-      schema:
-        type: string
-    AccountIdParam_2:
-      name: account_id
-      in: path
-      required: true
-      description: Account identifier
-      schema:
-        type: string
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
-    LimitParam_2:
-      name: limit
-      in: query
-      description: Number of results per request (max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
   securitySchemes:
     apiKeyAuth:
       type: apiKey
