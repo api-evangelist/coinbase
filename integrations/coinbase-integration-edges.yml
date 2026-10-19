@@ -4,13 +4,20 @@ source:
 - https://composio.dev/toolkits/coinbase
 checked:
 - https://api.coingecko.com/api/v3/exchanges
+- https://api.nuget.org/v3
 - https://composio.dev/toolkits/coinbase
+- https://crates.io/api/v1
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
 - https://kantarainitiative.org/trust-status-list/
 - https://monid.ai/tools/coinbase
 - https://msb.fincen.gov/
 - https://n8n.io/integrations/coinbase/
+- https://proxy.golang.org
+- https://pypi.org/pypi
 - https://raw.githubusercontent.com/ccxt/ccxt/master/exchanges.json
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
 - https://www.access-dvs-register.service.gov.uk/register/download-register
 - https://www.dfs.ny.gov/apps_and_licensing/virtual_currency_businesses
 - https://www.esma.europa.eu/sites/default/files/2024-12/CASPS.csv
@@ -225,4 +232,34 @@ edges:
     detected: '2026-10-15'
   detected_by: sweep-regtech-aml.py
   first_seen: '2026-10-15'
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (JavaScript/TypeScript)
+  evidence: https://www.npmjs.com/package/@coinbase/cdp-cli
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@coinbase/cdp-cli'
+      version: 2.0.116
+      released: '2026-10-16'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@coinbase/cdp-cli
+      repo_leg: domain:coinbase.com
+      publisher_leg: email:coinbase.com
+      matched_by: domain+name-among-holders
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
 templates: []
