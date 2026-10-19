@@ -1,0 +1,1051 @@
+openapi: 3.2.0
+info:
+  title: Coinbase Developer Platform Wallet Webhooks API
+  description: The Coinbase Developer Platform APIs - leading the world's transition onchain.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+  contact:
+    name: Coinbase Developer Platform
+    email: cdp@coinbase.com
+    url: https://cdp.coinbase.com
+servers:
+- url: https://api.cdp.coinbase.com/platform
+  description: The production server of the CDP APIs.
+security:
+- apiKeyAuth: []
+tags:
+- name: Wallet Webhooks
+  x-audience: public
+  x-slo-tier:
+    tier: ga
+  description: The `wallet.activity.*` webhook payloads describe wallet activity, transaction, delegation, and signing events emitted by CDP.
+paths: {}
+webhooks:
+  walletTransactionCreated:
+    post:
+      summary: Wallet transaction created
+      description: Triggered when the `wallet.transaction.created` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletTransactionCreatedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.transaction.created` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletTransactionCreatedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  walletTransactionSigned:
+    post:
+      summary: Wallet transaction signed
+      description: Triggered when the `wallet.transaction.signed` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletTransactionSignedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.transaction.signed` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletTransactionSignedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  walletTransactionBroadcast:
+    post:
+      summary: Wallet transaction broadcast
+      description: Triggered when the `wallet.transaction.broadcast` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletTransactionBroadcastWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.transaction.broadcast` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletTransactionBroadcastEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  walletTransactionReplaced:
+    post:
+      summary: Wallet transaction replaced
+      description: Triggered when the `wallet.transaction.replaced` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletTransactionReplacedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.transaction.replaced` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletTransactionReplacedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  walletTransactionPending:
+    post:
+      summary: Wallet transaction pending
+      description: Triggered when the `wallet.transaction.pending` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletTransactionPendingWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.transaction.pending` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletTransactionPendingEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  walletTransactionConfirmed:
+    post:
+      summary: Wallet transaction confirmed
+      description: Triggered when the `wallet.transaction.confirmed` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletTransactionConfirmedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.transaction.confirmed` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletTransactionConfirmedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  walletTransactionFailed:
+    post:
+      summary: Wallet transaction failed
+      description: Triggered when the `wallet.transaction.failed` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletTransactionFailedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.transaction.failed` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletTransactionFailedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  walletDelegationCreated:
+    post:
+      summary: Wallet delegation created
+      description: Triggered when the `wallet.delegation.created` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletDelegationCreatedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.delegation.created` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletDelegationCreatedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  walletDelegationRevoked:
+    post:
+      summary: Wallet delegation revoked
+      description: Triggered when the `wallet.delegation.revoked` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletDelegationRevokedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.delegation.revoked` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletDelegationRevokedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  walletTypedDataSigned:
+    post:
+      summary: Wallet typed data signed
+      description: Triggered when the `wallet.typed_data.signed` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletTypedDataSignedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.typed_data.signed` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletTypedDataSignedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  walletMessageSigned:
+    post:
+      summary: Wallet message signed
+      description: Triggered when the `wallet.message.signed` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletMessageSignedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.message.signed` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletMessageSignedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  walletHashSigned:
+    post:
+      summary: Wallet hash signed
+      description: Triggered when the `wallet.hash.signed` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: walletHashSignedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Wallet Webhooks
+      requestBody:
+        description: The `wallet.hash.signed` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletHashSignedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+components:
+  schemas:
+    WalletTransactionPendingPayload:
+      type: object
+      description: Payload for `wallet.transaction.pending`. EVM-only. EIP-1559 fee fields are included.
+      properties:
+        transaction_hash:
+          type: string
+          description: The onchain transaction hash.
+          example: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+        address:
+          allOf:
+          - $ref: '#/components/schemas/BlockchainAddress'
+          pattern: ^0x[0-9a-fA-F]{40}$
+          description: The EVM wallet address whose transaction is pending.
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        network:
+          allOf:
+          - $ref: '#/components/schemas/Network'
+          description: The blockchain network identifier.
+          example: base
+        pending_since:
+          type: string
+          format: date-time
+          description: When the transaction entered the pending state (ISO 8601 format).
+          example: '2025-06-01T10:04:00Z'
+        max_fee_per_gas:
+          type: string
+          description: EIP-1559 max fee per gas in wei.
+          example: '30000000000'
+        max_priority_fee_per_gas:
+          type: string
+          description: EIP-1559 max priority fee per gas in wei.
+          example: '1500000000'
+      required:
+      - transaction_hash
+      - address
+      - network
+      - pending_since
+      - max_fee_per_gas
+      - max_priority_fee_per_gas
+    WalletSolanaTransactionFailedPayload:
+      type: object
+      description: Payload for `wallet.transaction.failed` on Solana. Includes `transaction_signature` and omits `address`.
+      properties:
+        transaction_signature:
+          type: string
+          description: The Solana transaction signature.
+          example: 5KtPn1LGuxhFiwjxErkxTb3BeHaGShVbirtk7vrWgEiaTaKKQSGkLmMX7vLBMA4oL9pGikhmL6K2Uf4VNBLEmmnF
+        network:
+          allOf:
+          - $ref: '#/components/schemas/Network'
+          description: The blockchain network identifier.
+          example: solana
+        failed_at:
+          type: string
+          format: date-time
+          description: When the transaction failed (ISO 8601 format).
+          example: '2025-06-01T10:06:00Z'
+      required:
+      - transaction_signature
+      - network
+      - failed_at
+    WalletTransactionBroadcastEvent:
+      x-event-type: wallet.transaction.broadcast
+      description: 'Delivered when a transaction is broadcast to the network. The payload is one of six variants: API Key Wallet, User Wallet, or User Wallet (Delegated Signing), each delivered as an EVM or Solana variant.'
+      oneOf:
+      - title: API Key Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionBroadcastPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: API Key Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionBroadcastPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: User Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionBroadcastPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionBroadcastPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Delegated Signing, EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionBroadcastPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+      - title: User Wallet (Delegated Signing, Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionBroadcastPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+    Network:
+      type: string
+      description: The blockchain network for the payment. Supported networks depend on the account type.
+      enum:
+      - base
+      - ethereum
+      - solana
+      - aptos
+      - arbitrum
+      - arbitrum-sepolia
+      - optimism
+      - polygon
+      - world
+      - world-sepolia
+      example: base
+    WalletSolanaTransactionConfirmedPayload:
+      type: object
+      description: Payload for `wallet.transaction.confirmed` on Solana. Includes `transaction_signature` and omits `address`.
+      properties:
+        transaction_signature:
+          type: string
+          description: The Solana transaction signature.
+          example: 5KtPn1LGuxhFiwjxErkxTb3BeHaGShVbirtk7vrWgEiaTaKKQSGkLmMX7vLBMA4oL9pGikhmL6K2Uf4VNBLEmmnF
+        network:
+          allOf:
+          - $ref: '#/components/schemas/Network'
+          description: The blockchain network identifier.
+          example: solana
+        confirmed_at:
+          type: string
+          format: date-time
+          description: When the transaction was confirmed (ISO 8601 format).
+          example: '2025-06-01T10:05:00Z'
+      required:
+      - transaction_signature
+      - network
+      - confirmed_at
+    WalletApiKeyEventPayload:
+      type: object
+      description: Payload for API Key Wallet events. These events carry no end-user payload fields, so neither `user_id` nor `delegation_id` is present.
+      not:
+        anyOf:
+        - required:
+          - user_id
+        - required:
+          - delegation_id
+    WalletDelegatedEventPayload:
+      type: object
+      description: Payload for delegated User Wallet events, where a User Wallet action was authorized via a delegation grant. Includes `user_id` and the `delegation_id` of the active grant.
+      properties:
+        user_id:
+          type: string
+          description: The user ID that owns the User Wallet.
+          example: user_12345
+        delegation_id:
+          type: string
+          description: The delegation grant ID used to authorize the action.
+          example: delegation_af2937b0-9846-4fe7-bfe9-ccc22d935114
+      required:
+      - user_id
+      - delegation_id
+    WalletSolanaSigningPayload:
+      type: object
+      description: Payload for Solana wallet signing events. Carries the Solana signing `address` and timestamp; no network or transaction identifier.
+      properties:
+        address:
+          allOf:
+          - $ref: '#/components/schemas/BlockchainAddress'
+          pattern: ^[1-9A-HJ-NP-Za-km-z]{32,44}$
+          description: The Solana wallet address that performed the signing.
+          example: HN7cABqLq46Es1jh92dQQisAq662SmxELLLsHHe4YWrH
+        signed_at:
+          type: string
+          format: date-time
+          description: When the signing occurred (ISO 8601 format).
+          example: '2025-06-01T10:01:00Z'
+      required:
+      - address
+      - signed_at
+    WalletTransactionPendingEvent:
+      x-event-type: wallet.transaction.pending
+      description: 'Delivered when a transaction enters the pending state. EVM-only. The payload is one of three EVM wallet-type variants: API Key Wallet, User Wallet, or User Wallet (Delegated Signing).'
+      oneOf:
+      - title: API Key Wallet
+        allOf:
+        - $ref: '#/components/schemas/WalletTransactionPendingPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: User Wallet
+        allOf:
+        - $ref: '#/components/schemas/WalletTransactionPendingPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Delegated Signing)
+        allOf:
+        - $ref: '#/components/schemas/WalletTransactionPendingPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+    WalletTransactionReplacedEvent:
+      x-event-type: wallet.transaction.replaced
+      description: 'Delivered when a pending transaction is replaced (e.g. a fee bump). EVM-only. The payload is one of three EVM wallet-type variants: API Key Wallet, User Wallet, or User Wallet (Delegated Signing).'
+      oneOf:
+      - title: API Key Wallet
+        allOf:
+        - $ref: '#/components/schemas/WalletTransactionReplacedPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: User Wallet
+        allOf:
+        - $ref: '#/components/schemas/WalletTransactionReplacedPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Delegated Signing)
+        allOf:
+        - $ref: '#/components/schemas/WalletTransactionReplacedPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+    WalletDelegationRevokedEvent:
+      type: object
+      x-event-type: wallet.delegation.revoked
+      description: Delivered when a delegation grant is revoked.
+      properties:
+        delegation_id:
+          type: string
+          description: The unique identifier for the delegation grant.
+          example: delegation_af2937b0-9846-4fe7-bfe9-ccc22d935114
+        user_id:
+          type: string
+          description: The user ID that owns the delegation.
+          example: user_12345
+        revoked_at:
+          type: string
+          format: date-time
+          description: When the delegation was revoked (ISO 8601 format).
+          example: '2025-06-01T11:00:00Z'
+      required:
+      - delegation_id
+      - user_id
+      - revoked_at
+      example:
+        delegation_id: delegation_af2937b0-9846-4fe7-bfe9-ccc22d935114
+        user_id: user_12345
+        revoked_at: '2025-06-01T11:00:00Z'
+    WalletEvmSigningPayload:
+      type: object
+      description: Payload for EVM wallet signing events. Carries the EVM signing `address` and timestamp; no network or transaction identifier.
+      properties:
+        address:
+          allOf:
+          - $ref: '#/components/schemas/BlockchainAddress'
+          pattern: ^0x[0-9a-fA-F]{40}$
+          description: The EVM wallet address that performed the signing.
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        signed_at:
+          type: string
+          format: date-time
+          description: When the signing occurred (ISO 8601 format).
+          example: '2025-06-01T10:01:00Z'
+      required:
+      - address
+      - signed_at
+    WalletEvmTransactionCreatedPayload:
+      type: object
+      description: Payload for `wallet.transaction.created` on EVM networks. Includes the originating `address`.
+      properties:
+        address:
+          allOf:
+          - $ref: '#/components/schemas/BlockchainAddress'
+          pattern: ^0x[0-9a-fA-F]{40}$
+          description: The EVM wallet address that created the transaction.
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        network:
+          allOf:
+          - $ref: '#/components/schemas/Network'
+          description: The blockchain network identifier.
+          example: base
+        created_at:
+          type: string
+          format: date-time
+          description: When the transaction was created (ISO 8601 format).
+          example: '2025-06-01T10:00:00Z'
+      required:
+      - address
+      - network
+      - created_at
+    WalletTransactionConfirmedEvent:
+      x-event-type: wallet.transaction.confirmed
+      description: 'Delivered when a transaction is confirmed onchain. The payload is one of six variants: API Key Wallet, User Wallet, or User Wallet (Delegated Signing), each delivered as an EVM or Solana variant.'
+      oneOf:
+      - title: API Key Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionConfirmedPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: API Key Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionConfirmedPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: User Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionConfirmedPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionConfirmedPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Delegated Signing, EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionConfirmedPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+      - title: User Wallet (Delegated Signing, Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionConfirmedPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+    WalletEvmTransactionBroadcastPayload:
+      type: object
+      description: Payload for `wallet.transaction.broadcast` on EVM networks. Includes `transaction_hash` and `address`.
+      properties:
+        transaction_hash:
+          type: string
+          description: The onchain transaction hash.
+          example: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+        address:
+          allOf:
+          - $ref: '#/components/schemas/BlockchainAddress'
+          pattern: ^0x[0-9a-fA-F]{40}$
+          description: The EVM wallet address that broadcast the transaction.
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        network:
+          allOf:
+          - $ref: '#/components/schemas/Network'
+          description: The blockchain network identifier.
+          example: base
+        broadcast_at:
+          type: string
+          format: date-time
+          description: When the transaction was broadcast (ISO 8601 format).
+          example: '2025-06-01T10:02:00Z'
+      required:
+      - transaction_hash
+      - address
+      - network
+      - broadcast_at
+    WalletEvmTransactionFailedPayload:
+      type: object
+      description: Payload for `wallet.transaction.failed` on EVM networks. Includes `transaction_hash` and `address`.
+      properties:
+        transaction_hash:
+          type: string
+          description: The onchain transaction hash.
+          example: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+        address:
+          allOf:
+          - $ref: '#/components/schemas/BlockchainAddress'
+          pattern: ^0x[0-9a-fA-F]{40}$
+          description: The EVM wallet address that submitted the transaction.
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        network:
+          allOf:
+          - $ref: '#/components/schemas/Network'
+          description: The blockchain network identifier.
+          example: base
+        failed_at:
+          type: string
+          format: date-time
+          description: When the transaction failed (ISO 8601 format).
+          example: '2025-06-01T10:06:00Z'
+      required:
+      - transaction_hash
+      - address
+      - network
+      - failed_at
+    BlockchainAddress:
+      type: string
+      minLength: 1
+      maxLength: 128
+      description: A blockchain address. Format varies by network (e.g., 0x-prefixed for EVM, base58 for Solana).
+      example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+    WalletTransactionReplacedPayload:
+      type: object
+      description: Payload for `wallet.transaction.replaced`. EVM-only; Solana transactions are not replaceable.
+      properties:
+        transaction_hash:
+          type: string
+          description: The onchain transaction hash of the replaced transaction.
+          example: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+        address:
+          allOf:
+          - $ref: '#/components/schemas/BlockchainAddress'
+          pattern: ^0x[0-9a-fA-F]{40}$
+          description: The EVM wallet address whose transaction was replaced.
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        network:
+          allOf:
+          - $ref: '#/components/schemas/Network'
+          description: The blockchain network identifier.
+          example: base
+        replaced_at:
+          type: string
+          format: date-time
+          description: When the transaction was replaced (ISO 8601 format).
+          example: '2025-06-01T10:03:00Z'
+      required:
+      - transaction_hash
+      - address
+      - network
+      - replaced_at
+    WalletTransactionCreatedEvent:
+      x-event-type: wallet.transaction.created
+      description: 'Delivered when a transaction is created. The payload is one of six variants: API Key Wallet, User Wallet, or User Wallet (Delegated Signing), each delivered as an EVM or Solana variant.'
+      oneOf:
+      - title: API Key Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionCreatedPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: API Key Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionCreatedPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: User Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionCreatedPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionCreatedPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Delegated Signing, EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionCreatedPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+      - title: User Wallet (Delegated Signing, Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionCreatedPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+    WalletEvmTransactionConfirmedPayload:
+      type: object
+      description: Payload for `wallet.transaction.confirmed` on EVM networks. Includes `transaction_hash` and `address`.
+      properties:
+        transaction_hash:
+          type: string
+          description: The onchain transaction hash.
+          example: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'
+        address:
+          allOf:
+          - $ref: '#/components/schemas/BlockchainAddress'
+          pattern: ^0x[0-9a-fA-F]{40}$
+          description: The EVM wallet address that submitted the transaction.
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        network:
+          allOf:
+          - $ref: '#/components/schemas/Network'
+          description: The blockchain network identifier.
+          example: base
+        confirmed_at:
+          type: string
+          format: date-time
+          description: When the transaction was confirmed (ISO 8601 format).
+          example: '2025-06-01T10:05:00Z'
+      required:
+      - transaction_hash
+      - address
+      - network
+      - confirmed_at
+    WalletHashSignedEvent:
+      x-event-type: wallet.hash.signed
+      description: 'Delivered when a raw hash is signed. Emitted for both EVM and Solana wallets. The payload is one of six variants: API Key Wallet, User Wallet, or User Wallet (Delegated Signing), each delivered as an EVM or Solana variant.'
+      oneOf:
+      - title: API Key Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: API Key Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaSigningPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: User Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaSigningPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Delegated Signing, EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+      - title: User Wallet (Delegated Signing, Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaSigningPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+    WalletDelegationCreatedEvent:
+      type: object
+      x-event-type: wallet.delegation.created
+      description: Delivered when a delegation grant is created for a User Wallet.
+      properties:
+        delegation_id:
+          type: string
+          description: The unique identifier for the delegation grant.
+          example: delegation_af2937b0-9846-4fe7-bfe9-ccc22d935114
+        user_id:
+          type: string
+          description: The user ID that owns the delegation.
+          example: user_12345
+        expires_at:
+          type: string
+          format: date-time
+          description: When the delegation expires (ISO 8601 format).
+          example: '2025-07-01T10:00:00Z'
+        created_at:
+          type: string
+          format: date-time
+          description: When the delegation was created (ISO 8601 format).
+          example: '2025-06-01T10:00:00Z'
+      required:
+      - delegation_id
+      - user_id
+      - expires_at
+      - created_at
+      example:
+        delegation_id: delegation_af2937b0-9846-4fe7-bfe9-ccc22d935114
+        user_id: user_12345
+        expires_at: '2025-07-01T10:00:00Z'
+        created_at: '2025-06-01T10:00:00Z'
+    WalletTransactionSignedEvent:
+      x-event-type: wallet.transaction.signed
+      description: 'Delivered when a transaction is signed. Emitted for both EVM and Solana wallets. The payload is one of six variants: API Key Wallet, User Wallet, or User Wallet (Delegated Signing), each delivered as an EVM or Solana variant.'
+      oneOf:
+      - title: API Key Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: API Key Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaSigningPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: User Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaSigningPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Delegated Signing, EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+      - title: User Wallet (Delegated Signing, Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaSigningPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+    WalletSolanaTransactionBroadcastPayload:
+      type: object
+      description: Payload for `wallet.transaction.broadcast` on Solana. Includes `transaction_signature` and omits `address`.
+      properties:
+        transaction_signature:
+          type: string
+          description: The Solana transaction signature.
+          example: 5KtPn1LGuxhFiwjxErkxTb3BeHaGShVbirtk7vrWgEiaTaKKQSGkLmMX7vLBMA4oL9pGikhmL6K2Uf4VNBLEmmnF
+        network:
+          allOf:
+          - $ref: '#/components/schemas/Network'
+          description: The blockchain network identifier.
+          example: solana
+        broadcast_at:
+          type: string
+          format: date-time
+          description: When the transaction was broadcast (ISO 8601 format).
+          example: '2025-06-01T10:02:00Z'
+      required:
+      - transaction_signature
+      - network
+      - broadcast_at
+    WalletSolanaTransactionCreatedPayload:
+      type: object
+      description: Payload for `wallet.transaction.created` on Solana. Solana transaction events do not include an `address`.
+      properties:
+        network:
+          allOf:
+          - $ref: '#/components/schemas/Network'
+          description: The blockchain network identifier.
+          example: solana
+        created_at:
+          type: string
+          format: date-time
+          description: When the transaction was created (ISO 8601 format).
+          example: '2025-06-01T10:00:00Z'
+      required:
+      - network
+      - created_at
+      not:
+        required:
+        - address
+    WalletUserEventPayload:
+      type: object
+      description: Payload for User Wallet events. The wallet is owned by an end user, identified by `user_id`. User Wallet actions do not include `delegation_id`.
+      properties:
+        user_id:
+          type: string
+          description: The user ID that owns the User Wallet.
+          example: user_12345
+      required:
+      - user_id
+      not:
+        required:
+        - delegation_id
+    WalletMessageSignedEvent:
+      x-event-type: wallet.message.signed
+      description: 'Delivered when a message is signed. Emitted for both EVM and Solana wallets. The payload is one of six variants: API Key Wallet, User Wallet, or User Wallet (Delegated Signing), each delivered as an EVM or Solana variant.'
+      oneOf:
+      - title: API Key Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: API Key Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaSigningPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: User Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaSigningPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Delegated Signing, EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+      - title: User Wallet (Delegated Signing, Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaSigningPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+    WalletTransactionFailedEvent:
+      x-event-type: wallet.transaction.failed
+      description: 'Delivered when a transaction fails. The payload is one of six variants: API Key Wallet, User Wallet, or User Wallet (Delegated Signing), each delivered as an EVM or Solana variant.'
+      oneOf:
+      - title: API Key Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionFailedPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: API Key Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionFailedPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: User Wallet (EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionFailedPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionFailedPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Delegated Signing, EVM)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmTransactionFailedPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+      - title: User Wallet (Delegated Signing, Solana)
+        allOf:
+        - $ref: '#/components/schemas/WalletSolanaTransactionFailedPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+    WalletTypedDataSignedEvent:
+      x-event-type: wallet.typed_data.signed
+      description: 'Delivered when EIP-712 typed data is signed. EVM-only. Uses the EVM signing payload. The payload is one of three EVM wallet-type variants: API Key Wallet, User Wallet, or User Wallet (Delegated Signing).'
+      oneOf:
+      - title: API Key Wallet
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletApiKeyEventPayload'
+      - title: User Wallet
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletUserEventPayload'
+      - title: User Wallet (Delegated Signing)
+        allOf:
+        - $ref: '#/components/schemas/WalletEvmSigningPayload'
+        - $ref: '#/components/schemas/WalletDelegatedEventPayload'
+  securitySchemes:
+    apiKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: A JWT signed using your CDP API Key Secret, encoded in base64. Refer to the [Generate Bearer Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-bearer-token) section of our Authentication docs for information on how to generate your Bearer Token.
+    endUserAuth:
+      x-audience: public
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: A JWT signed using the developer's own JWT private key (in the case of JWT authentication), or an end user JWT signed by CDP, encoded in base64. This is used for End User Account APIs.
+    unauthenticated:
+      x-audience: public
+      type: http
+      scheme: none
+      description: This security scheme is used for APIs that do not require authentication, such as End User Auth flows used to initiate authentication or public, read-only endpoints.
+    webhookSignature:
+      x-audience: public
+      type: apiKey
+      in: header
+      name: X-Hook0-Signature
+      description: 'HMAC-SHA256 signature of the raw request body, computed using your webhook secret. Webhook receivers should always verify this header before processing the event. The header value is hex-encoded and prefixed by the algorithm and timestamp, e.g. `t=1700000000,v1=abc123...` (refer to the Webhook Security docs for the exact verification algorithm).
+
+
+        This scheme applies to webhook delivery (outbound POSTs from CDP to your endpoint), not to inbound CDP API requests.'
+x-tagGroups:
+- name: Wallets
+  x-groups:
+  - name: Custodial
+    tags:
+    - Accounts
+  - name: Non-custodial
+    x-groups:
+    - name: User Wallets
+      tags:
+      - End User Account Management
+      - End User Accounts
+    - name: API Key Wallets
+      tags:
+      - EVM Accounts
+      - EVM Smart Accounts
+      - Solana Accounts
+    tags:
+    - Policy Engine
+    - Wallet Webhooks
+  tags:
+  - Accounts
+  - End User Account Management
+  - End User Accounts
+  - EVM Accounts
+  - EVM Smart Accounts
+  - Solana Accounts
+  - Policy Engine
+  - Wallet Webhooks
+- name: Payments
+  x-groups:
+  - name: Acceptance
+    tags:
+    - Payment Sessions
+    - Disbursements
+    - Mandates
+    - Top-Up Links
+  - tags:
+    - Deposit Destinations
+    - Payment Methods
+    - Transfers
+    - Onramp
+    - x402 Facilitator
+  tags:
+  - Payment Sessions
+  - Disbursements
+  - Mandates
+  - Top-Up Links
+  - Deposit Destinations
+  - Payment Methods
+  - Transfers
+  - Onramp
+  - x402 Facilitator
+- name: Trading
+  tags:
+  - EVM Swaps
+- name: Onchain Tools
+  tags:
+  - EVM Token Balances
+  - Faucets
+  - Onchain Data
+  - Solana Token Balances
+  - SQL API
+- name: Customers
+  tags:
+  - Customers
+- name: Health
+  tags:
+  - Health
+- name: Webhooks
+  tags:
+  - Webhooks

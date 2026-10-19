@@ -1,40 +1,30 @@
 openapi: 3.2.0
 info:
   title: Coinbase Portfolios API
-  termsOfService: https://www.coinbase.com/legal/user-agreement
   version: '1.0'
-  description: 'Operations tagged Portfolios across 2 of this provider''s published API definitions: coinbase-advanced-trade-openapi.yml, coinbase-prime-openapi.yml. Each path carries the servers of the definition it was published in.'
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+  description: 'Operations tagged Portfolios across 2 of this provider''s published API definitions: coinbase-prime-openapi.yml, coinbase-portfolios-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
-- url: https://api.coinbase.com/api/v3/brokerage
-  description: Production Server
 - url: https://api.prime.coinbase.com/v1
+  description: Production Server
+- url: https://api.coinbase.com/api/v3/brokerage
   description: Production Server
 security:
 - apiKeyAuth: []
 tags:
 - name: Portfolios
-  description: Create and manage portfolios for organizing trading activity and asset allocation.
+  description: Manage portfolios including listing, viewing details, and accessing portfolio-level configurations.
 paths:
   /portfolios:
     get:
       operationId: listPortfolios
       summary: List portfolios
-      description: Retrieves a list of all portfolios associated with the authenticated user. Returns portfolio details including name, UUID, and type.
+      description: Retrieves a list of all portfolios for which the current API key has read access. Returns portfolio details including name, ID, and entity.
       tags:
       - Portfolios
-      parameters:
-      - name: portfolio_type
-        in: query
-        description: Filter by portfolio type
-        schema:
-          type: string
-          enum:
-          - DEFAULT
-          - CONSUMER
-          - INTX
       responses:
         '200':
-          description: Successfully retrieved list of portfolios
+          description: Successfully retrieved portfolios
           content:
             application/json:
               schema:
@@ -45,7 +35,10 @@ paths:
                     items:
                       $ref: '#/components/schemas/Portfolio'
         '401':
-          description: Unauthorized - Invalid or missing authentication
+          description: Unauthorized
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
     post:
       operationId: createPortfolio
       summary: Create portfolio
@@ -73,37 +66,35 @@ paths:
                 type: object
                 properties:
                   portfolio:
-                    $ref: '#/components/schemas/Portfolio'
+                    $ref: '#/components/schemas/Portfolio_2'
         '400':
           description: Bad request - Invalid portfolio parameters
         '401':
           description: Unauthorized - Invalid or missing authentication
-    servers:
-    - url: https://api.coinbase.com/api/v3/brokerage
-      description: Production Server
   /portfolios/{portfolio_id}:
     get:
       operationId: getPortfolio
-      summary: Get portfolio breakdown
-      description: Retrieves a breakdown of a single portfolio by its ID. Returns detailed information about the portfolio including its balances and positions.
+      summary: Get portfolio
+      description: Retrieves detailed information about a specific portfolio including its name, entity ID, and organization.
       tags:
       - Portfolios
       parameters:
       - $ref: '#/components/parameters/PortfolioIdParam'
       responses:
         '200':
-          description: Successfully retrieved portfolio breakdown
+          description: Successfully retrieved portfolio
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  breakdown:
-                    $ref: '#/components/schemas/PortfolioBreakdown'
-        '401':
-          description: Unauthorized - Invalid or missing authentication
+                  portfolio:
+                    $ref: '#/components/schemas/Portfolio'
         '404':
           description: Portfolio not found
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
     put:
       operationId: editPortfolio
       summary: Edit portfolio
@@ -111,7 +102,7 @@ paths:
       tags:
       - Portfolios
       parameters:
-      - $ref: '#/components/parameters/PortfolioIdParam'
+      - $ref: '#/components/parameters/PortfolioIdParam_2'
       requestBody:
         required: true
         content:
@@ -133,7 +124,7 @@ paths:
                 type: object
                 properties:
                   portfolio:
-                    $ref: '#/components/schemas/Portfolio'
+                    $ref: '#/components/schemas/Portfolio_2'
         '401':
           description: Unauthorized - Invalid or missing authentication
         '404':
@@ -145,7 +136,7 @@ paths:
       tags:
       - Portfolios
       parameters:
-      - $ref: '#/components/parameters/PortfolioIdParam'
+      - $ref: '#/components/parameters/PortfolioIdParam_2'
       responses:
         '200':
           description: Portfolio successfully deleted
@@ -153,10 +144,42 @@ paths:
           description: Unauthorized - Invalid or missing authentication
         '404':
           description: Portfolio not found
+  /portfolios/{portfolio_id}/commission:
+    get:
+      operationId: getPortfolioCommission
+      summary: Get portfolio commission
+      description: Retrieves the commission and fee rate structure for a portfolio.
+      tags:
+      - Portfolios
+      parameters:
+      - $ref: '#/components/parameters/PortfolioIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved commission details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trading_volume:
+                    type: string
+                    description: Total trading volume
+                  fee_tier:
+                    type: object
+                    properties:
+                      maker_fee_rate:
+                        type: string
+                        description: Maker fee rate
+                      taker_fee_rate:
+                        type: string
+                        description: Taker fee rate
+    servers:
+    - url: https://api.prime.coinbase.com/v1
+      description: Production Server
+  /portfolios/move_funds:
     servers:
     - url: https://api.coinbase.com/api/v3/brokerage
       description: Production Server
-  /portfolios/move_funds:
     post:
       operationId: moveFunds
       summary: Move portfolio funds
@@ -197,44 +220,25 @@ paths:
           description: Bad request - Invalid transfer parameters
         '401':
           description: Unauthorized - Invalid or missing authentication
-    servers:
-    - url: https://api.coinbase.com/api/v3/brokerage
-      description: Production Server
-  /portfolios/{portfolio_id}/commission:
-    get:
-      operationId: getPortfolioCommission
-      summary: Get portfolio commission
-      description: Retrieves the commission and fee rate structure for a portfolio.
-      tags:
-      - Portfolios
-      parameters:
-      - $ref: '#/components/parameters/PortfolioIdParam_2'
-      responses:
-        '200':
-          description: Successfully retrieved commission details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  trading_volume:
-                    type: string
-                    description: Total trading volume
-                  fee_tier:
-                    type: object
-                    properties:
-                      maker_fee_rate:
-                        type: string
-                        description: Maker fee rate
-                      taker_fee_rate:
-                        type: string
-                        description: Taker fee rate
-    servers:
-    - url: https://api.prime.coinbase.com/v1
-      description: Production Server
 components:
   schemas:
     Portfolio:
+      type: object
+      description: An institutional trading portfolio
+      properties:
+        id:
+          type: string
+          description: Portfolio identifier
+        name:
+          type: string
+          description: Portfolio name
+        entity_id:
+          type: string
+          description: Entity ID associated with the portfolio
+        organization_id:
+          type: string
+          description: Organization identifier
+    Portfolio_2:
       type: object
       description: A user portfolio for organizing trading activity
       properties:
@@ -255,68 +259,15 @@ components:
         deleted:
           type: boolean
           description: Whether the portfolio has been deleted
-    Balance:
-      type: object
-      description: A monetary value with currency
-      properties:
-        value:
-          type: string
-          description: Amount as a string to preserve precision
-        currency:
-          type: string
-          description: Currency code
-    PortfolioBreakdown:
-      type: object
-      description: Detailed breakdown of a portfolio
-      properties:
-        portfolio:
-          $ref: '#/components/schemas/Portfolio'
-        portfolio_balances:
-          type: object
-          description: Aggregated balance information
-          properties:
-            total_balance:
-              $ref: '#/components/schemas/Balance'
-            total_futures_balance:
-              $ref: '#/components/schemas/Balance'
-            total_cash_equivalent_balance:
-              $ref: '#/components/schemas/Balance'
-        spot_positions:
-          type: array
-          description: Spot positions in the portfolio
-          items:
-            type: object
-            properties:
-              asset:
-                type: string
-                description: Asset symbol
-              account_uuid:
-                type: string
-                description: Account UUID
-              total_balance_fiat:
-                type: number
-                description: Total balance in fiat
-              total_balance_crypto:
-                type: number
-                description: Total balance in crypto
-    Portfolio_2:
-      type: object
-      description: An institutional trading portfolio
-      properties:
-        id:
-          type: string
-          description: Portfolio identifier
-        name:
-          type: string
-          description: Portfolio name
-        entity_id:
-          type: string
-          description: Entity ID associated with the portfolio
-        organization_id:
-          type: string
-          description: Organization identifier
   parameters:
     PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Portfolio identifier
+      schema:
+        type: string
+    PortfolioIdParam_2:
       name: portfolio_id
       in: path
       required: true
@@ -324,19 +275,15 @@ components:
       schema:
         type: string
         format: uuid
-    PortfolioIdParam_2:
-      name: portfolio_id
-      in: path
-      required: true
-      description: Portfolio identifier
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
-      name: CB-ACCESS-KEY
-      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+      name: X-CB-ACCESS-KEY
+      description: Coinbase Prime API key authentication. Requires X-CB-ACCESS-KEY, X-CB-ACCESS-SIGNATURE, X-CB-ACCESS-TIMESTAMP, and X-CB-ACCESS-PASSPHRASE headers with HMAC SHA-256 signatures.
+externalDocs:
+  description: Coinbase Prime API Documentation
+  url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
 x-refined-from:
-- coinbase-advanced-trade-openapi.yml
 - coinbase-prime-openapi.yml
+- coinbase-portfolios-api-openapi.yml

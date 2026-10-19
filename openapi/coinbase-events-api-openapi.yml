@@ -125,12 +125,6 @@ components:
           items:
             type: string
   parameters:
-    PaginationParam:
-      name: starting_after
-      in: query
-      description: Cursor for pagination to fetch the next page of results
-      schema:
-        type: string
     OrderParam:
       name: order
       in: query
@@ -141,6 +135,12 @@ components:
         - asc
         - desc
         default: desc
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

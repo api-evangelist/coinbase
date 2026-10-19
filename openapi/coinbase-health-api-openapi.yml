@@ -1,0 +1,573 @@
+openapi: 3.2.0
+info:
+  title: Coinbase Developer Platform Health API
+  description: The Coinbase Developer Platform APIs - leading the world's transition onchain.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+  contact:
+    name: Coinbase Developer Platform
+    email: cdp@coinbase.com
+    url: https://cdp.coinbase.com
+servers:
+- url: https://api.cdp.coinbase.com/platform
+  description: The production server of the CDP APIs.
+security:
+- apiKeyAuth: []
+tags:
+- name: Health
+  x-audience: public
+  x-slo-tier:
+    tier: beta
+  description: The `health.*` webhook payloads describe health status changes and maintenance window events for a CDP service or operation.
+paths: {}
+webhooks:
+  healthStatusUpdated:
+    post:
+      summary: Service health updated
+      description: Fires whenever the operational status of a CDP service or operation changes — an outage begins, its severity changes, or it recovers to `operational`. Subscribe to react to CDP disruptions in real time.
+      operationId: healthStatusUpdatedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Health
+      requestBody:
+        description: The `health.status.updated` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HealthStatusUpdatedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  healthMaintenanceScheduled:
+    post:
+      summary: Maintenance scheduled
+      description: Fires when a maintenance window is scheduled for a CDP service or operation, ahead of it starting. Subscribe for advance notice to plan around planned downtime.
+      operationId: healthMaintenanceScheduledWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Health
+      requestBody:
+        description: The `health.maintenance.scheduled` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HealthMaintenanceScheduledEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  healthMaintenanceStarted:
+    post:
+      summary: Maintenance started
+      description: Fires when a previously scheduled maintenance window begins; the affected service's or operation's effective status is recomputed and reports `under_maintenance`, unless an organic outage is already in progress, which continues to take priority. Subscribe to react in real time when a dependency enters maintenance.
+      operationId: healthMaintenanceStartedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Health
+      requestBody:
+        description: The `health.maintenance.started` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HealthMaintenanceStartedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  healthMaintenanceCompleted:
+    post:
+      summary: Maintenance completed
+      description: Fires when a maintenance window ends normally; the affected service's or operation's effective status is recomputed and returns to `operational`, unless an organic outage remains in progress, which continues to take priority.
+      operationId: healthMaintenanceCompletedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Health
+      requestBody:
+        description: The `health.maintenance.completed` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HealthMaintenanceCompletedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  healthMaintenanceCanceled:
+    post:
+      summary: Maintenance canceled
+      description: Fires when a previously scheduled maintenance window is canceled before it starts.
+      operationId: healthMaintenanceCanceledWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Health
+      requestBody:
+        description: The `health.maintenance.canceled` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HealthMaintenanceCanceledEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+components:
+  schemas:
+    HealthStatusUpdatedEvent:
+      type: object
+      x-event-type: health.status.updated
+      example:
+        eventType: health.status.updated
+        eventId: 9d3f2b1a-6e4c-4a8b-9f1d-2c7a5e8b4f60
+        timestamp: '2026-04-21T14:32:00.000Z'
+        data:
+          service: payments_acceptance
+          operation: payment_session_capture
+          status: major_outage
+          startedAt: '2026-04-21T14:30:00.000Z'
+          message: Elevated error rates observed.
+      properties:
+        eventId:
+          type: string
+          format: uuid
+          description: Unique identifier for this logical webhook event. Webhooks are delivered at least once, so your endpoint may receive duplicate deliveries for the same event. Use this `eventId` as the idempotency/deduplication key.
+          example: 9d3f2b1a-6e4c-4a8b-9f1d-2c7a5e8b4f60
+        timestamp:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 timestamp at which this event's transition occurred, not the time at which this webhook was delivered.
+          example: '2026-04-21T14:32:00.000Z'
+        eventType:
+          type: string
+          description: The type of webhook event.
+          enum:
+          - health.status.updated
+          example: health.status.updated
+        data:
+          $ref: '#/components/schemas/HealthStatus'
+      required:
+      - eventId
+      - timestamp
+      - eventType
+      - data
+    HealthMaintenanceScheduledEvent:
+      x-event-type: health.maintenance.scheduled
+      example:
+        eventType: health.maintenance.scheduled
+        eventId: 9d3f2b1a-6e4c-4a8b-9f1d-2c7a5e8b4f60
+        timestamp: '2026-04-21T14:32:00.000Z'
+        data:
+          service: payments_acceptance
+          operation: account_linking
+          startsAt: '2026-04-22T02:00:00.000Z'
+          expectedDurationSeconds: 7200
+          status: scheduled
+          message: Scheduled maintenance window.
+      allOf:
+      - $ref: '#/components/schemas/MaintenanceEventBase'
+      - type: object
+        properties:
+          eventType:
+            type: string
+            description: The type of webhook event.
+            enum:
+            - health.maintenance.scheduled
+            example: health.maintenance.scheduled
+          data:
+            description: Announces a future maintenance window. Does not change the affected service's or operation's current recorded status.
+            allOf:
+            - $ref: '#/components/schemas/MaintenanceWindow'
+            - type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - scheduled
+              required:
+              - expectedDurationSeconds
+        required:
+        - eventType
+        - data
+    HealthStatus:
+      type: object
+      description: The health status of a service or operation. See `HealthStatusValue` for the severity ladder this moves along, and `under_maintenance`'s special computed-status behavior.
+      properties:
+        service:
+          allOf:
+          - $ref: '#/components/schemas/HealthService'
+          description: The service this status applies to.
+        operation:
+          allOf:
+          - $ref: '#/components/schemas/HealthOperation'
+          description: The operation this status applies to. Omitted when the status applies to the service as a whole.
+        status:
+          allOf:
+          - $ref: '#/components/schemas/HealthStatusValue'
+          description: The current health status.
+        startedAt:
+          type: string
+          format: date-time
+          description: The time this status took effect.
+          example: '2026-04-21T14:30:00.000Z'
+        message:
+          type: string
+          description: A human-readable description of the status.
+          example: Elevated error rates observed.
+      required:
+      - service
+      - status
+      - startedAt
+      example:
+        service: payments_acceptance
+        operation: payment_session_capture
+        status: major_outage
+        startedAt: '2026-04-21T14:30:00.000Z'
+        message: Elevated error rates observed.
+    HealthMaintenanceCanceledEvent:
+      x-event-type: health.maintenance.canceled
+      example:
+        eventType: health.maintenance.canceled
+        eventId: 9d3f2b1a-6e4c-4a8b-9f1d-2c7a5e8b4f60
+        timestamp: '2026-04-21T18:00:00.000Z'
+        data:
+          service: payments_acceptance
+          operation: account_linking
+          startsAt: '2026-04-22T02:00:00.000Z'
+          status: canceled
+          message: Maintenance window canceled ahead of schedule.
+      allOf:
+      - $ref: '#/components/schemas/MaintenanceEventBase'
+      - type: object
+        properties:
+          eventType:
+            type: string
+            description: The type of webhook event.
+            enum:
+            - health.maintenance.canceled
+            example: health.maintenance.canceled
+          data:
+            description: Fired when a previously scheduled maintenance window is canceled before it starts.
+            allOf:
+            - $ref: '#/components/schemas/MaintenanceWindow'
+            - type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - canceled
+        required:
+        - eventType
+        - data
+    MaintenanceEventBase:
+      type: object
+      description: Common fields included in every maintenance event payload.
+      properties:
+        eventId:
+          type: string
+          format: uuid
+          description: Unique identifier for this logical webhook event. Webhooks are delivered at least once, so your endpoint may receive duplicate deliveries for the same event. Use this `eventId` as the idempotency/deduplication key.
+          example: 9d3f2b1a-6e4c-4a8b-9f1d-2c7a5e8b4f60
+        timestamp:
+          type: string
+          format: date-time
+          description: The UTC ISO 8601 timestamp at which this event's transition occurred, not the time at which this webhook was delivered.
+          example: '2026-04-21T14:32:00.000Z'
+      required:
+      - eventId
+      - timestamp
+    MaintenanceStatus:
+      type: string
+      description: 'The lifecycle status of a maintenance window: `scheduled` → `started` → `completed`, or `scheduled` → `canceled`. `completed` and `canceled` are terminal.'
+      enum:
+      - scheduled
+      - started
+      - completed
+      - canceled
+      example: scheduled
+      x-enum-descriptions:
+      - The maintenance window has been scheduled but has not started yet.
+      - The maintenance window is currently in progress.
+      - The maintenance window has finished.
+      - The maintenance window was canceled before starting.
+    MaintenanceWindow:
+      type: object
+      description: A maintenance window for a service or operation, moving through `scheduled` → `started` → `completed`, or `scheduled` → `canceled`. While `started`, it moves the affected service or operation's effective `HealthStatus` to `under_maintenance`.
+      properties:
+        service:
+          allOf:
+          - $ref: '#/components/schemas/HealthService'
+          description: The service this maintenance window applies to.
+        operation:
+          allOf:
+          - $ref: '#/components/schemas/HealthOperation'
+          description: The operation this maintenance window applies to. Omitted when the maintenance window applies to the service as a whole.
+        startsAt:
+          type: string
+          format: date-time
+          description: 'The start time of the maintenance window: in the future for a `scheduled` window, in the past for one that has already `started`.'
+          example: '2026-04-22T02:00:00.000Z'
+        expectedDurationSeconds:
+          type: integer
+          minimum: 0
+          description: The expected duration of the maintenance window, in seconds.
+          example: 7200
+        status:
+          allOf:
+          - $ref: '#/components/schemas/MaintenanceStatus'
+          description: The current status of the maintenance window.
+        message:
+          type: string
+          description: A human-readable description of the maintenance window.
+          example: Scheduled maintenance window.
+      required:
+      - service
+      - startsAt
+      - status
+      example:
+        service: payments_acceptance
+        operation: account_linking
+        startsAt: '2026-04-22T02:00:00.000Z'
+        expectedDurationSeconds: 7200
+        status: scheduled
+        message: Scheduled maintenance window.
+    HealthMaintenanceStartedEvent:
+      x-event-type: health.maintenance.started
+      example:
+        eventType: health.maintenance.started
+        eventId: 9d3f2b1a-6e4c-4a8b-9f1d-2c7a5e8b4f60
+        timestamp: '2026-04-22T02:00:00.000Z'
+        data:
+          service: payments_acceptance
+          operation: account_linking
+          startsAt: '2026-04-22T02:00:00.000Z'
+          expectedDurationSeconds: 7200
+          status: started
+          message: Maintenance window has begun.
+      allOf:
+      - $ref: '#/components/schemas/MaintenanceEventBase'
+      - type: object
+        properties:
+          eventType:
+            type: string
+            description: The type of webhook event.
+            enum:
+            - health.maintenance.started
+            example: health.maintenance.started
+          data:
+            description: Fired when a previously scheduled maintenance window begins. The affected service's or operation's effective health status is recomputed and reports `under_maintenance`, unless an organic outage is already in progress, which continues to take priority.
+            allOf:
+            - $ref: '#/components/schemas/MaintenanceWindow'
+            - type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - started
+              required:
+              - expectedDurationSeconds
+        required:
+        - eventType
+        - data
+    HealthStatusValue:
+      type: string
+      description: The operational status of a service or operation. `operational`, `degraded_performance`, `partial_outage`, and `major_outage` form a severity ladder that can move up or down between adjacent levels as an organic issue develops or recovers.
+      enum:
+      - operational
+      - degraded_performance
+      - partial_outage
+      - major_outage
+      - under_maintenance
+      example: major_outage
+      x-enum-descriptions:
+      - Working normally.
+      - Elevated latency or reduced capacity, with no significant failure rate.
+      - A subset of requests or users are failing; still functional for most.
+      - A significant portion of requests are failing; most users are impacted.
+      - 'A planned maintenance window is active — not a failure. Computed, not caller-settable: returned when there is an active maintenance window and no organic outage is currently declared.'
+    HealthOperation:
+      type: string
+      description: A finer-grained operation within a service. Optional — omitted when a health status or maintenance window applies to the service as a whole.
+      enum:
+      - payment_session_authorize_wallet
+      - payment_session_authorize_coinbase
+      - payment_session_authorize_x402
+      - payment_session_capture
+      - payment_session_void
+      - payment_session_refund
+      - disbursement
+      - account_linking
+      example: payment_session_capture
+      x-enum-descriptions:
+      - Authorizing a payment session funded by the customer's onchain wallet.
+      - Authorizing a payment session funded by the customer's Coinbase account.
+      - Authorizing a payment session funded via the x402 payment protocol.
+      - Capturing funds for a previously authorized payment session.
+      - Voiding a previously authorized payment session.
+      - Refunding a previously captured payment session.
+      - Disbursing funds to a payee.
+      - Linking a customer's external account to Payment Acceptance.
+    HealthMaintenanceCompletedEvent:
+      x-event-type: health.maintenance.completed
+      example:
+        eventType: health.maintenance.completed
+        eventId: 9d3f2b1a-6e4c-4a8b-9f1d-2c7a5e8b4f60
+        timestamp: '2026-04-22T04:00:00.000Z'
+        data:
+          service: payments_acceptance
+          operation: account_linking
+          startsAt: '2026-04-22T02:00:00.000Z'
+          status: completed
+          message: Maintenance window has completed.
+      allOf:
+      - $ref: '#/components/schemas/MaintenanceEventBase'
+      - type: object
+        properties:
+          eventType:
+            type: string
+            description: The type of webhook event.
+            enum:
+            - health.maintenance.completed
+            example: health.maintenance.completed
+          data:
+            description: Fired when a maintenance window ends normally. The affected service's or operation's effective health status is recomputed and returns to `operational`, unless an organic outage remains in progress, which continues to take priority.
+            allOf:
+            - $ref: '#/components/schemas/MaintenanceWindow'
+            - type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - completed
+        required:
+        - eventType
+        - data
+    HealthService:
+      type: string
+      description: A CDP service whose health and maintenance status are tracked here.
+      enum:
+      - payments_acceptance
+      - webhooks
+      example: payments_acceptance
+      x-enum-descriptions:
+      - Payment Acceptance — accepting and processing payments on behalf of merchants.
+      - CDP's webhook delivery infrastructure.
+  securitySchemes:
+    apiKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: A JWT signed using your CDP API Key Secret, encoded in base64. Refer to the [Generate Bearer Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-bearer-token) section of our Authentication docs for information on how to generate your Bearer Token.
+    endUserAuth:
+      x-audience: public
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: A JWT signed using the developer's own JWT private key (in the case of JWT authentication), or an end user JWT signed by CDP, encoded in base64. This is used for End User Account APIs.
+    unauthenticated:
+      x-audience: public
+      type: http
+      scheme: none
+      description: This security scheme is used for APIs that do not require authentication, such as End User Auth flows used to initiate authentication or public, read-only endpoints.
+    webhookSignature:
+      x-audience: public
+      type: apiKey
+      in: header
+      name: X-Hook0-Signature
+      description: 'HMAC-SHA256 signature of the raw request body, computed using your webhook secret. Webhook receivers should always verify this header before processing the event. The header value is hex-encoded and prefixed by the algorithm and timestamp, e.g. `t=1700000000,v1=abc123...` (refer to the Webhook Security docs for the exact verification algorithm).
+
+
+        This scheme applies to webhook delivery (outbound POSTs from CDP to your endpoint), not to inbound CDP API requests.'
+x-tagGroups:
+- name: Wallets
+  x-groups:
+  - name: Custodial
+    tags:
+    - Accounts
+  - name: Non-custodial
+    x-groups:
+    - name: User Wallets
+      tags:
+      - End User Account Management
+      - End User Accounts
+    - name: API Key Wallets
+      tags:
+      - EVM Accounts
+      - EVM Smart Accounts
+      - Solana Accounts
+    tags:
+    - Policy Engine
+    - Wallet Webhooks
+  tags:
+  - Accounts
+  - End User Account Management
+  - End User Accounts
+  - EVM Accounts
+  - EVM Smart Accounts
+  - Solana Accounts
+  - Policy Engine
+  - Wallet Webhooks
+- name: Payments
+  x-groups:
+  - name: Acceptance
+    tags:
+    - Payment Sessions
+    - Disbursements
+    - Mandates
+    - Top-Up Links
+  - tags:
+    - Deposit Destinations
+    - Payment Methods
+    - Transfers
+    - Onramp
+    - x402 Facilitator
+  tags:
+  - Payment Sessions
+  - Disbursements
+  - Mandates
+  - Top-Up Links
+  - Deposit Destinations
+  - Payment Methods
+  - Transfers
+  - Onramp
+  - x402 Facilitator
+- name: Trading
+  tags:
+  - EVM Swaps
+- name: Onchain Tools
+  tags:
+  - EVM Token Balances
+  - Faucets
+  - Onchain Data
+  - Solana Token Balances
+  - SQL API
+- name: Customers
+  tags:
+  - Customers
+- name: Health
+  tags:
+  - Health
+- name: Webhooks
+  tags:
+  - Webhooks

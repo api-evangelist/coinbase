@@ -1,391 +1,22 @@
 openapi: 3.2.0
 info:
   title: Coinbase Orders API
-  termsOfService: https://www.coinbase.com/legal/user-agreement
   version: '1.0'
-  description: 'Operations tagged Orders across 3 of this provider''s published API definitions: coinbase-advanced-trade-openapi.yml, coinbase-exchange-openapi.yml, coinbase-prime-openapi.yml. Each path carries the servers of the definition it was published in.'
+  termsOfService: https://www.coinbase.com/legal/user-agreement
+  description: 'Operations tagged Orders across 2 of this provider''s published API definitions: coinbase-prime-openapi.yml, coinbase-orders-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: https://api.prime.coinbase.com/v1
+  description: Production Server
 - url: https://api.coinbase.com/api/v3/brokerage
   description: Production Server
 - url: https://api.exchange.coinbase.com
-  description: Production Server
-- url: https://api.prime.coinbase.com/v1
   description: Production Server
 security:
 - apiKeyAuth: []
 tags:
 - name: Orders
-  description: Create, cancel, and manage trading orders including market, limit, and stop-limit order types.
+  description: Create, view, and cancel trading orders within a portfolio.
 paths:
-  /orders:
-    get:
-      operationId: listOrders
-      summary: List orders
-      description: Retrieves a list of orders for the authenticated user. Supports filtering by product ID, order status, and time range. Returns orders sorted by creation time.
-      tags:
-      - Orders
-      parameters:
-      - name: product_id
-        in: query
-        description: Filter orders by product ID
-        schema:
-          type: string
-      - name: order_status
-        in: query
-        description: Filter by order status
-        schema:
-          type: array
-          items:
-            type: string
-            enum:
-            - OPEN
-            - PENDING
-            - CANCELLED
-            - FILLED
-            - EXPIRED
-            - FAILED
-      - name: start_date
-        in: query
-        description: Start date for filtering orders
-        schema:
-          type: string
-          format: date-time
-      - name: end_date
-        in: query
-        description: End date for filtering orders
-        schema:
-          type: string
-          format: date-time
-      - $ref: '#/components/parameters/LimitParam'
-      - $ref: '#/components/parameters/CursorParam'
-      - name: order_type
-        in: query
-        description: Filter by order type
-        schema:
-          type: string
-          enum:
-          - MARKET
-          - LIMIT
-          - STOP
-          - STOP_LIMIT
-      - name: order_side
-        in: query
-        description: Filter by order side
-        schema:
-          type: string
-          enum:
-          - BUY
-          - SELL
-      responses:
-        '200':
-          description: Successfully retrieved list of orders
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  orders:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Order'
-                  has_next:
-                    type: boolean
-                    description: Whether there are more results
-                  cursor:
-                    type: string
-                    description: Cursor for pagination
-        '401':
-          description: Unauthorized - Invalid or missing authentication
-    post:
-      operationId: createOrder
-      summary: Create order
-      description: Creates a new order for the authenticated user. Supports market, limit, stop, and stop-limit order types. The order configuration varies based on the order type selected.
-      tags:
-      - Orders
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateOrderRequest'
-      responses:
-        '200':
-          description: Order successfully created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                    description: Whether the order was successfully created
-                  order_id:
-                    type: string
-                    description: Unique identifier for the created order
-                  failure_reason:
-                    type: string
-                    description: Reason for failure if success is false
-        '400':
-          description: Bad request - Invalid order parameters
-        '401':
-          description: Unauthorized - Invalid or missing authentication
-    delete:
-      operationId: cancelAllOrders
-      summary: Cancel all orders
-      description: Cancels all open orders on the exchange. Optionally filter by product ID to cancel orders for a specific trading pair only.
-      tags:
-      - Orders
-      parameters:
-      - name: product_id
-        in: query
-        description: Only cancel orders for this product
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Orders successfully cancelled
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-                  description: Cancelled order IDs
-    servers:
-    - url: https://api.coinbase.com/api/v3/brokerage
-      description: Production Server
-  /orders/{order_id}:
-    get:
-      operationId: getOrder
-      summary: Get order
-      description: Retrieves a single order by order ID. Returns the full order details including status, fills, and configuration.
-      tags:
-      - Orders
-      parameters:
-      - name: order_id
-        in: path
-        required: true
-        description: Unique identifier of the order
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Successfully retrieved order details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  order:
-                    $ref: '#/components/schemas/Order'
-        '401':
-          description: Unauthorized - Invalid or missing authentication
-        '404':
-          description: Order not found
-    delete:
-      operationId: cancelOrder
-      summary: Cancel order
-      description: Cancels a previously placed order by its ID. The order must still be in an open or pending state.
-      tags:
-      - Orders
-      parameters:
-      - name: order_id
-        in: path
-        required: true
-        description: Order ID to cancel
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Order successfully cancelled
-    servers:
-    - url: https://api.coinbase.com/api/v3/brokerage
-      description: Production Server
-  /orders/batch_cancel:
-    post:
-      operationId: cancelOrders
-      summary: Cancel orders
-      description: Cancels one or more open orders by order ID. Accepts an array of order IDs to cancel in a single request.
-      tags:
-      - Orders
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - order_ids
-              properties:
-                order_ids:
-                  type: array
-                  items:
-                    type: string
-                  description: Array of order IDs to cancel
-      responses:
-        '200':
-          description: Cancel results for each order
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  results:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        success:
-                          type: boolean
-                          description: Whether the cancellation succeeded
-                        order_id:
-                          type: string
-                          description: Order ID
-                        failure_reason:
-                          type: string
-                          description: Reason for failure
-        '401':
-          description: Unauthorized - Invalid or missing authentication
-    servers:
-    - url: https://api.coinbase.com/api/v3/brokerage
-      description: Production Server
-  /orders/{order_id}/edit:
-    post:
-      operationId: editOrder
-      summary: Edit order
-      description: Edits an existing open order. Only the price and size of the order can be modified.
-      tags:
-      - Orders
-      parameters:
-      - name: order_id
-        in: path
-        required: true
-        description: Unique identifier of the order to edit
-        schema:
-          type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - price
-              - size
-              properties:
-                price:
-                  type: string
-                  description: New price for the order
-                size:
-                  type: string
-                  description: New size for the order
-      responses:
-        '200':
-          description: Order successfully edited
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                    description: Whether the edit was successful
-        '400':
-          description: Bad request - Invalid edit parameters
-        '401':
-          description: Unauthorized - Invalid or missing authentication
-        '404':
-          description: Order not found
-    servers:
-    - url: https://api.coinbase.com/api/v3/brokerage
-      description: Production Server
-  /orders/historical/fills:
-    get:
-      operationId: listFills
-      summary: List fills
-      description: Retrieves a list of fills (completed trades) for the authenticated user. Supports filtering by order ID, product ID, and time range.
-      tags:
-      - Orders
-      parameters:
-      - name: order_id
-        in: query
-        description: Filter fills by order ID
-        schema:
-          type: string
-      - name: product_id
-        in: query
-        description: Filter fills by product ID
-        schema:
-          type: string
-      - name: start_sequence_timestamp
-        in: query
-        description: Start time for filtering fills
-        schema:
-          type: string
-          format: date-time
-      - name: end_sequence_timestamp
-        in: query
-        description: End time for filtering fills
-        schema:
-          type: string
-          format: date-time
-      - $ref: '#/components/parameters/LimitParam'
-      - $ref: '#/components/parameters/CursorParam'
-      responses:
-        '200':
-          description: Successfully retrieved list of fills
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  fills:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Fill'
-                  cursor:
-                    type: string
-                    description: Cursor for pagination
-        '401':
-          description: Unauthorized - Invalid or missing authentication
-    servers:
-    - url: https://api.coinbase.com/api/v3/brokerage
-      description: Production Server
-  /fills:
-    get:
-      operationId: getFills
-      summary: List fills
-      description: Retrieves a list of recent fills for the authenticated user. Fills represent the settlement of an order at a specific price and quantity.
-      tags:
-      - Orders
-      parameters:
-      - name: order_id
-        in: query
-        description: Filter fills by order ID
-        schema:
-          type: string
-      - name: product_id
-        in: query
-        description: Filter fills by product ID
-        schema:
-          type: string
-      - $ref: '#/components/parameters/BeforeParam'
-      - $ref: '#/components/parameters/AfterParam'
-      - $ref: '#/components/parameters/LimitParam_2'
-      responses:
-        '200':
-          description: Successfully retrieved fills
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Fill_2'
-      x-operation-id-source: normalized
-      x-operation-id-original: listFills
-    servers:
-    - url: https://api.exchange.coinbase.com
-      description: Production Server
   /portfolios/{portfolio_id}/orders:
     get:
       operationId: listPortfolioOrders
@@ -436,7 +67,7 @@ paths:
           type: string
           format: date-time
       - $ref: '#/components/parameters/CursorParam'
-      - $ref: '#/components/parameters/LimitParam_3'
+      - $ref: '#/components/parameters/LimitParam'
       - $ref: '#/components/parameters/SortDirectionParam'
       responses:
         '200':
@@ -449,11 +80,11 @@ paths:
                   orders:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Order_3'
+                      $ref: '#/components/schemas/Order'
                   pagination:
                     $ref: '#/components/schemas/Pagination'
     post:
-      operationId: postPortfoliosByPortfolioIdOrders
+      operationId: createOrder
       summary: Create order
       description: Creates a new order within the specified portfolio. Supports market, limit, TWAP, and block order types for institutional trading.
       tags:
@@ -465,7 +96,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateOrderRequest_3'
+              $ref: '#/components/schemas/CreateOrderRequest'
       responses:
         '200':
           description: Order successfully created
@@ -479,14 +110,12 @@ paths:
                     description: ID of the created order
         '400':
           description: Bad request
-      x-operation-id-source: normalized
-      x-operation-id-original: createOrder
     servers:
     - url: https://api.prime.coinbase.com/v1
       description: Production Server
   /portfolios/{portfolio_id}/orders/{order_id}:
     get:
-      operationId: getPortfoliosByPortfolioIdOrdersByOrderId
+      operationId: getOrder
       summary: Get order
       description: Retrieves details of a specific order by its order ID within a portfolio.
       tags:
@@ -503,17 +132,15 @@ paths:
                 type: object
                 properties:
                   order:
-                    $ref: '#/components/schemas/Order_3'
+                    $ref: '#/components/schemas/Order'
         '404':
           description: Order not found
-      x-operation-id-source: normalized
-      x-operation-id-original: getOrder
     servers:
     - url: https://api.prime.coinbase.com/v1
       description: Production Server
   /portfolios/{portfolio_id}/orders/{order_id}/cancel:
     post:
-      operationId: postPortfoliosByPortfolioIdOrdersByOrderIdCancel
+      operationId: cancelOrder
       summary: Cancel order
       description: Cancels an open order by its order ID within a portfolio.
       tags:
@@ -532,8 +159,6 @@ paths:
                   order_id:
                     type: string
                     description: ID of the cancelled order
-      x-operation-id-source: normalized
-      x-operation-id-original: cancelOrder
     servers:
     - url: https://api.prime.coinbase.com/v1
       description: Production Server
@@ -548,7 +173,7 @@ paths:
       - $ref: '#/components/parameters/PortfolioIdParam'
       - $ref: '#/components/parameters/OrderIdParam'
       - $ref: '#/components/parameters/CursorParam'
-      - $ref: '#/components/parameters/LimitParam_3'
+      - $ref: '#/components/parameters/LimitParam'
       responses:
         '200':
           description: Successfully retrieved fills
@@ -560,85 +185,558 @@ paths:
                   fills:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Fill_3'
+                      $ref: '#/components/schemas/Fill'
                   pagination:
                     $ref: '#/components/schemas/Pagination'
     servers:
     - url: https://api.prime.coinbase.com/v1
       description: Production Server
+  /orders:
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
+    get:
+      operationId: listOrders
+      summary: List orders
+      description: Retrieves a list of orders for the authenticated user. Supports filtering by product ID, order status, and time range. Returns orders sorted by creation time.
+      tags:
+      - Orders
+      parameters:
+      - name: product_id
+        in: query
+        description: Filter orders by product ID
+        schema:
+          type: string
+      - name: order_status
+        in: query
+        description: Filter by order status
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - OPEN
+            - PENDING
+            - CANCELLED
+            - FILLED
+            - EXPIRED
+            - FAILED
+      - name: start_date
+        in: query
+        description: Start date for filtering orders
+        schema:
+          type: string
+          format: date-time
+      - name: end_date
+        in: query
+        description: End date for filtering orders
+        schema:
+          type: string
+          format: date-time
+      - $ref: '#/components/parameters/LimitParam_3'
+      - $ref: '#/components/parameters/CursorParam'
+      - name: order_type
+        in: query
+        description: Filter by order type
+        schema:
+          type: string
+          enum:
+          - MARKET
+          - LIMIT
+          - STOP
+          - STOP_LIMIT
+      - name: order_side
+        in: query
+        description: Filter by order side
+        schema:
+          type: string
+          enum:
+          - BUY
+          - SELL
+      responses:
+        '200':
+          description: Successfully retrieved list of orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order_2'
+                  has_next:
+                    type: boolean
+                    description: Whether there are more results
+                  cursor:
+                    type: string
+                    description: Cursor for pagination
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+    post:
+      operationId: postOrders
+      summary: Create order
+      description: Creates a new order for the authenticated user. Supports market, limit, stop, and stop-limit order types. The order configuration varies based on the order type selected.
+      tags:
+      - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest_2'
+      responses:
+        '200':
+          description: Order successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the order was successfully created
+                  order_id:
+                    type: string
+                    description: Unique identifier for the created order
+                  failure_reason:
+                    type: string
+                    description: Reason for failure if success is false
+        '400':
+          description: Bad request - Invalid order parameters
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+      x-operation-id-source: normalized
+      x-operation-id-original: createOrder
+    delete:
+      operationId: cancelAllOrders
+      summary: Cancel all orders
+      description: Cancels all open orders on the exchange. Optionally filter by product ID to cancel orders for a specific trading pair only.
+      tags:
+      - Orders
+      parameters:
+      - name: product_id
+        in: query
+        description: Only cancel orders for this product
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Orders successfully cancelled
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  description: Cancelled order IDs
+  /orders/{order_id}:
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
+    get:
+      operationId: getOrdersByOrderId
+      summary: Get order
+      description: Retrieves a single order by order ID. Returns the full order details including status, fills, and configuration.
+      tags:
+      - Orders
+      parameters:
+      - name: order_id
+        in: path
+        required: true
+        description: Unique identifier of the order
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved order details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order:
+                    $ref: '#/components/schemas/Order_2'
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Order not found
+      x-operation-id-source: normalized
+      x-operation-id-original: getOrder
+    delete:
+      operationId: deleteOrdersByOrderId
+      summary: Cancel order
+      description: Cancels a previously placed order by its ID. The order must still be in an open or pending state.
+      tags:
+      - Orders
+      parameters:
+      - name: order_id
+        in: path
+        required: true
+        description: Order ID to cancel
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Order successfully cancelled
+      x-operation-id-source: normalized
+      x-operation-id-original: cancelOrder
+  /orders/batch_cancel:
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
+    post:
+      operationId: cancelOrders
+      summary: Cancel orders
+      description: Cancels one or more open orders by order ID. Accepts an array of order IDs to cancel in a single request.
+      tags:
+      - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - order_ids
+              properties:
+                order_ids:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of order IDs to cancel
+      responses:
+        '200':
+          description: Cancel results for each order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        success:
+                          type: boolean
+                          description: Whether the cancellation succeeded
+                        order_id:
+                          type: string
+                          description: Order ID
+                        failure_reason:
+                          type: string
+                          description: Reason for failure
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /orders/{order_id}/edit:
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
+    post:
+      operationId: editOrder
+      summary: Edit order
+      description: Edits an existing open order. Only the price and size of the order can be modified.
+      tags:
+      - Orders
+      parameters:
+      - name: order_id
+        in: path
+        required: true
+        description: Unique identifier of the order to edit
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - price
+              - size
+              properties:
+                price:
+                  type: string
+                  description: New price for the order
+                size:
+                  type: string
+                  description: New size for the order
+      responses:
+        '200':
+          description: Order successfully edited
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Whether the edit was successful
+        '400':
+          description: Bad request - Invalid edit parameters
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+        '404':
+          description: Order not found
+  /orders/historical/fills:
+    servers:
+    - url: https://api.coinbase.com/api/v3/brokerage
+      description: Production Server
+    get:
+      operationId: listFills
+      summary: List fills
+      description: Retrieves a list of fills (completed trades) for the authenticated user. Supports filtering by order ID, product ID, and time range.
+      tags:
+      - Orders
+      parameters:
+      - name: order_id
+        in: query
+        description: Filter fills by order ID
+        schema:
+          type: string
+      - name: product_id
+        in: query
+        description: Filter fills by product ID
+        schema:
+          type: string
+      - name: start_sequence_timestamp
+        in: query
+        description: Start time for filtering fills
+        schema:
+          type: string
+          format: date-time
+      - name: end_sequence_timestamp
+        in: query
+        description: End time for filtering fills
+        schema:
+          type: string
+          format: date-time
+      - $ref: '#/components/parameters/LimitParam_3'
+      - $ref: '#/components/parameters/CursorParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of fills
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fills:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Fill_3'
+                  cursor:
+                    type: string
+                    description: Cursor for pagination
+        '401':
+          description: Unauthorized - Invalid or missing authentication
+  /fills:
+    servers:
+    - url: https://api.exchange.coinbase.com
+      description: Production Server
+    get:
+      operationId: getFills
+      summary: List fills
+      description: Retrieves a list of recent fills for the authenticated user. Fills represent the settlement of an order at a specific price and quantity.
+      tags:
+      - Orders
+      parameters:
+      - name: order_id
+        in: query
+        description: Filter fills by order ID
+        schema:
+          type: string
+      - name: product_id
+        in: query
+        description: Filter fills by product ID
+        schema:
+          type: string
+      - $ref: '#/components/parameters/BeforeParam'
+      - $ref: '#/components/parameters/AfterParam'
+      - $ref: '#/components/parameters/LimitParam_2'
+      responses:
+        '200':
+          description: Successfully retrieved fills
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fill_2'
+      x-operation-id-source: normalized
+      x-operation-id-original: listFills
 components:
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 49
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
-    LimitParam_2:
-      name: limit
-      in: query
-      description: Number of results per request (max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-    BeforeParam:
-      name: before
-      in: query
-      description: Cursor for pagination (newer items)
-      schema:
-        type: string
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
-    LimitParam_3:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 3000
-        default: 100
-    SortDirectionParam:
-      name: sort_direction
-      in: query
-      description: Sort direction for results
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-        default: DESC
-    PortfolioIdParam:
-      name: portfolio_id
-      in: path
-      required: true
-      description: Portfolio identifier
-      schema:
-        type: string
-    OrderIdParam:
-      name: order_id
-      in: path
-      required: true
-      description: Order identifier
-      schema:
-        type: string
   schemas:
     Fill:
+      type: object
+      description: An order fill
+      properties:
+        id:
+          type: string
+          description: Fill identifier
+        order_id:
+          type: string
+          description: Order that generated this fill
+        product_id:
+          type: string
+          description: Product traded
+        side:
+          type: string
+          description: Trade side
+        filled_quantity:
+          type: string
+          description: Quantity filled
+        filled_value:
+          type: string
+          description: Value filled
+        price:
+          type: string
+          description: Execution price
+        time:
+          type: string
+          format: date-time
+          description: Fill time
+        commission:
+          type: string
+          description: Commission charged
+        venue:
+          type: string
+          description: Execution venue
+    CreateOrderRequest:
+      type: object
+      description: Request body for creating a new order
+      required:
+      - portfolio_id
+      - product_id
+      - side
+      - type
+      properties:
+        portfolio_id:
+          type: string
+          description: Portfolio ID
+        product_id:
+          type: string
+          description: Trading pair
+        side:
+          type: string
+          description: Order side
+          enum:
+          - BUY
+          - SELL
+        type:
+          type: string
+          description: Order type
+          enum:
+          - MARKET
+          - LIMIT
+          - TWAP
+          - BLOCK
+        base_quantity:
+          type: string
+          description: Base currency quantity
+        quote_value:
+          type: string
+          description: Quote currency value
+        limit_price:
+          type: string
+          description: Limit price
+        start_time:
+          type: string
+          format: date-time
+          description: TWAP start time
+        expiry_time:
+          type: string
+          format: date-time
+          description: Order expiration time
+        time_in_force:
+          type: string
+          description: Time in force
+          enum:
+          - GOOD_UNTIL_TIME
+          - GOOD_UNTIL_CANCELLED
+          - IMMEDIATE_OR_CANCEL
+          - FILL_OR_KILL
+    Order:
+      type: object
+      description: A trading order within a portfolio
+      properties:
+        id:
+          type: string
+          description: Order identifier
+        portfolio_id:
+          type: string
+          description: Portfolio that owns the order
+        product_id:
+          type: string
+          description: Trading pair
+        side:
+          type: string
+          description: Order side
+          enum:
+          - BUY
+          - SELL
+        type:
+          type: string
+          description: Order type
+          enum:
+          - MARKET
+          - LIMIT
+          - TWAP
+          - BLOCK
+        base_quantity:
+          type: string
+          description: Base currency quantity
+        quote_value:
+          type: string
+          description: Quote currency value
+        limit_price:
+          type: string
+          description: Limit price (for limit orders)
+        start_time:
+          type: string
+          format: date-time
+          description: TWAP start time
+        expiry_time:
+          type: string
+          format: date-time
+          description: Order expiration time
+        status:
+          type: string
+          description: Order status
+          enum:
+          - OPEN
+          - FILLED
+          - CANCELLED
+          - EXPIRED
+          - FAILED
+        created_at:
+          type: string
+          format: date-time
+          description: When the order was created
+        filled_quantity:
+          type: string
+          description: Amount filled
+        filled_value:
+          type: string
+          description: Value of filled portion
+        average_filled_price:
+          type: string
+          description: Average execution price
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
+    Fill_3:
       type: object
       description: A completed trade fill
       properties:
@@ -676,7 +774,48 @@ components:
           enum:
           - BUY
           - SELL
-    Order:
+    Fill_2:
+      type: object
+      description: A fill representing a completed trade
+      properties:
+        trade_id:
+          type: integer
+          description: Trade identifier
+        product_id:
+          type: string
+          description: Product traded
+        price:
+          type: string
+          description: Execution price
+        size:
+          type: string
+          description: Trade size
+        order_id:
+          type: string
+          description: Order that generated this fill
+        created_at:
+          type: string
+          format: date-time
+          description: When the fill occurred
+        liquidity:
+          type: string
+          description: Whether the fill was maker or taker
+          enum:
+          - M
+          - T
+        fee:
+          type: string
+          description: Fee for this fill
+        settled:
+          type: boolean
+          description: Whether the fill has settled
+        side:
+          type: string
+          description: Trade side
+          enum:
+          - buy
+          - sell
+    Order_2:
       type: object
       description: A trading order
       properties:
@@ -746,7 +885,7 @@ components:
         order_configuration:
           type: object
           description: Order configuration details
-    CreateOrderRequest:
+    CreateOrderRequest_2:
       type: object
       description: Request body for creating a new order
       required:
@@ -770,344 +909,85 @@ components:
         order_configuration:
           type: object
           description: Configuration for the order type. Use one of market_market_ioc, limit_limit_gtc, limit_limit_gtd, stop_limit_stop_limit_gtc, or stop_limit_stop_limit_gtd.
-    Fill_2:
-      type: object
-      description: A fill representing a completed trade
-      properties:
-        trade_id:
-          type: integer
-          description: Trade identifier
-        product_id:
-          type: string
-          description: Product traded
-        price:
-          type: string
-          description: Execution price
-        size:
-          type: string
-          description: Trade size
-        order_id:
-          type: string
-          description: Order that generated this fill
-        created_at:
-          type: string
-          format: date-time
-          description: When the fill occurred
-        liquidity:
-          type: string
-          description: Whether the fill was maker or taker
-          enum:
-          - M
-          - T
-        fee:
-          type: string
-          description: Fee for this fill
-        settled:
-          type: boolean
-          description: Whether the fill has settled
-        side:
-          type: string
-          description: Trade side
-          enum:
-          - buy
-          - sell
-    Order_2:
-      type: object
-      description: A trading order on the exchange
-      properties:
-        id:
-          type: string
-          description: Order identifier
-        product_id:
-          type: string
-          description: Trading pair
-        side:
-          type: string
-          description: Order side
-          enum:
-          - buy
-          - sell
-        type:
-          type: string
-          description: Order type
-          enum:
-          - market
-          - limit
-          - stop
-        size:
-          type: string
-          description: Order size in base currency
-        price:
-          type: string
-          description: Order price (for limit orders)
-        status:
-          type: string
-          description: Order status
-          enum:
-          - open
-          - pending
-          - active
-          - done
-          - rejected
-        filled_size:
-          type: string
-          description: Filled size
-        fill_fees:
-          type: string
-          description: Total fill fees
-        executed_value:
-          type: string
-          description: Total executed value
-        created_at:
-          type: string
-          format: date-time
-          description: When the order was created
-        done_at:
-          type: string
-          format: date-time
-          description: When the order completed
-        done_reason:
-          type: string
-          description: Reason the order completed
-        time_in_force:
-          type: string
-          description: Time in force policy
-          enum:
-          - GTC
-          - GTT
-          - IOC
-          - FOK
-        post_only:
-          type: boolean
-          description: Whether the order is post-only
-    CreateOrderRequest_2:
-      type: object
-      description: Request body for placing a new order
-      required:
-      - product_id
-      - side
-      - type
-      properties:
-        product_id:
-          type: string
-          description: Trading pair
-        side:
-          type: string
-          description: Order side
-          enum:
-          - buy
-          - sell
-        type:
-          type: string
-          description: Order type
-          enum:
-          - market
-          - limit
-          - stop
-        size:
-          type: string
-          description: Amount of base currency to buy or sell
-        price:
-          type: string
-          description: Price per unit (required for limit orders)
-        funds:
-          type: string
-          description: Amount of quote currency to use (market orders)
-        stop:
-          type: string
-          description: Stop price trigger type
-          enum:
-          - loss
-          - entry
-        stop_price:
-          type: string
-          description: Stop trigger price
-        time_in_force:
-          type: string
-          description: Time in force policy
-          enum:
-          - GTC
-          - GTT
-          - IOC
-          - FOK
-        post_only:
-          type: boolean
-          description: Post-only flag for limit orders
-    Pagination:
-      type: object
-      description: Pagination information for list responses
-      properties:
-        next_cursor:
-          type: string
-          description: Cursor for the next page
-        sort_direction:
-          type: string
-          description: Sort direction
-        has_next:
-          type: boolean
-          description: Whether there are more results
-    Fill_3:
-      type: object
-      description: An order fill
-      properties:
-        id:
-          type: string
-          description: Fill identifier
-        order_id:
-          type: string
-          description: Order that generated this fill
-        product_id:
-          type: string
-          description: Product traded
-        side:
-          type: string
-          description: Trade side
-        filled_quantity:
-          type: string
-          description: Quantity filled
-        filled_value:
-          type: string
-          description: Value filled
-        price:
-          type: string
-          description: Execution price
-        time:
-          type: string
-          format: date-time
-          description: Fill time
-        commission:
-          type: string
-          description: Commission charged
-        venue:
-          type: string
-          description: Execution venue
-    Order_3:
-      type: object
-      description: A trading order within a portfolio
-      properties:
-        id:
-          type: string
-          description: Order identifier
-        portfolio_id:
-          type: string
-          description: Portfolio that owns the order
-        product_id:
-          type: string
-          description: Trading pair
-        side:
-          type: string
-          description: Order side
-          enum:
-          - BUY
-          - SELL
-        type:
-          type: string
-          description: Order type
-          enum:
-          - MARKET
-          - LIMIT
-          - TWAP
-          - BLOCK
-        base_quantity:
-          type: string
-          description: Base currency quantity
-        quote_value:
-          type: string
-          description: Quote currency value
-        limit_price:
-          type: string
-          description: Limit price (for limit orders)
-        start_time:
-          type: string
-          format: date-time
-          description: TWAP start time
-        expiry_time:
-          type: string
-          format: date-time
-          description: Order expiration time
-        status:
-          type: string
-          description: Order status
-          enum:
-          - OPEN
-          - FILLED
-          - CANCELLED
-          - EXPIRED
-          - FAILED
-        created_at:
-          type: string
-          format: date-time
-          description: When the order was created
-        filled_quantity:
-          type: string
-          description: Amount filled
-        filled_value:
-          type: string
-          description: Value of filled portion
-        average_filled_price:
-          type: string
-          description: Average execution price
-    CreateOrderRequest_3:
-      type: object
-      description: Request body for creating a new order
-      required:
-      - portfolio_id
-      - product_id
-      - side
-      - type
-      properties:
-        portfolio_id:
-          type: string
-          description: Portfolio ID
-        product_id:
-          type: string
-          description: Trading pair
-        side:
-          type: string
-          description: Order side
-          enum:
-          - BUY
-          - SELL
-        type:
-          type: string
-          description: Order type
-          enum:
-          - MARKET
-          - LIMIT
-          - TWAP
-          - BLOCK
-        base_quantity:
-          type: string
-          description: Base currency quantity
-        quote_value:
-          type: string
-          description: Quote currency value
-        limit_price:
-          type: string
-          description: Limit price
-        start_time:
-          type: string
-          format: date-time
-          description: TWAP start time
-        expiry_time:
-          type: string
-          format: date-time
-          description: Order expiration time
-        time_in_force:
-          type: string
-          description: Time in force
-          enum:
-          - GOOD_UNTIL_TIME
-          - GOOD_UNTIL_CANCELLED
-          - IMMEDIATE_OR_CANCEL
-          - FILL_OR_KILL
+  parameters:
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    OrderIdParam:
+      name: order_id
+      in: path
+      required: true
+      description: Order identifier
+      schema:
+        type: string
+    SortDirectionParam:
+      name: sort_direction
+      in: query
+      description: Sort direction for results
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+        default: DESC
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 3000
+        default: 100
+    PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Portfolio identifier
+      schema:
+        type: string
+    LimitParam_2:
+      name: limit
+      in: query
+      description: Number of results per request (max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 100
+    BeforeParam:
+      name: before
+      in: query
+      description: Cursor for pagination (newer items)
+      schema:
+        type: string
+    AfterParam:
+      name: after
+      in: query
+      description: Cursor for pagination (older items)
+      schema:
+        type: string
+    LimitParam_3:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 49
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
-      name: CB-ACCESS-KEY
-      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
+      name: X-CB-ACCESS-KEY
+      description: Coinbase Prime API key authentication. Requires X-CB-ACCESS-KEY, X-CB-ACCESS-SIGNATURE, X-CB-ACCESS-TIMESTAMP, and X-CB-ACCESS-PASSPHRASE headers with HMAC SHA-256 signatures.
+externalDocs:
+  description: Coinbase Prime API Documentation
+  url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
 x-refined-from:
-- coinbase-advanced-trade-openapi.yml
-- coinbase-exchange-openapi.yml
 - coinbase-prime-openapi.yml
+- coinbase-orders-api-openapi.yml

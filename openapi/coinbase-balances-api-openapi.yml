@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Coinbase Prime Balances API
-  description: The Coinbase Prime API enables institutions to manage cryptocurrency trading and custody on behalf of their clients.
+  description: The Coinbase Prime API enables institutions to manage cryptocurrency trading and custody on behalf of their clients. It supports programmatic trading strategies, automated platform processes, portfolio management, and custodial operations. The REST API provides endpoints for order execution, account management, transaction history, and reporting, designed for institutional-grade workflows and compliance requirements. API keys are scoped to individual portfolios and require HMAC SHA-256 authentication.
   version: '1.0'
   contact:
     name: Coinbase Prime Support
@@ -48,20 +48,40 @@ paths:
                   pagination:
                     $ref: '#/components/schemas/Pagination'
 components:
+  parameters:
+    CursorParam:
+      name: cursor
+      in: query
+      description: Cursor for pagination
+      schema:
+        type: string
+    SortDirectionParam:
+      name: sort_direction
+      in: query
+      description: Sort direction for results
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+        default: DESC
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 3000
+        default: 100
+    PortfolioIdParam:
+      name: portfolio_id
+      in: path
+      required: true
+      description: Portfolio identifier
+      schema:
+        type: string
   schemas:
-    Pagination:
-      type: object
-      description: Pagination information for list responses
-      properties:
-        next_cursor:
-          type: string
-          description: Cursor for the next page
-        sort_direction:
-          type: string
-          description: Sort direction
-        has_next:
-          type: boolean
-          description: Whether there are more results
     Balance:
       type: object
       description: An asset balance within a portfolio
@@ -102,39 +122,19 @@ components:
         fiat_amount:
           type: string
           description: Fiat equivalent value
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 3000
-        default: 100
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
-    SortDirectionParam:
-      name: sort_direction
-      in: query
-      description: Sort direction for results
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-        default: DESC
-    PortfolioIdParam:
-      name: portfolio_id
-      in: path
-      required: true
-      description: Portfolio identifier
-      schema:
-        type: string
+    Pagination:
+      type: object
+      description: Pagination information for list responses
+      properties:
+        next_cursor:
+          type: string
+          description: Cursor for the next page
+        sort_direction:
+          type: string
+          description: Sort direction
+        has_next:
+          type: boolean
+          description: Whether there are more results
   securitySchemes:
     apiKeyAuth:
       type: apiKey

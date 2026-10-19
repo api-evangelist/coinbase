@@ -1,369 +1,2102 @@
 openapi: 3.2.0
 info:
-  title: Coinbase Accounts API
+  title: Coinbase Developer Platform Accounts API
+  description: The Coinbase Developer Platform APIs - leading the world's transition onchain.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
   contact:
-    name: Coinbase Developer Support
-    url: https://help.coinbase.com
-  termsOfService: https://www.coinbase.com/legal/user-agreement
-  version: '1.0'
-  description: 'Operations tagged Accounts across 2 of this provider''s published API definitions: coinbase-advanced-trade-openapi.yml, coinbase-exchange-openapi.yml. Each path carries the servers of the definition it was published in.'
+    name: Coinbase Developer Platform
+    email: cdp@coinbase.com
+    url: https://cdp.coinbase.com
 servers:
-- url: https://api.coinbase.com/api/v3/brokerage
-  description: Production Server
-- url: https://api.exchange.coinbase.com
-  description: Production Server
+- url: https://api.cdp.coinbase.com/platform
+  description: The production server of the CDP APIs.
 security:
 - apiKeyAuth: []
 tags:
 - name: Accounts
-  description: Manage user accounts and retrieve account information including balances and holds.
+  x-audience: public
+  x-slo-tier:
+    tier: beta
+  description: The Accounts APIs enable developers to create and manage accounts for their Entity and for their Customers. An Account is a container that holds assets and can be used for transacting. Accounts can be of different types including entity accounts, prime accounts, and business accounts. Use `GET /v2/accounts/{accountId}/products` to discover the spot products available to trade for an account (valid `productId`s to pass when creating an order).
 paths:
-  /accounts:
+  /v2/accounts:
     get:
-      operationId: listAccounts
       summary: List accounts
-      description: Retrieves a list of authenticated accounts for the current user. Returns account details including available balance, hold amount, and currency information.
+      description: List all accounts. The API will return all accounts that the API Key has Permissions to access. You can filter the results by using query parameters, which will be treated as a single conjunction (i.e. AND). Results are sorted by creation date in descending order (newest first).
+      operationId: listFoundationAccounts
       tags:
       - Accounts
+      security:
+      - apiKeyAuth: []
+      x-audience: public
+      x-required-permissions:
+        permissions:
+        - accounts:read@entity
+        enforcement: any
       parameters:
-      - $ref: '#/components/parameters/LimitParam'
-      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/PageToken'
+      - name: owner
+        in: query
+        required: false
+        description: 'Filter accounts by owner. Values can be specific Owner IDs or owner type wildcards. Multiple values can be combined as a comma-separated list.
+
+
+          **Specific Owner IDs:**
+
+          * `entity_<uuid>` - Accounts owned by a specific entity
+
+          * `customer_<uuid>` - Accounts owned by a specific customer
+
+
+          **Owner type wildcards:**
+
+          * `entity` - All entity-owned accounts
+
+          * `customer` - All customer-owned accounts
+
+
+          **Examples:**
+
+          * `owner=customer_af29...` - A specific customer''s accounts
+
+          * `owner=customer` - All customer accounts
+
+          * `owner=entity,customer_af29...` - Entity accounts and a specific customer''s accounts
+
+          * When omitted, accounts with any owner are returned.'
+        schema:
+          type: array
+          items:
+            type: string
+            description: An owner filter value. Can be a specific Owner ID (e.g. `entity_<uuid>`, `customer_<uuid>`) or an owner type wildcard (`entity`, `customer`).
+            pattern: ^(entity|customer)(_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?$
+        style: form
+        explode: false
+        examples:
+          specific_customer:
+            summary: A specific customer's accounts
+            value:
+            - customer_af2937b0-9846-4fe7-bfe9-ccc22d935114
+          all_customers:
+            summary: All customer accounts
+            value:
+            - customer
+          entity_and_customer:
+            summary: Entity accounts and a specific customer's accounts
+            value:
+            - entity
+            - customer_af2937b0-9846-4fe7-bfe9-ccc22d935114
+          all_owners:
+            summary: All accounts (entity and all customers)
+            value:
+            - entity
+            - customer
+      - name: type
+        in: query
+        required: false
+        description: Filter accounts by account type. When omitted, accounts of any type are returned. Combined with `owner` using AND.
+        schema:
+          $ref: '#/components/schemas/AccountType'
+        example: prime
       responses:
         '200':
-          description: Successfully retrieved list of accounts
+          description: Successfully listed accounts.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  accounts:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Account'
-                  has_next:
-                    type: boolean
-                    description: Whether there are more results
-                  cursor:
-                    type: string
-                    description: Cursor for pagination
-        '401':
-          description: Unauthorized - Invalid or missing authentication
-    servers:
-    - url: https://api.coinbase.com/api/v3/brokerage
-      description: Production Server
-  /accounts/{account_id}:
+                allOf:
+                - type: object
+                  required:
+                  - accounts
+                  properties:
+                    accounts:
+                      type: array
+                      description: The list of accounts.
+                      items:
+                        $ref: '#/components/schemas/Account'
+                - $ref: '#/components/schemas/ListResponse'
+              examples:
+                entity_owned:
+                  summary: Account owned by your Entity
+                  value:
+                    accounts:
+                    - accountId: account_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                      type: prime
+                      owner: entity_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                      name: My Business Account
+                      createdAt: '2023-10-08T14:30:00Z'
+                      updatedAt: '2023-10-08T14:30:00Z'
+                    nextPageToken: eyJsYXN0X2lkIjogImFiYzEyMyIsICJ0aW1lc3RhbXAiOiAxNzA3ODIzNzAxfQ==
+                customer_owned:
+                  summary: Account owned by a Customer of yours
+                  value:
+                    accounts:
+                    - accountId: account_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                      type: cdp
+                      owner: customer_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                      name: ABC XYZ Customer Account
+                      createdAt: '2023-10-08T14:30:00Z'
+                      updatedAt: '2023-10-08T14:30:00Z'
+                    nextPageToken: eyJsYXN0X2lkIjogImFiYzEyMyIsICJ0aW1lc3RhbXAiOiAxNzA3ODIzNzAxfQ==
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid query parameters.
+    post:
+      summary: Create account
+      description: 'Create an account. Two ownership modes are supported:
+
+
+        - **Entity-owned**: when `owner` is omitted, the account is owned by the
+
+        Entity making the request. Returns an account with `owner: entity_`.
+
+        Omit `compliance`; it has no effect for Entity-owned accounts.
+
+
+        - **Customer-owned**: pass a Customer ID as `owner`
+
+        (e.g. `customer_af2937b0-9846-4fe7-bfe9-ccc22d935114`). The Customer
+
+        must have the `custodyCrypto`, `custodyFiat`, and `custodyStablecoin`
+
+        capabilities enabled, otherwise the request is rejected with
+
+        `customer_not_authorized` (HTTP 403). `compliance.requesterIpAddress`
+
+        is required; use the IP address of the end-customer who initiated the
+
+        request (not the partner server''s IP).'
+      operationId: createFoundationAccount
+      tags:
+      - Accounts
+      security:
+      - apiKeyAuth: []
+      x-audience: public
+      x-required-permissions:
+        permissions:
+        - accounts:write@entity
+        enforcement: any
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountRequest'
+            examples:
+              entity_owned:
+                summary: Create an account owned by your Entity
+                value:
+                  name: My Business Account
+              customer_owned:
+                summary: Create an account owned by a Customer of yours
+                value:
+                  owner: customer_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                  name: ABC XYZ Customer Account
+                  compliance:
+                    requesterIpAddress: 203.0.113.42
+      responses:
+        '200':
+          description: Successfully created account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+              examples:
+                entity_owned:
+                  summary: Account owned by your Entity
+                  value:
+                    accountId: account_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                    type: cdp
+                    owner: entity_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                    name: My Business Account
+                    createdAt: '2023-10-08T14:30:00Z'
+                    updatedAt: '2023-10-08T14:30:00Z'
+                customer_owned:
+                  summary: Account owned by a Customer of yours
+                  value:
+                    accountId: account_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                    type: cdp
+                    owner: customer_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                    name: ABC XYZ Customer Account
+                    createdAt: '2023-10-08T14:30:00Z'
+                    updatedAt: '2023-10-08T14:30:00Z'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid account creation request.
+        '403':
+          description: Customer is not authorized for one or more capabilities required by this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                customer_not_authorized:
+                  summary: Customer is not authorized for one or more required capabilities
+                  value:
+                    errorType: customer_not_authorized
+                    errorMessage: Customer is not authorized for one or more capabilities required by this action.
+                    unauthorizedCapabilities:
+                    - custodyCrypto
+                    - custodyFiat
+                    - custodyStablecoin
+        '422':
+          $ref: '#/components/responses/IdempotencyError'
+        '503':
+          $ref: '#/components/responses/EndpointUnavailableError'
+  /v2/accounts/{accountId}:
     get:
-      operationId: getAccount
       summary: Get account
-      description: Retrieves a single account by account ID including the available balance, hold amount, and currency information.
+      description: Get an account by its ID.
+      operationId: getFoundationAccountById
       tags:
       - Accounts
+      security:
+      - apiKeyAuth: []
+      x-audience: public
+      x-required-permissions:
+        permissions:
+        - accounts:read@entity
+        enforcement: any
       parameters:
-      - $ref: '#/components/parameters/AccountIdParam'
+      - name: accountId
+        in: path
+        required: true
+        description: The ID of the account to retrieve.
+        schema:
+          $ref: '#/components/schemas/AccountId'
+        example: account_af2937b0-9846-4fe7-bfe9-ccc22d935114
       responses:
         '200':
-          description: Successfully retrieved account details
+          description: Successfully got account.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  account:
-                    $ref: '#/components/schemas/Account'
-        '401':
-          description: Unauthorized - Invalid or missing authentication
+                $ref: '#/components/schemas/Account'
+              examples:
+                entity_owned:
+                  summary: Account owned by your Entity
+                  value:
+                    accountId: account_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                    type: prime
+                    owner: entity_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                    name: My Business Account
+                    createdAt: '2023-10-08T14:30:00Z'
+                    updatedAt: '2023-10-08T14:30:00Z'
+                customer_owned:
+                  summary: Account owned by a Customer of yours
+                  value:
+                    accountId: account_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                    type: cdp
+                    owner: customer_af2937b0-9846-4fe7-bfe9-ccc22d935114
+                    name: ABC XYZ Customer Account
+                    createdAt: '2023-10-08T14:30:00Z'
+                    updatedAt: '2023-10-08T14:30:00Z'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid account ID.
         '404':
-          description: Account not found
-    servers:
-    - url: https://api.coinbase.com/api/v3/brokerage
-      description: Production Server
-  /accounts/{account_id}/ledger:
-    get:
-      operationId: getAccountLedger
-      summary: Get account ledger
-      description: Retrieves the ledger (transaction history) for a specific account. Returns a paginated list of account activity entries.
-      tags:
-      - Accounts
-      parameters:
-      - $ref: '#/components/parameters/AccountIdParam_2'
-      - $ref: '#/components/parameters/BeforeParam'
-      - $ref: '#/components/parameters/AfterParam'
-      - $ref: '#/components/parameters/LimitParam_2'
-      responses:
-        '200':
-          description: Successfully retrieved account ledger
+          description: Account not found.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LedgerEntry'
-    servers:
-    - url: https://api.exchange.coinbase.com
-      description: Production Server
-  /accounts/{account_id}/holds:
+                $ref: '#/components/schemas/Error'
+              examples:
+                not_found:
+                  value:
+                    errorType: not_found
+                    errorMessage: Account not found.
+  /v2/accounts/{accountId}/balances:
     get:
-      operationId: getAccountHolds
-      summary: Get account holds
-      description: Retrieves holds on an account that are associated with active orders or pending withdraw requests. Holds make funds unavailable for trading.
+      summary: List balances for account
+      description: List the balances for an account. Results are sorted by native-fiat equivalent balance in descending order.
+      operationId: listBalances
       tags:
       - Accounts
+      security:
+      - apiKeyAuth: []
+      x-audience: public
+      x-required-permissions:
+        permissions:
+        - accounts:read@entity
+        enforcement: any
       parameters:
-      - $ref: '#/components/parameters/AccountIdParam_2'
-      - $ref: '#/components/parameters/BeforeParam'
-      - $ref: '#/components/parameters/AfterParam'
-      - $ref: '#/components/parameters/LimitParam_2'
+      - name: accountId
+        in: path
+        required: true
+        description: The unique identifier of the account.
+        schema:
+          $ref: '#/components/schemas/AccountId'
+        example: account_af2937b0-9846-4fe7-bfe9-ccc22d935114
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/PageToken'
       responses:
         '200':
-          description: Successfully retrieved account holds
+          description: Successfully listed balances.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Hold'
-    servers:
-    - url: https://api.exchange.coinbase.com
-      description: Production Server
-  /accounts/{account_id}/transfers:
-    get:
-      operationId: getAccountTransfers
-      summary: Get account transfers
-      description: Retrieves a list of in-progress and completed transfers of funds to or from the account.
-      tags:
-      - Accounts
-      parameters:
-      - $ref: '#/components/parameters/AccountIdParam_2'
-      - $ref: '#/components/parameters/BeforeParam'
-      - $ref: '#/components/parameters/AfterParam'
-      - $ref: '#/components/parameters/LimitParam_2'
-      responses:
-        '200':
-          description: Successfully retrieved account transfers
+                allOf:
+                - $ref: '#/components/schemas/Balances'
+                - $ref: '#/components/schemas/ListResponse'
+              example:
+                balances:
+                - asset:
+                    symbol: btc
+                    type: crypto
+                    name: Bitcoin
+                    decimals: 8
+                  amount:
+                    btc:
+                      available: '2.5'
+                      total: '3.0'
+                    usd:
+                      available: '252705.4'
+                      total: '303246.48'
+                - asset:
+                    symbol: usd
+                    type: fiat
+                    name: United States Dollar
+                    decimals: 2
+                  amount:
+                    usd:
+                      available: '90'
+                      total: '100'
+                nextPageToken: eyJsYXN0X2lkIjogImFiYzEyMyIsICJ0aW1lc3RhbXAiOiAxNzA3ODIzNzAxfQ==
+        '400':
+          description: Invalid request.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transfer'
-    servers:
-    - url: https://api.exchange.coinbase.com
-      description: Production Server
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid account ID or query parameters.
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                unauthorized:
+                  value:
+                    errorType: unauthorized
+                    errorMessage: Authentication required.
+        '404':
+          description: Account not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                not_found:
+                  value:
+                    errorType: not_found
+                    errorMessage: Account not found.
+        '409':
+          description: Account is still being provisioned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                account_not_ready:
+                  value:
+                    errorType: account_not_ready
+                    errorMessage: This account is still being provisioned. Please try again shortly.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_error:
+                  value:
+                    errorType: internal_server_error
+                    errorMessage: An internal server error occurred.
+        '503':
+          $ref: '#/components/responses/EndpointUnavailableError'
+  /v2/accounts/{accountId}/balances/{asset}:
+    get:
+      summary: Get balance for account
+      description: Get the balance for an account by asset.
+      operationId: getBalanceByAsset
+      tags:
+      - Accounts
+      security:
+      - apiKeyAuth: []
+      x-audience: public
+      x-required-permissions:
+        permissions:
+        - accounts:read@entity
+        enforcement: any
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        description: The unique identifier of the account.
+        schema:
+          $ref: '#/components/schemas/AccountId'
+        example: account_af2937b0-9846-4fe7-bfe9-ccc22d935114
+      - name: asset
+        in: path
+        required: true
+        description: The symbol of the asset.
+        schema:
+          $ref: '#/components/schemas/Asset'
+        example: btc
+      responses:
+        '200':
+          description: Successfully got balance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Balance'
+              example:
+                asset:
+                  symbol: btc
+                  type: crypto
+                  name: Bitcoin
+                  decimals: 8
+                amount:
+                  btc:
+                    available: '2.5'
+                    total: '3.0'
+                  usd:
+                    available: '252705.4'
+                    total: '303246.48'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid account ID or asset symbol.
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                unauthorized:
+                  value:
+                    errorType: unauthorized
+                    errorMessage: Authentication required.
+        '404':
+          description: Account or asset not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                not_found:
+                  value:
+                    errorType: not_found
+                    errorMessage: Account or asset not found.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                internal_error:
+                  value:
+                    errorType: internal_server_error
+                    errorMessage: An internal server error occurred.
+        '503':
+          $ref: '#/components/responses/EndpointUnavailableError'
 components:
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of results to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 49
-    CursorParam:
-      name: cursor
-      in: query
-      description: Cursor for pagination
-      schema:
-        type: string
-    AccountIdParam:
-      name: account_id
-      in: path
-      required: true
-      description: Unique identifier for the account
-      schema:
-        type: string
-        format: uuid
-    LimitParam_2:
-      name: limit
-      in: query
-      description: Number of results per request (max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 100
-    AccountIdParam_2:
-      name: account_id
-      in: path
-      required: true
-      description: Account identifier
-      schema:
-        type: string
-    BeforeParam:
-      name: before
-      in: query
-      description: Cursor for pagination (newer items)
-      schema:
-        type: string
-    AfterParam:
-      name: after
-      in: query
-      description: Cursor for pagination (older items)
-      schema:
-        type: string
   schemas:
+    ErrorType:
+      description: The code that indicates the type of error that occurred. These error codes can be used to determine how to handle the error.
+      type: string
+      example: invalid_request
+      enum:
+      - already_exists
+      - authorization_expired
+      - bad_gateway
+      - capture_expired
+      - client_closed_request
+      - customer_not_authorized
+      - endpoint_unavailable
+      - faucet_limit_exceeded
+      - forbidden
+      - idempotency_error
+      - incompatible_event_types
+      - internal_server_error
+      - invalid_request
+      - invalid_webhook_headers
+      - invalid_webhook_url
+      - invalid_sql_query
+      - invalid_signature
+      - malformed_transaction
+      - not_found
+      - operation_in_progress
+      - payment_method_required
+      - payment_required
+      - settlement_failed
+      - rate_limit_exceeded
+      - request_canceled
+      - service_unavailable
+      - subscription_limit_exceeded
+      - timed_out
+      - unauthorized
+      - unsupported_tos_language
+      - policy_violation
+      - policy_in_use
+      - account_limit_exceeded
+      - network_not_tradable
+      - guest_permission_denied
+      - guest_region_forbidden
+      - guest_transaction_limit
+      - guest_transaction_count
+      - phone_number_verification_expired
+      - otp_verification_code_invalid
+      - otp_verification_destination_mismatch
+      - otp_verification_expired
+      - otp_verification_invalid
+      - otp_verification_not_found
+      - otp_verification_required
+      - document_verification_failed
+      - recipient_allowlist_violation
+      - recipient_allowlist_pending
+      - refund_expired
+      - travel_rules_recipient_violation
+      - source_account_invalid
+      - target_account_invalid
+      - source_account_not_found
+      - target_account_not_found
+      - source_asset_not_supported
+      - target_asset_not_supported
+      - target_email_invalid
+      - target_onchain_address_invalid
+      - transfer_amount_invalid
+      - transfer_asset_not_supported
+      - transfer_quote_expired
+      - insufficient_balance
+      - metadata_too_many_entries
+      - metadata_key_too_long
+      - metadata_value_too_long
+      - travel_rules_field_missing
+      - asset_mismatch
+      - mfa_already_enrolled
+      - mfa_invalid_code
+      - mfa_challenge_not_found
+      - mfa_flow_expired
+      - mfa_required
+      - mfa_not_enrolled
+      - order_quote_expired
+      - order_already_filled
+      - order_already_canceled
+      - account_not_ready
+      - insufficient_liquidity
+      - insufficient_allowance
+      - transaction_simulation_failed
+      - delegation_not_found
+      - delegation_expired
+      - delegation_revoked
+      - delegation_not_authorized
+      - delegation_not_enabled
+      - network_mismatch
+      - already_enabled
+      - payment_session_already_canceled
+      - payment_session_already_authorized
+      - payment_session_action_pending
+      - no_capturable_balance
+      - no_voidable_balance
+      - no_refundable_balance
+      - entity_not_configured_for_payment_acceptance
+      - entity_not_configured_for_top_up
+      - daily_transaction_limit_exceeded
+      - daily_amount_limit_exceeded
+      - stale_attestation
+      - moderation_rejected
+      - mandate_action_pending
+      - mandate_policy_violation
+      - mandate_expired
+      - mandate_canceled
+      - mandate_revoked
+      - mandate_invalid_status
+      x-error-instructions:
+        incompatible_event_types: 'The `eventTypes` in a webhook subscription belong to different scopes that cannot be combined in a single subscription.
+
+
+          **Steps to resolve:**
+
+          1. Group `eventTypes` by compatible label requirements.
+
+          2. Create a separate webhook subscription for each group.'
+        invalid_webhook_headers: 'One or more custom webhook target headers have invalid names or values, duplicate names with different capitalization, or names reserved for delivery metadata and HTTP routing.
+
+
+          **Steps to resolve:**
+
+          1. Check `target.headers` for invalid names, values, and case-insensitive duplicates.
+
+          2. Remove blocked headers such as `Cookie`, `Host`, and `X-Webhook-*`, then retry.'
+        invalid_webhook_url: 'The webhook target URL did not pass scheme, host, address, or endpoint checks.
+
+
+          **Steps to resolve:**
+
+          1. Verify `target.url` uses HTTPS and responds to HEAD requests with a 200.
+
+          2. Confirm the endpoint is reachable and responds without a server error, then retry.'
+        subscription_limit_exceeded: 'The project or entity has reached the maximum number of webhook subscriptions allowed (100).
+
+
+          **Steps to resolve:**
+
+          1. Delete any webhook subscriptions that are no longer needed.
+
+          2. Retry creating the subscription.'
+        already_exists: 'This error occurs when trying to create a resource that already exists.
+
+
+          **Steps to resolve:**
+
+          1. Check if the resource exists before creation
+
+          2. Use GET endpoints to verify resource state
+
+          3. Use unique identifiers/names for resources'
+        authorization_expired: Returned when an authorization attempt is made after the payment session's authorization deadline has passed. Create a new payment session with a later authorization deadline.
+        bad_gateway: "This error occurs when the CDP API is unable to connect to the backend service.\n\n**Steps to resolve:**\n1. Retry your request after a short delay\n2. If persistent, contact CDP support with:\n   - The timestamp of the error\n   - Request details\n3. Consider implementing retry logic with an exponential backoff\n\n**Note:** These errors are automatically logged and monitored by CDP."
+        capture_expired: Returned when a capture attempt is made after the payment session's capture deadline has passed. The payment session can no longer be captured.
+        client_closed_request: 'This error occurs when the client closes the connection before the server can send a response.
+
+
+          **Common causes:**
+
+          - The client timed out waiting for the server response
+
+          - The client application was terminated during a pending request
+
+          - Network interruption caused the client connection to drop
+
+
+          **Steps to resolve:**
+
+          1. Increase client-side timeout settings if applicable
+
+          2. Implement retry logic with exponential backoff for long-running queries
+
+          3. Consider optimizing the request to reduce server processing time'
+        endpoint_unavailable: "This error occurs when a specific endpoint has been temporarily disabled by an operator (e.g. a kill switch). The CDP API as a whole is still healthy; only this endpoint is unavailable. Distinct from `service_unavailable`, which indicates the API itself is down.\n\nRe-enabling is a manual operator action, so the endpoint may remain unavailable for an extended period.\n\n**Steps to resolve:**\n1. Check the [CDP status page](https://cdpstatus.coinbase.com/) for an active incident.\n2. If persistent, contact CDP support with:\n   - The timestamp of the error\n   - Request details"
+        faucet_limit_exceeded: 'This error occurs when you''ve exceeded the faucet request limits.
+
+
+          **Steps to resolve:**
+
+          1. Wait for the time window to reset
+
+          2. Use funds more efficiently in your testing
+
+
+          For more information on faucet limits, please visit the [EVM Faucet endpoint](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/faucets/request-funds-on-evm-test-networks) or the [Solana Faucet endpoint](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/faucets/request-funds-on-solana-devnet).'
+        customer_not_authorized: "This error occurs when the customer is not currently authorized for one\nor more capabilities required to perform the requested action. This can\nhappen at any point in the customer's lifecycle and may or may not be\nresolvable by the developer.\n\nThe response includes an `unauthorizedCapabilities` field listing the\ncapability code(s) that were not authorized on this request.\n\n**Steps to resolve:**\n1. Fetch the customer with `GET /v2/customers/{customerId}` and inspect\n   the `requirements` field. If `requirements.due` is non-empty, submit\n   the listed fields via `PUT /v2/customers/{customerId}` and retry.\n2. If `requirements.due` is empty, no further action is available — the\n   customer is not currently eligible for this action."
+        forbidden: 'This error occurs when you don''t have permission to access the resource.
+
+
+          **Steps to resolve:**
+
+          1. Verify your permissions to access the resource
+
+          2. Ensure that you are the owner of the requested resource'
+        idempotency_error: "This error occurs when an idempotency key is reused with different parameters.\n\n**Steps to resolve:**\n1. Generate a new UUID v4 for each unique request\n2. Only reuse idempotency keys for exact request duplicates\n3. Track used keys within your application\n\n**Example idempotency key implementation:**\n```typescript lines wrap\nimport { v4 as uuidv4 } from 'uuid';\n\nfunction createIdempotencyKey() {\n  return uuidv4();\n}\n```"
+        internal_server_error: "This indicates an unexpected error that occurred on the CDP servers.\n\n**Important**: If you encounter this error, please note that your operation's status should be treated as unknown by your application, as it could have been a success within the CDP back-end.\n\n**Steps to resolve:**\n1. Retry your request after a short delay\n2. If persistent, contact CDP support with:\n   - Your correlation ID\n   - Timestamp of the error\n   - Request details\n3. Consider implementing retry logic with an exponential backoff\n\n**Note:** These errors are automatically logged and monitored by CDP."
+        invalid_request: "This error occurs when the request is malformed or contains invalid data, including issues with the request body, query parameters, path parameters, or headers.\n\n**Steps to resolve:**\n1. Check all required fields and parameters are present\n2. Ensure request body (if applicable) follows the correct schema\n3. Verify all parameter formats match the API specification:\n   - Query parameters\n   - Path parameters\n   - Request headers\n4. Validate any addresses, IDs, or other formatted strings meet requirements\n\n**Common validation issues:**\n- Missing required parameters\n- Invalid parameter types or formats\n- Malformed JSON in request body\n- Invalid enum values\n\n#### Transfer-specific validation errors\n\nThe following transfer validation scenarios return `errorType: \"invalid_request\"`. Use the `errorMessage` field to identify the specific case.\n\n| Scenario | Example `errorMessage` |\n|----------|----------------------|\n| Source account ID is malformed | `\"source is invalid.\"` |\n| Target account ID is malformed | `\"target is invalid.\"` |\n| Source account does not exist | `\"source not found.\"` |\n| Target account does not exist | `\"target not found.\"` |\n| Asset not supported at source | `\"source is not supported.\"` |\n| Asset not supported at target | `\"target is not supported.\"` |\n| Target email address is malformed | `\"target has an invalid email format.\"` |\n| Target onchain address is invalid for network | `\"The recipient address is invalid for the selected network.\"` |\n| Asset not supported for this transfer route | `\"Transfer asset pair is not supported.\"` |\n| Insufficient balance | `\"Insufficient funds to complete this transfer.\"` |\n| Asset mismatch between request fields | `\"Currency mismatch in request.\"` |\n| Metadata has too many keys | `\"Metadata has too many keys. Up to 10 key/value pairs are permitted.\"` |\n| Metadata key exceeds length limit | `\"Metadata key is too long. Each key must be less than or equal to 40 characters.\"` |\n| Metadata value exceeds length limit | `\"Metadata value is too long. Each value must be less than or equal to 500 characters.\"` |\n| Travel rule fields missing | `\"Travel rule information is incomplete. Missing fields: ...\"` |\n| Recipient address not in account allowlist | `\"Your coinbase account allowlist does not include this address. Please update your allowlist at https://www.coinbase.com/settings/allowlist\"` |"
+        invalid_sql_query: 'This error occurs when the SQL query is invalid or not allowed.
+
+
+          **Common causes:**
+
+          - Using non-SELECT SQL statements (INSERT, UPDATE, DELETE, etc.)
+
+          - Invalid table or column names
+
+          - Syntax errors in SQL query
+
+          - Query exceeds character limit
+
+          - Too many JOIN operations'
+        invalid_signature: 'This error occurs when the signature provided for the given user operation is invalid.
+
+
+          **Steps to resolve:**
+
+          1. Verify the signature was generated by the correct owner account
+
+          2. Ensure the signature corresponds to the exact user operation hash
+
+          3. Check that the signature format matches the expected format
+
+          4. Confirm you''re using the correct network for the Smart Account
+
+
+          **Common causes:**
+
+          - Using wrong owner account to sign
+
+          - Signing modified/incorrect user operation data
+
+          - Malformed signature encoding
+
+          - Network mismatch between signature and broadcast'
+        malformed_transaction: "This error occurs when the transaction data provided is not properly formatted or is invalid.\n\n**Steps to resolve:**\n1. Verify transaction encoding:\n   - **EVM networks**: Check RLP encoding is correct\n   - **Solana**: Validate base64 encoding\n2. Ensure all required transaction fields are present\n3. Validate transaction parameters are within acceptable ranges\n4. Check that the transaction type is supported on the target network\n\n**Common causes:**\n- Invalid hex encoding for EVM transactions\n- Missing required transaction fields\n- Incorrect parameter formats\n- Unsupported transaction types\n- Network-specific transaction format mismatches"
+        not_found: 'This error occurs when the resource specified in your request doesn''t exist or you don''t have access to it.
+
+
+          **Steps to resolve:**
+
+          1. Verify the resource ID/address/account exists
+
+          2. Check your permissions to access the resource
+
+          3. Ensure you''re using the correct network/environment
+
+          4. Confirm the resource hasn''t been deleted
+
+
+          **Common causes:**
+
+          - Mistyped addresses
+
+          - Accessing resources from the wrong CDP project
+
+          - Resource was deleted or hasn''t been created yet'
+        operation_in_progress: "This error occurs when another operation of the same kind is already in progress for\nthe resource, and the request must wait for it to complete.\n\n**Steps to resolve:**\n1. Wait for the in-progress operation to complete (typically under 30 seconds)\n2. Once complete, use the resource's GET endpoint to read its state instead of\n   retrying the create\n\n**Common causes:**\n- Retrying a create whose previous attempt is still being processed\n- Concurrent duplicate requests for the same resource"
+        payment_method_required: 'This error occurs when a payment method is required to complete the requested operation but none is configured or available.
+
+
+          **Steps to resolve:**
+
+          1. Add a valid payment method to your account using the [CDP Portal](https://portal.cdp.coinbase.com)
+
+          2. Ensure your payment method is valid and not expired
+
+
+          **Common causes:**
+
+          - No payment method configured on the account
+
+          - Payment method is expired'
+        payment_required: 'This error occurs when an x402 payment is required to access the requested resource.
+
+
+          **Steps to resolve:**
+
+          1. Include a valid x402 payment header in your request
+
+          2. Ensure the payment meets the resource''s pricing requirements'
+        settlement_failed: 'This error occurs when an x402 payment was verified but settlement on-chain failed.
+
+
+          **Steps to resolve:**
+
+          1. Retry the request with a new payment
+
+          2. Ensure the payment asset has sufficient balance for settlement'
+        rate_limit_exceeded: "This error occurs when you've exceeded the API rate limits.\n\n**Steps to resolve:**\n1. Implement exponential backoff\n2. Cache responses where possible\n3. Wait for rate limit window to reset\n\n**Best practices:**\n```typescript lines wrap\nasync function withRetry(fn: () => Promise<any>) {\n  let delay = 1000;\n  while (true) {\n    try {\n      return await fn();\n    } catch (e) {\n      if (e.errorType === \"rate_limit_exceeded\") {\n        await sleep(delay);\n        delay *= 2;\n        continue;\n      }\n      throw e;\n    }\n  }\n}\n```"
+        request_canceled: "This error occurs when the client cancels an in-progress request before it completes.\n\n**Steps to resolve:**\n1. Check client-side timeout configurations\n2. Review request cancellation logic in your code\n3. Consider increasing timeout thresholds for long-running operations\n4. Implement request tracking to identify premature cancellations\n\n**Best practices:**\n```typescript lines wrap\nasync function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {\n  const timeout = new Promise((_, reject) => {\n    setTimeout(() => {\n      reject(new Error(\"Operation timed out\"));\n    }, timeoutMs);\n  });\n\n  try {\n    return await Promise.race([promise, timeout]);\n  } catch (error) {\n    // Handle timeout or cancellation\n    throw error;\n  }\n}\n```"
+        service_unavailable: "This error occurs when the CDP API is temporarily unable to handle requests due to maintenance or high load.\n\n**Steps to resolve:**\n1. Retry your request after a short delay\n2. If persistent, contact CDP support with:\n   - The timestamp of the error\n   - Request details\n3. Consider implementing retry logic with an exponential backoff\n\n**Note:** These errors are automatically logged and monitored by CDP."
+        timed_out: "This error occurs when a request exceeds the maximum allowed processing time.\n\n**Steps to resolve:**\n1. Break down large requests into smaller chunks (if applicable)\n2. Implement retry logic with exponential backoff\n3. Use streaming endpoints for large data sets\n\n**Example retry implementation:**\n```typescript lines wrap\nasync function withRetryAndTimeout<T>(\n  operation: () => Promise<T>,\n  maxRetries = 3,\n  timeout = 30000,\n): Promise<T> {\n  let attempts = 0;\n  while (attempts < maxRetries) {\n    try {\n      return await Promise.race([\n        operation(),\n        new Promise((_, reject) =>\n          setTimeout(() => reject(new Error(\"Timeout\")), timeout)\n        ),\n      ]);\n    } catch (error) {\n      attempts++;\n      if (attempts === maxRetries) throw error;\n      // Exponential backoff\n      await new Promise(resolve =>\n        setTimeout(resolve, Math.pow(2, attempts) * 1000)\n      );\n    }\n  }\n  throw new Error(\"Max retries exceeded\");\n}\n```"
+        unauthorized: "This error occurs when authentication fails.\n\n**Steps to resolve:**\n1. Verify your CDP API credentials:\n   - Check that your API key is valid\n   - Check that your Wallet Secret is properly configured\n2. Validate JWT token:\n   - Not expired\n   - Properly signed\n   - Contains required claims\n3. Check request headers:\n   - Authorization header present\n   - X-Wallet-Auth header included when required\n\n**Security note:** Never share your Wallet Secret or API keys."
+        unsupported_tos_language: 'A submitted Terms of Service acceptance used a `language` that is not published for the referenced `versionId`.
+
+
+          **Steps to resolve:**
+
+          1. Read `Customer.requirements.tos.tosVersions[]` and find the entry whose `versionId` matches your acceptance.
+
+          2. Choose a `language` from that entry''s `languages` list (BCP 47 tags).
+
+          3. Retry with `tosAcceptances[].language` set to a supported tag.'
+        policy_in_use: 'This error occurs when trying to delete a Policy that is currently in use by at least one project or account.
+
+
+          **Steps to resolve:**
+
+          1. Update project or accounts to remove references to the Policy in question.
+
+          2. Retry your delete request.'
+        network_not_tradable: 'This error occurs when the selected asset cannot be purchased on the selected network in the user''s location.
+
+
+          **Steps to resolve:**
+
+          1. Verify the asset is tradable on the selected network
+
+          2. Check the user''s location to ensure it is allowed to purchase the asset on the selected network
+
+
+          **Common causes:**
+
+          - Users in NY are not allowed to purchase USDC on any network other than Ethereum'
+        guest_permission_denied: 'This error occurs when the user is not allowed to complete onramp transactions as a guest.
+
+
+          **Steps to resolve:**
+
+          1. Redirect the user to create a Coinbase account to buy and send crypto.'
+        guest_region_forbidden: 'This error occurs when guest onramp transactions are not allowed in the user''s region.
+
+
+          **Steps to resolve:**
+
+          1. Redirect the user to create a Coinbase account to buy and send crypto.'
+        guest_transaction_limit: 'This error occurs when the user has reached the weekly guest onramp transaction limit.
+
+
+          **Steps to resolve:**
+
+          1. Inform the user they have reached their weekly limit and will have to wait until next week.'
+        guest_transaction_count: 'This error occurs when the user has reached the lifetime guest onramp transaction count limit.
+
+
+          **Steps to resolve:**
+
+          1. Redirect the user to create a Coinbase account to buy and send crypto.'
+        phone_number_verification_expired: 'This error occurs when the user''s phone number verification has expired. Use of guest Onramp requires the user''s
+
+          phone number to be verified every 60 days.
+
+
+          **Steps to resolve:**
+
+          1. Re-verify the user''s phone number via OTP.
+
+          2. Retry the request with the phoneNumberVerifiedAt field set to new verification timestamp.'
+        otp_verification_destination_mismatch: 'The `phoneNumber` or `email` on the order does not match the `destination` that was verified.
+
+
+          **Steps to resolve:**
+
+          1. Ensure the `phoneNumber` or `email` field on the order matches the `destination` used during verification.
+
+          2. If the value changed, complete a new verification for the updated phone number or email.'
+        otp_verification_expired: 'The `smsVerificationId` or `emailVerificationId` provided has expired.
+
+          Verification IDs are valid for 60 days after successful OTP submission.
+
+
+          **Steps to resolve:**
+
+          1. Complete a new verification flow for the user.
+
+          2. Use the new verification ID when creating orders.'
+        otp_verification_code_invalid: 'This error occurs when the OTP code submitted to complete a verification is incorrect or has expired
+
+          (the 10-minute OTP window has elapsed).
+
+
+          **Steps to resolve:**
+
+          1. Ask the user to re-enter the code.
+
+          2. If the OTP window has expired, start a new verification flow.'
+        otp_verification_invalid: 'This error occurs when the verification record exists but is not in a usable state for the requested operation.
+
+
+          **Common causes:**
+
+          - The verification is still pending (OTP not yet submitted successfully).
+
+          - The verification has been revoked.
+
+          - The verification channel does not match the expected field (`smsVerificationId` or `emailVerificationId`).
+
+
+          **Steps to resolve:**
+
+          1. Complete a new verification flow and retry.'
+        otp_verification_not_found: 'The provided SMS or email verification ID does not correspond to any verification record.
+
+
+          **Steps to resolve:**
+
+          1. Ensure you are passing the correct verification ID as `smsVerificationId` or `emailVerificationId`.
+
+          2. If the issue persists, complete a new verification flow.'
+        otp_verification_required: 'An SMS or email verification ID is required on order creation but none was provided.
+
+
+          **Steps to resolve:**
+
+          1. Verify the user''s phone number and email before creating an order.
+
+          2. Pass the returned verification IDs as `smsVerificationId` and `emailVerificationId` when creating orders.'
+        document_verification_failed: 'This error occurs when the user has not verified their identity for their coinbase.com account.
+
+          **Steps to resolve:**
+
+          1. Verify your coinbase account identity with valid documents at https://www.coinbase.com/settings/account-levels.'
+        recipient_allowlist_violation: 'This error occurs when the user is not allowed to receive funds at this address, according to their coinbase account allowlist.
+
+          **Steps to resolve:**
+
+          1. Either disable the allowlist or add the wallet address at https://www.coinbase.com/settings/allowlist
+
+          2. Wait approximately 2 days for updates to take effect.'
+        recipient_allowlist_pending: 'This error occurs when the user is not allowed to receive funds at this address, because changes to their coinbase account allowlist are pending.
+
+          **Steps to resolve:**
+
+          1. Wait approximately 2 days for updates to take effect.'
+        refund_expired: Returned when a refund attempt is made after the payment session's refund deadline has passed. The payment session can no longer be refunded.
+        travel_rules_recipient_violation: 'This error occurs when the user is not allowed to receive funds at this address, because it violates travel rules.
+
+          **Steps to resolve:**
+
+          1. Ensure your desired transfer is not blocked by local travel regulations.'
+        mfa_already_enrolled: 'This error occurs when attempting to enroll in an MFA method that the user has already enrolled in.
+
+
+          **Steps to resolve:**
+
+          1. Check if the user is already enrolled in the MFA method before initiating enrollment
+
+          2. To update or reset MFA, remove the existing enrollment first (if supported)
+
+          3. Use a different MFA method if multiple options are available'
+        mfa_invalid_code: 'This error occurs when the MFA code provided is incorrect or has already been used.
+
+
+          **Steps to resolve:**
+
+          1. Verify the user entered the correct code from their authenticator app
+
+          2. Ensure the code is current (TOTP codes expire after 30 seconds)
+
+          3. Check that the device time is synchronized correctly
+
+          4. Ask the user to generate a new code and try again
+
+
+          **Common causes:**
+
+          - Typing errors in the 6-digit code
+
+          - Using an expired TOTP code
+
+          - Device clock drift on user''s authenticator app
+
+          - Attempting to reuse a previously submitted code'
+        mfa_challenge_not_found: 'This error occurs when the challenge named by `X-Mfa-Challenge-Id` is unknown to the server or was already consumed by a failed submit attempt. This is distinct from `mfa_flow_expired`, which indicates the flow timed out.
+
+
+          **Possible resolutions**
+
+          - Pass the exact challenge ID from the `X-Mfa-Challenge-Id` header of the prior `403 mfa_required` response
+
+          - If the user failed MFA verification (e.g. by entering the wrong OTP), re-initiate the MFA flow to obtain a fresh challenge
+
+
+          **Common causes:**
+
+          - Reusing a challenge after a failed submit attempt
+
+          - A client bug sending a challenge from a different flow or user'
+        mfa_flow_expired: 'This error occurs when the MFA enrollment or verification session has expired.
+
+
+          **Steps to resolve:**
+
+          1. Restart the MFA enrollment or verification flow
+
+          2. Complete the flow within the allowed time window (typically 5 minutes)
+
+          3. Ensure the user doesn''t leave the flow idle for extended periods
+
+
+          **Note:** MFA sessions expire automatically for security purposes.'
+        mfa_required: 'This error occurs when attempting to perform a sensitive operation that requires MFA verification, but the user has not completed MFA verification.
+
+
+          **Steps to resolve:**
+
+          1. Initiate the MFA verification flow using the `/mfa/verify/{mfaMethod}/init` endpoint
+
+          2. Prompt the user to enter their MFA code
+
+          3. Submit the verification using the `/mfa/verify/{mfaMethod}/submit` endpoint
+
+          4. Use the returned access token with MFA claim for the sensitive operation
+
+          5. Retry the original request with the new MFA-verified token
+
+
+          **Operations requiring MFA:**
+
+          - Transactions Sign/Send
+
+          - Key export
+
+          - Account management actions (when configured)'
+        mfa_not_enrolled: 'This error occurs when attempting to verify MFA for a user who has not enrolled in any MFA method.
+
+
+          **Steps to resolve:**
+
+          1. Check if the user has enrolled in MFA before attempting verification
+
+          2. Guide the user through MFA enrollment first using the `/mfa/enroll/{mfaMethod}/init` endpoint
+
+          3. Complete enrollment before requiring MFA verification'
+        source_account_invalid: 'This error occurs when the source account specified in the transfer request is invalid or malformed.
+
+
+          **Steps to resolve:**
+
+          1. Verify the account ID format is correct (e.g., `account_xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`)
+
+          2. Ensure the account ID belongs to your CDP entity
+
+          3. Verify the account ID exists by calling `GET /v2/accounts/{accountId}` or `GET /v2/accounts`
+
+
+          **Common causes:**
+
+          - Malformed account ID
+
+          - Typo in the account ID'
+        target_account_invalid: 'This error occurs when the target account specified in the transfer request is invalid or malformed.
+
+
+          **Steps to resolve:**
+
+          1. Verify the account ID format is correct (e.g., `account_xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`)
+
+          2. Ensure the account exists and can receive funds
+
+          3. Verify the account ID exists by calling `GET /v2/accounts/{accountId}` or `GET /v2/accounts`
+
+
+          **Common causes:**
+
+          - Malformed account ID
+
+          - Typo in the account ID'
+        source_account_not_found: 'This error occurs when the source account specified in the transfer does not exist.
+
+
+          **Steps to resolve:**
+
+          1. Verify the account ID exists by calling `GET /v2/accounts/{accountId}` or `GET /v2/accounts`'
+        target_account_not_found: 'This error occurs when the target account specified in the transfer does not exist.
+
+
+          **Steps to resolve:**
+
+          1. Verify the account ID exists by calling `GET /v2/accounts/{accountId}` or `GET /v2/accounts`'
+        source_asset_not_supported: 'This error occurs when the asset specified in the transfer source is not supported for this transfer type.
+
+
+          **Steps to resolve:**
+
+          1. Check the list of supported assets for the source account type
+
+          2. Verify the asset symbol is correctly specified (e.g., `usdc`, `usdt`)
+
+
+          **Common causes:**
+
+          - Unsupported asset for the transfer route
+
+          - Incorrect asset symbol'
+        target_asset_not_supported: 'This error occurs when the asset specified in the transfer target is not supported for this transfer type.
+
+
+          **Steps to resolve:**
+
+          1. Check the list of supported assets for the target
+
+          2. Verify the asset symbol is correctly specified (e.g., `usdc`, `usdt`)
+
+          3. Ensure the target can receive this asset type
+
+
+          **Common causes:**
+
+          - Asset not supported by the target
+
+          - Unsupported conversion between source and target assets'
+        target_email_invalid: 'This error occurs when the email address specified as the transfer target is invalid.
+
+
+          **Steps to resolve:**
+
+          1. Verify the email address format is valid (e.g., `user@example.com`)
+
+          2. Check for typos in the email address
+
+          3. Ensure the email domain is valid
+
+
+          **Common causes:**
+
+          - Invalid email format
+
+          - Missing @ symbol or domain
+
+          - Typo in the email address'
+        target_onchain_address_invalid: 'This error occurs when the onchain address specified as the transfer target is invalid for the specified network.
+
+
+          **Steps to resolve:**
+
+          1. Ensure the network is supported for the transfer type
+
+          2. Verify the address format matches the target network
+
+          3. Ensure you haven''t mixed up addresses from different networks
+
+
+          **Common causes:**
+
+          - Network not supported for the transfer type
+
+          - Address format doesn''t match network
+
+          - Address from a different blockchain network'
+        transfer_amount_invalid: 'This error occurs when the transfer amount is invalid.
+
+
+          **Steps to resolve:**
+
+          1. Ensure the amount is a positive number and greater than $1 USD equivalent amount
+
+          2. Verify the amount format is a valid decimal string (e.g., `"100.50"`)
+
+          3. Check the number of decimal places for the asset
+
+
+          **Common causes:**
+
+          - Zero or negative amount
+
+          - Too many decimal places for the asset
+
+          - Amount below minimum threshold ($1 USD equivalent amount)'
+        transfer_asset_not_supported: 'This error occurs when the asset specified for the transfer is not supported.
+
+
+          **Steps to resolve:**
+
+          1. Check the list of supported assets for transfers
+
+          2. Verify the asset symbol is correctly specified
+
+          3. Ensure the asset is supported for the transfer route (source → target)
+
+
+          **Common causes:**
+
+          - Asset not supported for transfers
+
+          - Incorrect asset symbol'
+        transfer_quote_expired: 'This error occurs when the transfer quote has expired. Quotes are valid for a limited time.
+
+
+          **Steps to resolve:**
+
+          1. Create a new transfer to obtain a fresh quote
+
+          2. Execute the transfer promptly after creation
+
+
+          **Common causes:**
+
+          - Too much time elapsed between creating and executing the transfer'
+        insufficient_balance: 'This error occurs when the source account does not have enough funds to complete the transfer including fees.
+
+
+          **Steps to resolve:**
+
+          1. Check the source account balance
+
+          2. Ensure the balance covers both the transfer amount and any fees
+
+          3. Consider using `amountType: "source"` to transfer the maximum available amount minus fees
+
+          4. Add funds to the source account if needed
+
+
+          **Common causes:**
+
+          - Transfer amount exceeds available balance
+
+          - Not accounting for transfer fees
+
+          - Pending transactions reducing available balance'
+        metadata_too_many_entries: 'This error occurs when the transfer metadata contains more entries than allowed.
+
+
+          **Steps to resolve:**
+
+          1. Reduce the number of metadata entries (maximum 10 allowed)
+
+          2. Consolidate related data into fewer keys
+
+          3. Store additional data externally and reference it with a single metadata entry
+
+
+          **Limits:**
+
+          - Maximum entries: 10'
+        metadata_key_too_long: 'This error occurs when a metadata key exceeds the maximum allowed length.
+
+
+          **Steps to resolve:**
+
+          1. Shorten the metadata key to 40 characters or less
+
+          2. Use abbreviations or shorter naming conventions
+
+          3. Consider using a key-value structure where the value contains the longer identifier
+
+
+          **Limits:**
+
+          - Maximum key length: 40 characters'
+        metadata_value_too_long: 'This error occurs when a metadata value exceeds the maximum allowed length.
+
+
+          **Steps to resolve:**
+
+          1. Shorten the metadata value to 500 characters or less
+
+          2. Store longer data externally and reference it with a shorter identifier
+
+          3. Consider compressing or encoding the data if appropriate
+
+
+          **Limits:**
+
+          - Maximum value length: 500 characters'
+        travel_rules_field_missing: 'This error occurs when required travel rule fields are missing from the transfer request.
+
+
+          **Steps to resolve:**
+
+          1. Include the `travelRule` object in your transfer request
+
+          2. Supply the required missing fields prompted by the error message
+
+          3. Review the travel rule requirements for your jurisdiction
+
+
+          Note: Required fields may vary by region.'
+        asset_mismatch: 'This error occurs when the assets specified in the transfer are incompatible or don''t match expected values.
+
+
+          **Steps to resolve:**
+
+          1. Ensure the `asset` field matches either the source or target asset
+
+          2. Verify that the source and target assets are compatible for conversion (if different)
+
+          3. Check that the asset symbols are correctly specified
+
+
+          **Common causes:**
+
+          - Transfer asset doesn''t match source or target
+
+          - Attempting an unsupported asset conversion
+
+          - Typo in asset symbols'
+        order_quote_expired: 'This error occurs when attempting to execute an order whose quote has expired.
+
+
+          **Steps to resolve:**
+
+          1. Create a new order with `execute: false` to get an updated quote.
+
+          2. Execute the new order before the quote expires (check the `expiresAt` field).
+
+          3. Alternatively, create a new order with `execute: true` to skip the quote step and execute immediately.'
+        order_already_filled: 'This error occurs when attempting to cancel or modify an order that has already been filled.
+
+
+          **Steps to resolve:**
+
+          1. Check the current status of the order using `GET /v2/orders/{orderId}`.
+
+          2. A filled order cannot be canceled or re-executed.'
+        order_already_canceled: 'This error occurs when attempting to cancel or execute an order that has already been canceled.
+
+
+          **Steps to resolve:**
+
+          1. Check the current status of the order using `GET /v2/orders/{orderId}`.
+
+          2. Create a new order if you still want to trade.'
+        account_not_ready: 'This error occurs when an operation is attempted on an account that is still being provisioned.
+
+
+          **Steps to resolve:**
+
+          1. Wait a few moments and retry the request
+
+          2. If the error persists, the account may still be completing setup — retry with exponential backoff'
+        insufficient_liquidity: 'This error occurs when no swap route is available for the requested token pair or amount.
+
+
+          **Steps to resolve:**
+
+          1. Try a smaller `fromAmount` — large orders may exceed available liquidity
+
+          2. Try a different token pair
+
+          3. Retry after a short delay; liquidity conditions change with market activity'
+        insufficient_allowance: "This error occurs when the taker has not approved the Permit2 contract to spend the `fromToken`\non their behalf. ERC-20 swaps require a Permit2 allowance. Native ETH swaps do not.\n\n**Steps to resolve:**\n1. Submit an ERC-20 `approve` transaction on the `fromToken` contract, granting the Permit2\n   contract (`0x000000000022D473030F116dDEE9F6B43aC78BA3`) an allowance of at least `fromAmount`\n2. Wait for the approval transaction to be confirmed on-chain\n3. Retry the swap\n\n**Example:**\n```typescript lines wrap\n// Approve Permit2 to spend fromToken\nawait walletClient.writeContract({\n  address: fromToken,\n  abi: erc20Abi,\n  functionName: \"approve\",\n  args: [\"0x000000000022D473030F116dDEE9F6B43aC78BA3\", fromAmount],\n});\n```"
+        transaction_simulation_failed: 'This error occurs when the pre-broadcast simulation of the swap transaction predicted a revert.
+
+          No transaction was submitted and no gas was spent.
+
+
+          **Common causes:**
+
+          - The on-chain price moved past the `slippageBps` tolerance between the price estimate and execution
+
+          - Taker balance changed between the price estimate and execution
+
+
+          **Steps to resolve:**
+
+          1. Retry immediately — prices change quickly and a new quote may succeed
+
+          2. Increase `slippageBps` if retries continue to fail (e.g. from 100 to 200)
+
+          3. For large swaps, consider splitting into smaller amounts to reduce price impact'
+        delegation_not_found: "This error occurs when a delegated signing operation is attempted but no active\ndelegation grant exists for the end user (or account).\n\n**Steps to resolve:**\n1. Create a delegation grant using `createDelegationForEndUser` (user-scoped)\n   or `createDelegationForEndUserAccount` (account-scoped) before calling\n   the signing or sending operation\n2. If you previously created a grant, it may have expired or been revoked —\n   in those cases you would receive a `delegation_expired` or\n   `delegation_revoked` error instead\n3. For account-scoped grants, verify the address in the request matches the\n   granted address (EVM addresses are compared case-insensitively;\n   Solana addresses must match exactly)"
+        delegation_expired: "This error occurs when the delegation grant used for signing has expired.\nDelegation grants have a limited lifetime set at creation.\n\n**Steps to resolve:**\n1. Create a new delegation grant using `createDelegationForEndUser` or\n   `createDelegationForEndUserAccount`\n2. Retry the signing operation with the new grant active\n3. Consider creating grants with a longer TTL if expiry is frequent"
+        delegation_revoked: "This error occurs when the delegation grant has been explicitly revoked.\n\n**Steps to resolve:**\n1. Create a new delegation grant using `createDelegationForEndUser` or\n   `createDelegationForEndUserAccount`\n2. Confirm with the end user before recreating, since revocation is\n   typically intentional"
+        delegation_not_authorized: "This error occurs when a delegation grant exists but does not authorize the\nrequested operation.\n\n**Steps to resolve:**\n1. For account-scoped grants, verify the signing address matches the address\n   the grant was created for\n2. Check that the operation is permitted for delegated signing on your project\n3. Create a grant with the correct scope if needed"
+        delegation_not_enabled: "This error occurs when delegated signing is attempted on a project that has\nnot enabled the feature.\n\n**Steps to resolve:**\n1. Enable delegated signing in your project configuration via the CDP Portal\n2. Contact support if you believe delegated signing should already be enabled\n   for your project"
+        network_mismatch: 'This error occurs when the requested operation specifies a network on which the
+
+          target resource is not deployed or not available.
+
+
+          **Steps to resolve:**
+
+          1. Use the network the resource was originally created or deployed on
+
+          2. Check the resource metadata to confirm the correct network
+
+
+          **Common causes:**
+
+          - Specifying `base` for a resource that only exists on `base-sepolia` (or vice versa)
+
+          - Cross-network operation attempted on a resource scoped to a single network'
+        already_enabled: 'This error occurs when the requested operation cannot be performed because
+
+          the capability is already in the desired state.
+
+
+          **Steps to resolve:**
+
+          1. Check the current state of the resource before attempting the operation
+
+          2. No action is needed if the resource is already in the desired state
+
+
+          **Common causes:**
+
+          - Calling an enable endpoint on a resource that already has the feature enabled'
+        payment_session_already_canceled: 'This error occurs when an action is attempted on a payment session that has already been canceled.
+
+
+          **Steps to resolve:**
+
+          1. Create a new payment session to proceed with the payment flow'
+        payment_session_already_authorized: 'This error occurs when attempting to authorize a payment session that has already been authorized.
+
+
+          **Steps to resolve:**
+
+          1. Check the payment session status — it is already authorized
+
+          2. Proceed to capture, void, or other post-authorization actions as needed'
+        payment_session_action_pending: 'This error occurs when another action is already in progress for the payment session.
+
+
+          **Steps to resolve:**
+
+          1. Wait for the current action to complete before retrying
+
+          2. Check the payment session status to confirm the current action result'
+        no_capturable_balance: 'This error occurs when there is no remaining balance available to capture on the payment session.
+
+
+          **Steps to resolve:**
+
+          1. Verify the payment session status and previously captured amounts
+
+          2. Ensure the session was authorized and has uncaptured funds remaining'
+        no_voidable_balance: 'This error occurs when there is no held balance remaining to void on the payment session.
+
+
+          **Steps to resolve:**
+
+          1. Verify the payment session has an authorized but uncaptured balance
+
+          2. Check whether the session has already been fully captured or voided'
+        no_refundable_balance: 'This error occurs when the payment session has no captured amount available to refund.
+
+
+          **Steps to resolve:**
+
+          1. Verify the payment session has been previously captured
+
+          2. Check that the session has not already been fully refunded'
+        entity_not_configured_for_payment_acceptance: 'This error occurs when the entity is not configured to accept payments.
+
+
+          **Steps to resolve:**
+
+          1. Contact support to enable payment acceptance for the entity'
+        entity_not_configured_for_top_up: 'This error occurs when Top-Up is disabled for the entity or required Top-Up configuration is missing or invalid.
+
+
+          **Steps to resolve:**
+
+          1. Contact support or your Coinbase representative to enable Top-Up or correct the entity''s Top-Up configuration'
+        daily_transaction_limit_exceeded: 'This error occurs when the daily transaction limit has been exceeded.
+
+
+          **Steps to resolve:**
+
+          1. Wait until the next day when the daily limit resets
+
+          2. Contact support for questions about your limit'
+        daily_amount_limit_exceeded: 'This error occurs when the daily authorization amount limit has been exceeded.
+
+
+          **Steps to resolve:**
+
+          1. Wait until the next day when the daily limit resets
+
+          2. Contact support for questions about your limit'
+        stale_attestation: "The platform attestation (iOS App Attest assertion or Android Play Integrity token) was\ngenerated against a challenge that has since expired. The request was well-formed, but\nthe challenge is no longer valid.\n\n**Steps to resolve:**\n1. Call [Create Onramp Mobile Challenge](#operation/createOnrampMobileChallenge) to obtain\n   a fresh challenge.\n2. Re-run the platform attestation flow against the new challenge.\n3. Submit the new attestation to\n   [Create Onramp Mobile Session](#operation/createOnrampMobileSession) promptly —\n   challenges are short-lived.\n\n**Common causes:**\n- Too much time elapsed between obtaining the challenge and submitting the attestation."
+        moderation_rejected: 'The uploaded image failed content moderation and will not be served.
+
+
+          **Steps to resolve:**
+
+          1. Upload a different image that complies with content policies.'
+        mandate_action_pending: 'This error occurs when an approval or revocation is already in progress for the mandate.
+
+          Get wallet approval options, approve a mandate, get wallet revocation options, revoke
+
+          a mandate, and authorize a payment session with a mandate all return this while an
+
+          action is in flight.
+
+
+          **Steps to resolve:**
+
+          1. Wait for the in-flight approval or revocation to succeed or fail
+
+          2. Check the mandate `status`, then retry the request'
+        mandate_policy_violation: 'This error occurs only when the request breaches the mandate policy: the charge
+
+          exceeds `maxPerAuthorization` or `maxPerPeriod`, or an approval is rejected
+
+          because the payer''s available balance is below `minSetupBalance`.
+
+
+          **Steps to resolve:**
+
+          1. Lower the charge, raise the mandate policy, or fund the payer above `minSetupBalance`
+
+          2. Retry the request'
+        mandate_expired: 'This error occurs when the mandate is past its `expiresAt` and can no longer be used.
+
+          Authorization, approve a mandate, and get wallet approval options return this error.
+
+
+          **Steps to resolve:**
+
+          1. Create a new mandate if the customer should continue
+
+          2. Do not retry the request against the expired mandate'
+        mandate_canceled: 'This error occurs when `canceledAt` is set. Authorization, approve a mandate,
+
+          and get wallet approval options return this. If `revokedAt` is also set, those
+
+          operations return `mandate_revoked` instead.
+
+
+          **Steps to resolve:**
+
+          1. Create a new mandate if the customer should continue
+
+          2. Do not retry the request against the canceled mandate'
+        mandate_revoked: 'This error occurs when the mandate''s on-chain spending allowance has been
+
+          removed (`revokedAt` is set, status `revocation_succeeded`).
+
+
+          Authorization, approve a mandate, and get wallet approval options return this
+
+          when `revokedAt` is set, including when `canceledAt` is also set. Get wallet
+
+          revocation options and revoke a mandate also return this when the allowance
+
+          was already removed. Cancel a mandate returns this: a fully revoked mandate
+
+          cannot be canceled. Canceling an already-canceled mandate is a no-op and
+
+          returns the mandate.
+
+
+          **Steps to resolve:**
+
+          1. Create a new mandate if the customer should continue
+
+          2. Do not retry the request against the revoked mandate'
+        mandate_invalid_status: 'This error occurs when the mandate''s status does not satisfy the operation,
+
+          and a more specific code does not apply. `errorMessage` names the status the
+
+          operation expected.
+
+
+          Check the specific codes first: `mandate_canceled`, `mandate_revoked`,
+
+          `mandate_expired`, and `mandate_action_pending`.
+
+
+          Approve a mandate and get wallet approval options require `created` or
+
+          `approval_failed` after those checks. `approval_succeeded`,
+
+          `revocation_failed`, and any other remaining status return this. Authorize a
+
+          payment session requires `approval_succeeded`.
+
+          Revoke a mandate and get wallet revocation options return this when
+
+          `approvedAt` was never set, so no spending allowance exists. That is separate
+
+          from `mandate_revoked`, which applies only after `revokedAt` is set.
+
+
+          **Steps to resolve:**
+
+          1. Read `errorMessage` for the status this operation requires
+
+          2. Move the mandate to that status, or create a new mandate'
+    CreateAccountRequest:
+      type: object
+      properties:
+        owner:
+          allOf:
+          - $ref: '#/components/schemas/Owner'
+          description: "The Owner of the Account to create.\n* If omitted, the account will be owned by the Entity making the request.\n* If the account is for a customer, the value will be a Customer ID,\n  e.g. `customer_af2937b0-9846-4fe7-bfe9-ccc22d935114`.\n\n* Further, the corresponding Customer must have all of the following capabilities enabled:\n  - `custodyCrypto`\n  - `custodyFiat`\n  - `custodyStablecoin`."
+          example: customer_af2937b0-9846-4fe7-bfe9-ccc22d935114
+        name:
+          $ref: '#/components/schemas/AccountName'
+        compliance:
+          $ref: '#/components/schemas/Compliance'
+          writeOnly: true
+          description: Required when `owner` is a Customer ID; omit for Entity-owned accounts.
+    Asset:
+      type: string
+      minLength: 1
+      maxLength: 42
+      description: The symbol of the asset (e.g., eth, usd, usdc, usdt).
+      example: usd
+    AccountName:
+      type: string
+      pattern: ^[a-zA-Z0-9 -]{1,64}$
+      maxLength: 64
+      description: An optional name for the account. Must be 1-64 characters and can only contain alphanumeric characters, hyphens, and spaces.
+      example: My Business Account
     Account:
       type: object
-      description: A user account holding a specific currency
       properties:
-        uuid:
-          type: string
-          format: uuid
-          description: Unique identifier for the account
-        name:
-          type: string
-          description: Name of the account
-        currency:
-          type: string
-          description: Currency code for the account
-        available_balance:
-          $ref: '#/components/schemas/Balance'
-        default:
-          type: boolean
-          description: Whether this is the default account
-        active:
-          type: boolean
-          description: Whether the account is active
-        created_at:
-          type: string
-          format: date-time
-          description: When the account was created
-        updated_at:
-          type: string
-          format: date-time
-          description: When the account was last updated
+        accountId:
+          $ref: '#/components/schemas/AccountId'
         type:
+          $ref: '#/components/schemas/AccountType'
+        owner:
+          $ref: '#/components/schemas/Owner'
+        name:
+          $ref: '#/components/schemas/AccountName'
+        createdAt:
           type: string
-          description: Account type
-          enum:
-          - ACCOUNT_TYPE_CRYPTO
-          - ACCOUNT_TYPE_FIAT
-        ready:
-          type: boolean
-          description: Whether the account is ready for trading
-        hold:
-          $ref: '#/components/schemas/Balance'
-    Balance:
+          format: date-time
+          description: The timestamp when the account was created.
+          example: '2023-10-08T14:30:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: The timestamp when the account was last updated.
+          example: '2023-10-08T14:30:00Z'
+      required:
+      - accountId
+      - type
+      - owner
+      - createdAt
+      - updatedAt
+    ListResponse:
       type: object
-      description: A monetary value with currency
       properties:
-        value:
+        nextPageToken:
           type: string
-          description: Amount as a string to preserve precision
-        currency:
-          type: string
-          description: Currency code
-    Account_2:
+          description: The token for the next page of items, if any.
+          example: eyJsYXN0X2lkIjogImFiYzEyMyIsICJ0aW1lc3RhbXAiOiAxNzA3ODIzNzAxfQ==
+    AccountType:
+      type: string
+      description: "The type of the Account.\n\n- `prime`: a linked Coinbase Prime account.\n- `business`: a linked Coinbase Business account.\n- `cdp`: a CDP-native account created via this API. Used for accounts created on\n  behalf of an Entity and for Customer-owned accounts."
+      enum:
+      - prime
+      - business
+      - cdp
+      example: prime
+    AmountDetail:
       type: object
-      description: An exchange trading account for a specific currency
+      description: Available and total amounts for a specific currency.
       properties:
-        id:
-          type: string
-          description: Unique account identifier
-        currency:
-          type: string
-          description: Currency code
-        balance:
-          type: string
-          description: Total balance
         available:
           type: string
-          description: Available balance for trading
-        hold:
+          description: The amount that is currently available to be used.
+          example: '2.5'
+        total:
           type: string
-          description: Funds on hold
-        profile_id:
-          type: string
-          description: Profile the account belongs to
-        trading_enabled:
-          type: boolean
-          description: Whether trading is enabled
-    Transfer:
+          description: The total amount, including the amount that is currently on hold.
+          example: '3.0'
+      required:
+      - available
+      - total
+    Balances:
       type: object
-      description: A deposit or withdrawal transfer
+      description: A list of balances for an account.
       properties:
-        id:
+        balances:
+          type: array
+          description: The list of balances.
+          items:
+            $ref: '#/components/schemas/Balance'
+          example:
+          - asset:
+              symbol: btc
+              type: crypto
+              name: Bitcoin
+              decimals: 8
+            amount:
+              btc:
+                available: '2.5'
+                total: '3.0'
+              usd:
+                available: '252705.4'
+                total: '303246.48'
+      required:
+      - balances
+      example:
+        balances:
+        - asset:
+            symbol: btc
+            type: crypto
+            name: Bitcoin
+            decimals: 8
+          amount:
+            btc:
+              available: '2.5'
+              total: '3.0'
+            usd:
+              available: '252705.4'
+              total: '303246.48'
+        - asset:
+            symbol: usd
+            type: fiat
+            name: United States Dollar
+            decimals: 2
+          amount:
+            usd:
+              available: '90'
+              total: '100'
+    Error:
+      description: An error response including the code for the type of error and a human-readable message describing the error.
+      type: object
+      properties:
+        errorType:
+          $ref: '#/components/schemas/ErrorType'
+        errorMessage:
+          description: The error message.
           type: string
-          description: Transfer identifier
-        type:
+          example: Unable to create EVM account
+        correlationId:
+          description: A unique identifier for the request that generated the error. This can be used to help debug issues with the API.
           type: string
-          description: Transfer type
-          enum:
-          - deposit
-          - withdraw
-        created_at:
+          example: 41deb8d59a9dc9a7-IAD
+        errorLink:
+          allOf:
+          - $ref: '#/components/schemas/Url'
+          description: A link to the corresponding error documentation.
+          example: https://docs.cdp.coinbase.com/api-reference/v2/errors#invalid-request
+        unauthorizedCapabilities:
+          description: 'The capability code(s) that were not authorized for the customer on
+
+            this request. Present only when `errorType` is
+
+            `customer_not_authorized`; absent for every other error type.
+
+
+            Use this list to render onboarding UX for the listed capabilities, or
+
+            fetch `GET /v2/customers/{customerId}` and inspect each entry''s
+
+            `status` / `requirements` to discover what (if anything) can be
+
+            submitted to resolve the block.
+
+            '
+          type: array
+          items:
+            $ref: '#/components/schemas/CapabilityName'
+      required:
+      - errorType
+      - errorMessage
+      example:
+        errorType: invalid_request
+        errorMessage: Invalid request.
+        correlationId: 41deb8d59a9dc9a7-IAD
+        errorLink: https://docs.cdp.coinbase.com/api-reference/v2/errors#invalid-request
+    AccountId:
+      type: string
+      pattern: ^account_[a-f0-9\-]{36}$
+      description: The ID of the Account, which is a UUID prefixed by the string `account_`.
+      example: account_af2937b0-9846-4fe7-bfe9-ccc22d935114
+    AssetType:
+      type: string
+      description: The type of the asset.
+      enum:
+      - fiat
+      - crypto
+      example: crypto
+    Url:
+      type: string
+      format: uri
+      minLength: 11
+      maxLength: 2048
+      pattern: ^https?://.*$
+      description: A valid HTTP or HTTPS URL.
+      example: https://example.com
+    Compliance:
+      type: object
+      description: 'Compliance context for a request. Carries per-request compliance signals,
+
+        such as the IP address of the individual (i.e., end-customer) that
+
+        initiated the request.
+
+
+        This object is request-only — it is never echoed back in responses.
+
+        Inner fields are write-only.
+
+        '
+      properties:
+        requesterIpAddress:
           type: string
-          format: date-time
-          description: When the transfer was created
-        completed_at:
-          type: string
-          format: date-time
-          description: When the transfer completed
+          writeOnly: true
+          description: 'IPv4 or IPv6 address of the individual (i.e., end-customer) that
+
+            initiated this request. NOT the IP of the partner server making the
+
+            API call.
+
+            '
+          example: 203.0.113.42
+      example:
+        requesterIpAddress: 203.0.113.42
+    Balance:
+      type: object
+      description: A balance of an asset.
+      properties:
+        asset:
+          $ref: '#/components/schemas/balances_Asset'
         amount:
-          type: string
-          description: Transfer amount
-        details:
           type: object
-          description: Additional transfer details
-    Hold:
-      type: object
-      description: A hold on account funds
-      properties:
-        id:
-          type: string
-          description: Hold identifier
-        created_at:
-          type: string
-          format: date-time
-          description: When the hold was created
+          description: "Amount details denominated in different assets. \n- The keys represent the asset symbols (e.g., \"btc\", \"usd\"), - Each value contains available and total amounts. - There will always be an entry for the asset specified in the `asset` field."
+          additionalProperties:
+            $ref: '#/components/schemas/AmountDetail'
+      required:
+      - asset
+      - amount
+      example:
+        asset:
+          symbol: btc
+          type: crypto
+          name: Bitcoin
+          decimals: 8
         amount:
-          type: string
-          description: Amount on hold
-        type:
-          type: string
-          description: Type of hold
-          enum:
-          - order
-          - transfer
-        ref:
-          type: string
-          description: Reference ID for the hold source
-    LedgerEntry:
+          btc:
+            available: '2.5'
+            total: '3.0'
+          usd:
+            available: '252705.4'
+            total: '303246.48'
+    balances_Asset:
       type: object
-      description: A ledger entry recording account activity
+      description: An asset, e.g. fiat or crypto.
       properties:
-        id:
-          type: string
-          description: Entry identifier
-        created_at:
-          type: string
-          format: date-time
-          description: When the entry was created
-        amount:
-          type: string
-          description: Amount of the entry
-        balance:
-          type: string
-          description: Account balance after the entry
+        symbol:
+          $ref: '#/components/schemas/Asset'
         type:
+          $ref: '#/components/schemas/AssetType'
+        name:
           type: string
-          description: Type of ledger entry
-          enum:
-          - transfer
-          - match
-          - fee
-          - rebate
-          - conversion
-        details:
-          type: object
-          description: Additional details about the entry
+          description: The name of the asset.
+        decimals:
+          type: integer
+          description: The number of decimals (i.e. significant digits to the right of the decimal point) supported for the asset.
+      required:
+      - symbol
+      - type
+      - name
+      - decimals
+      example:
+        symbol: btc
+        type: crypto
+        name: Bitcoin
+        decimals: 8
+    CapabilityName:
+      type: string
+      description: 'The name of a capability. Capabilities represent granular functional permissions
+
+        that determine what actions a customer can perform. Each capability must be
+
+        explicitly requested before use.
+
+        '
+      enum:
+      - custodyCrypto
+      - custodyFiat
+      - custodyStablecoin
+      - tradeCrypto
+      - tradeStablecoin
+      - transferCrypto
+      - transferFiat
+      - transferStablecoin
+      x-enum-varnames:
+      - CustodyCrypto
+      - CustodyFiat
+      - CustodyStablecoin
+      - TradeCrypto
+      - TradeStablecoin
+      - TransferCrypto
+      - TransferFiat
+      - TransferStablecoin
+      example: custodyCrypto
+    Owner:
+      type: string
+      description: "The Owner ID of the Account.\n\nOwner IDs are UUIDs prefixed with the Owner Type as follows:\n\n* **Entity**: `entity_` - If the Owner is your Entity, e.g. `entity_af2937b0-9846-4fe7-bfe9-ccc22d935114`.\n\n* **Customer**: `customer_` - If the Owner is one of your Customers,\n  e.g. `customer_af2937b0-9846-4fe7-bfe9-ccc22d935114`. Customer ownership requires the\n  Customer to have the `custodyCrypto`, `custodyFiat`, and `custodyStablecoin`\n  capabilities enabled."
+      pattern: ^(entity|customer)_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      example: entity_af2937b0-9846-4fe7-bfe9-ccc22d935114
+  parameters:
+    PageToken:
+      name: pageToken
+      description: The token for the next page of resources, if any.
+      in: query
+      required: false
+      schema:
+        type: string
+      example: eyJsYXN0X2lkIjogImFiYzEyMyIsICJ0aW1lc3RhbXAiOiAxNzA3ODIzNzAxfQ==
+    PageSize:
+      name: pageSize
+      description: The number of resources to return per page.
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 20
+      example: 10
+    IdempotencyKey:
+      name: X-Idempotency-Key
+      in: header
+      required: false
+      description: 'An optional string request header for making requests safely retryable.
+
+        When included, duplicate requests with the same key will return identical responses.
+
+        Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+
+        '
+      schema:
+        type: string
+        maxLength: 128
+        minLength: 1
+      example: 8e03978e-40d5-43e8-bc93-6894a57f9324
+  responses:
+    EndpointUnavailableError:
+      description: 'The endpoint cannot serve the request right now, either because the API is in an unintended outage (`service_unavailable` — dependency failure, deploy issue) or because an operator has intentionally disabled this specific endpoint via a kill switch (`endpoint_unavailable`). Clients should dispatch on `errorType`: `service_unavailable` is typically transient and safe to retry, while `endpoint_unavailable` may persist until an operator re-enables the endpoint.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            service_unavailable:
+              summary: API-wide outage
+              value:
+                errorType: service_unavailable
+                errorMessage: Service unavailable. Please try again later.
+            endpoint_unavailable:
+              summary: Endpoint disabled by operator
+              value:
+                errorType: endpoint_unavailable
+                errorMessage: This endpoint is temporarily unavailable. Please try again later.
+    IdempotencyError:
+      description: Idempotency key conflict.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            idempotency_error:
+              value:
+                errorType: idempotency_error
+                errorMessage: Idempotency key '8e03978e-40d5-43e8-bc93-6894a57f9324' was already used with a different request payload. Please try again with a new idempotency key.
   securitySchemes:
     apiKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: A JWT signed using your CDP API Key Secret, encoded in base64. Refer to the [Generate Bearer Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-bearer-token) section of our Authentication docs for information on how to generate your Bearer Token.
+    endUserAuth:
+      x-audience: public
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: A JWT signed using the developer's own JWT private key (in the case of JWT authentication), or an end user JWT signed by CDP, encoded in base64. This is used for End User Account APIs.
+    unauthenticated:
+      x-audience: public
+      type: http
+      scheme: none
+      description: This security scheme is used for APIs that do not require authentication, such as End User Auth flows used to initiate authentication or public, read-only endpoints.
+    webhookSignature:
+      x-audience: public
       type: apiKey
       in: header
-      name: CB-ACCESS-KEY
-      description: Coinbase API key authentication using HMAC SHA-256 signatures. Requires CB-ACCESS-KEY, CB-ACCESS-SIGN, and CB-ACCESS-TIMESTAMP headers.
-x-refined-from:
-- coinbase-advanced-trade-openapi.yml
-- coinbase-exchange-openapi.yml
+      name: X-Hook0-Signature
+      description: 'HMAC-SHA256 signature of the raw request body, computed using your webhook secret. Webhook receivers should always verify this header before processing the event. The header value is hex-encoded and prefixed by the algorithm and timestamp, e.g. `t=1700000000,v1=abc123...` (refer to the Webhook Security docs for the exact verification algorithm).
+
+
+        This scheme applies to webhook delivery (outbound POSTs from CDP to your endpoint), not to inbound CDP API requests.'
+x-tagGroups:
+- name: Wallets
+  x-groups:
+  - name: Custodial
+    tags:
+    - Accounts
+  - name: Non-custodial
+    x-groups:
+    - name: User Wallets
+      tags:
+      - End User Account Management
+      - End User Accounts
+    - name: API Key Wallets
+      tags:
+      - EVM Accounts
+      - EVM Smart Accounts
+      - Solana Accounts
+    tags:
+    - Policy Engine
+    - Wallet Webhooks
+  tags:
+  - Accounts
+  - End User Account Management
+  - End User Accounts
+  - EVM Accounts
+  - EVM Smart Accounts
+  - Solana Accounts
+  - Policy Engine
+  - Wallet Webhooks
+- name: Payments
+  x-groups:
+  - name: Acceptance
+    tags:
+    - Payment Sessions
+    - Disbursements
+    - Mandates
+    - Top-Up Links
+  - tags:
+    - Deposit Destinations
+    - Payment Methods
+    - Transfers
+    - Onramp
+    - x402 Facilitator
+  tags:
+  - Payment Sessions
+  - Disbursements
+  - Mandates
+  - Top-Up Links
+  - Deposit Destinations
+  - Payment Methods
+  - Transfers
+  - Onramp
+  - x402 Facilitator
+- name: Trading
+  tags:
+  - EVM Swaps
+- name: Onchain Tools
+  tags:
+  - EVM Token Balances
+  - Faucets
+  - Onchain Data
+  - Solana Token Balances
+  - SQL API
+- name: Customers
+  tags:
+  - Customers
+- name: Health
+  tags:
+  - Health
+- name: Webhooks
+  tags:
+  - Webhooks

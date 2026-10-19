@@ -1,0 +1,3296 @@
+openapi: 3.2.0
+info:
+  title: Coinbase Developer Platform Onramp API
+  description: The Coinbase Developer Platform APIs - leading the world's transition onchain.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+  contact:
+    name: Coinbase Developer Platform
+    email: cdp@coinbase.com
+    url: https://cdp.coinbase.com
+servers:
+- url: https://api.cdp.coinbase.com/platform
+  description: The production server of the CDP APIs.
+security:
+- apiKeyAuth: []
+tags:
+- name: Onramp
+  x-audience: public
+  x-slo-tier:
+    tier: ga
+  description: 'The v2 Onramp APIs are an evolution of our v1 APIs, designed to make the fiat-to-crypto experience feel native to your applications for higher conversion and less friction. These APIs only cover a subset of Coinbase Onramp functionality as described below, for all other use cases please refer to our v1 APIs.
+
+
+    ## Supported Use Cases
+
+
+    #### Guest Checkout Onramp (Apple Pay & Google Pay)
+
+
+    This use case allows you to offer an Apple Pay or Google Pay onramp experience with debit cards in your app without users needing to create or log into a Coinbase account. Our API returns a `paymentLink` URL that renders an Apple Pay or Google Pay button for you to load in a webview or iframe in your app, making the onramp experience feel native to your application.
+
+
+    Refer to our detailed integration guide for more information on the limitations and requirements of this use case. See our onramp mobile demo app for a reference implementation.
+
+
+    #### Hosted UI Onramp
+
+
+    This use case enables you to offer a full-featured onramp experience by redirecting users to a Coinbase-hosted page where they can choose to log into their existing Coinbase account or proceed as a guest. The Onramp Session API generates secure, single-use Onramp URLs with customizable parameters, allowing you to control available payment methods, preset transaction amounts, and cryptocurrencies for a tailored user experience.
+
+
+    Refer to our guide for implementation details and customization options for this use case.'
+paths:
+  /v2/onramp/verifications:
+    post:
+      x-audience: public
+      summary: Initiate onramp verification
+      description: 'Initiates OTP verification by sending a 6-digit code to the user via the specified channel (SMS or email). Returns a `verificationId` that must be passed to the Submit Onramp Verification endpoint along with the OTP code within 10 minutes.
+
+
+        **Access to this API requires allowlisting.** During Onramp Headless API onboarding, contact the Onramp team to enable Onramp-managed verification for your application.'
+      operationId: initiateOnrampVerification
+      tags:
+      - Onramp
+      security:
+      - apiKeyAuth: []
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiateOnrampVerificationRequest'
+      responses:
+        '201':
+          description: Successfully initiated onramp verification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnrampVerificationInitiation'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid channel or destination.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/IdempotencyError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v2/onramp/verifications/{verificationId}/submit:
+    post:
+      x-audience: public
+      summary: Submit onramp verification
+      description: 'Submits the OTP code to complete verification. On success, marks the verification as verified and returns the same `verificationId`. The destination does not need to be re-sent. Onramp uses the value captured at initiation time.
+
+
+        The returned `verificationId` should be stored on the user''s device and passed to the Create Onramp Order endpoint. It is valid for 60 days.
+
+
+        **Access to this API requires allowlisting.** During Onramp Headless API onboarding, contact the Onramp team to enable Onramp-managed verification for your application.'
+      operationId: submitOnrampVerification
+      tags:
+      - Onramp
+      security:
+      - apiKeyAuth: []
+      parameters:
+      - name: verificationId
+        in: path
+        required: true
+        description: The verification ID returned by the Initiate Onramp Verification endpoint.
+        schema:
+          $ref: '#/components/schemas/OnrampVerificationId'
+        example: onramp_verification_a1b2c3d4-e5f6-7890-abcd-ef1234567890
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitOnrampVerificationRequest'
+      responses:
+        '200':
+          description: Successfully completed onramp verification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnrampVerificationConfirmation'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: OTP code is required.
+                verification_code_invalid:
+                  value:
+                    errorType: otp_verification_code_invalid
+                    errorMessage: The OTP code is incorrect or has expired.
+                verification_invalid:
+                  value:
+                    errorType: otp_verification_invalid
+                    errorMessage: The verification record is not in a usable state for this operation.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Verification not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                verification_not_found:
+                  value:
+                    errorType: otp_verification_not_found
+                    errorMessage: The provided verification ID does not correspond to any verification record.
+        '422':
+          $ref: '#/components/responses/IdempotencyError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v2/onramp/orders:
+    post:
+      x-audience: public
+      summary: Create an onramp order
+      description: 'Create a new Onramp order or get a quote for an Onramp order. Either `paymentAmount` or `purchaseAmount` must be provided.
+
+
+        This API supports two modes:
+
+
+        **Headless mode (standard)**: returns a seamless Apple Pay or Google Pay button that you integrate directly into your app. Your app collects and verifies the user''s contact details before calling this endpoint — `phoneNumber`, `email`, `phoneNumberVerifiedAt`, and `agreementAcceptedAt` are required and enforced server-side.
+
+
+        **Embedded mode**: returns a webview that collects and verifies the user''s contact and identity information, then shows the payment screen. Omit both `phoneNumber` and `email` from the request to select this mode. Embedded mode requires account enablement; contact the Onramp team for access.
+
+
+        Read more about the difference between the two modes in the Headless Onramp overview.
+
+
+        This API supports the `GUEST_CHECKOUT_APPLE_PAY` and `GUEST_CHECKOUT_GOOGLE_PAY` payment methods.
+
+
+        For detailed integration instructions and to get access to this API, refer to the Guest Checkout Onramp API docs.'
+      operationId: createOnrampOrder
+      tags:
+      - Onramp
+      security:
+      - apiKeyAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OnrampPartnerId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agreementAcceptedAt:
+                  description: The timestamp of when the user acknowledged that by using Coinbase Onramp they are accepting the Coinbase Terms (https://www.coinbase.com/legal/guest-checkout/us), User Agreement (https://www.coinbase.com/legal/user_agreement),  and Privacy Policy (https://www.coinbase.com/legal/privacy).
+                  format: date-time
+                  type: string
+                  example: '2025-04-24T00:00:00Z'
+                destinationAddress:
+                  allOf:
+                  - $ref: '#/components/schemas/BlockchainAddress'
+                  description: The address the purchased crypto will be sent to.
+                destinationNetwork:
+                  description: 'The name of the crypto network the purchased currency will be sent on.
+
+
+                    Use the [Onramp Buy Options API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-buy-options) to discover the supported networks for your user''s location.'
+                  type: string
+                  example: base
+                email:
+                  description: The verified email address of the user requesting the onramp transaction. This email must be verified by your app (via OTP) before being used with the Onramp API.
+                  type: string
+                  example: test@example.com
+                isQuote:
+                  description: If true, this API will return a quote without creating any transaction.
+                  type: boolean
+                  default: false
+                partnerOrderRef:
+                  description: Optional partner order reference ID.
+                  type: string
+                  example: order-1234
+                partnerUserRef:
+                  description: 'A unique string that represents the user in your app. This can be used to link individual transactions together so you can retrieve the transaction history for your users. Prefix this string with "sandbox-" (e.g. "sandbox-user-1234") to perform a sandbox transaction which will allow you to test your integration without any real transfer of funds.
+
+
+                    This value can be used with the [Onramp User Transactions API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-onramp-transactions-by-id) to retrieve all transactions created by the user.'
+                  type: string
+                  example: user-1234
+                paymentAmount:
+                  description: A string representing the amount of fiat the user wishes to pay in exchange for crypto. When using  this parameter, the returned quote will be inclusive of fees i.e. the user will pay this exact amount  of the payment currency.
+                  type: string
+                  example: '100.00'
+                paymentCurrency:
+                  description: The fiat currency to be converted to crypto.
+                  type: string
+                  example: USD
+                paymentMethod:
+                  $ref: '#/components/schemas/OnrampOrderPaymentMethodTypeId'
+                phoneNumber:
+                  description: 'The phone number of the user requesting the onramp transaction in E.164 format. This phone number must  be verified by your app (via OTP) before being used with the Onramp API.
+
+                    Please refer to the [Onramp docs](https://docs.cdp.coinbase.com/onramp/headless-onramp/overview) for more details on phone number verification requirements and best practices.'
+                  type: string
+                  example: '+12055555555'
+                phoneNumberVerifiedAt:
+                  description: Timestamp of when the user's phone number was verified via OTP. User phone number must be verified every 60 days. If this timestamp is older than 60 days, an error will be returned.
+                  format: date-time
+                  type: string
+                  example: '2025-04-24T00:00:00Z'
+                smsVerificationId:
+                  allOf:
+                  - $ref: '#/components/schemas/OnrampVerificationId'
+                  description: The SMS verification ID returned by the Submit Onramp Verification endpoint after verifying the user's phone number. When provided, Onramp validates the server-side verification record instead of trusting `phoneNumberVerifiedAt`.
+                emailVerificationId:
+                  allOf:
+                  - $ref: '#/components/schemas/OnrampVerificationId'
+                  description: The email verification ID returned by the Submit Onramp Verification endpoint after verifying the user's email address.
+                purchaseAmount:
+                  description: A string representing the amount of crypto the user wishes to purchase. When using this parameter the  returned quote will be exclusive of fees i.e. the user will receive this exact amount of the purchase  currency.
+                  type: string
+                  example: '10.000000'
+                purchaseCurrency:
+                  description: 'The ticker (e.g. `BTC`, `USDC`, `SOL`) or the Coinbase UUID (e.g. `d85dce9b-5b73-5c3c-8978-522ce1d1c1b4`)  of the crypto asset to be purchased.
+
+
+                    Use the [Onramp Buy Options API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-buy-options) to discover the supported purchase currencies for your user''s location.'
+                  type: string
+                  example: USDC
+                clientIp:
+                  description: The IP address of the end user requesting the onramp transaction.
+                  type: string
+                  example: 127.0.0.1
+                domain:
+                  description: The domain that the Apple Pay or Google Pay button will be rendered on. Required when using the `GUEST_CHECKOUT_APPLE_PAY` or `GUEST_CHECKOUT_GOOGLE_PAY` payment method and embedding the payment link in an iframe. Omit this field entirely for mobile iOS Apple Pay via WebView integration.
+                  type: string
+                  example: pay.coinbase.com
+                locale:
+                  type: string
+                  pattern: ^[a-zA-Z]{2,3}(-[a-zA-Z0-9]{2,8})*$
+                  description: Optional [BCP-47](https://www.rfc-editor.org/info/bcp47) locale tag (e.g. `es-ES`, `pt-BR`, `en`) used to localize the hosted payment page. When provided, it is appended to the returned `paymentLink` URL and mapped to the closest locale supported by the Apple Pay and Google Pay buttons; unsupported locales fall back to the user's browser language. Any well-formed BCP-47 tag is accepted.
+                  example: es-ES
+                userAuthToken:
+                  allOf:
+                  - $ref: '#/components/schemas/OnrampUserAuthToken'
+                  description: Optional. A reusable token returned by a previous verified order. When provided, a returning user checking out to the same wallet is taken straight to the pay button, skipping OTP (best-effort — an invalid, expired, or different-wallet token still requires verification).
+              required:
+              - paymentCurrency
+              - purchaseCurrency
+              - paymentMethod
+              - destinationAddress
+              - destinationNetwork
+              - partnerUserRef
+      responses:
+        '201':
+          description: Successfully created an onramp order.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order:
+                    $ref: '#/components/schemas/OnrampOrder'
+                  paymentLink:
+                    $ref: '#/components/schemas/OnrampPaymentLink'
+                  userAuthToken:
+                    allOf:
+                    - $ref: '#/components/schemas/OnrampUserAuthToken'
+                    description: Present for embedded orders once the user has verified. Store this and pass it on future orders for the same user to skip OTP verification. Valid for 60 days.
+                required:
+                - order
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Missing required params.
+                partner_id_not_permitted:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: The X-Onramp-Partner-Id header is only valid for apps registered as an Onramp aggregator.
+                network_not_tradable:
+                  value:
+                    errorType: network_not_tradable
+                    errorMessage: The selected asset cannot be purchased on the selected network in the user's location.
+                guest_permission_denied:
+                  value:
+                    errorType: guest_permission_denied
+                    errorMessage: The user is not allowed to complete onramp transactions as a guest.
+                guest_region_forbidden:
+                  value:
+                    errorType: guest_region_forbidden
+                    errorMessage: Guest onramp transactions are not allowed in the user's region.
+                phone_number_verification_expired:
+                  value:
+                    errorType: phone_number_verification_expired
+                    errorMessage: The user's phone number verification has expired. Please re-verify the user's phone number.
+                verification_expired:
+                  value:
+                    errorType: otp_verification_expired
+                    errorMessage: The verification record has expired. Initiate a new verification flow.
+                verification_invalid:
+                  value:
+                    errorType: otp_verification_invalid
+                    errorMessage: The verification record is not in a valid state for order placement.
+                verification_required:
+                  value:
+                    errorType: otp_verification_required
+                    errorMessage: Verification is required for this application. Use the Onramp Verification API to verify the user's phone number and email.
+                verification_destination_mismatch:
+                  value:
+                    errorType: otp_verification_destination_mismatch
+                    errorMessage: The destination on the order does not match the destination that was verified.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Verification or partner not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                verification_not_found:
+                  value:
+                    errorType: otp_verification_not_found
+                    errorMessage: The provided verification ID does not correspond to any verification record.
+                partner_not_found:
+                  value:
+                    errorType: not_found
+                    errorMessage: The partner identified by the X-Onramp-Partner-Id header is blocked or does not belong to this app.
+        '429':
+          description: Rate limit or guest transaction quota exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                rate_limit_exceeded:
+                  value:
+                    errorType: rate_limit_exceeded
+                    errorMessage: Rate limit exceeded.
+                guest_transaction_limit:
+                  value:
+                    errorType: guest_transaction_limit
+                    errorMessage: This transaction would exceed the user's weekly guest onramp transaction limit.
+                guest_transaction_count:
+                  value:
+                    errorType: guest_transaction_count
+                    errorMessage: The user has reached the lifetime guest onramp transaction count limit (15).
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v2/onramp/orders/{orderId}:
+    get:
+      x-audience: public
+      summary: Get an onramp order by ID
+      description: Get an onramp order by ID.
+      operationId: getOnrampOrderById
+      tags:
+      - Onramp
+      security:
+      - apiKeyAuth: []
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        description: The ID of the onramp order to retrieve.
+        schema:
+          type: string
+          pattern: ^[a-f0-9\-]{36}$
+        example: 123e4567-e89b-12d3-a456-426614174000
+      responses:
+        '200':
+          description: Successfully retrieved an onramp order.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order:
+                    $ref: '#/components/schemas/OnrampOrder'
+                required:
+                - order
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Order not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                not_found:
+                  value:
+                    errorType: not_found
+                    errorMessage: Order with the given ID does not exist.
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+  /v2/onramp/sessions:
+    post:
+      x-audience: public
+      summary: Create an onramp session
+      description: 'Returns a single-use URL for an Onramp session. This API provides flexible functionality based on the parameters provided, supporting three cases:
+
+
+        **Important**: The returned URL is single-use only. Once a user visits the URL, no one else can access it.
+
+        ## Use Cases
+
+        ### 1. Basic Session (Minimum Parameters)
+
+        **Required**: `destinationAddress`, `purchaseCurrency`, `destinationNetwork`
+
+
+        **Returns**: Basic single-use onramp URL. The `quote` object will not be included in the response.
+
+        ### 2. One-Click Onramp URL
+
+        **Required**: Basic parameters + (`paymentAmount` OR `purchaseAmount`), `paymentCurrency`
+
+
+        **Returns**: One-click onramp URL for streamlined checkout. The `quote` object will not be included in the response.
+
+        ### 3. One-Click Onramp URL with Quote
+
+        **Required**: One-Click Onramp parameters + `paymentMethod`, `country`, `subdivision`
+
+
+        **Returns**: Complete pricing quote and one-click onramp URL. Both `session` and `quote` objects will be included in the response.
+
+
+        **Note**: Only one of `paymentAmount` or `purchaseAmount` should be provided, not both. Providing both will result in an error. When `paymentAmount` is provided, the quote shows how much crypto the user will receive for the specified fiat amount (fee-inclusive). When `purchaseAmount` is provided, the quote shows how much fiat the user needs to pay for the specified crypto amount (fee-exclusive).'
+      operationId: createOnrampSession
+      tags:
+      - Onramp
+      security:
+      - apiKeyAuth: []
+      parameters:
+      - $ref: '#/components/parameters/OnrampPartnerId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnrampSessionRequest'
+      responses:
+        '201':
+          description: Onramp session created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  session:
+                    $ref: '#/components/schemas/OnrampSession'
+                  quote:
+                    $ref: '#/components/schemas/OnrampQuote'
+                required:
+                - session
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Missing required parameters.
+                invalid_destination_address:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: The destination address is not valid for the specified network.
+                partner_id_not_permitted:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: The X-Onramp-Partner-Id header is only valid for apps registered as an Onramp aggregator.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Partner not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                partner_not_found:
+                  value:
+                    errorType: not_found
+                    errorMessage: The partner identified by the X-Onramp-Partner-Id header is blocked or does not belong to this app.
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v2/onramp/limits:
+    post:
+      summary: Get onramp user limits
+      x-audience: public
+      description: 'Returns the transaction limits for an onramp user based on their payment method and user identifier. Use this API to show users their remaining purchase capacity before initiating an onramp transaction.
+
+        Currently supports `GUEST_CHECKOUT_APPLE_PAY` payment method with phone number identification. The phone number must have been previously verified via OTP.'
+      operationId: getOnrampUserLimits
+      tags:
+      - Onramp
+      security:
+      - apiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paymentMethodType:
+                  $ref: '#/components/schemas/OnrampOrderPaymentMethodTypeId'
+                userId:
+                  type: string
+                  description: The user identifier value. For `phone_number` type, this must be in E.164 format.
+                  example: '+12055555555'
+                userIdType:
+                  $ref: '#/components/schemas/OnrampUserIdType'
+              required:
+              - paymentMethodType
+              - userId
+              - userIdType
+      responses:
+        '200':
+          description: Successfully retrieved user limits.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  limits:
+                    type: array
+                    description: The list of limits applicable to the user.
+                    items:
+                      $ref: '#/components/schemas/OnrampUserLimit'
+                  limitUpgradeOptions:
+                    type: array
+                    description: The user's limit upgrade status and associated upgrade details. Omitted when limit upgrades are not available for the calling app or user. Use the [Request Limit Upgrade](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/onramp/request-limits-upgrade) endpoint to request a limit upgrade.
+                    items:
+                      $ref: '#/components/schemas/OnrampLimitUpgradeOption'
+                required:
+                - limits
+              examples:
+                default:
+                  value:
+                    limits:
+                    - limitType: weekly_spending
+                      currency: USD
+                      limit: '500'
+                      remaining: '400'
+                    - limitType: lifetime_transactions
+                      limit: '15'
+                      remaining: '12'
+                    limitUpgradeOptions:
+                    - status: unrequested
+                      fields:
+                      - ssnLast4
+                      - dateOfBirth
+                      limitUpgrades:
+                      - limitType: weekly_spending
+                        maxUpgrade: '2500'
+                      - limitType: lifetime_transactions
+                        maxUpgrade: '2147483647'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Must provide a valid payment method type and user identifier.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /v2/onramp/limits/upgrade:
+    post:
+      summary: Request limit upgrade
+      x-audience: public
+      description: 'Requests a limit upgrade for an onramp user. Only phone number is currently supported as a userId.
+
+
+        The default API mode submits identity information directly and returns HTTP 202 when the request is accepted. Embedded mode (`interactionMode: embedded`) returns a Coinbase-hosted `upgradeUrl` where the user enters identity information.
+
+
+        The verification process is asynchronous. After calling this endpoint, use the Get Onramp User Limits endpoint to check the status in the `limitUpgradeOptions` array.
+
+
+        **Prerequisites:**
+
+        - The phone number must have been previously verified by your app via OTP. - Upgrades may not be available until a certain number of successful transactions by the user.
+
+
+        **Supported fields:**
+
+        - `ssnLast4`: Last 4 digits of the Social Security Number (no dashes or spaces).
+
+        - `dateOfBirth`: Date of birth (day, month, year as zero-padded strings).'
+      operationId: requestLimitsUpgrade
+      tags:
+      - Onramp
+      security:
+      - apiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnrampLimitUpgradeRequest'
+            example:
+              userId: '+12055555555'
+              userIdType: phone_number
+              fields:
+                ssnLast4: '5678'
+                dateOfBirth:
+                  day: '15'
+                  month: 08
+                  year: '1990'
+      responses:
+        '200':
+          description: Embedded limit upgrade URL created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnrampLimitUpgradeEmbeddedResponse'
+        '202':
+          description: Limit upgrade request accepted.
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid user identifier or fields.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+webhooks:
+  onrampTransactionCreated:
+    post:
+      summary: Onramp transaction created
+      description: Triggered when the `onramp.transaction.created` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: onrampTransactionCreatedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Onramp
+      requestBody:
+        description: The `onramp.transaction.created` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnrampTransactionCreatedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  onrampTransactionUpdated:
+    post:
+      summary: Onramp transaction updated
+      description: Triggered when the `onramp.transaction.updated` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: onrampTransactionUpdatedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Onramp
+      requestBody:
+        description: The `onramp.transaction.updated` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnrampTransactionUpdatedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  onrampTransactionSuccess:
+    post:
+      summary: Onramp transaction succeeded
+      description: Triggered when the `onramp.transaction.success` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: onrampTransactionSuccessWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Onramp
+      requestBody:
+        description: The `onramp.transaction.success` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnrampTransactionSuccessEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  onrampTransactionFailed:
+    post:
+      summary: Onramp transaction failed
+      description: Triggered when the `onramp.transaction.failed` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: onrampTransactionFailedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Onramp
+      requestBody:
+        description: The `onramp.transaction.failed` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnrampTransactionFailedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  offrampTransactionCreated:
+    post:
+      summary: Offramp transaction created
+      description: Triggered when the `offramp.transaction.created` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: offrampTransactionCreatedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Onramp
+      requestBody:
+        description: The `offramp.transaction.created` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfframpTransactionCreatedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  offrampTransactionUpdated:
+    post:
+      summary: Offramp transaction updated
+      description: Triggered when the `offramp.transaction.updated` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: offrampTransactionUpdatedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Onramp
+      requestBody:
+        description: The `offramp.transaction.updated` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfframpTransactionUpdatedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  offrampTransactionSuccess:
+    post:
+      summary: Offramp transaction succeeded
+      description: Triggered when the `offramp.transaction.success` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: offrampTransactionSuccessWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Onramp
+      requestBody:
+        description: The `offramp.transaction.success` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfframpTransactionSuccessEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+  offrampTransactionFailed:
+    post:
+      summary: Offramp transaction failed
+      description: Triggered when the `offramp.transaction.failed` webhook event is emitted. Your API will receive a POST request at the webhook URL you configured.
+      operationId: offrampTransactionFailedWebhook
+      security:
+      - webhookSignature: []
+      x-audience: public
+      tags:
+      - Onramp
+      requestBody:
+        description: The `offramp.transaction.failed` webhook event payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfframpTransactionFailedEvent'
+      responses:
+        '200':
+          description: Webhook received and processed successfully.
+        '401':
+          description: Invalid signature.
+components:
+  schemas:
+    ErrorType:
+      description: The code that indicates the type of error that occurred. These error codes can be used to determine how to handle the error.
+      type: string
+      example: invalid_request
+      enum:
+      - already_exists
+      - authorization_expired
+      - bad_gateway
+      - capture_expired
+      - client_closed_request
+      - customer_not_authorized
+      - endpoint_unavailable
+      - faucet_limit_exceeded
+      - forbidden
+      - idempotency_error
+      - incompatible_event_types
+      - internal_server_error
+      - invalid_request
+      - invalid_webhook_headers
+      - invalid_webhook_url
+      - invalid_sql_query
+      - invalid_signature
+      - malformed_transaction
+      - not_found
+      - operation_in_progress
+      - payment_method_required
+      - payment_required
+      - settlement_failed
+      - rate_limit_exceeded
+      - request_canceled
+      - service_unavailable
+      - subscription_limit_exceeded
+      - timed_out
+      - unauthorized
+      - unsupported_tos_language
+      - policy_violation
+      - policy_in_use
+      - account_limit_exceeded
+      - network_not_tradable
+      - guest_permission_denied
+      - guest_region_forbidden
+      - guest_transaction_limit
+      - guest_transaction_count
+      - phone_number_verification_expired
+      - otp_verification_code_invalid
+      - otp_verification_destination_mismatch
+      - otp_verification_expired
+      - otp_verification_invalid
+      - otp_verification_not_found
+      - otp_verification_required
+      - document_verification_failed
+      - recipient_allowlist_violation
+      - recipient_allowlist_pending
+      - refund_expired
+      - travel_rules_recipient_violation
+      - source_account_invalid
+      - target_account_invalid
+      - source_account_not_found
+      - target_account_not_found
+      - source_asset_not_supported
+      - target_asset_not_supported
+      - target_email_invalid
+      - target_onchain_address_invalid
+      - transfer_amount_invalid
+      - transfer_asset_not_supported
+      - transfer_quote_expired
+      - insufficient_balance
+      - metadata_too_many_entries
+      - metadata_key_too_long
+      - metadata_value_too_long
+      - travel_rules_field_missing
+      - asset_mismatch
+      - mfa_already_enrolled
+      - mfa_invalid_code
+      - mfa_challenge_not_found
+      - mfa_flow_expired
+      - mfa_required
+      - mfa_not_enrolled
+      - order_quote_expired
+      - order_already_filled
+      - order_already_canceled
+      - account_not_ready
+      - insufficient_liquidity
+      - insufficient_allowance
+      - transaction_simulation_failed
+      - delegation_not_found
+      - delegation_expired
+      - delegation_revoked
+      - delegation_not_authorized
+      - delegation_not_enabled
+      - network_mismatch
+      - already_enabled
+      - payment_session_already_canceled
+      - payment_session_already_authorized
+      - payment_session_action_pending
+      - no_capturable_balance
+      - no_voidable_balance
+      - no_refundable_balance
+      - entity_not_configured_for_payment_acceptance
+      - entity_not_configured_for_top_up
+      - daily_transaction_limit_exceeded
+      - daily_amount_limit_exceeded
+      - stale_attestation
+      - moderation_rejected
+      - mandate_action_pending
+      - mandate_policy_violation
+      - mandate_expired
+      - mandate_canceled
+      - mandate_revoked
+      - mandate_invalid_status
+      x-error-instructions:
+        incompatible_event_types: 'The `eventTypes` in a webhook subscription belong to different scopes that cannot be combined in a single subscription.
+
+
+          **Steps to resolve:**
+
+          1. Group `eventTypes` by compatible label requirements.
+
+          2. Create a separate webhook subscription for each group.'
+        invalid_webhook_headers: 'One or more custom webhook target headers have invalid names or values, duplicate names with different capitalization, or names reserved for delivery metadata and HTTP routing.
+
+
+          **Steps to resolve:**
+
+          1. Check `target.headers` for invalid names, values, and case-insensitive duplicates.
+
+          2. Remove blocked headers such as `Cookie`, `Host`, and `X-Webhook-*`, then retry.'
+        invalid_webhook_url: 'The webhook target URL did not pass scheme, host, address, or endpoint checks.
+
+
+          **Steps to resolve:**
+
+          1. Verify `target.url` uses HTTPS and responds to HEAD requests with a 200.
+
+          2. Confirm the endpoint is reachable and responds without a server error, then retry.'
+        subscription_limit_exceeded: 'The project or entity has reached the maximum number of webhook subscriptions allowed (100).
+
+
+          **Steps to resolve:**
+
+          1. Delete any webhook subscriptions that are no longer needed.
+
+          2. Retry creating the subscription.'
+        already_exists: 'This error occurs when trying to create a resource that already exists.
+
+
+          **Steps to resolve:**
+
+          1. Check if the resource exists before creation
+
+          2. Use GET endpoints to verify resource state
+
+          3. Use unique identifiers/names for resources'
+        authorization_expired: Returned when an authorization attempt is made after the payment session's authorization deadline has passed. Create a new payment session with a later authorization deadline.
+        bad_gateway: "This error occurs when the CDP API is unable to connect to the backend service.\n\n**Steps to resolve:**\n1. Retry your request after a short delay\n2. If persistent, contact CDP support with:\n   - The timestamp of the error\n   - Request details\n3. Consider implementing retry logic with an exponential backoff\n\n**Note:** These errors are automatically logged and monitored by CDP."
+        capture_expired: Returned when a capture attempt is made after the payment session's capture deadline has passed. The payment session can no longer be captured.
+        client_closed_request: 'This error occurs when the client closes the connection before the server can send a response.
+
+
+          **Common causes:**
+
+          - The client timed out waiting for the server response
+
+          - The client application was terminated during a pending request
+
+          - Network interruption caused the client connection to drop
+
+
+          **Steps to resolve:**
+
+          1. Increase client-side timeout settings if applicable
+
+          2. Implement retry logic with exponential backoff for long-running queries
+
+          3. Consider optimizing the request to reduce server processing time'
+        endpoint_unavailable: "This error occurs when a specific endpoint has been temporarily disabled by an operator (e.g. a kill switch). The CDP API as a whole is still healthy; only this endpoint is unavailable. Distinct from `service_unavailable`, which indicates the API itself is down.\n\nRe-enabling is a manual operator action, so the endpoint may remain unavailable for an extended period.\n\n**Steps to resolve:**\n1. Check the [CDP status page](https://cdpstatus.coinbase.com/) for an active incident.\n2. If persistent, contact CDP support with:\n   - The timestamp of the error\n   - Request details"
+        faucet_limit_exceeded: 'This error occurs when you''ve exceeded the faucet request limits.
+
+
+          **Steps to resolve:**
+
+          1. Wait for the time window to reset
+
+          2. Use funds more efficiently in your testing
+
+
+          For more information on faucet limits, please visit the [EVM Faucet endpoint](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/faucets/request-funds-on-evm-test-networks) or the [Solana Faucet endpoint](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/faucets/request-funds-on-solana-devnet).'
+        customer_not_authorized: "This error occurs when the customer is not currently authorized for one\nor more capabilities required to perform the requested action. This can\nhappen at any point in the customer's lifecycle and may or may not be\nresolvable by the developer.\n\nThe response includes an `unauthorizedCapabilities` field listing the\ncapability code(s) that were not authorized on this request.\n\n**Steps to resolve:**\n1. Fetch the customer with `GET /v2/customers/{customerId}` and inspect\n   the `requirements` field. If `requirements.due` is non-empty, submit\n   the listed fields via `PUT /v2/customers/{customerId}` and retry.\n2. If `requirements.due` is empty, no further action is available — the\n   customer is not currently eligible for this action."
+        forbidden: 'This error occurs when you don''t have permission to access the resource.
+
+
+          **Steps to resolve:**
+
+          1. Verify your permissions to access the resource
+
+          2. Ensure that you are the owner of the requested resource'
+        idempotency_error: "This error occurs when an idempotency key is reused with different parameters.\n\n**Steps to resolve:**\n1. Generate a new UUID v4 for each unique request\n2. Only reuse idempotency keys for exact request duplicates\n3. Track used keys within your application\n\n**Example idempotency key implementation:**\n```typescript lines wrap\nimport { v4 as uuidv4 } from 'uuid';\n\nfunction createIdempotencyKey() {\n  return uuidv4();\n}\n```"
+        internal_server_error: "This indicates an unexpected error that occurred on the CDP servers.\n\n**Important**: If you encounter this error, please note that your operation's status should be treated as unknown by your application, as it could have been a success within the CDP back-end.\n\n**Steps to resolve:**\n1. Retry your request after a short delay\n2. If persistent, contact CDP support with:\n   - Your correlation ID\n   - Timestamp of the error\n   - Request details\n3. Consider implementing retry logic with an exponential backoff\n\n**Note:** These errors are automatically logged and monitored by CDP."
+        invalid_request: "This error occurs when the request is malformed or contains invalid data, including issues with the request body, query parameters, path parameters, or headers.\n\n**Steps to resolve:**\n1. Check all required fields and parameters are present\n2. Ensure request body (if applicable) follows the correct schema\n3. Verify all parameter formats match the API specification:\n   - Query parameters\n   - Path parameters\n   - Request headers\n4. Validate any addresses, IDs, or other formatted strings meet requirements\n\n**Common validation issues:**\n- Missing required parameters\n- Invalid parameter types or formats\n- Malformed JSON in request body\n- Invalid enum values\n\n#### Transfer-specific validation errors\n\nThe following transfer validation scenarios return `errorType: \"invalid_request\"`. Use the `errorMessage` field to identify the specific case.\n\n| Scenario | Example `errorMessage` |\n|----------|----------------------|\n| Source account ID is malformed | `\"source is invalid.\"` |\n| Target account ID is malformed | `\"target is invalid.\"` |\n| Source account does not exist | `\"source not found.\"` |\n| Target account does not exist | `\"target not found.\"` |\n| Asset not supported at source | `\"source is not supported.\"` |\n| Asset not supported at target | `\"target is not supported.\"` |\n| Target email address is malformed | `\"target has an invalid email format.\"` |\n| Target onchain address is invalid for network | `\"The recipient address is invalid for the selected network.\"` |\n| Asset not supported for this transfer route | `\"Transfer asset pair is not supported.\"` |\n| Insufficient balance | `\"Insufficient funds to complete this transfer.\"` |\n| Asset mismatch between request fields | `\"Currency mismatch in request.\"` |\n| Metadata has too many keys | `\"Metadata has too many keys. Up to 10 key/value pairs are permitted.\"` |\n| Metadata key exceeds length limit | `\"Metadata key is too long. Each key must be less than or equal to 40 characters.\"` |\n| Metadata value exceeds length limit | `\"Metadata value is too long. Each value must be less than or equal to 500 characters.\"` |\n| Travel rule fields missing | `\"Travel rule information is incomplete. Missing fields: ...\"` |\n| Recipient address not in account allowlist | `\"Your coinbase account allowlist does not include this address. Please update your allowlist at https://www.coinbase.com/settings/allowlist\"` |"
+        invalid_sql_query: 'This error occurs when the SQL query is invalid or not allowed.
+
+
+          **Common causes:**
+
+          - Using non-SELECT SQL statements (INSERT, UPDATE, DELETE, etc.)
+
+          - Invalid table or column names
+
+          - Syntax errors in SQL query
+
+          - Query exceeds character limit
+
+          - Too many JOIN operations'
+        invalid_signature: 'This error occurs when the signature provided for the given user operation is invalid.
+
+
+          **Steps to resolve:**
+
+          1. Verify the signature was generated by the correct owner account
+
+          2. Ensure the signature corresponds to the exact user operation hash
+
+          3. Check that the signature format matches the expected format
+
+          4. Confirm you''re using the correct network for the Smart Account
+
+
+          **Common causes:**
+
+          - Using wrong owner account to sign
+
+          - Signing modified/incorrect user operation data
+
+          - Malformed signature encoding
+
+          - Network mismatch between signature and broadcast'
+        malformed_transaction: "This error occurs when the transaction data provided is not properly formatted or is invalid.\n\n**Steps to resolve:**\n1. Verify transaction encoding:\n   - **EVM networks**: Check RLP encoding is correct\n   - **Solana**: Validate base64 encoding\n2. Ensure all required transaction fields are present\n3. Validate transaction parameters are within acceptable ranges\n4. Check that the transaction type is supported on the target network\n\n**Common causes:**\n- Invalid hex encoding for EVM transactions\n- Missing required transaction fields\n- Incorrect parameter formats\n- Unsupported transaction types\n- Network-specific transaction format mismatches"
+        not_found: 'This error occurs when the resource specified in your request doesn''t exist or you don''t have access to it.
+
+
+          **Steps to resolve:**
+
+          1. Verify the resource ID/address/account exists
+
+          2. Check your permissions to access the resource
+
+          3. Ensure you''re using the correct network/environment
+
+          4. Confirm the resource hasn''t been deleted
+
+
+          **Common causes:**
+
+          - Mistyped addresses
+
+          - Accessing resources from the wrong CDP project
+
+          - Resource was deleted or hasn''t been created yet'
+        operation_in_progress: "This error occurs when another operation of the same kind is already in progress for\nthe resource, and the request must wait for it to complete.\n\n**Steps to resolve:**\n1. Wait for the in-progress operation to complete (typically under 30 seconds)\n2. Once complete, use the resource's GET endpoint to read its state instead of\n   retrying the create\n\n**Common causes:**\n- Retrying a create whose previous attempt is still being processed\n- Concurrent duplicate requests for the same resource"
+        payment_method_required: 'This error occurs when a payment method is required to complete the requested operation but none is configured or available.
+
+
+          **Steps to resolve:**
+
+          1. Add a valid payment method to your account using the [CDP Portal](https://portal.cdp.coinbase.com)
+
+          2. Ensure your payment method is valid and not expired
+
+
+          **Common causes:**
+
+          - No payment method configured on the account
+
+          - Payment method is expired'
+        payment_required: 'This error occurs when an x402 payment is required to access the requested resource.
+
+
+          **Steps to resolve:**
+
+          1. Include a valid x402 payment header in your request
+
+          2. Ensure the payment meets the resource''s pricing requirements'
+        settlement_failed: 'This error occurs when an x402 payment was verified but settlement on-chain failed.
+
+
+          **Steps to resolve:**
+
+          1. Retry the request with a new payment
+
+          2. Ensure the payment asset has sufficient balance for settlement'
+        rate_limit_exceeded: "This error occurs when you've exceeded the API rate limits.\n\n**Steps to resolve:**\n1. Implement exponential backoff\n2. Cache responses where possible\n3. Wait for rate limit window to reset\n\n**Best practices:**\n```typescript lines wrap\nasync function withRetry(fn: () => Promise<any>) {\n  let delay = 1000;\n  while (true) {\n    try {\n      return await fn();\n    } catch (e) {\n      if (e.errorType === \"rate_limit_exceeded\") {\n        await sleep(delay);\n        delay *= 2;\n        continue;\n      }\n      throw e;\n    }\n  }\n}\n```"
+        request_canceled: "This error occurs when the client cancels an in-progress request before it completes.\n\n**Steps to resolve:**\n1. Check client-side timeout configurations\n2. Review request cancellation logic in your code\n3. Consider increasing timeout thresholds for long-running operations\n4. Implement request tracking to identify premature cancellations\n\n**Best practices:**\n```typescript lines wrap\nasync function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {\n  const timeout = new Promise((_, reject) => {\n    setTimeout(() => {\n      reject(new Error(\"Operation timed out\"));\n    }, timeoutMs);\n  });\n\n  try {\n    return await Promise.race([promise, timeout]);\n  } catch (error) {\n    // Handle timeout or cancellation\n    throw error;\n  }\n}\n```"
+        service_unavailable: "This error occurs when the CDP API is temporarily unable to handle requests due to maintenance or high load.\n\n**Steps to resolve:**\n1. Retry your request after a short delay\n2. If persistent, contact CDP support with:\n   - The timestamp of the error\n   - Request details\n3. Consider implementing retry logic with an exponential backoff\n\n**Note:** These errors are automatically logged and monitored by CDP."
+        timed_out: "This error occurs when a request exceeds the maximum allowed processing time.\n\n**Steps to resolve:**\n1. Break down large requests into smaller chunks (if applicable)\n2. Implement retry logic with exponential backoff\n3. Use streaming endpoints for large data sets\n\n**Example retry implementation:**\n```typescript lines wrap\nasync function withRetryAndTimeout<T>(\n  operation: () => Promise<T>,\n  maxRetries = 3,\n  timeout = 30000,\n): Promise<T> {\n  let attempts = 0;\n  while (attempts < maxRetries) {\n    try {\n      return await Promise.race([\n        operation(),\n        new Promise((_, reject) =>\n          setTimeout(() => reject(new Error(\"Timeout\")), timeout)\n        ),\n      ]);\n    } catch (error) {\n      attempts++;\n      if (attempts === maxRetries) throw error;\n      // Exponential backoff\n      await new Promise(resolve =>\n        setTimeout(resolve, Math.pow(2, attempts) * 1000)\n      );\n    }\n  }\n  throw new Error(\"Max retries exceeded\");\n}\n```"
+        unauthorized: "This error occurs when authentication fails.\n\n**Steps to resolve:**\n1. Verify your CDP API credentials:\n   - Check that your API key is valid\n   - Check that your Wallet Secret is properly configured\n2. Validate JWT token:\n   - Not expired\n   - Properly signed\n   - Contains required claims\n3. Check request headers:\n   - Authorization header present\n   - X-Wallet-Auth header included when required\n\n**Security note:** Never share your Wallet Secret or API keys."
+        unsupported_tos_language: 'A submitted Terms of Service acceptance used a `language` that is not published for the referenced `versionId`.
+
+
+          **Steps to resolve:**
+
+          1. Read `Customer.requirements.tos.tosVersions[]` and find the entry whose `versionId` matches your acceptance.
+
+          2. Choose a `language` from that entry''s `languages` list (BCP 47 tags).
+
+          3. Retry with `tosAcceptances[].language` set to a supported tag.'
+        policy_in_use: 'This error occurs when trying to delete a Policy that is currently in use by at least one project or account.
+
+
+          **Steps to resolve:**
+
+          1. Update project or accounts to remove references to the Policy in question.
+
+          2. Retry your delete request.'
+        network_not_tradable: 'This error occurs when the selected asset cannot be purchased on the selected network in the user''s location.
+
+
+          **Steps to resolve:**
+
+          1. Verify the asset is tradable on the selected network
+
+          2. Check the user''s location to ensure it is allowed to purchase the asset on the selected network
+
+
+          **Common causes:**
+
+          - Users in NY are not allowed to purchase USDC on any network other than Ethereum'
+        guest_permission_denied: 'This error occurs when the user is not allowed to complete onramp transactions as a guest.
+
+
+          **Steps to resolve:**
+
+          1. Redirect the user to create a Coinbase account to buy and send crypto.'
+        guest_region_forbidden: 'This error occurs when guest onramp transactions are not allowed in the user''s region.
+
+
+          **Steps to resolve:**
+
+          1. Redirect the user to create a Coinbase account to buy and send crypto.'
+        guest_transaction_limit: 'This error occurs when the user has reached the weekly guest onramp transaction limit.
+
+
+          **Steps to resolve:**
+
+          1. Inform the user they have reached their weekly limit and will have to wait until next week.'
+        guest_transaction_count: 'This error occurs when the user has reached the lifetime guest onramp transaction count limit.
+
+
+          **Steps to resolve:**
+
+          1. Redirect the user to create a Coinbase account to buy and send crypto.'
+        phone_number_verification_expired: 'This error occurs when the user''s phone number verification has expired. Use of guest Onramp requires the user''s
+
+          phone number to be verified every 60 days.
+
+
+          **Steps to resolve:**
+
+          1. Re-verify the user''s phone number via OTP.
+
+          2. Retry the request with the phoneNumberVerifiedAt field set to new verification timestamp.'
+        otp_verification_destination_mismatch: 'The `phoneNumber` or `email` on the order does not match the `destination` that was verified.
+
+
+          **Steps to resolve:**
+
+          1. Ensure the `phoneNumber` or `email` field on the order matches the `destination` used during verification.
+
+          2. If the value changed, complete a new verification for the updated phone number or email.'
+        otp_verification_expired: 'The `smsVerificationId` or `emailVerificationId` provided has expired.
+
+          Verification IDs are valid for 60 days after successful OTP submission.
+
+
+          **Steps to resolve:**
+
+          1. Complete a new verification flow for the user.
+
+          2. Use the new verification ID when creating orders.'
+        otp_verification_code_invalid: 'This error occurs when the OTP code submitted to complete a verification is incorrect or has expired
+
+          (the 10-minute OTP window has elapsed).
+
+
+          **Steps to resolve:**
+
+          1. Ask the user to re-enter the code.
+
+          2. If the OTP window has expired, start a new verification flow.'
+        otp_verification_invalid: 'This error occurs when the verification record exists but is not in a usable state for the requested operation.
+
+
+          **Common causes:**
+
+          - The verification is still pending (OTP not yet submitted successfully).
+
+          - The verification has been revoked.
+
+          - The verification channel does not match the expected field (`smsVerificationId` or `emailVerificationId`).
+
+
+          **Steps to resolve:**
+
+          1. Complete a new verification flow and retry.'
+        otp_verification_not_found: 'The provided SMS or email verification ID does not correspond to any verification record.
+
+
+          **Steps to resolve:**
+
+          1. Ensure you are passing the correct verification ID as `smsVerificationId` or `emailVerificationId`.
+
+          2. If the issue persists, complete a new verification flow.'
+        otp_verification_required: 'An SMS or email verification ID is required on order creation but none was provided.
+
+
+          **Steps to resolve:**
+
+          1. Verify the user''s phone number and email before creating an order.
+
+          2. Pass the returned verification IDs as `smsVerificationId` and `emailVerificationId` when creating orders.'
+        document_verification_failed: 'This error occurs when the user has not verified their identity for their coinbase.com account.
+
+          **Steps to resolve:**
+
+          1. Verify your coinbase account identity with valid documents at https://www.coinbase.com/settings/account-levels.'
+        recipient_allowlist_violation: 'This error occurs when the user is not allowed to receive funds at this address, according to their coinbase account allowlist.
+
+          **Steps to resolve:**
+
+          1. Either disable the allowlist or add the wallet address at https://www.coinbase.com/settings/allowlist
+
+          2. Wait approximately 2 days for updates to take effect.'
+        recipient_allowlist_pending: 'This error occurs when the user is not allowed to receive funds at this address, because changes to their coinbase account allowlist are pending.
+
+          **Steps to resolve:**
+
+          1. Wait approximately 2 days for updates to take effect.'
+        refund_expired: Returned when a refund attempt is made after the payment session's refund deadline has passed. The payment session can no longer be refunded.
+        travel_rules_recipient_violation: 'This error occurs when the user is not allowed to receive funds at this address, because it violates travel rules.
+
+          **Steps to resolve:**
+
+          1. Ensure your desired transfer is not blocked by local travel regulations.'
+        mfa_already_enrolled: 'This error occurs when attempting to enroll in an MFA method that the user has already enrolled in.
+
+
+          **Steps to resolve:**
+
+          1. Check if the user is already enrolled in the MFA method before initiating enrollment
+
+          2. To update or reset MFA, remove the existing enrollment first (if supported)
+
+          3. Use a different MFA method if multiple options are available'
+        mfa_invalid_code: 'This error occurs when the MFA code provided is incorrect or has already been used.
+
+
+          **Steps to resolve:**
+
+          1. Verify the user entered the correct code from their authenticator app
+
+          2. Ensure the code is current (TOTP codes expire after 30 seconds)
+
+          3. Check that the device time is synchronized correctly
+
+          4. Ask the user to generate a new code and try again
+
+
+          **Common causes:**
+
+          - Typing errors in the 6-digit code
+
+          - Using an expired TOTP code
+
+          - Device clock drift on user''s authenticator app
+
+          - Attempting to reuse a previously submitted code'
+        mfa_challenge_not_found: 'This error occurs when the challenge named by `X-Mfa-Challenge-Id` is unknown to the server or was already consumed by a failed submit attempt. This is distinct from `mfa_flow_expired`, which indicates the flow timed out.
+
+
+          **Possible resolutions**
+
+          - Pass the exact challenge ID from the `X-Mfa-Challenge-Id` header of the prior `403 mfa_required` response
+
+          - If the user failed MFA verification (e.g. by entering the wrong OTP), re-initiate the MFA flow to obtain a fresh challenge
+
+
+          **Common causes:**
+
+          - Reusing a challenge after a failed submit attempt
+
+          - A client bug sending a challenge from a different flow or user'
+        mfa_flow_expired: 'This error occurs when the MFA enrollment or verification session has expired.
+
+
+          **Steps to resolve:**
+
+          1. Restart the MFA enrollment or verification flow
+
+          2. Complete the flow within the allowed time window (typically 5 minutes)
+
+          3. Ensure the user doesn''t leave the flow idle for extended periods
+
+
+          **Note:** MFA sessions expire automatically for security purposes.'
+        mfa_required: 'This error occurs when attempting to perform a sensitive operation that requires MFA verification, but the user has not completed MFA verification.
+
+
+          **Steps to resolve:**
+
+          1. Initiate the MFA verification flow using the `/mfa/verify/{mfaMethod}/init` endpoint
+
+          2. Prompt the user to enter their MFA code
+
+          3. Submit the verification using the `/mfa/verify/{mfaMethod}/submit` endpoint
+
+          4. Use the returned access token with MFA claim for the sensitive operation
+
+          5. Retry the original request with the new MFA-verified token
+
+
+          **Operations requiring MFA:**
+
+          - Transactions Sign/Send
+
+          - Key export
+
+          - Account management actions (when configured)'
+        mfa_not_enrolled: 'This error occurs when attempting to verify MFA for a user who has not enrolled in any MFA method.
+
+
+          **Steps to resolve:**
+
+          1. Check if the user has enrolled in MFA before attempting verification
+
+          2. Guide the user through MFA enrollment first using the `/mfa/enroll/{mfaMethod}/init` endpoint
+
+          3. Complete enrollment before requiring MFA verification'
+        source_account_invalid: 'This error occurs when the source account specified in the transfer request is invalid or malformed.
+
+
+          **Steps to resolve:**
+
+          1. Verify the account ID format is correct (e.g., `account_xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`)
+
+          2. Ensure the account ID belongs to your CDP entity
+
+          3. Verify the account ID exists by calling `GET /v2/accounts/{accountId}` or `GET /v2/accounts`
+
+
+          **Common causes:**
+
+          - Malformed account ID
+
+          - Typo in the account ID'
+        target_account_invalid: 'This error occurs when the target account specified in the transfer request is invalid or malformed.
+
+
+          **Steps to resolve:**
+
+          1. Verify the account ID format is correct (e.g., `account_xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`)
+
+          2. Ensure the account exists and can receive funds
+
+          3. Verify the account ID exists by calling `GET /v2/accounts/{accountId}` or `GET /v2/accounts`
+
+
+          **Common causes:**
+
+          - Malformed account ID
+
+          - Typo in the account ID'
+        source_account_not_found: 'This error occurs when the source account specified in the transfer does not exist.
+
+
+          **Steps to resolve:**
+
+          1. Verify the account ID exists by calling `GET /v2/accounts/{accountId}` or `GET /v2/accounts`'
+        target_account_not_found: 'This error occurs when the target account specified in the transfer does not exist.
+
+
+          **Steps to resolve:**
+
+          1. Verify the account ID exists by calling `GET /v2/accounts/{accountId}` or `GET /v2/accounts`'
+        source_asset_not_supported: 'This error occurs when the asset specified in the transfer source is not supported for this transfer type.
+
+
+          **Steps to resolve:**
+
+          1. Check the list of supported assets for the source account type
+
+          2. Verify the asset symbol is correctly specified (e.g., `usdc`, `usdt`)
+
+
+          **Common causes:**
+
+          - Unsupported asset for the transfer route
+
+          - Incorrect asset symbol'
+        target_asset_not_supported: 'This error occurs when the asset specified in the transfer target is not supported for this transfer type.
+
+
+          **Steps to resolve:**
+
+          1. Check the list of supported assets for the target
+
+          2. Verify the asset symbol is correctly specified (e.g., `usdc`, `usdt`)
+
+          3. Ensure the target can receive this asset type
+
+
+          **Common causes:**
+
+          - Asset not supported by the target
+
+          - Unsupported conversion between source and target assets'
+        target_email_invalid: 'This error occurs when the email address specified as the transfer target is invalid.
+
+
+          **Steps to resolve:**
+
+          1. Verify the email address format is valid (e.g., `user@example.com`)
+
+          2. Check for typos in the email address
+
+          3. Ensure the email domain is valid
+
+
+          **Common causes:**
+
+          - Invalid email format
+
+          - Missing @ symbol or domain
+
+          - Typo in the email address'
+        target_onchain_address_invalid: 'This error occurs when the onchain address specified as the transfer target is invalid for the specified network.
+
+
+          **Steps to resolve:**
+
+          1. Ensure the network is supported for the transfer type
+
+          2. Verify the address format matches the target network
+
+          3. Ensure you haven''t mixed up addresses from different networks
+
+
+          **Common causes:**
+
+          - Network not supported for the transfer type
+
+          - Address format doesn''t match network
+
+          - Address from a different blockchain network'
+        transfer_amount_invalid: 'This error occurs when the transfer amount is invalid.
+
+
+          **Steps to resolve:**
+
+          1. Ensure the amount is a positive number and greater than $1 USD equivalent amount
+
+          2. Verify the amount format is a valid decimal string (e.g., `"100.50"`)
+
+          3. Check the number of decimal places for the asset
+
+
+          **Common causes:**
+
+          - Zero or negative amount
+
+          - Too many decimal places for the asset
+
+          - Amount below minimum threshold ($1 USD equivalent amount)'
+        transfer_asset_not_supported: 'This error occurs when the asset specified for the transfer is not supported.
+
+
+          **Steps to resolve:**
+
+          1. Check the list of supported assets for transfers
+
+          2. Verify the asset symbol is correctly specified
+
+          3. Ensure the asset is supported for the transfer route (source → target)
+
+
+          **Common causes:**
+
+          - Asset not supported for transfers
+
+          - Incorrect asset symbol'
+        transfer_quote_expired: 'This error occurs when the transfer quote has expired. Quotes are valid for a limited time.
+
+
+          **Steps to resolve:**
+
+          1. Create a new transfer to obtain a fresh quote
+
+          2. Execute the transfer promptly after creation
+
+
+          **Common causes:**
+
+          - Too much time elapsed between creating and executing the transfer'
+        insufficient_balance: 'This error occurs when the source account does not have enough funds to complete the transfer including fees.
+
+
+          **Steps to resolve:**
+
+          1. Check the source account balance
+
+          2. Ensure the balance covers both the transfer amount and any fees
+
+          3. Consider using `amountType: "source"` to transfer the maximum available amount minus fees
+
+          4. Add funds to the source account if needed
+
+
+          **Common causes:**
+
+          - Transfer amount exceeds available balance
+
+          - Not accounting for transfer fees
+
+          - Pending transactions reducing available balance'
+        metadata_too_many_entries: 'This error occurs when the transfer metadata contains more entries than allowed.
+
+
+          **Steps to resolve:**
+
+          1. Reduce the number of metadata entries (maximum 10 allowed)
+
+          2. Consolidate related data into fewer keys
+
+          3. Store additional data externally and reference it with a single metadata entry
+
+
+          **Limits:**
+
+          - Maximum entries: 10'
+        metadata_key_too_long: 'This error occurs when a metadata key exceeds the maximum allowed length.
+
+
+          **Steps to resolve:**
+
+          1. Shorten the metadata key to 40 characters or less
+
+          2. Use abbreviations or shorter naming conventions
+
+          3. Consider using a key-value structure where the value contains the longer identifier
+
+
+          **Limits:**
+
+          - Maximum key length: 40 characters'
+        metadata_value_too_long: 'This error occurs when a metadata value exceeds the maximum allowed length.
+
+
+          **Steps to resolve:**
+
+          1. Shorten the metadata value to 500 characters or less
+
+          2. Store longer data externally and reference it with a shorter identifier
+
+          3. Consider compressing or encoding the data if appropriate
+
+
+          **Limits:**
+
+          - Maximum value length: 500 characters'
+        travel_rules_field_missing: 'This error occurs when required travel rule fields are missing from the transfer request.
+
+
+          **Steps to resolve:**
+
+          1. Include the `travelRule` object in your transfer request
+
+          2. Supply the required missing fields prompted by the error message
+
+          3. Review the travel rule requirements for your jurisdiction
+
+
+          Note: Required fields may vary by region.'
+        asset_mismatch: 'This error occurs when the assets specified in the transfer are incompatible or don''t match expected values.
+
+
+          **Steps to resolve:**
+
+          1. Ensure the `asset` field matches either the source or target asset
+
+          2. Verify that the source and target assets are compatible for conversion (if different)
+
+          3. Check that the asset symbols are correctly specified
+
+
+          **Common causes:**
+
+          - Transfer asset doesn''t match source or target
+
+          - Attempting an unsupported asset conversion
+
+          - Typo in asset symbols'
+        order_quote_expired: 'This error occurs when attempting to execute an order whose quote has expired.
+
+
+          **Steps to resolve:**
+
+          1. Create a new order with `execute: false` to get an updated quote.
+
+          2. Execute the new order before the quote expires (check the `expiresAt` field).
+
+          3. Alternatively, create a new order with `execute: true` to skip the quote step and execute immediately.'
+        order_already_filled: 'This error occurs when attempting to cancel or modify an order that has already been filled.
+
+
+          **Steps to resolve:**
+
+          1. Check the current status of the order using `GET /v2/orders/{orderId}`.
+
+          2. A filled order cannot be canceled or re-executed.'
+        order_already_canceled: 'This error occurs when attempting to cancel or execute an order that has already been canceled.
+
+
+          **Steps to resolve:**
+
+          1. Check the current status of the order using `GET /v2/orders/{orderId}`.
+
+          2. Create a new order if you still want to trade.'
+        account_not_ready: 'This error occurs when an operation is attempted on an account that is still being provisioned.
+
+
+          **Steps to resolve:**
+
+          1. Wait a few moments and retry the request
+
+          2. If the error persists, the account may still be completing setup — retry with exponential backoff'
+        insufficient_liquidity: 'This error occurs when no swap route is available for the requested token pair or amount.
+
+
+          **Steps to resolve:**
+
+          1. Try a smaller `fromAmount` — large orders may exceed available liquidity
+
+          2. Try a different token pair
+
+          3. Retry after a short delay; liquidity conditions change with market activity'
+        insufficient_allowance: "This error occurs when the taker has not approved the Permit2 contract to spend the `fromToken`\non their behalf. ERC-20 swaps require a Permit2 allowance. Native ETH swaps do not.\n\n**Steps to resolve:**\n1. Submit an ERC-20 `approve` transaction on the `fromToken` contract, granting the Permit2\n   contract (`0x000000000022D473030F116dDEE9F6B43aC78BA3`) an allowance of at least `fromAmount`\n2. Wait for the approval transaction to be confirmed on-chain\n3. Retry the swap\n\n**Example:**\n```typescript lines wrap\n// Approve Permit2 to spend fromToken\nawait walletClient.writeContract({\n  address: fromToken,\n  abi: erc20Abi,\n  functionName: \"approve\",\n  args: [\"0x000000000022D473030F116dDEE9F6B43aC78BA3\", fromAmount],\n});\n```"
+        transaction_simulation_failed: 'This error occurs when the pre-broadcast simulation of the swap transaction predicted a revert.
+
+          No transaction was submitted and no gas was spent.
+
+
+          **Common causes:**
+
+          - The on-chain price moved past the `slippageBps` tolerance between the price estimate and execution
+
+          - Taker balance changed between the price estimate and execution
+
+
+          **Steps to resolve:**
+
+          1. Retry immediately — prices change quickly and a new quote may succeed
+
+          2. Increase `slippageBps` if retries continue to fail (e.g. from 100 to 200)
+
+          3. For large swaps, consider splitting into smaller amounts to reduce price impact'
+        delegation_not_found: "This error occurs when a delegated signing operation is attempted but no active\ndelegation grant exists for the end user (or account).\n\n**Steps to resolve:**\n1. Create a delegation grant using `createDelegationForEndUser` (user-scoped)\n   or `createDelegationForEndUserAccount` (account-scoped) before calling\n   the signing or sending operation\n2. If you previously created a grant, it may have expired or been revoked —\n   in those cases you would receive a `delegation_expired` or\n   `delegation_revoked` error instead\n3. For account-scoped grants, verify the address in the request matches the\n   granted address (EVM addresses are compared case-insensitively;\n   Solana addresses must match exactly)"
+        delegation_expired: "This error occurs when the delegation grant used for signing has expired.\nDelegation grants have a limited lifetime set at creation.\n\n**Steps to resolve:**\n1. Create a new delegation grant using `createDelegationForEndUser` or\n   `createDelegationForEndUserAccount`\n2. Retry the signing operation with the new grant active\n3. Consider creating grants with a longer TTL if expiry is frequent"
+        delegation_revoked: "This error occurs when the delegation grant has been explicitly revoked.\n\n**Steps to resolve:**\n1. Create a new delegation grant using `createDelegationForEndUser` or\n   `createDelegationForEndUserAccount`\n2. Confirm with the end user before recreating, since revocation is\n   typically intentional"
+        delegation_not_authorized: "This error occurs when a delegation grant exists but does not authorize the\nrequested operation.\n\n**Steps to resolve:**\n1. For account-scoped grants, verify the signing address matches the address\n   the grant was created for\n2. Check that the operation is permitted for delegated signing on your project\n3. Create a grant with the correct scope if needed"
+        delegation_not_enabled: "This error occurs when delegated signing is attempted on a project that has\nnot enabled the feature.\n\n**Steps to resolve:**\n1. Enable delegated signing in your project configuration via the CDP Portal\n2. Contact support if you believe delegated signing should already be enabled\n   for your project"
+        network_mismatch: 'This error occurs when the requested operation specifies a network on which the
+
+          target resource is not deployed or not available.
+
+
+          **Steps to resolve:**
+
+          1. Use the network the resource was originally created or deployed on
+
+          2. Check the resource metadata to confirm the correct network
+
+
+          **Common causes:**
+
+          - Specifying `base` for a resource that only exists on `base-sepolia` (or vice versa)
+
+          - Cross-network operation attempted on a resource scoped to a single network'
+        already_enabled: 'This error occurs when the requested operation cannot be performed because
+
+          the capability is already in the desired state.
+
+
+          **Steps to resolve:**
+
+          1. Check the current state of the resource before attempting the operation
+
+          2. No action is needed if the resource is already in the desired state
+
+
+          **Common causes:**
+
+          - Calling an enable endpoint on a resource that already has the feature enabled'
+        payment_session_already_canceled: 'This error occurs when an action is attempted on a payment session that has already been canceled.
+
+
+          **Steps to resolve:**
+
+          1. Create a new payment session to proceed with the payment flow'
+        payment_session_already_authorized: 'This error occurs when attempting to authorize a payment session that has already been authorized.
+
+
+          **Steps to resolve:**
+
+          1. Check the payment session status — it is already authorized
+
+          2. Proceed to capture, void, or other post-authorization actions as needed'
+        payment_session_action_pending: 'This error occurs when another action is already in progress for the payment session.
+
+
+          **Steps to resolve:**
+
+          1. Wait for the current action to complete before retrying
+
+          2. Check the payment session status to confirm the current action result'
+        no_capturable_balance: 'This error occurs when there is no remaining balance available to capture on the payment session.
+
+
+          **Steps to resolve:**
+
+          1. Verify the payment session status and previously captured amounts
+
+          2. Ensure the session was authorized and has uncaptured funds remaining'
+        no_voidable_balance: 'This error occurs when there is no held balance remaining to void on the payment session.
+
+
+          **Steps to resolve:**
+
+          1. Verify the payment session has an authorized but uncaptured balance
+
+          2. Check whether the session has already been fully captured or voided'
+        no_refundable_balance: 'This error occurs when the payment session has no captured amount available to refund.
+
+
+          **Steps to resolve:**
+
+          1. Verify the payment session has been previously captured
+
+          2. Check that the session has not already been fully refunded'
+        entity_not_configured_for_payment_acceptance: 'This error occurs when the entity is not configured to accept payments.
+
+
+          **Steps to resolve:**
+
+          1. Contact support to enable payment acceptance for the entity'
+        entity_not_configured_for_top_up: 'This error occurs when Top-Up is disabled for the entity or required Top-Up configuration is missing or invalid.
+
+
+          **Steps to resolve:**
+
+          1. Contact support or your Coinbase representative to enable Top-Up or correct the entity''s Top-Up configuration'
+        daily_transaction_limit_exceeded: 'This error occurs when the daily transaction limit has been exceeded.
+
+
+          **Steps to resolve:**
+
+          1. Wait until the next day when the daily limit resets
+
+          2. Contact support for questions about your limit'
+        daily_amount_limit_exceeded: 'This error occurs when the daily authorization amount limit has been exceeded.
+
+
+          **Steps to resolve:**
+
+          1. Wait until the next day when the daily limit resets
+
+          2. Contact support for questions about your limit'
+        stale_attestation: "The platform attestation (iOS App Attest assertion or Android Play Integrity token) was\ngenerated against a challenge that has since expired. The request was well-formed, but\nthe challenge is no longer valid.\n\n**Steps to resolve:**\n1. Call [Create Onramp Mobile Challenge](#operation/createOnrampMobileChallenge) to obtain\n   a fresh challenge.\n2. Re-run the platform attestation flow against the new challenge.\n3. Submit the new attestation to\n   [Create Onramp Mobile Session](#operation/createOnrampMobileSession) promptly —\n   challenges are short-lived.\n\n**Common causes:**\n- Too much time elapsed between obtaining the challenge and submitting the attestation."
+        moderation_rejected: 'The uploaded image failed content moderation and will not be served.
+
+
+          **Steps to resolve:**
+
+          1. Upload a different image that complies with content policies.'
+        mandate_action_pending: 'This error occurs when an approval or revocation is already in progress for the mandate.
+
+          Get wallet approval options, approve a mandate, get wallet revocation options, revoke
+
+          a mandate, and authorize a payment session with a mandate all return this while an
+
+          action is in flight.
+
+
+          **Steps to resolve:**
+
+          1. Wait for the in-flight approval or revocation to succeed or fail
+
+          2. Check the mandate `status`, then retry the request'
+        mandate_policy_violation: 'This error occurs only when the request breaches the mandate policy: the charge
+
+          exceeds `maxPerAuthorization` or `maxPerPeriod`, or an approval is rejected
+
+          because the payer''s available balance is below `minSetupBalance`.
+
+
+          **Steps to resolve:**
+
+          1. Lower the charge, raise the mandate policy, or fund the payer above `minSetupBalance`
+
+          2. Retry the request'
+        mandate_expired: 'This error occurs when the mandate is past its `expiresAt` and can no longer be used.
+
+          Authorization, approve a mandate, and get wallet approval options return this error.
+
+
+          **Steps to resolve:**
+
+          1. Create a new mandate if the customer should continue
+
+          2. Do not retry the request against the expired mandate'
+        mandate_canceled: 'This error occurs when `canceledAt` is set. Authorization, approve a mandate,
+
+          and get wallet approval options return this. If `revokedAt` is also set, those
+
+          operations return `mandate_revoked` instead.
+
+
+          **Steps to resolve:**
+
+          1. Create a new mandate if the customer should continue
+
+          2. Do not retry the request against the canceled mandate'
+        mandate_revoked: 'This error occurs when the mandate''s on-chain spending allowance has been
+
+          removed (`revokedAt` is set, status `revocation_succeeded`).
+
+
+          Authorization, approve a mandate, and get wallet approval options return this
+
+          when `revokedAt` is set, including when `canceledAt` is also set. Get wallet
+
+          revocation options and revoke a mandate also return this when the allowance
+
+          was already removed. Cancel a mandate returns this: a fully revoked mandate
+
+          cannot be canceled. Canceling an already-canceled mandate is a no-op and
+
+          returns the mandate.
+
+
+          **Steps to resolve:**
+
+          1. Create a new mandate if the customer should continue
+
+          2. Do not retry the request against the revoked mandate'
+        mandate_invalid_status: 'This error occurs when the mandate''s status does not satisfy the operation,
+
+          and a more specific code does not apply. `errorMessage` names the status the
+
+          operation expected.
+
+
+          Check the specific codes first: `mandate_canceled`, `mandate_revoked`,
+
+          `mandate_expired`, and `mandate_action_pending`.
+
+
+          Approve a mandate and get wallet approval options require `created` or
+
+          `approval_failed` after those checks. `approval_succeeded`,
+
+          `revocation_failed`, and any other remaining status return this. Authorize a
+
+          payment session requires `approval_succeeded`.
+
+          Revoke a mandate and get wallet revocation options return this when
+
+          `approvedAt` was never set, so no spending allowance exists. That is separate
+
+          from `mandate_revoked`, which applies only after `revokedAt` is set.
+
+
+          **Steps to resolve:**
+
+          1. Read `errorMessage` for the status this operation requires
+
+          2. Move the mandate to that status, or create a new mandate'
+    OnrampLimitUpgrade:
+      type: object
+      description: Describes a limit value associated with an upgrade.
+      properties:
+        limitType:
+          $ref: '#/components/schemas/OnrampLimitType'
+        maxUpgrade:
+          type: string
+          description: The maximum limit value possible after completing the upgrade. Risk factors may impact the actual limit value that takes effect. For `lifetime_transactions`, `2147483647` represents an unlimited number of transactions.
+          example: '2500'
+      required:
+      - limitType
+      - maxUpgrade
+    OnrampUserLimit:
+      type: object
+      description: A single limit with remaining capacity.
+      properties:
+        limitType:
+          $ref: '#/components/schemas/OnrampLimitType'
+        currency:
+          type: string
+          description: The currency of the limit amounts. Only present for spending limits, not for count-based limits.
+          example: USD
+        limit:
+          type: string
+          description: The maximum limit value.
+          example: '2500'
+        remaining:
+          type: string
+          description: The remaining amount or count available.
+          example: '2000'
+      required:
+      - limitType
+      - limit
+      - remaining
+    OnrampLimitUpgradeOption:
+      type: object
+      description: Describes the current status and potential limit changes for a limit upgrade.
+      properties:
+        status:
+          $ref: '#/components/schemas/OnrampLimitUpgradeStatus'
+        fields:
+          type: array
+          description: The identity fields associated with the current status. Contains fields to submit for `unrequested` and `resubmit`, fields pending review for `pending`, and is empty for `active` and `inactive`.
+          items:
+            $ref: '#/components/schemas/OnrampLimitUpgradeIdentityFieldKey'
+          example:
+          - ssnLast4
+          - dateOfBirth
+        limitUpgrades:
+          type: array
+          description: The limit values associated with this upgrade.
+          items:
+            $ref: '#/components/schemas/OnrampLimitUpgrade'
+          example:
+          - limitType: weekly_spending
+            maxUpgrade: '2500'
+          - limitType: lifetime_transactions
+            maxUpgrade: '2147483647'
+      required:
+      - status
+      - fields
+      - limitUpgrades
+    OnrampLimitUpgradeIdentityFieldKey:
+      type: string
+      description: 'The identity field key for limit upgrades. These keys correspond to the fields
+
+        in the limits upgrade request:
+
+        - `ssnLast4`: Last 4 digits of the Social Security Number
+
+        - `dateOfBirth`: Date of birth
+
+        '
+      enum:
+      - ssnLast4
+      - dateOfBirth
+      example: ssnLast4
+    SubmitOnrampVerificationRequest:
+      type: object
+      description: Request body for submitting an OTP code to complete an onramp verification.
+      properties:
+        otpCode:
+          description: The 6-digit OTP code the user received.
+          type: string
+          pattern: ^\d{6}$
+          example: '123456'
+      required:
+      - otpCode
+    OnrampOrderStatus:
+      type: string
+      description: The status of an onramp order.
+      enum:
+      - ONRAMP_ORDER_STATUS_PENDING_AUTH
+      - ONRAMP_ORDER_STATUS_PENDING_VERIFICATION
+      - ONRAMP_ORDER_STATUS_PENDING_PAYMENT
+      - ONRAMP_ORDER_STATUS_PROCESSING
+      - ONRAMP_ORDER_STATUS_COMPLETED
+      - ONRAMP_ORDER_STATUS_FAILED
+      example: ONRAMP_ORDER_STATUS_COMPLETED
+    OnrampVerificationId:
+      type: string
+      description: A unique identifier for an onramp verification record, in the format `onramp_verification_<uuid>`.
+      pattern: ^onramp_verification_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+      example: onramp_verification_a1b2c3d4-e5f6-7890-abcd-ef1234567890
+    OnrampSession:
+      type: object
+      description: An onramp session containing a ready-to-use onramp URL.
+      properties:
+        onrampUrl:
+          allOf:
+          - $ref: '#/components/schemas/Url'
+          description: Ready-to-use onramp URL.
+          example: https://pay.coinbase.com/buy?sessionToken=abc123F
+      required:
+      - onrampUrl
+      example:
+        onrampUrl: https://pay.coinbase.com/buy?sessionToken=abc123F
+    InitiateOnrampVerificationRequest:
+      type: object
+      description: Request body for initiating an onramp OTP verification.
+      properties:
+        channel:
+          description: The OTP delivery channel.
+          type: string
+          enum:
+          - sms
+          - email
+          example: sms
+        destination:
+          description: The phone number or email address to send the OTP to.
+          oneOf:
+          - $ref: '#/components/schemas/PhoneNumber'
+          - $ref: '#/components/schemas/Email'
+          example: '+12055555555'
+      required:
+      - channel
+      - destination
+    OnrampLimitUpgradeIdentityFields:
+      type: object
+      description: Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`.
+      properties:
+        ssnLast4:
+          type: string
+          description: Last 4 digits of the Social Security Number (no dashes or spaces).
+          example: '5678'
+        dateOfBirth:
+          allOf:
+          - $ref: '#/components/schemas/DateOfBirth'
+          description: Date of birth.
+      example:
+        ssnLast4: '5678'
+        dateOfBirth:
+          day: '15'
+          month: 08
+          year: '1990'
+    Uri:
+      type: string
+      format: uri
+      minLength: 5
+      maxLength: 2048
+      pattern: ^.*://.*$
+      description: A valid URI.
+      example: foo://bar
+    OnrampTransactionUpdatedEvent:
+      x-event-type: onramp.transaction.updated
+      allOf:
+      - $ref: '#/components/schemas/OnrampTransactionEvent'
+    OfframpTransactionFailedEvent:
+      x-event-type: offramp.transaction.failed
+      allOf:
+      - $ref: '#/components/schemas/OfframpTransactionPayload'
+    DateOfBirth:
+      type: object
+      description: Date of birth.
+      properties:
+        day:
+          type: string
+          description: Day of birth (01-31).
+          minLength: 2
+          maxLength: 2
+          pattern: ^[0-9]{2}$
+          example: '15'
+        month:
+          type: string
+          description: Month of birth (01-12).
+          minLength: 2
+          maxLength: 2
+          pattern: ^[0-9]{2}$
+          example: 08
+        year:
+          type: string
+          description: Year of birth (four digits).
+          minLength: 4
+          maxLength: 4
+          pattern: ^[0-9]{4}$
+          example: '1990'
+      example:
+        day: '15'
+        month: 08
+        year: '1990'
+    OnrampTransactionCreatedEvent:
+      x-event-type: onramp.transaction.created
+      allOf:
+      - $ref: '#/components/schemas/OnrampTransactionEvent'
+    OnrampVerificationConfirmation:
+      type: object
+      description: The result of successfully submitting an onramp OTP verification.
+      properties:
+        verificationId:
+          allOf:
+          - $ref: '#/components/schemas/OnrampVerificationId'
+          description: The same verification ID. Store on the user's device and pass to the Create Onramp Order endpoint. Valid for 60 days.
+          example: onramp_verification_a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        verificationExpiresAt:
+          description: The date and time when this verification expires for order placement.
+          type: string
+          format: date-time
+          example: '2025-06-23T00:00:00Z'
+      required:
+      - verificationId
+      - verificationExpiresAt
+    OnrampTransactionPayload:
+      type: object
+      description: Webhook payload for standard onramp transactions (guest checkout and authed flow). Serialized from the OnrampTransaction proto via protojson with eventType appended.
+      properties:
+        eventType:
+          type: string
+          description: The webhook event type.
+          example: onramp.transaction.updated
+        transactionId:
+          type: string
+          description: Unique transaction identifier.
+          example: 1f087a54-ff1f-62e8-9f85-aa77ac0499a5
+        status:
+          type: string
+          description: Current status of the transaction.
+          enum:
+          - ONRAMP_TRANSACTION_STATUS_UNSPECIFIED
+          - ONRAMP_TRANSACTION_STATUS_CREATED
+          - ONRAMP_TRANSACTION_STATUS_IN_PROGRESS
+          - ONRAMP_TRANSACTION_STATUS_SUCCESS
+          - ONRAMP_TRANSACTION_STATUS_FAILED
+          - ONRAMP_TRANSACTION_STATUS_AWAITING_AUTH
+          - ONRAMP_TRANSACTION_STATUS_AWAITING_PAYMENT
+          example: ONRAMP_TRANSACTION_STATUS_IN_PROGRESS
+        purchaseCurrency:
+          type: string
+          description: The crypto currency purchased (e.g., "USDC", "ETH").
+          example: USDC
+        purchaseNetwork:
+          type: string
+          description: The blockchain network for the purchase (e.g., "ethereum", "base").
+          example: ethereum
+        purchaseAmount:
+          $ref: '#/components/schemas/MoneyAmount'
+        paymentTotal:
+          $ref: '#/components/schemas/MoneyAmount'
+        paymentTotalUsd:
+          $ref: '#/components/schemas/MoneyAmount'
+        paymentSubtotal:
+          $ref: '#/components/schemas/MoneyAmount'
+        coinbaseFee:
+          $ref: '#/components/schemas/MoneyAmount'
+        networkFee:
+          $ref: '#/components/schemas/MoneyAmount'
+        exchangeRate:
+          $ref: '#/components/schemas/MoneyAmount'
+        txHash:
+          type: string
+          description: The onchain transaction hash of the send (0x-prefixed for EVM).
+          example: 0x
+        createdAt:
+          type: string
+          format: date-time
+          description: When the transaction was created.
+          example: '2025-09-02T02:34:13Z'
+        completedAt:
+          type: string
+          format: date-time
+          description: When the transaction completed (uses send_started_at for early success).
+          example: '0001-01-01T00:00:00Z'
+        country:
+          type: string
+          description: The user's country code.
+          example: US
+        userId:
+          type: string
+          description: Hashed user identifier (entity hash for guest, user ID for authed).
+          example: 4132b63ee21128686458155b28570289
+        paymentMethod:
+          type: string
+          description: The payment method used.
+          enum:
+          - UNSPECIFIED
+          - CARD
+          - ACH_BANK_ACCOUNT
+          - APPLE_PAY
+          - FIAT_WALLET
+          - CRYPTO_ACCOUNT
+          - GUEST_CHECKOUT_CARD
+          - PAYPAL
+          - RTP
+          - GUEST_CHECKOUT_APPLE_PAY
+          - GUEST_CHECKOUT_GOOGLE_PAY
+          example: CARD
+        walletAddress:
+          type: string
+          description: The destination wallet address.
+          example: '0xe0512E358C347cc2b1A42d057065CE642068b7Ba'
+        type:
+          type: string
+          description: The type of onramp transaction.
+          enum:
+          - ONRAMP_TRANSACTION_TYPE_UNSPECIFIED
+          - ONRAMP_TRANSACTION_TYPE_BUY_AND_SEND
+          - ONRAMP_TRANSACTION_TYPE_SEND
+          example: ONRAMP_TRANSACTION_TYPE_BUY_AND_SEND
+        userType:
+          type: string
+          description: Whether the user is authed or guest.
+          enum:
+          - USER_TYPE_UNSPECIFIED
+          - USER_TYPE_AUTHED
+          - USER_TYPE_GUEST
+          example: USER_TYPE_GUEST
+        partnerUserRef:
+          type: string
+          description: The partnerUserId provided when initializing the onramp session.
+          example: example_user_ref
+        contractAddress:
+          type: string
+          description: The token contract address (populated when asset metadata is available).
+          example: ''
+        failureReason:
+          type: string
+          description: The reason for failure (if applicable).
+          enum:
+          - FAILURE_REASON_UNSPECIFIED
+          - FAILURE_REASON_BUY_FAILED
+          - FAILURE_REASON_SEND_FAILED
+          example: FAILURE_REASON_UNSPECIFIED
+        endPartnerName:
+          type: string
+          description: The name of the developer app.
+          example: ''
+        errorCode:
+          type: string
+          description: Error code for the transaction failure (if applicable).
+          example: ERROR_CODE_UNSPECIFIED
+        partnerId:
+          type: string
+          description: The Onramp-issued identifier of the end partner this transaction was scoped to via the X-Onramp-Partner-Id header on the session that initiated it. Only present for transactions created by an aggregator on behalf of a registered end partner.
+          example: 1f1c19e8-d0e9-6443-b706-92a4d033d043
+      required:
+      - eventType
+      - transactionId
+      - status
+    MoneyAmount:
+      type: object
+      description: A monetary amount with currency.
+      properties:
+        currency:
+          type: string
+          description: Currency code (e.g., "USD", "USDC", "ETH").
+          example: USD
+        value:
+          type: string
+          description: The amount as a string.
+          example: '100.00'
+      required:
+      - currency
+      - value
+      example:
+        currency: USD
+        value: '5.00'
+    OnrampPaymentLinkType:
+      type: string
+      description: The type of payment link.
+      enum:
+      - PAYMENT_LINK_TYPE_APPLE_PAY_BUTTON
+      - PAYMENT_LINK_TYPE_GOOGLE_PAY_BUTTON
+      - PAYMENT_LINK_TYPE_EMBEDDED_ORDER
+      example: PAYMENT_LINK_TYPE_APPLE_PAY_BUTTON
+    OnrampLimitUpgradeInteractionMode:
+      type: string
+      description: 'The interaction mode for the limit upgrade request:
+
+        - `api`: Submit identity fields directly in the API request.
+
+        - `embedded`: Return a Coinbase-hosted URL where the user enters identity fields.
+
+        '
+      enum:
+      - api
+      - embedded
+      x-enum-varnames:
+      - OnrampLimitUpgradeInteractionModeAPI
+      - OnrampLimitUpgradeInteractionModeEmbedded
+      example: api
+    Email:
+      type: string
+      format: email
+      maxLength: 254
+      pattern: ^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}/-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$
+      description: An email address. Maximum length 254 characters per [RFC 5321](https://www.rfc-editor.org/rfc/rfc5321).
+      example: user@example.com
+    OrderFee:
+      type: object
+      description: A fee associated with a Headless Onramp API order.
+      properties:
+        feeType:
+          type: string
+          description: The type of fee.
+          enum:
+          - FEE_TYPE_UNSPECIFIED
+          - FEE_TYPE_NETWORK
+          - FEE_TYPE_EXCHANGE
+          example: FEE_TYPE_NETWORK
+        feeAmount:
+          type: string
+          description: The amount of the fee.
+          example: '0.5'
+        feeCurrency:
+          type: string
+          description: The currency of the fee.
+          example: USD
+    Error:
+      description: An error response including the code for the type of error and a human-readable message describing the error.
+      type: object
+      properties:
+        errorType:
+          $ref: '#/components/schemas/ErrorType'
+        errorMessage:
+          description: The error message.
+          type: string
+          example: Unable to create EVM account
+        correlationId:
+          description: A unique identifier for the request that generated the error. This can be used to help debug issues with the API.
+          type: string
+          example: 41deb8d59a9dc9a7-IAD
+        errorLink:
+          allOf:
+          - $ref: '#/components/schemas/Url'
+          description: A link to the corresponding error documentation.
+          example: https://docs.cdp.coinbase.com/api-reference/v2/errors#invalid-request
+        unauthorizedCapabilities:
+          description: 'The capability code(s) that were not authorized for the customer on
+
+            this request. Present only when `errorType` is
+
+            `customer_not_authorized`; absent for every other error type.
+
+
+            Use this list to render onboarding UX for the listed capabilities, or
+
+            fetch `GET /v2/customers/{customerId}` and inspect each entry''s
+
+            `status` / `requirements` to discover what (if anything) can be
+
+            submitted to resolve the block.
+
+            '
+          type: array
+          items:
+            $ref: '#/components/schemas/CapabilityName'
+      required:
+      - errorType
+      - errorMessage
+      example:
+        errorType: invalid_request
+        errorMessage: Invalid request.
+        correlationId: 41deb8d59a9dc9a7-IAD
+        errorLink: https://docs.cdp.coinbase.com/api-reference/v2/errors#invalid-request
+    OnrampVerificationInitiation:
+      type: object
+      description: The result of initiating an onramp OTP verification.
+      properties:
+        verificationId:
+          allOf:
+          - $ref: '#/components/schemas/OnrampVerificationId'
+          description: Identifier returned by this endpoint. Pass to the Submit Onramp Verification endpoint along with the OTP code within 10 minutes.
+          example: onramp_verification_a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        otpExpiresAt:
+          description: The deadline for submitting the OTP code (10 minutes from now).
+          type: string
+          format: date-time
+          example: '2025-04-24T00:10:00Z'
+      required:
+      - verificationId
+      - otpExpiresAt
+    OfframpTransactionPayload:
+      type: object
+      description: Webhook payload for offramp transactions. Serialized from the OfframpTransaction proto via protojson with eventType appended.
+      properties:
+        eventType:
+          type: string
+          description: The webhook event type.
+          example: offramp.transaction.updated
+        transactionId:
+          type: string
+          description: Unique transaction identifier.
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        status:
+          type: string
+          description: Current status of the offramp transaction.
+          enum:
+          - TRANSACTION_STATUS_UNSPECIFIED
+          - TRANSACTION_STATUS_CREATED
+          - TRANSACTION_STATUS_EXPIRED
+          - TRANSACTION_STATUS_STARTED
+          - TRANSACTION_STATUS_SUCCESS
+          - TRANSACTION_STATUS_FAILED
+          example: TRANSACTION_STATUS_STARTED
+        asset:
+          type: string
+          description: The crypto currency being sold (e.g., "ETH", "USDC").
+          example: ETH
+        network:
+          type: string
+          description: The blockchain network (e.g., "ethereum", "base").
+          example: ethereum
+        sellAmount:
+          $ref: '#/components/schemas/MoneyAmount'
+        total:
+          $ref: '#/components/schemas/MoneyAmount'
+        minimumTotal:
+          $ref: '#/components/schemas/MoneyAmount'
+        subtotal:
+          $ref: '#/components/schemas/MoneyAmount'
+        coinbaseFee:
+          $ref: '#/components/schemas/MoneyAmount'
+        exchangeRate:
+          $ref: '#/components/schemas/MoneyAmount'
+        unitPrice:
+          $ref: '#/components/schemas/MoneyAmount'
+        fromAddress:
+          type: string
+          description: The address crypto was received from.
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        toAddress:
+          type: string
+          description: The address crypto was sent to (Coinbase deposit address).
+          example: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+        createdAt:
+          type: string
+          format: date-time
+          description: When the transaction was created.
+          example: '2025-09-02T02:34:13Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: When the transaction was last updated.
+          example: '2025-09-02T02:40:00Z'
+        txHash:
+          type: string
+          description: The onchain transaction hash of the crypto send.
+          example: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890'
+        redirectUrl:
+          type: string
+          description: The URL the user was redirected to after confirming the offramp.
+          example: https://partner.com/offramp/complete
+        paymentMethod:
+          type: string
+          description: The payment method type used for cashout.
+          enum:
+          - UNSPECIFIED
+          - CARD
+          - ACH_BANK_ACCOUNT
+          - APPLE_PAY
+          - FIAT_WALLET
+          - CRYPTO_ACCOUNT
+          - GUEST_CHECKOUT_CARD
+          - PAYPAL
+          - RTP
+          - GUEST_CHECKOUT_APPLE_PAY
+          - GUEST_CHECKOUT_GOOGLE_PAY
+          example: ACH_BANK_ACCOUNT
+        partnerUserRef:
+          type: string
+          description: The partnerUserId provided when initializing the offramp session.
+          example: example_user_ref
+      required:
+      - eventType
+      - transactionId
+      - status
+    OnrampTransactionFailedEvent:
+      x-event-type: onramp.transaction.failed
+      allOf:
+      - $ref: '#/components/schemas/OnrampTransactionEvent'
+    Url:
+      type: string
+      format: uri
+      minLength: 11
+      maxLength: 2048
+      pattern: ^https?://.*$
+      description: A valid HTTP or HTTPS URL.
+      example: https://example.com
+    OnrampQuote:
+      type: object
+      description: Quote information with pricing details for the crypto purchase.
+      properties:
+        paymentTotal:
+          type: string
+          description: The total amount of fiat to be paid, inclusive of any fees.
+          example: '100.75'
+        paymentSubtotal:
+          type: string
+          description: The amount of fiat to be converted to crypto.
+          example: '100.00'
+        paymentCurrency:
+          type: string
+          description: The fiat currency to be converted to crypto.
+          example: USD
+        purchaseAmount:
+          type: string
+          description: The amount of crypto to be purchased.
+          example: '100.000000'
+        purchaseCurrency:
+          type: string
+          description: The crypto currency to be purchased.
+          example: USDC
+        destinationNetwork:
+          type: string
+          description: The network to send the crypto on.
+          example: base
+        fees:
+          type: array
+          description: The fees associated with the quote.
+          items:
+            $ref: '#/components/schemas/OnrampOrderFee'
+          example:
+          - type: FEE_TYPE_EXCHANGE
+            amount: '0.5'
+            currency: USD
+          - type: FEE_TYPE_NETWORK
+            amount: '0.25'
+            currency: USD
+        exchangeRate:
+          type: string
+          description: The exchange rate used to convert fiat to crypto i.e. the crypto value of one fiat.
+          example: '1'
+      required:
+      - paymentTotal
+      - paymentSubtotal
+      - paymentCurrency
+      - purchaseAmount
+      - purchaseCurrency
+      - destinationNetwork
+      - fees
+      - exchangeRate
+      example:
+        paymentTotal: '100.75'
+        paymentSubtotal: '100.00'
+        paymentCurrency: USD
+        purchaseAmount: '100.000000'
+        purchaseCurrency: USDC
+        destinationNetwork: base
+        fees:
+        - type: FEE_TYPE_EXCHANGE
+          amount: '0.5'
+          currency: USD
+        - type: FEE_TYPE_NETWORK
+          amount: '0.25'
+          currency: USD
+        exchangeRate: '1'
+    OnrampSessionRequest:
+      type: object
+      description: Common request parameters shared by [Create Onramp Session](#operation/createOnrampSession) and [Create Onramp Mobile Challenge](#operation/createOnrampMobileChallenge).
+      properties:
+        purchaseCurrency:
+          description: 'The ticker (e.g. `BTC`, `USDC`, `SOL`) or the Coinbase UUID (e.g. `d85dce9b-5b73-5c3c-8978-522ce1d1c1b4`) of the crypto asset to be purchased.
+
+
+            Use the [Onramp Buy Options API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-buy-options) to discover the supported purchase currencies for your user''s location.'
+          type: string
+          example: USDC
+        destinationNetwork:
+          description: 'The name of the crypto network the purchased currency will be sent on.
+
+
+            Use the [Onramp Buy Options API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-buy-options) to discover the supported networks for your user''s location.'
+          type: string
+          example: base
+        destinationAddress:
+          allOf:
+          - $ref: '#/components/schemas/BlockchainAddress'
+          description: The address the purchased crypto will be sent to.
+          example: '0x1234567890abcdef1234567890abcdef12345678'
+        paymentAmount:
+          description: A string representing the amount of fiat the user wishes to pay in exchange for crypto. When using this parameter, the returned quote will be inclusive of fees i.e. the user will pay this exact amount of the payment currency.
+          type: string
+          example: '100.00'
+        purchaseAmount:
+          description: A string representing the amount of crypto the user wishes to purchase. When using this parameter, the returned quote will be exclusive of fees i.e. the user will receive this exact amount of the purchase currency.
+          type: string
+          example: '10.000000'
+        paymentCurrency:
+          description: The fiat currency to be converted to crypto.
+          type: string
+          example: USD
+        paymentMethod:
+          $ref: '#/components/schemas/OnrampQuotePaymentMethodTypeId'
+        country:
+          description: The ISO 3166-1 two letter country code (e.g. US).
+          type: string
+          example: US
+        subdivision:
+          description: The ISO 3166-2 two letter state code (e.g. NY). Only required for US.
+          type: string
+          example: NY
+        redirectUrl:
+          allOf:
+          - $ref: '#/components/schemas/Uri'
+          description: URI to redirect the user to after they complete or dismiss the transaction. Embedded in the returned onramp URL as a query parameter.
+          example: https://example.com/success
+        clientIp:
+          description: The IP address of the end user requesting the onramp transaction.
+          type: string
+          example: 127.0.0.1
+        partnerUserRef:
+          description: 'A unique string that represents the user in your app. This can be used to link individual transactions together so you can retrieve the transaction history for your users. Prefix this string with "sandbox-" (e.g. "sandbox-user-1234") to perform a sandbox transaction which will allow you to test your integration without any real transfer of funds.
+
+
+            This value can be used with the [Onramp User Transactions API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-onramp-transactions-by-id) to retrieve all transactions created by the user.'
+          type: string
+          example: user-1234
+      required:
+      - destinationAddress
+      - purchaseCurrency
+      - destinationNetwork
+    OnrampOrderPayload:
+      type: object
+      description: Webhook payload for Headless Onramp API orders (Apple Pay / Google Pay). Serialized from the OnrampOrder proto via protojson with eventType appended.
+      properties:
+        eventType:
+          type: string
+          description: The webhook event type.
+          example: onramp.transaction.success
+        orderId:
+          type: string
+          format: uuid
+          description: Unique order identifier.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        paymentTotal:
+          type: string
+          description: The total fiat amount paid.
+          example: '100.75'
+        paymentSubtotal:
+          type: string
+          description: The fiat amount converted to crypto (excluding fees).
+          example: '100'
+        paymentCurrency:
+          type: string
+          description: The fiat currency used for payment.
+          example: USD
+        paymentMethod:
+          type: string
+          description: The payment method used.
+          enum:
+          - UNSPECIFIED
+          - CARD
+          - ACH_BANK_ACCOUNT
+          - APPLE_PAY
+          - FIAT_WALLET
+          - CRYPTO_ACCOUNT
+          - GUEST_CHECKOUT_CARD
+          - PAYPAL
+          - RTP
+          - GUEST_CHECKOUT_APPLE_PAY
+          - GUEST_CHECKOUT_GOOGLE_PAY
+          example: GUEST_CHECKOUT_APPLE_PAY
+        purchaseAmount:
+          type: string
+          description: The amount of crypto purchased.
+          example: '100.000000'
+        purchaseCurrency:
+          type: string
+          description: The crypto currency purchased.
+          example: USDC
+        fees:
+          type: array
+          description: Breakdown of fees for the order.
+          items:
+            $ref: '#/components/schemas/OrderFee'
+          example:
+          - feeType: FEE_TYPE_NETWORK
+            feeAmount: '0.5'
+            feeCurrency: USD
+          - feeType: FEE_TYPE_EXCHANGE
+            feeAmount: '0.25'
+            feeCurrency: USD
+        exchangeRate:
+          type: string
+          description: The exchange rate used for conversion.
+          example: '1'
+        destinationAddress:
+          type: string
+          description: The destination wallet address.
+          example: '0x1234567890abcdef1234567890abcdef12345678'
+        destinationNetwork:
+          type: string
+          description: The blockchain network for delivery.
+          example: base
+        status:
+          type: string
+          description: The status of the order.
+          enum:
+          - ONRAMP_ORDER_STATUS_UNSPECIFIED
+          - ONRAMP_ORDER_STATUS_PENDING_AUTH
+          - ONRAMP_ORDER_STATUS_PENDING_VERIFICATION
+          - ONRAMP_ORDER_STATUS_PENDING_PAYMENT
+          - ONRAMP_ORDER_STATUS_PROCESSING
+          - ONRAMP_ORDER_STATUS_COMPLETED
+          - ONRAMP_ORDER_STATUS_FAILED
+          example: ONRAMP_ORDER_STATUS_COMPLETED
+        txHash:
+          type: string
+          description: The onchain transaction hash (available once crypto is sent).
+          example: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890'
+        createdAt:
+          type: string
+          format: date-time
+          description: When the order was created.
+          example: '2025-09-10T10:30:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: When the order was last updated.
+          example: '2025-09-10T10:35:00Z'
+        partnerUserRef:
+          type: string
+          description: The partner user reference ID.
+          example: example_user_ref
+        partnerId:
+          type: string
+          description: The Onramp-issued identifier of the end partner this order was scoped to via the X-Onramp-Partner-Id header. Only present for orders created by an aggregator on behalf of a registered end partner.
+          example: 1f1c19e8-d0e9-6443-b706-92a4d033d043
+      required:
+      - eventType
+      - orderId
+      - status
+    OnrampUserAuthToken:
+      type: string
+      description: 'A reusable, PII-free token issued after a user completes verification in the embedded onramp flow. It encodes only the underlying verification IDs, no personal information. Pass it on subsequent orders to take a returning user straight to the pay button, skipping OTP when checking out to the same wallet.
+
+
+        In the embedded flow, `phoneNumber`, `email`, `phoneNumberVerifiedAt`, and `agreementAcceptedAt` are handled by Coinbase in the hosted popup and may be omitted from the request even though they are required for the standard partner-verified flow. Reuse is best-effort: an invalid, expired, or different-wallet token still requires the user to verify. Valid for 60 days.'
+      example: eyJ2ZXJpZmljYXRpb25JZHMiOlsidl9hYmMxMjMiLCJ2X2RlZjQ1NiJdfQ==
+    OnrampLimitType:
+      type: string
+      description: "The type of limit:\n- `weekly_spending`: Rolling 7-day spending limit. The limit applies to the sum of all completed transactions \n  within a sliding 168-hour (7-day) window. As time passes, older transactions naturally expire from the window. \n  $500 is the default limit.\n- `lifetime_transactions`: All-time transaction count limit. Tracks the total number of completed transactions \n  across the user's entire history with no time-based expiration. Once the limit is reached, no further \n  transactions are allowed. 15 is the default limit.\n"
+      enum:
+      - weekly_spending
+      - lifetime_transactions
+      example: weekly_spending
+    OfframpTransactionUpdatedEvent:
+      x-event-type: offramp.transaction.updated
+      allOf:
+      - $ref: '#/components/schemas/OfframpTransactionPayload'
+    OfframpTransactionSuccessEvent:
+      x-event-type: offramp.transaction.success
+      allOf:
+      - $ref: '#/components/schemas/OfframpTransactionPayload'
+    OnrampTransactionEvent:
+      description: Webhook payload for all onramp transaction events (created, updated, success, failed). Shape depends on transaction type — standard flow (guest checkout / authorized) uses OnrampTransactionPayload, Headless API (Apple Pay / Google Pay) uses OnrampOrderPayload. Distinguish by presence of `orderId` (Headless) vs `transactionId` (standard).
+      oneOf:
+      - $ref: '#/components/schemas/OnrampTransactionPayload'
+      - $ref: '#/components/schemas/OnrampOrderPayload'
+    OnrampQuotePaymentMethodTypeId:
+      type: string
+      description: The type of payment method used to generate the onramp quote.
+      enum:
+      - CARD
+      - ACH
+      - APPLE_PAY
+      - PAYPAL
+      - FIAT_WALLET
+      - CRYPTO_WALLET
+      example: CARD
+    OnrampPaymentLink:
+      type: object
+      description: 'A payment link to pay for an order.
+
+
+        Please refer to the [Onramp docs](https://docs.cdp.coinbase.com/onramp-&-offramp/onramp-apis/onramp-overview) for details on how to integrate with the different payment link types.'
+      properties:
+        url:
+          allOf:
+          - $ref: '#/components/schemas/Url'
+          description: The URL to the hosted widget the user should be redirected to. For certain payment link types you can append your own redirect_url query parameter to this URL to ensure the user is redirected back to your app after the widget completes.
+          example: https://pay.coinbase.com/v2/api-onramp/apple-pay?sessionToken=MWYwNWQwODktZTZlYy02OTdlLTgzZTYtMTI3NzcyOWJhNjM3
+        paymentLinkType:
+          $ref: '#/components/schemas/OnrampPaymentLinkType'
+      required:
+      - url
+      - paymentLinkType
+    OnrampLimitUpgradeRequest:
+      type: object
+      description: Request to request a limits upgrade for a user.
+      properties:
+        userId:
+          type: string
+          description: The user identifier value. For `phone_number` type, this must be in E.164 format.
+          example: '+12055555555'
+        userIdType:
+          $ref: '#/components/schemas/OnrampUserIdType'
+        interactionMode:
+          allOf:
+          - $ref: '#/components/schemas/OnrampLimitUpgradeInteractionMode'
+          default: api
+          description: The interaction mode for the limit upgrade request. Defaults to `api`.
+          example: api
+        fields:
+          $ref: '#/components/schemas/OnrampLimitUpgradeIdentityFields'
+          description: Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`. Required in `api` mode. Omit in `embedded` mode — the user enters their identity information on the Coinbase-hosted upgrade page (see `interactionMode`), so any value sent here is rejected.
+      required:
+      - userId
+      - userIdType
+      example:
+        userId: '+12055555555'
+        userIdType: phone_number
+        fields:
+          ssnLast4: '5678'
+          dateOfBirth:
+            day: '15'
+            month: 08
+            year: '1990'
+    BlockchainAddress:
+      type: string
+      minLength: 1
+      maxLength: 128
+      description: A blockchain address. Format varies by network (e.g., 0x-prefixed for EVM, base58 for Solana).
+      example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+    OnrampOrderFee:
+      type: object
+      description: A fee associated with an order.
+      properties:
+        type:
+          type: string
+          enum:
+          - FEE_TYPE_NETWORK
+          - FEE_TYPE_EXCHANGE
+          description: The type of fee.
+          example: FEE_TYPE_NETWORK
+        amount:
+          type: string
+          description: The amount of the fee.
+          example: '0.95'
+        currency:
+          type: string
+          description: The currency of the fee.
+          example: USDC
+      required:
+      - type
+      - amount
+      - currency
+    OnrampOrder:
+      type: object
+      description: An Onramp order.
+      properties:
+        orderId:
+          type: string
+          description: The ID of the onramp order.
+          example: 123e4567-e89b-12d3-a456-426614174000
+        paymentTotal:
+          type: string
+          description: The total amount of fiat to be paid, inclusive of any fees.
+          example: '100.75'
+        paymentSubtotal:
+          type: string
+          description: The amount of fiat to be converted to crypto.
+          example: '100'
+        paymentCurrency:
+          type: string
+          description: The fiat currency to be converted to crypto.
+          example: USD
+        paymentMethod:
+          $ref: '#/components/schemas/OnrampOrderPaymentMethodTypeId'
+        purchaseAmount:
+          type: string
+          description: The amount of crypto to be purchased.
+          example: '100.000000'
+        purchaseCurrency:
+          type: string
+          description: The crypto currency to be purchased.
+          example: USDC
+        fees:
+          type: array
+          description: The fees associated with the order.
+          items:
+            $ref: '#/components/schemas/OnrampOrderFee'
+          example:
+          - type: FEE_TYPE_EXCHANGE
+            amount: '0.5'
+            currency: USD
+          - type: FEE_TYPE_NETWORK
+            amount: '0.25'
+            currency: USD
+        exchangeRate:
+          type: string
+          description: The exchange rate used to convert fiat to crypto i.e. the crypto value of one fiat.
+          example: '1'
+        destinationAddress:
+          allOf:
+          - $ref: '#/components/schemas/BlockchainAddress'
+          description: The destination address to send the crypto to.
+          example: '0x71C7656EC7ab88b098defB751B7401B5f6d8976F'
+        destinationNetwork:
+          type: string
+          description: The network to send the crypto on.
+          example: base
+        status:
+          $ref: '#/components/schemas/OnrampOrderStatus'
+        txHash:
+          type: string
+          description: The transaction hash of the order (only available once crypto has been sent).
+          example: '0x363cd3b3d4f49497cf5076150cd709307b90e9fc897fdd623546ea7b9313cecb'
+        createdAt:
+          type: string
+          description: The date and time the order was created.
+          example: '2025-04-24T00:00:00Z'
+        updatedAt:
+          type: string
+          description: The date and time the order was last updated.
+          example: '2025-04-24T00:00:00Z'
+        partnerUserRef:
+          type: string
+          description: The partner user reference ID.
+          example: user123
+        partnerId:
+          type: string
+          description: The Onramp-issued identifier of the end partner this order was scoped to via the X-Onramp-Partner-Id header. Only present for orders created by an aggregator on behalf of a registered end partner.
+          example: 1f1c19e8-d0e9-6443-b706-92a4d033d043
+      required:
+      - orderId
+      - paymentTotal
+      - paymentSubtotal
+      - paymentCurrency
+      - paymentMethod
+      - purchaseAmount
+      - purchaseCurrency
+      - fees
+      - exchangeRate
+      - destinationAddress
+      - destinationNetwork
+      - status
+      - createdAt
+      - updatedAt
+    OnrampOrderPaymentMethodTypeId:
+      type: string
+      description: The type of payment method to be used to complete an onramp order.
+      enum:
+      - GUEST_CHECKOUT_APPLE_PAY
+      - GUEST_CHECKOUT_GOOGLE_PAY
+      example: GUEST_CHECKOUT_APPLE_PAY
+    OnrampUserIdType:
+      type: string
+      description: 'The type of user identifier:
+
+        - `phone_number`: A phone number in E.164 format associated with an onramp user.
+
+        '
+      enum:
+      - phone_number
+      example: phone_number
+    OfframpTransactionCreatedEvent:
+      x-event-type: offramp.transaction.created
+      allOf:
+      - $ref: '#/components/schemas/OfframpTransactionPayload'
+    CapabilityName:
+      type: string
+      description: 'The name of a capability. Capabilities represent granular functional permissions
+
+        that determine what actions a customer can perform. Each capability must be
+
+        explicitly requested before use.
+
+        '
+      enum:
+      - custodyCrypto
+      - custodyFiat
+      - custodyStablecoin
+      - tradeCrypto
+      - tradeStablecoin
+      - transferCrypto
+      - transferFiat
+      - transferStablecoin
+      x-enum-varnames:
+      - CustodyCrypto
+      - CustodyFiat
+      - CustodyStablecoin
+      - TradeCrypto
+      - TradeStablecoin
+      - TransferCrypto
+      - TransferFiat
+      - TransferStablecoin
+      example: custodyCrypto
+    PhoneNumber:
+      type: string
+      pattern: ^\+[1-9]\d{1,14}$
+      description: A phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format.
+      example: '+12055555555'
+    OnrampLimitUpgradeEmbeddedResponse:
+      type: object
+      description: A Coinbase-hosted URL for collecting limit upgrade identity fields.
+      properties:
+        upgradeUrl:
+          allOf:
+          - $ref: '#/components/schemas/Url'
+          description: The Coinbase-hosted URL where the user enters identity information for the limit upgrade. Treat the session token in this URL as opaque.
+          example: https://pay.coinbase.com/v2/api-onramp/upgrade-limits?sessionToken=MWYwNWQwODktZTZlYy02OTdlLTgzZTYtMTI3NzcyOWJhNjM3
+        expiresAt:
+          type: string
+          format: date-time
+          description: The time at which the hosted limit upgrade URL expires. Request a new upgrade URL after this time.
+          example: '2026-06-21T00:05:00Z'
+      required:
+      - upgradeUrl
+      - expiresAt
+    OnrampTransactionSuccessEvent:
+      x-event-type: onramp.transaction.success
+      allOf:
+      - $ref: '#/components/schemas/OnrampTransactionEvent'
+    OnrampLimitUpgradeStatus:
+      type: string
+      description: 'The status of verification:
+
+        - `unrequested`: The limit upgrade has not been submitted.
+
+        - `resubmit`: One or more identity fields must be resubmitted.
+
+        - `pending`: The submitted identity fields are pending review.
+
+        - `active`: The limit upgrade is active.
+
+        - `inactive`: The limit upgrade was rejected and cannot be resubmitted.
+
+        '
+      enum:
+      - unrequested
+      - resubmit
+      - pending
+      - active
+      - inactive
+      example: unrequested
+  responses:
+    UnauthorizedError:
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            unauthorized:
+              value:
+                errorType: unauthorized
+                errorMessage: The request is not properly authenticated.
+    ForbiddenError:
+      description: User forbidden from performing the action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            forbidden:
+              value:
+                errorType: forbidden
+                errorMessage: User forbidden from performing the action.
+    RateLimitExceeded:
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            rate_limit_exceeded:
+              value:
+                errorType: rate_limit_exceeded
+                errorMessage: Rate limit exceeded.
+    IdempotencyError:
+      description: Idempotency key conflict.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            idempotency_error:
+              value:
+                errorType: idempotency_error
+                errorMessage: Idempotency key '8e03978e-40d5-43e8-bc93-6894a57f9324' was already used with a different request payload. Please try again with a new idempotency key.
+    InternalServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internal_server_error:
+              value:
+                errorType: internal_server_error
+                errorMessage: An internal server error occurred. Please try again later.
+  parameters:
+    OnrampPartnerId:
+      name: X-Onramp-Partner-Id
+      in: header
+      required: false
+      description: The Onramp-issued identifier of a disclosed end partner, scoped to an aggregator's developer app. Aggregators integrating Onramp on behalf of multiple end partners set this header to attribute a request to one of their registered partners; omit it for standard, non-aggregator integrations. Only honored for developer apps registered as an aggregator — requires Onramp aggregator onboarding, including registration of each end partner. Contact the Onramp team for access.
+      schema:
+        type: string
+        format: uuid
+        pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      example: 9f3a2b7c-4d5e-4a1b-8c2d-3e4f5a6b7c8d
+    IdempotencyKey:
+      name: X-Idempotency-Key
+      in: header
+      required: false
+      description: 'An optional string request header for making requests safely retryable.
+
+        When included, duplicate requests with the same key will return identical responses.
+
+        Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+
+        '
+      schema:
+        type: string
+        maxLength: 128
+        minLength: 1
+      example: 8e03978e-40d5-43e8-bc93-6894a57f9324
+  securitySchemes:
+    apiKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: A JWT signed using your CDP API Key Secret, encoded in base64. Refer to the [Generate Bearer Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-bearer-token) section of our Authentication docs for information on how to generate your Bearer Token.
+    endUserAuth:
+      x-audience: public
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: A JWT signed using the developer's own JWT private key (in the case of JWT authentication), or an end user JWT signed by CDP, encoded in base64. This is used for End User Account APIs.
+    unauthenticated:
+      x-audience: public
+      type: http
+      scheme: none
+      description: This security scheme is used for APIs that do not require authentication, such as End User Auth flows used to initiate authentication or public, read-only endpoints.
+    webhookSignature:
+      x-audience: public
+      type: apiKey
+      in: header
+      name: X-Hook0-Signature
+      description: 'HMAC-SHA256 signature of the raw request body, computed using your webhook secret. Webhook receivers should always verify this header before processing the event. The header value is hex-encoded and prefixed by the algorithm and timestamp, e.g. `t=1700000000,v1=abc123...` (refer to the Webhook Security docs for the exact verification algorithm).
+
+
+        This scheme applies to webhook delivery (outbound POSTs from CDP to your endpoint), not to inbound CDP API requests.'
+x-tagGroups:
+- name: Wallets
+  x-groups:
+  - name: Custodial
+    tags:
+    - Accounts
+  - name: Non-custodial
+    x-groups:
+    - name: User Wallets
+      tags:
+      - End User Account Management
+      - End User Accounts
+    - name: API Key Wallets
+      tags:
+      - EVM Accounts
+      - EVM Smart Accounts
+      - Solana Accounts
+    tags:
+    - Policy Engine
+    - Wallet Webhooks
+  tags:
+  - Accounts
+  - End User Account Management
+  - End User Accounts
+  - EVM Accounts
+  - EVM Smart Accounts
+  - Solana Accounts
+  - Policy Engine
+  - Wallet Webhooks
+- name: Payments
+  x-groups:
+  - name: Acceptance
+    tags:
+    - Payment Sessions
+    - Disbursements
+    - Mandates
+    - Top-Up Links
+  - tags:
+    - Deposit Destinations
+    - Payment Methods
+    - Transfers
+    - Onramp
+    - x402 Facilitator
+  tags:
+  - Payment Sessions
+  - Disbursements
+  - Mandates
+  - Top-Up Links
+  - Deposit Destinations
+  - Payment Methods
+  - Transfers
+  - Onramp
+  - x402 Facilitator
+- name: Trading
+  tags:
+  - EVM Swaps
+- name: Onchain Tools
+  tags:
+  - EVM Token Balances
+  - Faucets
+  - Onchain Data
+  - Solana Token Balances
+  - SQL API
+- name: Customers
+  tags:
+  - Customers
+- name: Health
+  tags:
+  - Health
+- name: Webhooks
+  tags:
+  - Webhooks

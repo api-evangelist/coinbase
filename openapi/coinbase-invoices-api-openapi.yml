@@ -139,7 +139,58 @@ paths:
                   data:
                     $ref: '#/components/schemas/Invoice'
 components:
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      description: Sort order for results
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    PaginationParam:
+      name: starting_after
+      in: query
+      description: Cursor for pagination to fetch the next page of results
+      schema:
+        type: string
   schemas:
+    CreateInvoiceRequest:
+      type: object
+      description: Request body for creating a new invoice
+      required:
+      - business_name
+      - customer_email
+      - local_price
+      properties:
+        business_name:
+          type: string
+          description: Business name
+        customer_name:
+          type: string
+          description: Customer name
+        customer_email:
+          type: string
+          format: email
+          description: Customer email address
+        memo:
+          type: string
+          description: Invoice memo or notes
+        local_price:
+          type: object
+          description: Invoice amount
+          required:
+          - amount
+          - currency
+          properties:
+            amount:
+              type: string
+              description: Amount
+            currency:
+              type: string
+              description: Currency code
     Pagination:
       type: object
       description: Pagination cursor information
@@ -219,57 +270,6 @@ components:
           type: string
           format: date-time
           description: When the invoice was created
-    CreateInvoiceRequest:
-      type: object
-      description: Request body for creating a new invoice
-      required:
-      - business_name
-      - customer_email
-      - local_price
-      properties:
-        business_name:
-          type: string
-          description: Business name
-        customer_name:
-          type: string
-          description: Customer name
-        customer_email:
-          type: string
-          format: email
-          description: Customer email address
-        memo:
-          type: string
-          description: Invoice memo or notes
-        local_price:
-          type: object
-          description: Invoice amount
-          required:
-          - amount
-          - currency
-          properties:
-            amount:
-              type: string
-              description: Amount
-            currency:
-              type: string
-              description: Currency code
-  parameters:
-    PaginationParam:
-      name: starting_after
-      in: query
-      description: Cursor for pagination to fetch the next page of results
-      schema:
-        type: string
-    OrderParam:
-      name: order
-      in: query
-      description: Sort order for results
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-        default: desc
   securitySchemes:
     apiKeyAuth:
       type: apiKey

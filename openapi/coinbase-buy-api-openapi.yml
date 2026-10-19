@@ -110,25 +110,6 @@ paths:
           description: Unauthorized
 components:
   schemas:
-    PaymentCurrency:
-      type: object
-      description: A fiat currency available for payments
-      properties:
-        id:
-          type: string
-          description: Currency identifier
-        name:
-          type: string
-          description: Currency name
-        symbol:
-          type: string
-          description: Currency symbol
-        min_amount:
-          type: string
-          description: Minimum transaction amount
-        max_amount:
-          type: string
-          description: Maximum transaction amount
     BuyQuote:
       type: object
       description: A price quote for buying cryptocurrency
@@ -244,6 +225,25 @@ components:
               contract_address:
                 type: string
                 description: Token contract address on this network
+    PaymentCurrency:
+      type: object
+      description: A fiat currency available for payments
+      properties:
+        id:
+          type: string
+          description: Currency identifier
+        name:
+          type: string
+          description: Currency name
+        symbol:
+          type: string
+          description: Currency symbol
+        min_amount:
+          type: string
+          description: Minimum transaction amount
+        max_amount:
+          type: string
+          description: Maximum transaction amount
     BuyQuoteRequest:
       type: object
       description: Request body for generating a buy quote

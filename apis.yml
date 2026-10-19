@@ -214,9 +214,11 @@ apis:
   properties:
   - url: https://docs.cdp.coinbase.com/wallet-sdk/docs/welcome
     type: Documentation
-  description: The Coinbase Wallet SDK allows developers to integrate Coinbase Wallet connectivity into decentralized applications. It provides
-    a streamlined interface for users to connect their wallets, sign transactions, and interact with smart contracts across multiple blockchain
-    networks. The SDK supports millions of Coinbase Wallet users and enables dapp developers to offer seamless wallet-based experiences for trading
+  description: >-
+    The Coinbase Wallet SDK allows developers to integrate Coinbase Wallet connectivity into decentralized
+    applications. It provides a streamlined interface for users to connect their wallets, sign transactions,
+    and interact with smart contracts across multiple blockchain networks. The SDK supports millions of
+    Coinbase Wallet users and enables dapp developers to offer seamless wallet-based experiences for trading
     assets and managing NFTs.
   x-features:
   - EIP-1193 provider compatible with web3 libraries
@@ -239,9 +241,11 @@ apis:
   properties:
   - url: https://www.coinbase.com/developer-platform/products/data-api
     type: Documentation
-  description: The Coinbase Data API provides developers with access to cryptocurrency market data, blockchain analytics, and pricing information.
-    It delivers real-time and historical data for a wide range of digital assets, enabling developers to build data-driven applications, dashboards,
-    and research tools. The API supports queries for price feeds, trading volumes, and on-chain metrics across supported networks.
+  description: >-
+    The Coinbase Data API provides developers with access to cryptocurrency market data, blockchain analytics,
+    and pricing information. It delivers real-time and historical data for a wide range of digital assets,
+    enabling developers to build data-driven applications, dashboards, and research tools. The API supports
+    queries for price feeds, trading volumes, and on-chain metrics across supported networks.
   x-features:
   - Real-time and historical price feeds
   - On-chain analytics and metrics
@@ -269,9 +273,10 @@ apis:
   properties:
   - url: https://docs.cdp.coinbase.com/agent-kit/welcome
     type: Documentation
-  description: Coinbase AgentKit is a toolkit that enables AI agents to interact with blockchain networks through secure wallet management and
-    comprehensive onchain capabilities. Built on the Coinbase Developer Platform SDK, it is framework-agnostic and wallet-agnostic, supporting
-    EVM and Solana networks.
+  description: >-
+    Coinbase AgentKit is a toolkit that enables AI agents to interact with blockchain networks through
+    secure wallet management and comprehensive onchain capabilities. Built on the Coinbase Developer Platform
+    SDK, it is framework-agnostic and wallet-agnostic, supporting EVM and Solana networks.
   x-features:
   - Framework-agnostic and wallet-agnostic agent toolkit
   - EVM and Solana network support
@@ -469,7 +474,9 @@ apis:
     url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-buy-api
   name: Coinbase Buy API
-  description: Endpoints for discovering buy options, generating buy quotes, and retrieving buy configuration for fiat-to-crypto purchases.
+  description: >-
+    Endpoints for discovering buy options, generating buy quotes, and retrieving buy configuration for
+    fiat-to-crypto purchases.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -505,7 +512,9 @@ apis:
     url: json-schema/coinbase-payment-currency-schema.json
 - aid: coinbase:coinbase-charges-api
   name: Coinbase Charges API
-  description: Create and manage payment charges. A charge represents a request for cryptocurrency payment from a customer.
+  description: >-
+    Create and manage payment charges. A charge represents a request for cryptocurrency payment from a
+    customer.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -537,7 +546,8 @@ apis:
     url: json-schema/coinbase-pagination-schema.json
 - aid: coinbase:coinbase-checkouts-api
   name: Coinbase Checkouts API
-  description: Create and manage reusable checkout pages for accepting recurring or standardized payments.
+  description: >-
+    Create and manage reusable checkout pages for accepting recurring or standardized payments.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -569,96 +579,6 @@ apis:
     url: json-schema/coinbase-create-checkout-request-schema.json
   - type: JSONSchema
     url: json-schema/coinbase-pagination-schema.json
-- aid: coinbase:coinbase-conversions-api
-  name: Coinbase Conversions API
-  description: Convert between stablecoin currencies on the exchange.
-  humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  baseURL: https://api.coinbase.com
-  tags:
-  - Conversion
-  tags_raw:
-  - Conversions
-  properties:
-  - type: OpenAPI
-    url: openapi/coinbase-conversions-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
-  - type: AsyncAPI
-    url: asyncapi/coinbase-exchange-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
-  - type: Documentation
-    url: https://commerce.coinbase.com/docs/api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
-  - type: JSONSchema
-    url: json-schema/coinbase-conversion-schema.json
-- aid: coinbase:coinbase-currencies-api
-  name: Coinbase Currencies API
-  description: Retrieve information about supported currencies on the exchange.
-  humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  baseURL: https://api.coinbase.com
-  tags:
-  - Currency
-  tags_raw:
-  - Currencies
-  properties:
-  - type: OpenAPI
-    url: openapi/coinbase-currencies-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
-  - type: AsyncAPI
-    url: asyncapi/coinbase-exchange-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
-  - type: Documentation
-    url: https://commerce.coinbase.com/docs/api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
-  - type: JSONSchema
-    url: json-schema/coinbase-currency-schema.json
-- aid: coinbase:coinbase-deposits-api
-  name: Coinbase Deposits API
-  description: View deposit information and payment methods for funding exchange accounts.
-  humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  baseURL: https://api.coinbase.com
-  tags:
-  - Deposits
-  properties:
-  - type: OpenAPI
-    url: openapi/coinbase-deposits-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
-  - type: AsyncAPI
-    url: asyncapi/coinbase-exchange-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
-  - type: Documentation
-    url: https://commerce.coinbase.com/docs/api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
-  - type: JSONSchema
-    url: json-schema/coinbase-payment-method-schema.json
-  - type: JSONSchema
-    url: json-schema/coinbase-transfer-schema.json
 - aid: coinbase:coinbase-events-api
   name: Coinbase Events API
   description: Retrieve webhook events that track the lifecycle of charges, checkouts, and invoices.
@@ -691,34 +611,6 @@ apis:
     url: json-schema/coinbase-event-schema.json
   - type: JSONSchema
     url: json-schema/coinbase-pagination-schema.json
-- aid: coinbase:coinbase-fees-api
-  name: Coinbase Fees API
-  description: Retrieve transaction summary and fee information for the authenticated user.
-  humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  baseURL: https://api.coinbase.com
-  tags:
-  - Fees
-  properties:
-  - type: OpenAPI
-    url: openapi/coinbase-fees-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
-  - type: AsyncAPI
-    url: asyncapi/coinbase-exchange-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
-  - type: Documentation
-    url: https://commerce.coinbase.com/docs/api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
-  - type: JSONSchema
-    url: json-schema/coinbase-transaction-summary-schema.json
 - aid: coinbase:coinbase-invoices-api
   name: Coinbase Invoices API
   description: Create and manage invoices for billing customers with cryptocurrency payment options.
@@ -751,37 +643,10 @@ apis:
     url: json-schema/coinbase-create-invoice-request-schema.json
   - type: JSONSchema
     url: json-schema/coinbase-pagination-schema.json
-- aid: coinbase:coinbase-market-data-api
-  name: Coinbase Market Data API
-  description: Access public market data including products, order books, trades, and candles without authentication.
-  humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  baseURL: https://api.coinbase.com
-  tags:
-  - Market Data
-  properties:
-  - type: OpenAPI
-    url: openapi/coinbase-market-data-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
-  - type: AsyncAPI
-    url: asyncapi/coinbase-exchange-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
-  - type: Documentation
-    url: https://commerce.coinbase.com/docs/api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
-  - type: JSONSchema
-    url: json-schema/coinbase-price-book-schema.json
 - aid: coinbase:coinbase-orders-api
   name: Coinbase Orders API
-  description: Create, cancel, and manage trading orders including market, limit, and stop-limit order types.
+  description: >-
+    Create, cancel, and manage trading orders including market, limit, and stop-limit order types.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -851,75 +716,10 @@ apis:
     url: json-schema/coinbase-portfolio-breakdown-schema.json
   - type: JSONSchema
     url: json-schema/coinbase-portfolio-schema.json
-- aid: coinbase:coinbase-products-api
-  name: Coinbase Products API
-  description: Retrieve product information, market trades, product books, and candle data for trading pairs.
-  humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  baseURL: https://api.coinbase.com
-  tags:
-  - Product
-  tags_raw:
-  - Products
-  properties:
-  - type: OpenAPI
-    url: openapi/coinbase-products-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
-  - type: AsyncAPI
-    url: asyncapi/coinbase-exchange-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
-  - type: Documentation
-    url: https://commerce.coinbase.com/docs/api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
-  - type: JSONSchema
-    url: json-schema/coinbase-product-schema.json
-  - type: JSONSchema
-    url: json-schema/coinbase-candle-schema.json
-  - type: JSONSchema
-    url: json-schema/coinbase-trade-schema.json
-  - type: JSONSchema
-    url: json-schema/coinbase-order-book-schema.json
-  - type: JSONSchema
-    url: json-schema/coinbase-trade-2-schema.json
-- aid: coinbase:coinbase-profiles-api
-  name: Coinbase Profiles API
-  description: Manage exchange profiles and transfer funds between them.
-  humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  baseURL: https://api.coinbase.com
-  tags:
-  - Profiles
-  properties:
-  - type: OpenAPI
-    url: openapi/coinbase-profiles-api-openapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
-  - type: AsyncAPI
-    url: asyncapi/coinbase-exchange-asyncapi.yml
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
-  - type: Documentation
-    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
-  - type: Documentation
-    url: https://commerce.coinbase.com/docs/api
-  - type: AsyncAPI
-    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
-  - type: JSONSchema
-    url: json-schema/coinbase-profile-schema.json
 - aid: coinbase:coinbase-sell-api
   name: Coinbase Sell API
-  description: Endpoints for discovering sell options and generating sell quotes for crypto-to-fiat transactions.
+  description: >-
+    Endpoints for discovering sell options and generating sell quotes for crypto-to-fiat transactions.
   humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   baseURL: https://api.coinbase.com
   tags:
@@ -1073,16 +873,77 @@ apis:
     url: json-schema/coinbase-wallet-schema.json
   - type: JSONSchema
     url: json-schema/coinbase-pagination-schema.json
-- aid: coinbase:coinbase-withdrawals-api
-  name: Coinbase Withdrawals API
-  description: Manage crypto withdrawals from exchange accounts to external addresses or Coinbase accounts.
-  humanURL: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+- aid: coinbase:coinbase-developer-platform-cdp-api
+  name: Coinbase Developer Platform (CDP) API
+  description: >-
+    Core CDP API v2 for onchain wallets, payments, trading, faucets, policies, and JSON-RPC access, authenticated
+    with short-lived JWTs.
+  humanURL: https://docs.cdp.coinbase.com/api-reference
+  baseURL: https://api.cdp.coinbase.com
+  properties:
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com
+  - type: APIReference
+    url: https://docs.cdp.coinbase.com/api-reference
+  x-moved-from: >-
+    coinbase-global:coinbase-developer-platform-cdp-api (consolidated into coinbase 2026-10-13, approved
+    by Kin Lane)
+- aid: coinbase:coinbase-advanced-trade-api
+  name: Coinbase Advanced Trade API
+  description: >-
+    Programmatic spot trading, order management, and market data for the Coinbase retail exchange (Advanced
+    Trade).
+  humanURL: https://docs.cdp.coinbase.com/advanced-trade/docs/welcome
+  baseURL: https://api.coinbase.com
+  x-moved-from: >-
+    coinbase-global:coinbase-advanced-trade-api (consolidated into coinbase 2026-10-13, approved by Kin
+    Lane)
+- aid: coinbase:coinbase-app-api-sign-in-with-coinbase
+  name: Coinbase App API (Sign in with Coinbase)
+  description: >-
+    Retail Coinbase App API v2 for accounts, addresses, transactions, buys/sells, with OAuth2 and API-key
+    HMAC authentication.
+  humanURL: https://docs.cdp.coinbase.com/coinbase-app/docs/welcome
+  baseURL: https://api.coinbase.com
+  x-moved-from: >-
+    coinbase-global:coinbase-app-api-sign-in-with-coinbase (consolidated into coinbase 2026-10-13, approved
+    by Kin Lane)
+- aid: coinbase:coinbase-exchange-api
+  name: Coinbase Exchange API
+  description: >-
+    Institutional/pro exchange REST and WebSocket API for order books, trading, and market data.
+  humanURL: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  baseURL: https://api.exchange.coinbase.com
+  x-moved-from: >-
+    coinbase-global:coinbase-exchange-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- aid: coinbase:coinbase-prime-api
+  name: Coinbase Prime API
+  description: Institutional trading, custody, and portfolio management API for Coinbase Prime.
+  humanURL: https://docs.cdp.coinbase.com/prime/introduction/welcome
+  baseURL: https://api.prime.coinbase.com
+  x-moved-from: >-
+    coinbase-global:coinbase-prime-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- aid: coinbase:coinbase-commerce-api
+  name: Coinbase Commerce API
+  description: Crypto payments/checkout API for accepting cryptocurrency payments.
+  humanURL: https://docs.cdp.coinbase.com/commerce-onchain/docs/welcome
+  baseURL: https://api.commerce.coinbase.com
+  x-moved-from: >-
+    coinbase-global:coinbase-commerce-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+- aid: coinbase:coinbase-customers-api
+  name: Coinbase Customers API
+  description: >-
+    The Customers APIs enable developers to create and manage their end-user customers. Customers can
+    be individuals or businesses and have various capabilities like sending/receiving fiat and crypto,
+    trading, etc. Customer information includes KYC/compliance data, verification requirements, and capability
+    management.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
   baseURL: https://api.coinbase.com
   tags:
-  - Withdrawals
+  - Customers
   properties:
   - type: OpenAPI
-    url: openapi/coinbase-withdrawals-api-openapi.yml
+    url: openapi/coinbase-customers-api-openapi.yml
   - type: Documentation
     url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
   - type: AsyncAPI
@@ -1100,46 +961,2528 @@ apis:
   - type: AsyncAPI
     url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
   - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
     url: json-schema/coinbase-transfer-schema.json
-- aid: coinbase:coinbase-developer-platform-cdp-api
-  name: Coinbase Developer Platform (CDP) API
-  description: Core CDP API v2 for onchain wallets, payments, trading, faucets, policies, and JSON-RPC access, authenticated with short-lived
-    JWTs.
-  humanURL: https://docs.cdp.coinbase.com/api-reference
-  baseURL: https://api.cdp.coinbase.com
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-deposit-destinations-api
+  name: Coinbase Deposit Destinations API
+  description: >-
+    Deposit Destinations allow you to manage where funds can be deposited into your accounts.
+
+
+    ## Crypto Deposit Destinations
+
+
+    Crypto deposit destinations are cryptocurrency addresses that you can generate and fetch via the API.
+    Once created, these addresses can receive cryptocurrency payments on their specified network. By default,
+    incoming funds are credited to your account balance (`target.accountId`); you can instead route funds
+    directly to an external onchain address by setting `target` to an onchain address (`target.address`,
+    `target.network`, `target.asset`, and optionally `target.destinationTag`).
+
+
+    **Metadata:**
+
+    You can attach metadata to any deposit destination you create to track the purpose or source of deposits.
+
+
+
+    **Example (target: account balance):**
+
+    ```json
+
+    {
+      "depositDestinationId": "depositDestination_123",
+      "accountId": "account_456",
+      "type": "crypto",
+      "crypto": {
+        "network": "base",
+        "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
+      },
+      "target": {
+        "accountId": "account_789",
+        "asset": "usd"
+      },
+      "status": "active",
+      "metadata": {
+        "customer_id": "cust_789",
+        "reference": "order-12345"
+      }
+    }
+
+    ```
+
+    **Example (target: onchain address):**
+
+    ```json
+
+    {
+      "depositDestinationId": "depositDestination_123",
+      "accountId": "account_456",
+      "type": "crypto",
+      "crypto": {
+        "network": "base",
+        "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
+      },
+      "target": {
+        "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "network": "base",
+        "asset": "usdc"
+      },
+      "status": "active",
+      "metadata": {
+        "customer_id": "cust_789",
+        "reference": "order-12345"
+      }
+    }
+
+    ```
+
+    Use the list endpoint to retrieve all deposit destinations.
+
+
+    ## Fiat Deposit Destinations
+
+
+    <Warning>
+
+    Fiat deposit destinations are currently in **private beta** and require account enablement. Contact
+    your Coinbase representative for access. Fields and behavior may change before general availability.
+
+    </Warning>
+
+
+    Fiat deposit destinations are bank accounts provisioned on your behalf that let an account receive
+    USD deposits over a supported payment rail (for example, ACH). Each fiat deposit destination represents
+    a single bank account at a single banking partner and is keyed by `accountType` (for example, `us_bank`).
+
+
+    **Example:**
+
+    ```json
+
+    {
+      "depositDestinationId": "depositDestination_cf4958d2-b068-6bf9-da01-eee44f157336",
+      "accountId": "account_af2937b0-9846-4fe7-bfe9-ccc22d935114",
+      "type": "fiat",
+      "status": "pending",
+      "fiat": {
+        "accountType": "us_bank",
+        "currency": "usd",
+        "bankName": "Citibank N.A.",
+        "beneficiaryName": "John Smith",
+        "routingNumber": "987654321",
+        "accountNumber": "123456789",
+        "bankAddress": "399 Park Avenue, New York, NY 10022",
+        "supportedRails": ["ach", "fedwire"]
+      },
+      "target": {
+        "accountId": "account_af2937b0-9846-4fe7-bfe9-ccc22d935114",
+        "asset": "usdc"
+      }
+    }
+
+    ```
+
+    Use the create endpoint to provision a fiat deposit destination for an account.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Deposit Destinations
   properties:
+  - type: OpenAPI
+    url: openapi/coinbase-deposit-destinations-api-openapi.yml
   - type: Documentation
-    url: https://docs.cdp.coinbase.com
-  - type: APIReference
-    url: https://docs.cdp.coinbase.com/api-reference
-  x-moved-from: coinbase-global:coinbase-developer-platform-cdp-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
-- aid: coinbase:coinbase-advanced-trade-api
-  name: Coinbase Advanced Trade API
-  description: Programmatic spot trading, order management, and market data for the Coinbase retail exchange (Advanced Trade).
-  humanURL: https://docs.cdp.coinbase.com/advanced-trade/docs/welcome
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-disbursements-api
+  name: Coinbase Disbursements API
+  description: >-
+    Send funds from a CDP account you own to a Coinbase user account or an onchain address. Use disbursements
+    for standalone refunds, rebates, and other payouts that are not associated with a payment session.
+
+
+    ## Lifecycle
+
+
+    Disbursements are created with `pending` status and transition to `succeeded` or `failed`. Successful
+    disbursements include `onchainTransactions`; failed disbursements include `error` details.
+
+
+    Subscribe to `acceptance.disbursement.pending`, `acceptance.disbursement.succeeded`, and `acceptance.disbursement.failed`
+    webhook events to receive status updates.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
   baseURL: https://api.coinbase.com
-  x-moved-from: coinbase-global:coinbase-advanced-trade-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
-- aid: coinbase:coinbase-app-api-sign-in-with-coinbase
-  name: Coinbase App API (Sign in with Coinbase)
-  description: Retail Coinbase App API v2 for accounts, addresses, transactions, buys/sells, with OAuth2 and API-key HMAC authentication.
-  humanURL: https://docs.cdp.coinbase.com/coinbase-app/docs/welcome
+  tags:
+  - Disbursements
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-disbursements-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-end-user-account-management-api
+  name: Coinbase End User Account Management API
+  description: >-
+    The End User Account Management APIs enable developers to manage the accounts belonging to their end
+    users. End user accounts are typically created by end users themselves when they sign in to the developer's
+    application via the CDP Web SDK. However, developers also have the option of creating end user accounts
+    on behalf of their end users. Critically, developers do not have the ability to sign transactions
+    or messages on behalf of the end user; only end users can do this.
+
+
+    End User Account Management APIs are accessed by the developer's servers and authenticated by the
+    developer's CDP API key.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
   baseURL: https://api.coinbase.com
-  x-moved-from: coinbase-global:coinbase-app-api-sign-in-with-coinbase (consolidated into coinbase 2026-10-13, approved by Kin Lane)
-- aid: coinbase:coinbase-exchange-api
-  name: Coinbase Exchange API
-  description: Institutional/pro exchange REST and WebSocket API for order books, trading, and market data.
-  humanURL: https://docs.cdp.coinbase.com/exchange/docs/welcome
-  baseURL: https://api.exchange.coinbase.com
-  x-moved-from: coinbase-global:coinbase-exchange-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
-- aid: coinbase:coinbase-prime-api
-  name: Coinbase Prime API
-  description: Institutional trading, custody, and portfolio management API for Coinbase Prime.
-  humanURL: https://docs.cdp.coinbase.com/prime/introduction/welcome
-  baseURL: https://api.prime.coinbase.com
-  x-moved-from: coinbase-global:coinbase-prime-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
-- aid: coinbase:coinbase-commerce-api
-  name: Coinbase Commerce API
-  description: Crypto payments/checkout API for accepting cryptocurrency payments.
-  humanURL: https://docs.cdp.coinbase.com/commerce-onchain/docs/welcome
-  baseURL: https://api.commerce.coinbase.com
-  x-moved-from: coinbase-global:coinbase-commerce-api (consolidated into coinbase 2026-10-13, approved by Kin Lane)
+  tags:
+  - End User Account Management
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-end-user-account-management-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-end-user-accounts-api
+  name: Coinbase End User Accounts API
+  description: >-
+    The End User Accounts APIs enable end users to directly create, manage, and use their accounts. They
+    are typically accessed via the CDP Web SDK, which handles end-user authentication and Temporary Wallet
+    Secret management on behalf of the developer. The End User Accounts APIs offer end users full control
+    over their accounts, including the ability to sign transactions and messages, and to export their
+    accounts' private keys.
+
+
+    ## Delegated Signing
+
+
+    Delegated signing allows developers to sign and send transactions on behalf of an end user without
+    requiring the end user to be present at signing time. This is useful for background operations, automated
+    workflows, and scenarios where the developer's server needs to act on the end user's behalf.
+
+
+    To use delegated signing, the end user must first create a short-lived **delegation grant** by authenticating
+    with their access token and Temporary Wallet Secret. The grant specifies an `expiresAt` timestamp
+    that defines how long the developer is authorized to sign on the end user's behalf.
+
+
+    Once a delegation grant is active, the developer's server can use its CDP API key to perform signing
+    operations for that end user. The delegation middleware transparently validates that an active (non-expired,
+    non-revoked) grant exists for the `{project, user}` pair before allowing the operation to proceed.
+
+
+    **Grant lifecycle:**
+
+      - Delegation grants are scoped to a single project and end user pair.
+      - Grants are time-bounded by the `expiresAt` timestamp and are automatically cleaned up after expiration.
+      - Grants can be revoked early by either the end user (using their access token and TWS) or the
+        developer (using their API key), via the `RevokeDelegationForEndUser` endpoint.
+      - Only one active grant can exist per `{project, user}` pair at a given time.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - End User Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-end-user-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-evm-accounts-api
+  name: Coinbase EVM Accounts API
+  description: >-
+    The EVM Account APIs enable you to create and use accounts across blockchains that are compatible
+    with the Ethereum Virtual Machine (EVM).
+
+
+    An **account** is a private/public key pair that is used to sign transactions and messages. The private
+    key is generated and used only in CDP's Trusted Execution Environment (TEE), and never exposed to
+    Coinbase or the developer.
+
+
+    An EVM account is identified by its **address**, which is a 0x-prefixed hexadecimal string. The same
+    address can be used across multiple EVM networks.
+
+
+    Accounts can optionally be assigned an **account name** at creation time for easier identification
+    in subsequent API calls. EVM account names must be globally unique across all EVM accounts in the
+    developer's CDP Project.
+
+
+    ## Authentication
+
+
+    The EVM Account API uses two layers of authentication to ensure the security of your accounts' private
+    keys:
+
+
+    - **CDP Secret API Key**: This key is used to authenticate all requests to the entire suite of
+       REST APIs offered on Coinbase Developer Platform.
+    - **Wallet Secret**: This secret is used specifically to authenticate sensitive wallet operations
+      to `POST` and `DELETE` endpoints in the EVM and Solana Account APIs.
+
+
+    To learn more about creating and using these keys, visit our [Authentication docs](https://docs.cdp.coinbase.com/api-reference/v2/authentication).
+
+
+    <Tip>
+
+
+
+    **Use our SDK**
+
+
+
+    The [CDP SDK](https://github.com/coinbase/cdp-sdk) automatically authenticates requests using your
+    CDP Secret API Key and Wallet Secret. Use the CDP SDK for a more convenient access to our APIs.
+
+
+
+    </Tip>
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - EVM Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-evm-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-evm-smart-accounts-api
+  name: Coinbase EVM Smart Accounts API
+  description: >-
+    The EVM Smart Account APIs enable you to create and manage Smart Account wallets across EVM-compatible
+    blockchains.
+
+
+    A **Smart Account** is an EVM account that enables enhanced functionality such as account abstraction,
+    batched transactions, and gas sponsorship through [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337).
+    Smart Accounts allow users to create and manage "user operations" instead of traditional EVM transactions.
+
+    Smart Accounts are identified by their **address**, which is a 0x-prefixed hexadecimal string.
+
+    Smart Accounts can be assigned an optional **name** at creation time for easier identification in
+    subsequent API calls.
+
+
+    A Smart Account has a single owner, which is another EVM Account which signs the Smart Account's transactions.
+    The owner can be a CDP EVM account, or an account managed solely by the developer.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - EVM Smart Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-evm-smart-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-evm-swaps-api
+  name: Coinbase EVM Swaps API
+  description: >-
+    A swap refers to the act of exchanging one token for another. The EVM Swap APIs enable you to create
+    and manage swaps. A swap process involves:
+
+     1. A user approves token spending via smart contract.
+     2. The smart contract determines the exchange rate and facilitates the swap between the two tokens.
+     3. The transaction is completed atomically and the tokens are transferred to the user's wallet.
+
+    The Swap API supports:
+
+     - **Getting a price**: Estimate the amount of tokens you will receive for a given amount of exchanged
+    tokens.
+     - **Creating a swap quote**: Return a swap transaction payload that you can use to sign and submit
+    in order to execute the swap.
+
+    For the easiest experience creating, signing, and submitting a swap, we recommend using the [CDP SDK](https://github.com/coinbase/cdp-sdk/).
+
+    - [Python SDK examples](https://github.com/coinbase/cdp-sdk/tree/main/python#evm-swaps)
+
+    - [TypeScript SDK examples](https://github.com/coinbase/cdp-sdk/tree/main/typescript#evm-swaps)
+
+
+    To read more about using the EVM Swap APIs, please see our [Swap API docs](https://docs.cdp.coinbase.com/swaps/docs/welcome).
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - EVM Swaps
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-evm-swaps-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-evm-token-balances-api
+  name: Coinbase EVM Token Balances API
+  description: >-
+    The EVM Token Balances APIs enable you to retrieve the balances of EVM addresses.
+
+    This includes tokens (i.e. ERC-20s) and the native gas token of the network.
+
+    ## Denomination
+
+    - 'amount' is denominated in the smallest indivisible unit of the token. For ETH, the smallest indivisible
+    unit is Wei (10^-18 ETH). For ERC-20s, the smallest unit is the unit returned from `function totalSupply()
+    public view returns (uint256)`.
+
+    - 'decimals' is the exponential value N that satisfies the equation `amount * 10^-N = standard_denomination`.
+    The standard denomination is the most commonly used denomination for the token.
+
+      - In the case of the native gas token, `decimals` is defined via convention. As an example, for
+    ETH of Ethereum mainnet, the standard denomination is 10^-18 the smallest denomination (Wei). As such,
+    for ETH on Ethereum mainnet, `decimals` is 18.
+      - In the case of ERC-20 tokens, `decimals` is defined via configuration. `decimals` will be the
+    number returned by `function decimals() public view returns (uint8)` on the underlying token contract.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - EVM Token Balances
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-evm-token-balances-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-faucets-api
+  name: Coinbase Faucets API
+  description: >-
+    The Faucet APIs enable you to request funds on supported test networks. Faucets are for testing purposes
+    and make development easier by providing a source of funds.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Faucets
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-faucets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-health-api
+  name: Coinbase Health API
+  description: >-
+    The `health.*` webhook payloads describe health status changes and maintenance window events for a
+    CDP service or operation.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-health-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-mandates-api
+  name: Coinbase Mandates API
+  description: >-
+    A mandate is a durable, revocable standing authorization to debit a funding `source`. It lets a merchant
+    debit the same source repeatedly without the customer present, which suits recurring payments and
+    usage-based billing. A mandate does not move funds itself; a payment session authorizes against it
+    via **Authorize a payment session with a mandate**, and capture, void, and refund then work as they
+    do for any other session. For the full flow, spending limits, and integration options, see the [Recurring
+    Payments guide](https://docs.cdp.coinbase.com/payments/payment-acceptance/recurring-payments).
+
+
+    Access to the Mandates APIs requires enablement by Coinbase.
+
+
+    **Who does what.** Approving a mandate and revoking its on-chain spending allowance are customer-initiated:
+    the customer signs the payload, so **Approve a mandate with a wallet** and **Revoke a mandate with
+    a wallet** are unauthenticated. Creating, canceling, and reading mandates are merchant actions authenticated
+    with your API key.
+
+
+    **Canceling vs. revoking.** These are independent. **Cancel a mandate** is an off-chain merchant action
+    and does not touch the on-chain allowance (`canceledAt` is set). **Revoke a mandate with a wallet**
+    removes the on-chain allowance (`revokedAt` is set). A `canceled` mandate can still have a live allowance
+    until the customer revokes it. `status` records only the most recent transition; the timestamps are
+    the durable record.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Mandates
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-mandates-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-onchain-data-api
+  name: Coinbase Onchain Data API
+  description: >-
+    Query and analyze blockchain data with high performance and reliability. Features include real-time
+    token balances, token discovery, and transaction history with freshness, accuracy, and completeness
+    like never before.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Onchain Data
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-onchain-data-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-onramp-api
+  name: Coinbase Onramp API
+  description: >-
+    The v2 Onramp APIs are an evolution of our [v1 APIs](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/),
+    designed to make the fiat-to-crypto experience feel native to your applications for higher conversion
+    and less friction. These APIs only cover a subset of Coinbase Onramp functionality as described below,
+    for all other use cases please refer to our [v1 APIs](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/).
+
+
+    ## Supported Use Cases
+
+
+    #### Guest Checkout Onramp (Apple Pay & Google Pay)
+
+
+    This use case allows you to offer an Apple Pay or Google Pay onramp experience with debit cards in
+    your app without users needing to create or log into a Coinbase account. Our API returns a `paymentLink`
+    URL that renders an Apple Pay or Google Pay button for you to load in a webview or iframe in your
+    app, making the onramp experience feel native to your application.
+
+
+    Refer to our [detailed integration guide](https://docs.cdp.coinbase.com/onramp/headless-onramp/overview)
+    for more information on the limitations and requirements of this use case. See our [onramp mobile
+    demo app](https://github.com/coinbase/onramp-demo-mobile) for a reference implementation.
+
+
+    #### Hosted UI Onramp
+
+
+    This use case enables you to offer a full-featured onramp experience by redirecting users to a Coinbase-hosted
+    page where they can choose to log into their existing Coinbase account or proceed as a guest. The
+    Onramp Session API generates secure, single-use Onramp URLs with customizable parameters, allowing
+    you to control available payment methods, preset transaction amounts, and cryptocurrencies for a tailored
+    user experience.
+
+
+    Refer to our [guide](https://docs.cdp.coinbase.com/onramp-&-offramp/onramp-apis/generating-onramp-url)
+    for implementation details and customization options for this use case.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Onramp
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-onramp-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-payment-methods-api
+  name: Coinbase Payment Methods API
+  description: >-
+    The Payment Methods APIs enable you to create and manage payment methods for accounts. Payment methods
+    represent ways to send and receive payments, such as ACH transfers and Fedwire transfers. These APIs
+    allow you to create, list, and retrieve payment method details for use in payment transfers and transactions.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Payment Methods
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-payment-methods-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-payment-sessions-api
+  name: Coinbase Payment Sessions API
+  description: >-
+    Payment Sessions track the full lifecycle of a merchant payment, from authorization through capture,
+    void, or refund. Each session records every operation and balance change across its lifecycle.
+
+
+    **Who initiates an authorization.** A session can be authorized in four ways, split by who acts:
+
+
+    - **Customer-initiated:** the payer authorizes at payment time by signing. Use **Authorize a payment
+    session with a wallet** or **Authorize a payment session with x402**. These calls are unauthenticated
+    because the payer's signature is the authorization.
+
+
+    - **Merchant-initiated:** the merchant charges against an authorization the payer granted earlier,
+    with the payer no longer present. Use **Authorize a payment session with a mandate** (draws on a mandate's
+    standing spending allowance) or **Authorize a payment session with a Coinbase account** (charges a
+    Coinbase account the payer linked over OAuth).
+
+
+    Creating, listing, canceling, capturing, voiding, and refunding a session are merchant actions authenticated
+    with your API key.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Payment Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-payment-sessions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-policy-engine-api
+  name: Coinbase Policy Engine API
+  description: >-
+    The Policy Engine APIs evaluate policies (a set of rules) to govern the behavior of accounts or projects,
+    such as enforce allowlists and denylists.
+
+    - A **policy** is a collection of `rules` with defined criteria.
+
+    - Each **rule** contains a specified `action`, `operation`, and `criteria`:
+      - An `action` can either `accept` or `reject` a transaction if the criteria in the rule are met.
+      - `criteria` is an array of logical expressions. All parameters must evaluate to true for the action
+    to be applied.
+      - An `operation` corresponds to a CDP v2 API:
+          - `signEvmTransaction` or `signSolTransaction` for signing transactions (to set a transaction
+    limit).
+          - `sendEvmTransaction` for signing a transaction, and sending it to a supported network.
+          - `signEvmHash` for signing an arbitrary 32 byte hash.
+          - `signEvmMessage` for signing an [EIP-191](https://eips.ethereum.org/EIPS/eip-191) message.
+          - `prepareUserOperation` for preparing user operations on a smart account.
+          - `sendUserOperation` for sending user operations using a smart account.
+          - `signEndUserEvmTransaction` or `signEndUserSolTransaction` for signing end user transactions
+    (to set a transaction limit).
+          - `sendEndUserEvmTransaction` for signing an end user transaction, and sending it to a supported
+    EVM network.
+          - `sendEndUserSolTransaction` for signing an end user transaction, and sending it to a supported
+    Solana network.
+          - `signEndUserEvmMessage` for signing an end user [EIP-191](https://eips.ethereum.org/EIPS/eip-191)
+    message.
+          - `signEndUserEvmTypedData` for signing end user [EIP-712](https://eips.ethereum.org/EIPS/eip-712)
+    typed data.
+          - `signEndUserSolMessage` for signing an end user Solana message.
+    - A **rule** indicates how an operation should behave, specifying whether a request with defined criteria
+    should be accepted or rejected.
+
+    ## Policy Scope
+
+    Policies can be applied at the project and/or account level:
+
+    - **Project-level policy**: A `project`-level policy applies to all accounts in a CDP Project. Only
+    one project-level policy can be applied to accounts within a CDP Project at any given time.
+
+    - **Account-level policy**: An `account`-level policy applies to one or more accounts. An account
+      can have at most one account-level policy at any given time.
+
+    Thus, a single account can be assigned at most two policies at any given time: one project-level policy
+    and one account-level policy.
+
+
+    **Note:** End user operation rules (e.g., `signEndUserEvmTransaction`, `sendEndUserSolTransaction`)
+    currently only apply for policies with the `project` scope.
+
+
+    Scope is specified in the `scope` field of a policy:
+
+    ```json {
+      "description": "Project-level policy",
+      "scope": "account",
+      ...
+    ```
+
+    ## Policy Evaluation
+
+    A rule *targets* an operation when its `operation` field equals the requested operation. A rule *matches*
+    when it targets the operation and all of its criteria are met (logical **AND**). Reject-over-accept
+    precedence does not depend on rule order. For matching rules with the same action, the first in policy
+    order applies.
+
+    **Project-level policies** are evaluated first, followed by **account-level policies**. Within a policy,
+    any matching `reject` rule rejects the request. Otherwise, any matching `accept` rule accepts it.
+    If no rule in the project-level policy matches, the account-level policy is evaluated the same way,
+    if one exists.
+
+    A decision in the project-level policy is final. A `reject` rule overrides an `accept` rule only within
+    the same policy, so an account-level `reject` rule does not override a matching project-level `accept`
+    rule.
+
+    If neither policy makes a decision, the request is accepted when no rule in either policy targets
+    the operation, and rejected when at least one rule targets it.
+
+    For example, this project-level policy accepts `signEvmTransaction` requests up to 2000000000000000000
+    wei, but rejects any request to `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE`. A request to that address
+    for 1 ETH matches both rules and is rejected regardless of their order.
+
+    ```json
+
+    {
+      "description": "Project-level policy",
+      "scope": "project",
+      "rules": [
+        {
+          "action": "accept",
+          "operation": "signEvmTransaction",
+          "criteria": [
+            {
+              "type": "ethValue",
+              "ethValue": "2000000000000000000",
+              "operator": "<="
+            }
+          ]
+        },
+        {
+          "action": "reject",
+          "operation": "signEvmTransaction",
+          "criteria": [
+            {
+              "type": "evmAddress",
+              "addresses": [
+                "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+              ],
+              "operator": "in"
+            }
+          ]
+        }
+      ]
+    }
+
+    ```
+
+
+    ## Policy Application
+
+
+    Project-level policies are applied to all accounts in a CDP Project. They will apply retroactively
+    even if the project-level policy is created after the account was created. To disable a project-level
+    policy, you must remove the project-level policy from the CDP Project using the `deletePolicy` operation.
+
+
+    Account-level policies can be applied in two ways:
+
+    - By specifying the `accountPolicy` field in the request body of the `createEvmAccount` and
+      `createSolAccount` operations.
+
+    - By specifying the `accountPolicy` field in the request body of the `updateEvmAccount` and
+      `updateSolanaAccount` operations.
+
+
+    ## Criteria
+
+
+    The following criteria are supported:
+
+
+    ### SignEvmTransaction Criteria
+
+    #### ethValue
+
+    A criterion based on the value of the transaction. The transaction's `value` field is compared to
+    the criterion's `ethValue` field using the `operator` field.
+
+    #### evmAddress
+
+    A criterion based on the recipient address of the transaction. The transaction's `to` field is compared
+    to the criterion's `addresses` field using the `operator` field.
+
+    #### evmData
+
+    A criterion based on encoded transaction data that evaluates the function being called, as well as
+    any number of arguments accessed by either name or index. Currently this criterion only supports primitive
+    types; `string`, `bool`, `uint(8,16,32,64,256)`, `int(8,16,32,64,256)`, `address`, and both fixed
+    and dynamic length `bytes`.
+
+    #### netUSDChange
+
+    A criterion based on the USD denominated market value of assets being transferred, or exposing the
+    sender to. The types of assets included in the calculation include native assets, `ERC20`, `ERC721`,
+    and `ERC1155` tokens. The sum total USD amount of assets being transferred and exposed is compared
+    to the criterion's `changeCents` field using the `operator` field. If signing a testnet transaction,
+    then this criterion configuration will be ignored.
+
+    ### SendEvmTransaction Criteria
+
+    #### ethValue
+
+    A criterion based on the value of the transaction. The transaction's `value` field is compared to
+    the criterion's `ethValue` field using the `operator` field.
+
+    #### evmAddress
+
+    A criterion based on the recipient address of the transaction. The transaction's `to` field is compared
+    to the criterion's `addresses` field using the `operator` field.
+
+    #### evmNetwork
+
+    A criterion based on the intended network of the transaction. The `network` field in the `sendEvmTransaction`
+    request body is compared to the criterion's `networks` field using the `operator` field.
+
+    Valid networks for this criterion include:
+      - `base`
+      - `base-sepolia`
+      - `ethereum`
+      - `ethereum-sepolia`
+      - `avalanche`
+      - `polygon`
+      - `optimism`
+      - `arbitrum`
+      - `arbitrum-sepolia`
+      - `world`
+      - `world-sepolia`
+
+    #### evmData
+
+    A criterion based on encoded transaction data that evaluates the function being called, as well as
+    any number of arguments accessed by either name or index. Currently this criterion only supports primitive
+    types; `string`, `bool`, `uint(8,16,32,64,256)`, `int(8,16,32,64,256)`, `address`, and both fixed
+    and dynamic length `bytes`.
+
+    #### netUSDChange
+
+    A criterion based on the USD denominated market value of assets being transferred, or exposing the
+    sender to. The types of assets included in the calculation include native assets, `ERC20`, `ERC721`,
+    and `ERC1155` tokens. The sum total USD amount of assets being transferred and exposed is compared
+    to the criterion's `changeCents` field using the `operator` field. If sending a testnet transaction,
+    then this criterion configuration will be ignored.
+
+    ### SendUserOperation Criteria
+
+    #### ethValue
+
+    A criterion based on the value of the user operation. The operation's `value` fields are compared
+    to the criterion's `ethValue` field using the `operator` field.
+
+    #### evmAddress
+
+    A criterion based on the recipient address of the operation. The operation's `to` fields are compared
+    to the criterion's `addresses` field using the `operator` field.
+
+    #### evmData
+
+    A criterion based on encoded transaction data that evaluates the function being called, as well as
+    any number of arguments accessed by either name or index. Currently this criterion only supports primitive
+    types; `string`, `bool`, `uint(8,16,32,64,256)`, `int(8,16,32,64,256)`, `address`, and both fixed
+    and dynamic length `bytes`.
+
+    ### PrepareUserOperation Criteria
+
+    #### ethValue
+
+    A criterion based on the value of the user operation. The operation's `value` fields are compared
+    to the criterion's `ethValue` field using the `operator` field.
+
+    #### evmAddress
+
+    A criterion based on the recipient address of the user operation. The operation's `to` fields are
+    compared to the criterion's `addresses` field using the `operator` field.
+
+    #### evmNetwork
+
+    A criterion based on the intended network of the user operation. The `network` field in the `prepareUserOperation`
+    request body is compared to the criterion's `networks` field using the `operator` field.
+
+    Valid networks for this criterion include:
+      - `base-sepolia`
+      - `base`
+      - `arbitrum`
+      - `optimism`
+      - `zora`
+      - `polygon`
+      - `bnb`
+      - `avalanche`
+      - `ethereum`
+      - `ethereum-sepolia`
+
+    #### evmData
+
+    A criterion based on encoded transaction data that evaluates the function being called, as well as
+    any number of arguments accessed by either name or index. Currently this criterion only supports primitive
+    types; `string`, `bool`, `uint(8,16,32,64,256)`, `int(8,16,32,64,256)`, `address`, and both fixed
+    and dynamic length `bytes`.
+
+    ### SignEvmHash Criteria
+
+    The `signEvmHash` operation does not accept any criteria. To prevent this operation from being executed
+    by any account, specify a rule with `signEvmHash` as the operation, and `reject` as its action.
+
+    ### SignEvmMessage Criteria
+
+    #### evmMessage
+
+    A criterion based on the intended message to be signed. The `match` field in the criteria is a [RE2](https://github.com/google/re2/wiki/Syntax)
+    compliant regular expression that will be executed against the message in the API request.
+
+    ### SignSolMessage Criteria
+
+    #### solMessage
+
+    A criterion based on the intended message to be signed. The `match` field in the criteria is a [RE2](https://github.com/google/re2/wiki/Syntax)
+    compliant regular expression that will be executed against the message in the API request.
+
+    ### SignSolTransaction Criteria
+
+    #### solAddress
+
+    A criterion based on the recipient addresses of the transaction. The criterion's `address` field is
+    compared to the list of addresses in the transaction's `accountKeys` (for legacy transactions) or
+    `staticAccountKeys` (for V0 transactions) array using the `operator` field.
+
+    #### solValue
+
+    A criterion based on the value of the transaction. The criterion's `solValue` field is compared to
+    the transaction's `value`, which is the amount of SOL in lamports being transferred, using the `operator`
+    field.
+
+    #### splAddress
+
+    A criterion based on the recipient addresses of SPL token transfer instructions in the transaction.
+    The criterion's `addresses` field is compared to the list of SPL token transfer recipient addresses
+    in the transaction's `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions)
+    array using the `operator` field.
+
+    #### splValue
+
+    A criterion based on the SPL token value of SPL token transfer instructions in the transaction. The
+    criterion's `splValue` field is compared to the transaction instruction's `value` field, which is
+    the amount of the SPL token being transferred, using the `operator` field.
+
+    #### mintAddress
+
+    A criterion based on the token mint addresses of SPL token transfer instructions in the transaction.
+    The criterion's `addresses` field is compared to the list of token mint addresses in the transaction's
+    `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions) array using the
+    `operator` field.
+
+    #### solData
+
+    A criterion based on Solana transaction instruction data. The criterion uses Interface Definition
+    Language (IDL) specifications to decode and validate instruction data against specific rules. The
+    `idls` field specifies which Solana programs to validate against (either known program names like
+    "SystemProgram" and "TokenProgram", or custom IDL objects), and the `conditions` field defines instruction-specific
+    validation rules including instruction names and parameter constraints.
+
+    #### programId
+
+    A criterion based on the program IDs of a transaction's instructions. The criterion's `programIds`
+    field is compared to the list of program IDs in the transaction's instructions using the `operator`
+    field.
+
+    ### SendSolTransaction Criteria
+
+    #### solAddress
+
+    A criterion based on the recipient addresses of the transaction. The criterion's `address` field is
+    compared to the list of addresses in the transaction's `accountKeys` (for legacy transactions) or
+    `staticAccountKeys` (for V0 transactions) array using the `operator` field.
+
+    #### solValue
+
+    A criterion based on the value of the transaction. The criterion's `solValue` field is compared to
+    the transaction's `value`, which is the amount of SOL in lamports being transferred, using the `operator`
+    field.
+
+    #### splAddress
+
+    A criterion based on the recipient addresses of SPL token transfer instructions in the transaction.
+    The criterion's `addresses` field is compared to the list of SPL token transfer recipient addresses
+    in the transaction's `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions)
+    array using the `operator` field.
+
+    #### splValue
+
+    A criterion based on the SPL token value of SPL token transfer instructions in the transaction. The
+    criterion's `splValue` field is compared to the transaction instruction's `value` field, which is
+    the amount of the SPL token being transferred, using the `operator` field.
+
+    #### mintAddress
+
+    A criterion based on the token mint addresses of SPL token transfer instructions in the transaction.
+    The criterion's `addresses` field is compared to the list of token mint addresses in the transaction's
+    `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions) array using the
+    `operator` field.
+
+    #### solData
+
+    A criterion based on Solana transaction instruction data. The criterion uses Interface Definition
+    Language (IDL) specifications to decode and validate instruction data against specific rules. The
+    `idls` field specifies which Solana programs to validate against (either known program names like
+    "SystemProgram" and "TokenProgram", or custom IDL objects), and the `conditions` field defines instruction-specific
+    validation rules including instruction names and parameter constraints.
+
+    #### programId
+
+    A criterion based on the program IDs of a transaction's instructions. The criterion's `programIds`
+    field is compared to the list of program IDs in the transaction's instructions using the `operator`
+    field.
+
+    #### solNetwork
+
+    A criterion based on the intended network of the transaction. The `network` field in the `sendSolanaTransaction`
+    request body is compared to the criterion's `networks` field using the `operator` field.
+
+    Valid networks for this criterion include:
+      - `solana-devnet`
+      - `solana`
+
+    ## End User Criteria for User Wallets
+
+    End user criteria apply to operations performed by end users via user wallets. These criteria are
+    only evaluated for policies with the `project` scope. The supported criterion types for each end user
+    operation mirror their non-end-user counterparts.
+
+    ### SignEndUserEvmTransaction Criteria
+
+    #### ethValue
+
+    A criterion based on the value of the transaction. The transaction's `value` field is compared to
+    the criterion's `ethValue` field using the `operator` field.
+
+    #### evmAddress
+
+    A criterion based on the recipient address of the transaction. The transaction's `to` field is compared
+    to the criterion's `addresses` field using the `operator` field.
+
+    #### evmData
+
+    A criterion based on encoded transaction data that evaluates the function being called, as well as
+    any number of arguments accessed by either name or index. Currently this criterion only supports primitive
+    types; `string`, `bool`, `uint(8,16,32,64,256)`, `int(8,16,32,64,256)`, `address`, and both fixed
+    and dynamic length `bytes`.
+
+    #### netUSDChange
+
+    A criterion based on the USD denominated market value of assets being transferred, or exposing the
+    sender to. The types of assets included in the calculation include native assets, `ERC20`, `ERC721`,
+    and `ERC1155` tokens. The sum total USD amount of assets being transferred and exposed is compared
+    to the criterion's `changeCents` field using the `operator` field. If signing a testnet transaction,
+    then this criterion configuration will be ignored.
+
+    ### SendEndUserEvmTransaction Criteria
+
+    #### ethValue
+
+    A criterion based on the value of the transaction. The transaction's `value` field is compared to
+    the criterion's `ethValue` field using the `operator` field.
+
+    #### evmAddress
+
+    A criterion based on the recipient address of the transaction. The transaction's `to` field is compared
+    to the criterion's `addresses` field using the `operator` field.
+
+    #### evmNetwork
+
+    A criterion based on the intended network of the transaction. The `network` field in the `sendEndUserEvmTransaction`
+    request body is compared to the criterion's `networks` field using the `operator` field.
+
+    Valid networks for this criterion include:
+      - `base`
+      - `base-sepolia`
+      - `ethereum`
+      - `ethereum-sepolia`
+      - `avalanche`
+      - `polygon`
+      - `optimism`
+      - `arbitrum`
+
+    #### evmData
+
+    A criterion based on encoded transaction data that evaluates the function being called, as well as
+    any number of arguments accessed by either name or index. Currently this criterion only supports primitive
+    types; `string`, `bool`, `uint(8,16,32,64,256)`, `int(8,16,32,64,256)`, `address`, and both fixed
+    and dynamic length `bytes`.
+
+    #### netUSDChange
+
+    A criterion based on the USD denominated market value of assets being transferred, or exposing the
+    sender to. The types of assets included in the calculation include native assets, `ERC20`, `ERC721`,
+    and `ERC1155` tokens. The sum total USD amount of assets being transferred and exposed is compared
+    to the criterion's `changeCents` field using the `operator` field. If sending a testnet transaction,
+    then this criterion configuration will be ignored.
+
+    ### SignEndUserEvmMessage Criteria
+
+    #### evmMessage
+
+    A criterion based on the intended message to be signed. The `match` field in the criteria is a [RE2](https://github.com/google/re2/wiki/Syntax)
+    compliant regular expression that will be executed against the message in the API request.
+
+    ### SignEndUserEvmTypedData Criteria
+
+    #### evmTypedDataField
+
+    A criterion based on the fields of the [EIP-712](https://eips.ethereum.org/EIPS/eip-712) typed data
+    being signed. The `types` field specifies the EIP-712 type definitions and primary type, while the
+    `conditions` field defines validation rules for specific fields within the typed data message. Conditions
+    can target address fields, numerical fields, or string fields, and can reference deeply nested values
+    using dot-separated paths.
+
+    #### evmTypedDataVerifyingContract
+
+    A criterion based on the verifying contract address in the [EIP-712](https://eips.ethereum.org/EIPS/eip-712)
+    domain separator. The domain's `verifyingContract` field is compared to the criterion's `addresses`
+    field using the `operator` field.
+
+    ### SignEndUserSolTransaction Criteria
+
+    #### solAddress
+
+    A criterion based on the recipient addresses of the transaction. The criterion's `address` field is
+    compared to the list of addresses in the transaction's `accountKeys` (for legacy transactions) or
+    `staticAccountKeys` (for V0 transactions) array using the `operator` field.
+
+    #### solValue
+
+    A criterion based on the value of the transaction. The criterion's `solValue` field is compared to
+    the transaction's `value`, which is the amount of SOL in lamports being transferred, using the `operator`
+    field.
+
+    #### splAddress
+
+    A criterion based on the recipient addresses of SPL token transfer instructions in the transaction.
+    The criterion's `addresses` field is compared to the list of SPL token transfer recipient addresses
+    in the transaction's `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions)
+    array using the `operator` field.
+
+    #### splValue
+
+    A criterion based on the SPL token value of SPL token transfer instructions in the transaction. The
+    criterion's `splValue` field is compared to the transaction instruction's `value` field, which is
+    the amount of the SPL token being transferred, using the `operator` field.
+
+    #### mintAddress
+
+    A criterion based on the token mint addresses of SPL token transfer instructions in the transaction.
+    The criterion's `addresses` field is compared to the list of token mint addresses in the transaction's
+    `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions) array using the
+    `operator` field.
+
+    #### solData
+
+    A criterion based on Solana transaction instruction data. The criterion uses Interface Definition
+    Language (IDL) specifications to decode and validate instruction data against specific rules. The
+    `idls` field specifies which Solana programs to validate against (either known program names like
+    "SystemProgram" and "TokenProgram", or custom IDL objects), and the `conditions` field defines instruction-specific
+    validation rules including instruction names and parameter constraints.
+
+    #### programId
+
+    A criterion based on the program IDs of a transaction's instructions. The criterion's `programIds`
+    field is compared to the list of program IDs in the transaction's instructions using the `operator`
+    field.
+
+    ### SendEndUserSolTransaction Criteria
+
+    #### solAddress
+
+    A criterion based on the recipient addresses of the transaction. The criterion's `address` field is
+    compared to the list of addresses in the transaction's `accountKeys` (for legacy transactions) or
+    `staticAccountKeys` (for V0 transactions) array using the `operator` field.
+
+    #### solValue
+
+    A criterion based on the value of the transaction. The criterion's `solValue` field is compared to
+    the transaction's `value`, which is the amount of SOL in lamports being transferred, using the `operator`
+    field.
+
+    #### splAddress
+
+    A criterion based on the recipient addresses of SPL token transfer instructions in the transaction.
+    The criterion's `addresses` field is compared to the list of SPL token transfer recipient addresses
+    in the transaction's `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions)
+    array using the `operator` field.
+
+    #### splValue
+
+    A criterion based on the SPL token value of SPL token transfer instructions in the transaction. The
+    criterion's `splValue` field is compared to the transaction instruction's `value` field, which is
+    the amount of the SPL token being transferred, using the `operator` field.
+
+    #### mintAddress
+
+    A criterion based on the token mint addresses of SPL token transfer instructions in the transaction.
+    The criterion's `addresses` field is compared to the list of token mint addresses in the transaction's
+    `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions) array using the
+    `operator` field.
+
+    #### solData
+
+    A criterion based on Solana transaction instruction data. The criterion uses Interface Definition
+    Language (IDL) specifications to decode and validate instruction data against specific rules. The
+    `idls` field specifies which Solana programs to validate against (either known program names like
+    "SystemProgram" and "TokenProgram", or custom IDL objects), and the `conditions` field defines instruction-specific
+    validation rules including instruction names and parameter constraints.
+
+    #### programId
+
+    A criterion based on the program IDs of a transaction's instructions. The criterion's `programIds`
+    field is compared to the list of program IDs in the transaction's instructions using the `operator`
+    field.
+
+    #### solNetwork
+
+    A criterion based on the intended network of the transaction. The `network` field in the `sendEndUserSolTransaction`
+    request body is compared to the criterion's `networks` field using the `operator` field.
+
+    Valid networks for this criterion include:
+      - `solana-devnet`
+      - `solana`
+
+    ### SignEndUserSolMessage Criteria
+
+    #### solMessage
+
+    A criterion based on the intended message to be signed. The `match` field in the criteria is a [RE2](https://github.com/google/re2/wiki/Syntax)
+    compliant regular expression that will be executed against the message in the API request.
+
+    ## Restricting Contract Interactions on Ethereum
+
+    Smart contract function restrictions serve as a critical security and governance mechanism in decentralized
+    applications, allowing developers and organizations to implement fine-grained access controls over
+    their protocol interactions.
+
+    One of the primary use cases for function restrictions is protecting high-risk operations from unauthorized
+    access such as:
+
+    - Fund transfers - Contract upgrades - Parameter modifications - Emergency pauses
+
+    Policy Engine supports such restrictions that evaluate against transaction data with the `evmData`
+    criterion for the `signEvmTransaction`, and `sendEvmTransaction` operations.
+
+    ## Examples
+
+    ### USD Limits
+
+    The following example demonstrates a policy that only allows transactions to transfer, or expose the
+    sender to, less than $100.00 worth of assets at a time. This USD denominated amount includes native
+    assets, `ERC20`, `ERC721`, and `ERC1155` tokens calculated using current market prices.
+
+    ```json {
+      "scope": "account",
+      "description": "Reject assets out over 100 USD",
+      "rules": [
+        {
+          "action": "reject",
+          "operation": "sendEvmTransaction",
+          "criteria": [
+            {
+              "type": "netUSDChange",
+              "changeCents": 10000,
+              "operator": ">",
+            },
+          ],
+        },
+        {
+          "action": "reject",
+          "operation": "signEvmTransaction",
+          "criteria": [
+            {
+              "type": "netUSDChange",
+              "changeCents": 10000,
+              "operator": ">",
+            },
+          ],
+        },
+      ],
+    } ```
+
+    ### Limiting USDC Spend
+
+    This policy restricts USDC transactions on the Base network to transfers of 10,000 tokens or less.
+    It applies to both signing and sending transactions to the USDC contract address, using the ERC20
+    ABI to validate that only `transfer` function calls with a `value` parameter under the specified limit
+    are permitted.
+
+    ```json {
+      "description": "Limit USDC Spend",
+      "scope": "account",
+      "rules": [
+        {
+          "action": "accept",
+          "operation": "sendEvmTransaction",
+          "criteria": [
+            {
+              "type": "evmNetwork",
+              "networks": ["base"],
+              "operator": "in"
+            },
+            {
+              "type": "evmAddress",
+              "addresses": ["0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"],
+              "operator": "in"
+            },
+            {
+              "type": "evmData",
+              "abi": "erc20",
+              "conditions": [
+                {
+                  "function": "transfer",
+                  "params": [
+                    {
+                      "name": "value",
+                      "operator": "<=",
+                      "value": "10000"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "action": "accept",
+          "operation": "signEvmTransaction",
+          "criteria": [
+            {
+              "type": "evmAddress",
+              "addresses": ["0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"],
+              "operator": "in"
+            },
+            {
+              "type": "evmData",
+              "abi": "erc20",
+              "conditions": [
+                {
+                  "function": "transfer",
+                  "params": [
+                    {
+                      "name": "value",
+                      "operator": "<=",
+                      "value": "10000"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    } ```.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Policy Engine
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-policy-engine-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-solana-accounts-api
+  name: Coinbase Solana Accounts API
+  description: >-
+    The Solana Account APIs enable you to create and use Solana accounts across SVM-compatible blockchains.
+
+
+    An **account** is a private/public key pair that is used to sign transactions and messages. The private
+    key is generated and used only in CDP's Trusted Execution Environment (TEE), and never exposed to
+    Coinbase or the developer.
+
+
+    A Solana account is identified by its **address**, which is a base-58 encoded string.
+
+
+    Accounts can optionally be assigned an **account name** at creation time for easier identification
+    in subsequent API calls. Solana account names must be globally unique across all Solana accounts in
+    the developer's CDP Project.
+
+
+    ## Authentication
+
+
+    The Solana Account APIs use two layers of authentication to ensure the security of your accounts'
+    private keys:
+
+
+    - **CDP Secret API Key**: This key is used to authenticate all requests to the entire suite of
+       REST APIs offered on Coinbase Developer Platform.
+    - **Wallet Secret**: This secret is used specifically to authenticate sensitive wallet operations
+      to `POST` and `DELETE` endpoints in the EVM and Solana Account APIs.
+
+
+    To learn more about creating and using these keys, visit our [Authentication docs](https://docs.cdp.coinbase.com/api-reference/v2/authentication).
+
+
+    <Tip>
+
+
+
+    **Use our SDK**
+
+
+
+    The [CDP SDK](https://github.com/coinbase/cdp-sdk) automatically authenticates requests using your
+    CDP Secret API Key and Wallet Secret. Use the CDP SDK for a more convenient access to our APIs.
+
+
+
+    </Tip>
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Solana Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-solana-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-solana-token-balances-api
+  name: Coinbase Solana Token Balances API
+  description: >-
+    The Solana Token Balances APIs enable you to retrieve the balances of Solana addresses.
+
+    This includes SPL tokens and the native SOL token of the network.
+
+    ## Denomination
+
+    - 'amount' is denominated in the smallest indivisible unit of the token. For SOL, the smallest indivisible
+    unit is lamports (10^-9 SOL). For SPL tokens, the smallest unit is defined by the token's decimals
+    configuration.
+
+    - 'decimals' is the exponential value N that satisfies the equation `amount * 10^-N = standard_denomination`.
+    The standard denomination is the most commonly used denomination for the token.
+
+      - For native SOL, `decimals` is 9 (1 SOL = 10^9 lamports).
+      - For SPL tokens, `decimals` is defined in the token's mint configuration.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Solana Token Balances
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-solana-token-balances-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-sql-api-api
+  name: Coinbase SQL API
+  description: >-
+    The SQL API enables you to write performant, high-freshness, and endlessly flexible SQL queries against
+    onchain data.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - SQL API
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-sql-api-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-top-up-links-api
+  name: Coinbase Top-Up Links API
+  description: >-
+    A Top-Up Link is a shareable hosted URL that lets a payer add funds to their balance. Create a link
+    with **Create a Top-Up Link** and share the returned `topUpUrl` only with the intended payer. The
+    URL identifies the link but does not authorize a top-up; the payer must authenticate and approve it.
+
+
+    ## Lifecycle
+
+
+    The resource is immutable once created. The link expires 24 hours after creation and funds a single
+    purchase: once a purchase succeeds, the link is spent and cannot be used again. A purchase that fails
+    does not consume the link, so the payer can retry until it expires. A link is not bound to a specific
+    payer. There is no GET: the create response and the `acceptance.top_up_link.created` event are the
+    full resource.
+
+
+    ## Amounts
+
+
+    - `topUpAmount` is the merchant's fixed suggested net amount for the
+      link's single purchase. The payer can change it in the hosted flow.
+    - `orderTotalAmount` is optional presentation context. It does not
+      replace, change, or cap `topUpAmount`.
+    - The funds-added event reports the actual net amount credited by the
+      purchase that spent the link. It is never cumulative.
+
+
+    ## Merchant name
+
+
+    Supply `customerDisplay.merchantName` to choose the merchant name for a link's hosted page. The supplied
+    value is limited to 128 Unicode code points before surrounding whitespace is removed. If the name
+    is omitted or empty after trimming, the entity's profile name is used. The create response and creation
+    webhook return the resolved name stored on the immutable link. Later profile changes do not change
+    that name.
+
+
+    ## Redirects
+
+
+    When `redirectUrl` is supplied, its origin must exactly match an allowed origin. The query key `toppedUpAmount`
+    is reserved because the hosted flow appends it before redirecting the payer. The redirect does not
+    represent success or failure; `toppedUpAmount` may be zero, a partial amount, or the full `topUpAmount`.
+
+
+    ## Webhooks
+
+
+    Subscribers receive `acceptance.top_up_link.created` when the link is created and `acceptance.top_up_link.funds_added`
+    when a purchase credits funds through the link. Because a link funds a single purchase, it produces
+    at most one funds-added event; deliveries can repeat, so deduplicate on `eventId`.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Top-Up Links
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-top-up-links-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-transfers-api
+  name: Coinbase Transfers API
+  description: >-
+    **Transfers** represent both the request and execution of fund transfers from a source to a target.
+    They provide upfront fee quotes and track the complete lifecycle from initiation through completion,
+    failure, or reversal.
+
+    ## Fee Quotes
+
+    Every transfer provides a comprehensive fee quote in the `fees` array. This allows you to show users
+    exactly what they'll pay before any money moves.
+
+
+    To review fees before execution:
+
+    1. Create a transfer with `execute: false`
+
+    2. Review the `fees` array in the response
+
+    3. Call `POST /transfers/{transferId}/execute` when ready to proceed
+
+
+
+    For automatic execution without fee review, create a transfer with `execute: true`.
+
+
+    **Fee Expiration**: Fee quotes are valid for a limited time (typically 10-15 minutes from creation).
+    The `expiresAt` field shows exactly when the fee quote will expire. If you don't execute before this
+    time, you'll need to create a new transfer to get updated fees.
+
+    ## Fees
+
+    Transfer fees vary by source, target, amount and transfer type:
+
+    * **Bank fees** - Traditional banking fees for depositing funds (e.g., $15.00 wire transfer fee)
+
+    * **Conversion fees** - Fees for exchanging between different assets
+
+    * **Network fees** - Onchain transaction costs to complete the transfer (e.g., ETH gas fees)
+
+
+    All fees are disclosed upfront in the `fees` array when you create a transfer.
+
+    ## Transfer Lifecycle
+
+    When you create a transfer, it will be in one of these statuses that determine what action you need
+    to take:
+
+    * **`quoted`** - Transfer is ready but requires manual execution via the `/execute` endpoint
+
+    * **`processing`** - Transfer is being executed (no action needed - poll for completion)
+
+    * **`completed`** - Transfer completed successfully
+
+    * **`failed`** - Transfer failed (see `failureReason` for details)
+
+    ## Execution Control
+
+    * **`execute: true`**: Transfer will automatically attempt to execute
+
+    * **`execute: false`**: Transfer will be created in `quoted` status and you must call the `/execute`
+    endpoint. Use this to obtain a fee quote or validate a transfer destination before deciding whether
+    to execute the Transfer.
+
+    ## Sources and Targets
+
+    * A **source** can be an Account or a Payment Method
+
+    * A **target** can be an Account, Payment Method, Onchain Address, or Email Address
+
+    ## Transfer Execution
+
+    When a transfer reaches `completed` status, it contains the final execution details that delivered
+    funds to the target and completion timestamps.
+
+    ## Failure Reasons
+
+    When a transfer fails, the `failureReason` field provides a human-readable description of what went
+    wrong.
+
+    Common failure reasons include:
+
+    * "Insufficient balance to complete this transfer."
+
+    * "The recipient address is invalid for the selected network."
+
+    * "The recipient address failed security validation checks."
+
+    * "Unable to send to this recipient."
+
+
+    Failure reason is only present when the transfer's status is `failed`.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Transfers
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-transfers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-wallet-webhooks-api
+  name: Coinbase Wallet Webhooks API
+  description: >-
+    The `wallet.activity.*` webhook payloads describe wallet activity, transaction, delegation, and signing
+    events emitted by CDP.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Wallet Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-wallet-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-webhooks-api
+  name: Coinbase Webhooks API
+  description: >-
+    Subscribe to real-time events across CDP products. Monitor onchain activity on Base mainnet, track
+    onramp/offramp transactions, and receive instant notifications for wallet events.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
+- aid: coinbase:coinbase-x402-facilitator-api
+  name: Coinbase x402 Facilitator API
+  description: >-
+    The x402 payment protocol is an HTTP-based payment protocol that enables developers running resource
+    servers to accept payments from users using a variety of payment methods.
+
+    For more details on the x402 payment protocol, please see the [x402 specification](https://www.x402.org/).
+
+    The x402 Facilitator APIs enable you to facilitate payments using the x402 payment protocol by exposing
+    two APIs:
+
+    - `POST /v2/x402/verify`: Verify a payment with a supported scheme and network.
+
+    - `POST /v2/x402/settle`: Settle a payment with a supported scheme and network.
+  humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
+  baseURL: https://api.coinbase.com
+  tags:
+  - x402 Facilitator
+  properties:
+  - type: OpenAPI
+    url: openapi/coinbase-x402-facilitator-api-openapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-advanced-trade-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/exchange/docs/welcome
+  - type: AsyncAPI
+    url: asyncapi/coinbase-exchange-asyncapi.yml
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/prime/docs/rest-requests
+  - type: Documentation
+    url: https://docs.cdp.coinbase.com/onramp/docs/welcome
+  - type: Documentation
+    url: https://commerce.coinbase.com/docs/api
+  - type: AsyncAPI
+    url: asyncapi/coinbase-commerce-webhooks-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/coinbase-conversion-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-currency-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-payment-method-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transfer-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-transaction-summary-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-price-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-product-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-candle-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-order-book-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-trade-2-schema.json
+  - type: JSONSchema
+    url: json-schema/coinbase-profile-schema.json
