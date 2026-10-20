@@ -80,64 +80,6 @@
       evidence: https://www.coinbase.com/legal/licenses
   status: not-a-workflow
   arazzo: null
-- slug: coinbase-iso-10383-mic
-  label: ISO 10383 (MIC)
-  partner_name: ISO 10383 (MIC)
-  category: registered trading venues and market segments
-  type: register
-  channel: standard-directory
-  evidence: https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
-  source: edge
-  relationship: standard-participant
-  contract_reference:
-    register: ISO 10383 Market Identifier Codes (ISO 20022 registration authority)
-    spec_file: null
-    standard: ISO 10383
-    role: venue operator
-    matched_domain: coinbase.com
-    matched_by: domain+verified:coinbase.com
-    categories:
-    - DCMS
-    operating_mics:
-    - FREX
-    mics:
-    - mic: FREX
-      operating_mic: FREX
-      segment: OPRT
-      market: COINBASE DERIVATIVES
-      category: DCMS
-      legal_name: COINBASE DERIVATIVES, LLC
-      country: US
-    detected_by: sweep-capital-markets.py
-    detected: '2026-10-15'
-  status: not-a-workflow
-  arazzo: null
-- slug: coinbase-pipedream
-  label: Pipedream
-  partner: pipedream
-  partner_name: Pipedream
-  type: marketplace
-  marketplace: pipedream-components
-  channel: open-source-node
-  evidence: https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/coinbase
-  source: edge
-  relationship: ipaas-bridge
-  contract_reference:
-    register: Pipedream components (PipedreamHQ/pipedream components/)
-    spec_file: null
-    role: ipaas-connector:pipedream
-    registered_name: coinbase
-    matched_domain: coinbase.com
-    matched_by: domain+name-among-holders
-    detected_by: sweep-workflow-automation.py
-    detected: '2026-10-15'
-    signal_note: one edge per (provider, platform); actions, triggers and usage counts are context, never read
-    app_slug: coinbase
-    actions: true
-    sources: true
-    builder: Pipedream repo (component)
-  status: not-a-workflow
-  arazzo: null
 - slug: coinbase-fincen-msb-registration
   label: FinCEN (MSB registration)
   partner_name: FinCEN (MSB registration)
@@ -199,5 +141,63 @@
       24 months'
     detected_by: sweep-official-sdks.py
     detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
+- slug: coinbase-iso-10383-mic
+  label: ISO 10383 (MIC)
+  partner_name: ISO 10383 (MIC)
+  category: registered trading venues and market segments
+  type: register
+  channel: standard-directory
+  evidence: https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: ISO 10383 Market Identifier Codes (ISO 20022 registration authority)
+    spec_file: null
+    standard: ISO 10383
+    role: venue operator
+    matched_domain: coinbase.com
+    matched_by: domain+verified:coinbase.com
+    categories:
+    - DCMS
+    operating_mics:
+    - FREX
+    mics:
+    - mic: FREX
+      operating_mic: FREX
+      segment: OPRT
+      market: COINBASE DERIVATIVES
+      category: DCMS
+      legal_name: COINBASE DERIVATIVES, LLC
+      country: US
+    detected_by: sweep-capital-markets.py
+    detected: '2026-10-19'
+  status: not-a-workflow
+  arazzo: null
+- slug: coinbase-pipedream
+  label: Pipedream
+  partner: pipedream
+  partner_name: Pipedream
+  type: marketplace
+  marketplace: pipedream-components
+  channel: open-source-node
+  evidence: https://github.com/PipedreamHQ/pipedream/tree/d5872355ef27b4efa769f05352f2820c299a456e/components/coinbase
+  source: edge
+  relationship: ipaas-bridge
+  contract_reference:
+    register: Pipedream components (PipedreamHQ/pipedream components/)
+    spec_file: null
+    role: ipaas-connector:pipedream
+    registered_name: coinbase
+    matched_domain: coinbase.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-workflow-automation.py
+    detected: '2026-10-15'
+    signal_note: one edge per (provider, platform); actions, triggers and usage counts are context, never read
+    app_slug: coinbase
+    actions: true
+    sources: true
+    builder: Pipedream repo (component)
   status: not-a-workflow
   arazzo: null

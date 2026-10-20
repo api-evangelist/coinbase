@@ -8,6 +8,7 @@ checked:
 - https://composio.dev/toolkits/coinbase
 - https://crates.io/api/v1
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
+- https://github.com/PipedreamHQ/pipedream/tree/d5872355ef27b4efa769f05352f2820c299a456e/components/
 - https://kantarainitiative.org/trust-status-list/
 - https://monid.ai/tools/coinbase
 - https://msb.fincen.gov/
@@ -142,64 +143,6 @@ edges:
       evidence: https://www.coinbase.com/legal/licenses
   detected_by: sweep-crypto.py
   first_seen: '2026-10-14'
-- partner_name: ISO 10383 (MIC)
-  partner: null
-  type: register
-  channel: standard-directory
-  relationship: standard-participant
-  direction: partner-built
-  evidence: https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
-  source: mic
-  category: registered trading venues and market segments
-  contract_reference:
-    register: ISO 10383 Market Identifier Codes (ISO 20022 registration authority)
-    spec_file: null
-    standard: ISO 10383
-    role: venue operator
-    matched_domain: coinbase.com
-    matched_by: domain+verified:coinbase.com
-    categories:
-    - DCMS
-    operating_mics:
-    - FREX
-    mics:
-    - mic: FREX
-      operating_mic: FREX
-      segment: OPRT
-      market: COINBASE DERIVATIVES
-      category: DCMS
-      legal_name: COINBASE DERIVATIVES, LLC
-      country: US
-    detected_by: sweep-capital-markets.py
-    detected: '2026-10-15'
-  detected_by: sweep-capital-markets.py
-  first_seen: '2026-10-15'
-- partner_name: Pipedream
-  partner: pipedream
-  partner_match: aggregator
-  type: marketplace
-  marketplace: pipedream-components
-  channel: open-source-node
-  relationship: ipaas-bridge
-  direction: third-party
-  evidence: https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/coinbase
-  category: null
-  contract_reference:
-    register: Pipedream components (PipedreamHQ/pipedream components/)
-    spec_file: null
-    role: ipaas-connector:pipedream
-    registered_name: coinbase
-    matched_domain: coinbase.com
-    matched_by: domain+name-among-holders
-    detected_by: sweep-workflow-automation.py
-    detected: '2026-10-15'
-    signal_note: one edge per (provider, platform); actions, triggers and usage counts are context, never read
-    app_slug: coinbase
-    actions: true
-    sources: true
-    builder: Pipedream repo (component)
-  detected_by: sweep-workflow-automation.py
-  first_seen: '2026-10-15'
 - partner_name: FinCEN (MSB registration)
   partner: null
   partner_match: register
@@ -262,4 +205,62 @@ edges:
     detected: '2026-10-18'
   detected_by: sweep-official-sdks.py
   first_seen: '2026-10-18'
+- partner_name: ISO 10383 (MIC)
+  partner: null
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.iso20022.org/sites/default/files/ISO10383_MIC/ISO10383_MIC.csv
+  source: mic
+  category: registered trading venues and market segments
+  contract_reference:
+    register: ISO 10383 Market Identifier Codes (ISO 20022 registration authority)
+    spec_file: null
+    standard: ISO 10383
+    role: venue operator
+    matched_domain: coinbase.com
+    matched_by: domain+verified:coinbase.com
+    categories:
+    - DCMS
+    operating_mics:
+    - FREX
+    mics:
+    - mic: FREX
+      operating_mic: FREX
+      segment: OPRT
+      market: COINBASE DERIVATIVES
+      category: DCMS
+      legal_name: COINBASE DERIVATIVES, LLC
+      country: US
+    detected_by: sweep-capital-markets.py
+    detected: '2026-10-19'
+  detected_by: sweep-capital-markets.py
+  first_seen: '2026-10-19'
+- partner_name: Pipedream
+  partner: pipedream
+  partner_match: aggregator
+  type: marketplace
+  marketplace: pipedream-components
+  channel: open-source-node
+  relationship: ipaas-bridge
+  direction: third-party
+  evidence: https://github.com/PipedreamHQ/pipedream/tree/d5872355ef27b4efa769f05352f2820c299a456e/components/coinbase
+  category: null
+  contract_reference:
+    register: Pipedream components (PipedreamHQ/pipedream components/)
+    spec_file: null
+    role: ipaas-connector:pipedream
+    registered_name: coinbase
+    matched_domain: coinbase.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-workflow-automation.py
+    detected: '2026-10-15'
+    signal_note: one edge per (provider, platform); actions, triggers and usage counts are context, never read
+    app_slug: coinbase
+    actions: true
+    sources: true
+    builder: Pipedream repo (component)
+  detected_by: sweep-workflow-automation.py
+  first_seen: '2026-10-15'
 templates: []
