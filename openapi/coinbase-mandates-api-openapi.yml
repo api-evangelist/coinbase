@@ -4589,3 +4589,9 @@ x-tagGroups:
 - name: Webhooks
   tags:
   - Webhooks
+x-provenance:
+  method: harvested
+  publisher: Coinbase
+  source: https://docs.cdp.coinbase.com/api-reference/v2/cdp-api-v2.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
