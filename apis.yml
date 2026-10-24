@@ -1844,6 +1844,8 @@ apis:
   humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
   baseURL: https://api.coinbase.com
   tags:
+  - On-Chain Data
+  tags_raw:
   - Onchain Data
   properties:
   - type: OpenAPI
@@ -1929,6 +1931,8 @@ apis:
   humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
   baseURL: https://api.coinbase.com
   tags:
+  - On-Ramp
+  tags_raw:
   - Onramp
   properties:
   - type: OpenAPI
@@ -3381,6 +3385,8 @@ apis:
   humanURL: https://www.coinbase.com/developer-platform/products/wallet-sdk
   baseURL: https://api.coinbase.com
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
