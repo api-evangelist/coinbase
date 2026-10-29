@@ -1,4 +1,4 @@
-# Coinbase (coinbase)
+# Coinbase
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,250 +66,277 @@
 
 Coinbase is a leading cryptocurrency platform providing trading, custody, and payment infrastructure for individuals, businesses, and institutions. The Coinbase Developer Platform (CDP) exposes a wide product surface across retail trading (Advanced Trade), professional and institutional trading (Exchange and Prime), merchant payments (Commerce), fiat onboarding (Onramp), developer wallet integration (Wallet SDK), market and on-chain data (Data API), and AI agent toolkits (AgentKit). Authentication is performed using API keys with HMAC-SHA256 signatures (Advanced Trade, Exchange) or JWT bearer tokens (Prime, CDP), with WebSocket and FIX feeds available for low-latency market data and order management.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/coinbase/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/coinbase/refs/heads/main/apis.yml)
+**Areas:** Blockchain · Cryptocurrency · Custody · Exchange · On-Ramp · Payments · Trading · Wallets · Web3 · Agentic Commerce · x402 · Real-Time
+
+## Coinbase on APIs.io
+
+Everything profiled for Coinbase is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/coinbase/](https://apis.io/providers/coinbase/)** — or go straight to one of the APIs or properties below.
+
+### APIs (35)
+
+- [Coinbase Wallet SDK](https://apis.io/apis/coinbase/wallet-sdk/) — The Coinbase Wallet SDK allows developers to integrate Coinbase Wallet connectivity into decentralized applications. It provides a streamlined interface for…
+- [Coinbase Data API](https://apis.io/apis/coinbase/data-api/) — The Coinbase Data API provides developers with access to cryptocurrency market data, blockchain analytics, and pricing information. It delivers real-time…
+- [Coinbase AgentKit](https://apis.io/apis/coinbase/agentkit/) — Coinbase AgentKit is a toolkit that enables AI agents to interact with blockchain networks through secure wallet management and comprehensive onchain…
+- [Coinbase Accounts API](https://apis.io/apis/coinbase/coinbase-accounts-api/) — Manage user accounts and retrieve account information including balances and holds.
+- [Coinbase Activities API](https://apis.io/apis/coinbase/coinbase-activities-api/) — View activity history for portfolios including trades, transfers, and other events.
+- [Coinbase Address Book API](https://apis.io/apis/coinbase/coinbase-address-book-api/) — Manage approved withdrawal addresses in the address book.
+- [Coinbase Allocations API](https://apis.io/apis/coinbase/coinbase-allocations-api/) — View and manage order allocations across sub-portfolios.
+- [Coinbase Assets API](https://apis.io/apis/coinbase/coinbase-assets-api/) — Retrieve information about supported assets and products.
+- [Coinbase Balances API](https://apis.io/apis/coinbase/coinbase-balances-api/) — Retrieve portfolio balance information across all assets.
+- [Coinbase Buy API](https://apis.io/apis/coinbase/coinbase-buy-api/) — Endpoints for discovering buy options, generating buy quotes, and retrieving buy configuration for fiat-to-crypto purchases.
+- [Coinbase Charges API](https://apis.io/apis/coinbase/coinbase-charges-api/) — Create and manage payment charges. A charge represents a request for cryptocurrency payment from a customer.
+- [Coinbase Checkouts API](https://apis.io/apis/coinbase/coinbase-checkouts-api/) — Create and manage reusable checkout pages for accepting recurring or standardized payments.
+- [Coinbase Conversions API](https://apis.io/apis/coinbase/coinbase-conversions-api/) — Convert between stablecoin currencies on the exchange.
+- [Coinbase Currencies API](https://apis.io/apis/coinbase/coinbase-currencies-api/) — Retrieve information about supported currencies on the exchange.
+- [Coinbase Deposits API](https://apis.io/apis/coinbase/coinbase-deposits-api/) — View deposit information and payment methods for funding exchange accounts.
+- [Coinbase Events API](https://apis.io/apis/coinbase/coinbase-events-api/) — Retrieve webhook events that track the lifecycle of charges, checkouts, and invoices.
+- [Coinbase Fees API](https://apis.io/apis/coinbase/coinbase-fees-api/) — Retrieve transaction summary and fee information for the authenticated user.
+- [Coinbase Invoices API](https://apis.io/apis/coinbase/coinbase-invoices-api/) — Create and manage invoices for billing customers with cryptocurrency payment options.
+- [Coinbase Market Data API](https://apis.io/apis/coinbase/coinbase-market-data-api/) — Access public market data including products, order books, trades, and candles without authentication.
+- [Coinbase Orders API](https://apis.io/apis/coinbase/coinbase-orders-api/) — Create, cancel, and manage trading orders including market, limit, and stop-limit order types.
+- [Coinbase Portfolios API](https://apis.io/apis/coinbase/coinbase-portfolios-api/) — Create and manage portfolios for organizing trading activity and asset allocation.
+- [Coinbase Products API](https://apis.io/apis/coinbase/coinbase-products-api/) — Retrieve product information, market trades, product books, and candle data for trading pairs.
+- [Coinbase Profiles API](https://apis.io/apis/coinbase/coinbase-profiles-api/) — Manage exchange profiles and transfer funds between them.
+- [Coinbase Sell API](https://apis.io/apis/coinbase/coinbase-sell-api/) — Endpoints for discovering sell options and generating sell quotes for crypto-to-fiat transactions.
+- [Coinbase Session API](https://apis.io/apis/coinbase/coinbase-session-api/) — Manage session tokens for embedded onramp widget authentication.
+- [Coinbase Transactions API](https://apis.io/apis/coinbase/coinbase-transactions-api/) — View and create transactions including withdrawals and transfers.
+- [Coinbase Users API](https://apis.io/apis/coinbase/coinbase-users-api/) — Manage users associated with a portfolio.
+- [Coinbase Wallets API](https://apis.io/apis/coinbase/coinbase-wallets-api/) — Manage wallets within a portfolio for different asset types.
+- [Coinbase Withdrawals API](https://apis.io/apis/coinbase/coinbase-withdrawals-api/) — Manage crypto withdrawals from exchange accounts to external addresses or Coinbase accounts.
+- [Coinbase Developer Platform (CDP) API](https://apis.io/apis/coinbase/coinbase-developer-platform-cdp-api/) — Core CDP API v2 for onchain wallets, payments, trading, faucets, policies, and JSON-RPC access, authenticated with short-lived JWTs.
+- [Coinbase Advanced Trade API](https://apis.io/apis/coinbase/coinbase-advanced-trade-api/) — Programmatic spot trading, order management, and market data for the Coinbase retail exchange (Advanced Trade).
+- [Coinbase App API (Sign in with Coinbase)](https://apis.io/apis/coinbase/coinbase-app-api-sign-in-with-coinbase/) — Retail Coinbase App API v2 for accounts, addresses, transactions, buys/sells, with OAuth2 and API-key HMAC authentication.
+- [Coinbase Exchange API](https://apis.io/apis/coinbase/coinbase-exchange-api/) — Institutional/pro exchange REST and WebSocket API for order books, trading, and market data.
+- [Coinbase Prime API](https://apis.io/apis/coinbase/coinbase-prime-api/) — Institutional trading, custody, and portfolio management API for Coinbase Prime.
+- [Coinbase Commerce API](https://apis.io/apis/coinbase/coinbase-commerce-api/) — Crypto payments/checkout API for accepting cryptocurrency payments.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (4)
+
+Event-driven and webhook contracts.
+
+- [Coinbase Advanced Trade WebSocket](https://apis.io/asyncapis/coinbase/coinbase-advanced-trade-asyncapi/)
+- [Coinbase Commerce Webhooks](https://apis.io/asyncapis/coinbase/coinbase-commerce-webhooks-asyncapi/)
+- [Coinbase Exchange WebSocket Feed](https://apis.io/asyncapis/coinbase/coinbase-exchange-asyncapi/)
+- [Coinbase Webhooks](https://apis.io/asyncapis/coinbase/coinbase-webhooks/)
+
+#### Event channels (15)
+
+Individual events and webhooks the provider emits.
+
+- [/candles](https://apis.io/channels/coinbase/candles/)
+- [/level2](https://apis.io/channels/coinbase/coinbase-exchange-websocket-feed-level2/)
+- [/ticker](https://apis.io/channels/coinbase/coinbase-exchange-websocket-feed-ticker/)
+- [/full](https://apis.io/channels/coinbase/full/)
+- [/heartbeat](https://apis.io/channels/coinbase/heartbeat/)
+- [/heartbeats](https://apis.io/channels/coinbase/heartbeats/)
+- [/level2](https://apis.io/channels/coinbase/level2/)
+- [/level2_batch](https://apis.io/channels/coinbase/level2-batch/)
+- [/market_trades](https://apis.io/channels/coinbase/market-trades/)
+- [/matches](https://apis.io/channels/coinbase/matches/)
+- [/status](https://apis.io/channels/coinbase/status/)
+- [/ticker](https://apis.io/channels/coinbase/ticker/)
+- [/ticker_batch](https://apis.io/channels/coinbase/ticker-batch/)
+- [/user](https://apis.io/channels/coinbase/user/)
+- [/webhook](https://apis.io/channels/coinbase/webhook/)
+
+#### GraphQL (1)
+
+GraphQL schemas.
+
+- [Moved to /providers/coinbase/](https://apis.io/graphqls/coinbase/coinbase-graphql/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [coinbase](https://apis.io/servers/coinbase/coinbase/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Coinbase Agentic Access](https://apis.io/agentic-access/coinbase/coinbase-agentic-access/)
+
+#### JSON Schema (65)
+
+The data models the API reads and writes.
+
+- [Account](https://apis.io/schemas/coinbase/coinbase-account/)
+- [Activity](https://apis.io/schemas/coinbase/coinbase-activity/)
+- [AddressBookEntry](https://apis.io/schemas/coinbase/coinbase-address-book-entry/)
+- [AddressBookEntry](https://apis.io/schemas/coinbase/coinbase-addressbookentry/)
+- [Allocation](https://apis.io/schemas/coinbase/coinbase-allocation/)
+- [Balance](https://apis.io/schemas/coinbase/coinbase-balance/)
+- [BuyConfig](https://apis.io/schemas/coinbase/coinbase-buy-config/)
+- [BuyQuote](https://apis.io/schemas/coinbase/coinbase-buy-quote/)
+- [BuyQuoteRequest](https://apis.io/schemas/coinbase/coinbase-buy-quote-request/)
+- [BuyConfig](https://apis.io/schemas/coinbase/coinbase-buyconfig/)
+- [BuyQuote](https://apis.io/schemas/coinbase/coinbase-buyquote/)
+- [BuyQuoteRequest](https://apis.io/schemas/coinbase/coinbase-buyquoterequest/)
+- [Candle](https://apis.io/schemas/coinbase/coinbase-candle/)
+- [Coinbase Commerce Charge](https://apis.io/schemas/coinbase/coinbase-charge/)
+- [Checkout](https://apis.io/schemas/coinbase/coinbase-checkout/)
+- [Conversion](https://apis.io/schemas/coinbase/coinbase-conversion/)
+- [CreateChargeRequest](https://apis.io/schemas/coinbase/coinbase-create-charge-request/)
+- [CreateCheckoutRequest](https://apis.io/schemas/coinbase/coinbase-create-checkout-request/)
+- [CreateInvoiceRequest](https://apis.io/schemas/coinbase/coinbase-create-invoice-request/)
+- [CreateOrderRequest_3](https://apis.io/schemas/coinbase/coinbase-create-order-request-3/)
+- [CreateChargeRequest](https://apis.io/schemas/coinbase/coinbase-createchargerequest/)
+- [CreateCheckoutRequest](https://apis.io/schemas/coinbase/coinbase-createcheckoutrequest/)
+- [CreateInvoiceRequest](https://apis.io/schemas/coinbase/coinbase-createinvoicerequest/)
+- [CreateOrderRequest](https://apis.io/schemas/coinbase/coinbase-createorderrequest/)
+- [Currency](https://apis.io/schemas/coinbase/coinbase-currency/)
+- …and 40 more published on APIs.io
 
-## Scope
+#### JSON Structure (1)
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Data models expressed in JSON Structure.
 
-## Tags
+- [Coinbase Structure](https://apis.io/json-structure/coinbase/coinbase-structure/)
 
-- Blockchain
-- Cryptocurrency
-- Custody
-- Exchange
-- Onramp
-- Payments
-- Trading
-- Wallet
-- Web3
+#### JSON-LD (1)
 
-## Timestamps
+Linked-data contexts for the provider's vocabulary.
 
-- **Created:** 2026-03-20
-- **Modified:** 2026-05-19
+- [Coinbase Context](https://apis.io/jsonld/coinbase/coinbase-context/)
 
-## APIs
+#### Vocabulary (1)
 
-### Coinbase Advanced Trade API
+The provider's domain terms, defined.
 
-The Coinbase Advanced Trade API provides programmatic access to advanced trading features on the Coinbase platform. Developers can automate market, limit, and stop-limit orders, manage portfolios, retrieve real-time and historical market data, and monitor fees. The REST API is available at api.coinbase.com/api/v3/brokerage and supports authenticated access using API keys with HMAC SHA-256 signatures.
+- [Coinbase Domain Vocabulary](https://apis.io/vocabularies/coinbase/coinbase-vocabulary/)
 
-- **Human URL:** [https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api](https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api)
-- **Base URL:** `https://api.coinbase.com`
+#### Collections (57)
 
-#### Tags
+Postman and Open Collection request collections.
 
-- Automation
-- Cryptocurrency
-- Market Data
-- Orders
-- Trading
+- [Coinbase Advanced Trade Accounts API](https://apis.io/collections/coinbase/open-coinbase-accounts-api/)
+- [Coinbase Advanced Trade Accounts Activities API](https://apis.io/collections/coinbase/open-coinbase-activities-api/)
+- [Coinbase Advanced Trade Accounts Address Book API](https://apis.io/collections/coinbase/open-coinbase-address-book-api/)
+- [Coinbase Advanced Trade API](https://apis.io/collections/coinbase/open-coinbase-advanced-trade/)
+- [Coinbase Advanced Trade Accounts Allocations API](https://apis.io/collections/coinbase/open-coinbase-allocations-api/)
+- [Coinbase Advanced Trade Accounts Assets API](https://apis.io/collections/coinbase/open-coinbase-assets-api/)
+- [Coinbase Advanced Trade Accounts Balances API](https://apis.io/collections/coinbase/open-coinbase-balances-api/)
+- [Coinbase Advanced Trade Accounts Buy API](https://apis.io/collections/coinbase/open-coinbase-buy-api/)
+- [Coinbase Advanced Trade Accounts Charges API](https://apis.io/collections/coinbase/open-coinbase-charges-api/)
+- [Coinbase Advanced Trade Accounts Checkouts API](https://apis.io/collections/coinbase/open-coinbase-checkouts-api/)
+- [Coinbase Commerce API](https://apis.io/collections/coinbase/open-coinbase-commerce/)
+- [Coinbase Advanced Trade Accounts Conversions API](https://apis.io/collections/coinbase/open-coinbase-conversions-api/)
+- [Coinbase Advanced Trade Accounts Currencies API](https://apis.io/collections/coinbase/open-coinbase-currencies-api/)
+- [Coinbase Advanced Trade Accounts Deposits API](https://apis.io/collections/coinbase/open-coinbase-deposits-api/)
+- [Coinbase Advanced Trade Accounts Events API](https://apis.io/collections/coinbase/open-coinbase-events-api/)
+- [Coinbase Exchange API](https://apis.io/collections/coinbase/open-coinbase-exchange/)
+- [Coinbase Advanced Trade Accounts Fees API](https://apis.io/collections/coinbase/open-coinbase-fees-api/)
+- [Coinbase Advanced Trade Accounts Invoices API](https://apis.io/collections/coinbase/open-coinbase-invoices-api/)
+- [Coinbase Advanced Trade Accounts Market Data API](https://apis.io/collections/coinbase/open-coinbase-market-data-api/)
+- [Coinbase Onramp API](https://apis.io/collections/coinbase/open-coinbase-onramp/)
+- [Coinbase Advanced Trade Accounts Orders API](https://apis.io/collections/coinbase/open-coinbase-orders-api/)
+- [Coinbase Advanced Trade Accounts Portfolios API](https://apis.io/collections/coinbase/open-coinbase-portfolios-api/)
+- [Coinbase Prime API](https://apis.io/collections/coinbase/open-coinbase-prime/)
+- [Coinbase Advanced Trade Accounts Products API](https://apis.io/collections/coinbase/open-coinbase-products-api/)
+- [Coinbase Advanced Trade Accounts Profiles API](https://apis.io/collections/coinbase/open-coinbase-profiles-api/)
+- …and 32 more published on APIs.io
 
-#### Properties
+#### Governance rules (3)
 
-- [Documentation](https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/rest-api)
-- [OpenAPI](openapi/coinbase-advanced-trade-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/coinbase-advanced-trade.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-advanced-trade.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](asyncapi/coinbase-advanced-trade-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
+Spectral rulesets for the provider's contracts.
 
-### Coinbase Exchange API
+- [Coinbase — asyncapi rules](https://apis.io/rules/coinbase/coinbase-asyncapi-spectral-rules/)
+- [Coinbase — jsonschema rules](https://apis.io/rules/coinbase/coinbase-jsonschema-spectral-rules/)
+- [Coinbase API Rules](https://apis.io/rules/coinbase/coinbase-rules/)
 
-The Coinbase Exchange API provides high-throughput access to real-time market data and order management for institutional and professional traders. It supports REST APIs, FIX protocol, and WebSocket feeds for direct order placement and live market data streaming. The API enables programmatic trading at scale with low-latency execution and is designed for high-volume trading operations on the Coinbase exchange.
+#### Security (3)
 
-- **Human URL:** [https://www.coinbase.com/developer-platform/products/exchange-api](https://www.coinbase.com/developer-platform/products/exchange-api)
-- **Base URL:** `https://api.exchange.coinbase.com`
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Tags
+- [Coinbase Authentication](https://apis.io/security/coinbase/coinbase-authentication/)
+- [Coinbase Domain Security](https://apis.io/security/coinbase/coinbase-domain-security/)
+- [Coinbase Vulnerability Disclosure](https://apis.io/security/coinbase/coinbase-vulnerability-disclosure/)
 
-- Cryptocurrency
-- Exchange
-- FIX
-- Market Data
-- Trading
-- WebSocket
+#### Plans and pricing (1)
 
-#### Properties
+Published plans, tiers and prices.
 
-- [Documentation](https://docs.cdp.coinbase.com/exchange/docs/welcome)
-- [OpenAPI](openapi/coinbase-exchange-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/coinbase-exchange.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-exchange.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](asyncapi/coinbase-exchange-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
+- [Coinbase Plans Pricing](https://apis.io/plans/coinbase/coinbase-plans-pricing/)
 
-### Coinbase Prime API
+#### Rate limits (1)
 
-The Coinbase Prime API enables institutions to manage cryptocurrency trading and custody on behalf of their clients. It supports programmatic trading strategies, automated platform processes, portfolio management, and custodial operations. The REST API provides endpoints for order execution, account management, transaction history, and reporting, designed for institutional-grade workflows and compliance requirements.
+Published request limits.
 
-- **Human URL:** [https://www.coinbase.com/developer-platform/products/prime-apis](https://www.coinbase.com/developer-platform/products/prime-apis)
-- **Base URL:** `https://api.prime.coinbase.com`
+- [Coinbase Rate Limits](https://apis.io/rate-limits/coinbase/coinbase-rate-limits/)
 
-#### Tags
+#### FinOps (1)
 
-- Cryptocurrency
-- Custody
-- Institutional
-- Prime Brokerage
-- Trading
+What the API costs to run, by operation.
 
-#### Properties
+- [Coinbase Finops](https://apis.io/finops/coinbase/coinbase-finops/)
 
-- [Documentation](https://docs.cdp.coinbase.com/prime/docs/rest-requests)
-- [OpenAPI](openapi/coinbase-prime-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/coinbase-prime.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-prime.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+## Where to find this API
 
-### Coinbase Onramp API
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-The Coinbase Onramp API allows developers to integrate fiat-to-crypto purchasing directly into their applications. It provides a FundCard React component and REST APIs to create one-click-buy URLs that enable users to purchase cryptocurrency with minimal friction. The API supports multiple fiat currencies and payment methods, making it straightforward for developers to onboard users into the crypto ecosystem from any application.
-
-- **Human URL:** [https://www.coinbase.com/developer-platform/products/onramp](https://www.coinbase.com/developer-platform/products/onramp)
-- **Base URL:** `https://api.developer.coinbase.com`
-
-#### Tags
-
-- Cryptocurrency
-- Fiat
-- Offramp
-- Onramp
-- Payments
-
-#### Properties
-
-- [Documentation](https://docs.cdp.coinbase.com/onramp/docs/welcome)
-- [OpenAPI](openapi/coinbase-onramp-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/coinbase-onramp.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-onramp.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Coinbase Commerce API
-
-The Coinbase Commerce API enables merchants and developers to accept cryptocurrency payments globally. It supports payment links, payouts, invoices, and checkout flows that can be integrated into websites and applications. The API provides endpoints for creating charges, managing payments, handling webhooks for payment notifications, and automating financial workflows for businesses accepting crypto as a payment method.
-
-- **Human URL:** [https://commerce.coinbase.com/docs](https://commerce.coinbase.com/docs)
-- **Base URL:** `https://api.commerce.coinbase.com`
-
-#### Tags
-
-- Checkout
-- Commerce
-- Cryptocurrency
-- Invoices
-- Payments
-
-#### Properties
-
-- [Documentation](https://commerce.coinbase.com/docs/api)
-- [OpenAPI](openapi/coinbase-commerce-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/coinbase-commerce.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-commerce.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](asyncapi/coinbase-commerce-webhooks-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
-
-### Coinbase Wallet SDK
-
-The Coinbase Wallet SDK allows developers to integrate Coinbase Wallet connectivity into decentralized applications. It provides a streamlined interface for users to connect their wallets, sign transactions, and interact with smart contracts across multiple blockchain networks. The SDK supports millions of Coinbase Wallet users and enables dapp developers to offer seamless wallet-based experiences for trading assets and managing NFTs.
-
-- **Human URL:** [https://www.coinbase.com/developer-platform/products/wallet-sdk](https://www.coinbase.com/developer-platform/products/wallet-sdk)
-
-#### Tags
-
-- Cryptocurrency
-- DApps
-- SDK
-- Wallet
-- Web3
-
-#### Properties
-
-- [Documentation](https://docs.cdp.coinbase.com/wallet-sdk/docs/welcome)
-- [Postman Collection](collections/coinbase-advanced-trade.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-advanced-trade.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-commerce.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-commerce.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-exchange.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-exchange.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-onramp.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-onramp.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-prime.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-prime.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Coinbase Data API
-
-The Coinbase Data API provides developers with access to cryptocurrency market data, blockchain analytics, and pricing information. It delivers real-time and historical data for a wide range of digital assets, enabling developers to build data-driven applications, dashboards, and research tools. The API supports queries for price feeds, trading volumes, and on-chain metrics across supported networks.
-
-- **Human URL:** [https://www.coinbase.com/developer-platform/products/data-api](https://www.coinbase.com/developer-platform/products/data-api)
-
-#### Tags
-
-- Analytics
-- Blockchain
-- Cryptocurrency
-- Market Data
-
-#### Properties
-
-- [Documentation](https://www.coinbase.com/developer-platform/products/data-api)
-- [Postman Collection](collections/coinbase-advanced-trade.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-advanced-trade.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-commerce.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-commerce.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-exchange.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-exchange.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-onramp.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-onramp.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-prime.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-prime.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Coinbase AgentKit
-
-Coinbase AgentKit is a toolkit that enables AI agents to interact with blockchain networks through secure wallet management and comprehensive onchain capabilities. Built on the Coinbase Developer Platform SDK, it is framework-agnostic and wallet-agnostic, supporting EVM and Solana networks.
-
-- **Human URL:** [https://docs.cdp.coinbase.com/agent-kit/welcome](https://docs.cdp.coinbase.com/agent-kit/welcome)
-
-#### Tags
-
-- Agents
-- AI
-- Blockchain
-- SDK
-- Wallet
-
-#### Properties
-
-- [Documentation](https://docs.cdp.coinbase.com/agent-kit/welcome)
-- [Postman Collection](collections/coinbase-advanced-trade.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-advanced-trade.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-commerce.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-commerce.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-exchange.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-exchange.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-onramp.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-onramp.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/coinbase-prime.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/coinbase-prime.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/coinbase)
-- [Developer  Portal](https://www.coinbase.com/developer-platform)
-- [Documentation](https://docs.cdp.coinbase.com/)
 - [Website](https://www.coinbase.com/)
-- [Blog](https://www.coinbase.com/blog)
-- [Git Hub](https://github.com/coinbase)
-- [Login](https://login.coinbase.com/)
+- [Documentation](https://docs.cdp.coinbase.com/)
 - [Support](https://help.coinbase.com/)
-- [Privacy Policy](https://www.coinbase.com/legal/privacy)
-- [Terms of Service](https://www.coinbase.com/legal/user-agreement)
-- [JSON-LD](json-ld/coinbase-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [JSON Schema](json-schema/coinbase-order-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/coinbase-charge-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/coinbase-product-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [Spectral  Ruleset](rules/coinbase-rules.yml)
-- [L L Ms Txt](https://docs.cdp.coinbase.com/llms.txt)
+- [Blog](https://www.coinbase.com/blog)
+- [Terms of service](https://www.coinbase.com/legal/user-agreement)
+- [Privacy policy](https://www.coinbase.com/legal/privacy)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 54.8** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.7 |
+| Contract quality | 71.4 |
+| Contract governance | 31.8 |
+| Operational transparency | 31.6 |
+| Developer ergonomics | 67.9 |
+| Access clarity | 25.0 |
+
+**Agent readiness 48.8** — agent-native
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | verified |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | mostly |
+
+**Regulatory alignment 27.7** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/coinbase/](https://apis.io/providers/coinbase/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Coinbase: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/coinbase/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
